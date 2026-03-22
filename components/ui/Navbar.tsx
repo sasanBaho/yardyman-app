@@ -29,9 +29,13 @@ const Navbar: React.FC<NavbarProps> = ({ active, onSelect }) => {
           fontSize: 16,
           background: active === "snow" ? "#09f" : "#f0f0f0",
           color: active === "snow" ? "#fff" : "#222",
-          cursor: "pointer"
+          cursor: "pointer",
+          display: 'flex',
+          alignItems: 'center',
+          gap: 8
         }}
       >
+        <img src="/shovel-black.png" alt="Shovel icon for snow removal service selection" style={{ width: 32, height: 32, marginRight: 6 }} />
         Snow removals
       </button>
       <button
@@ -42,11 +46,15 @@ const Navbar: React.FC<NavbarProps> = ({ active, onSelect }) => {
           border: "none",
           fontWeight: 600,
           fontSize: 16,
-          background: active === "lawn" ? "#09f" : "#f0f0f0",
+          background: active === "lawn" ? "rgb(5, 181, 5)" : "#f0f0f0",
           color: active === "lawn" ? "#fff" : "#222",
-          cursor: "pointer"
+          cursor: "pointer",
+          display: 'flex',
+          alignItems: 'center',
+          gap: 8
         }}
       >
+          <img src="/lawn-mower-black.png" alt="Lawn mower" style={{ width: 32, height: 32, marginRight: 6 }} />
         Lawn care
       </button>
     </div>

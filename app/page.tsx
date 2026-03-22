@@ -14,6 +14,9 @@ type Provider = Omit<ProviderPopupCardProps["provider"], ""> & {
   rating?: number;
   ratingsCount?: number;
   selectedServices?: string[];
+  phoneNumber: String;
+  hasTools?: boolean;
+  paymentMethods?: string[];
 };
 
 import { Map, MapControls, MapMarker, MarkerContent } from "@/components/ui/map";
@@ -28,7 +31,6 @@ function ProviderAvatar({ imageUrl, name }: { imageUrl: string; name: string }) 
       borderRadius: "50%",
       overflow: "hidden",
       border: "2px solid #fff",
-      boxShadow: "0 0 8px 2px #09f7",
       background: "#eee",
       display: "flex",
       alignItems: "center",
@@ -132,7 +134,10 @@ export default function Home() {
           rating: data.rating,
           ratingsCount: data.ratingsCount,
           description: data.description,
+          phoneNumber: data.phoneNumber,
           selectedServices: Array.isArray(data.selectedServices) ? data.selectedServices : [],
+          hasTools: data.hasTools || false,
+          paymentMethods: Array.isArray(data.paymentMethods) ? data.paymentMethods : [],
         });
       });
       setProviders(fetchedProviders);
@@ -166,12 +171,9 @@ export default function Home() {
     <>
       <Navbar
         active={activeService}
-        onSelect={(service) => {
-          setActiveService(service);
-          setSelectedProvider(null);
-        }}
+        onSelect={(service) => setActiveService(service)}
       />
-      <div style={{ position: "fixed", inset: 0, zIndex: 0 }}>
+      <div style={{ position: "absolute", top: 0, left: 0, right: 0, bottom: 0, zIndex: 0, width: '100vw', height: '100vh', padding: 0, margin: 0 }}>
         <Map
           className="w-full h-full"
           viewport={viewport}
@@ -208,6 +210,7 @@ export default function Home() {
         <ProviderPopupCard
           provider={{ ...selectedProvider, description: getRelevantDescription(selectedProvider) }}
           onClose={() => setSelectedProvider(null)}
+          activeService={activeService}
         />
       )}
     </>
