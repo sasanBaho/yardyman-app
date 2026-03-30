@@ -3,6 +3,12 @@ import { useState, useEffect } from "react";
 import ProviderPopupCard from "@/components/ui/ProviderPopupCard";
 import type { ProviderPopupCardProps } from "@/components/ui/ProviderPopupCard";
 import Navbar from "@/components/ui/Navbar";
+import Image from "next/image";
+import LawnSnowRow from "@/components/ui/LawnSnowRow";
+import HeroRow from "@/components/ui/HeroRow";
+import TestimonialRow from "@/components/ui/TestimonialRow";
+import ConnectRow from "@/components/ui/ConnectRow";
+import WhyDownloadRow from "@/components/ui/WhyDownloadRow";
 
 type Provider = Omit<ProviderPopupCardProps["provider"], ""> & {
   latitude: number;
@@ -104,7 +110,13 @@ export default function Home() {
   const [userLocation, setUserLocation] = useState<[number, number] | null>(null);
   const [activeService, setActiveService] = useState<"snow" | "lawn">("snow");
 
+  const [mounted, setMounted] = useState(false);
   useEffect(() => {
+    setMounted(true);
+  }, []);
+
+  useEffect(() => {
+    if (!mounted) return;
     if (typeof window !== "undefined" && "geolocation" in navigator) {
       navigator.geolocation.getCurrentPosition(
         (pos) => {
@@ -143,7 +155,7 @@ export default function Home() {
       setProviders(fetchedProviders);
     }
     fetchProviders();
-  }, []);
+  }, [mounted]);
 
   // Filtering logic for providers
   const filteredProviders = providers.filter((provider) => {
@@ -173,14 +185,18 @@ export default function Home() {
         active={activeService}
         onSelect={(service) => setActiveService(service)}
       />
-      <div style={{ position: "absolute", top: 0, left: 0, right: 0, bottom: 0, zIndex: 0, width: '100vw', height: '100vh', padding: 0, margin: 0 }}>
+      {/* Map Section */}
+      <div style={{ position: "relative", width: "100vw", height: "700px", zIndex: 0 }}>
         <Map
           className="w-full h-full"
           viewport={viewport}
           onViewportChange={setViewport}
           styles={{ light: mapStyle, dark: mapStyle }}
         >
-          <MapControls />
+          <MapControls showLocate={true} onLocate={(coords) => {
+            setViewport((v) => ({ ...v, center: [coords.longitude, coords.latitude], zoom: 14 }));
+            setUserLocation([coords.longitude, coords.latitude]);
+          }} />
           {userLocation && (
             <MapMarker longitude={userLocation[0]} latitude={userLocation[1]}>
               <MarkerContent>
@@ -206,6 +222,23 @@ export default function Home() {
           )}
         </Map>
       </div>
+
+      {/* Main Content Section */}
+      <main style={{ background: "#cdeda0", padding: 0, margin: 0 }}>
+        <LawnSnowRow />
+        <HeroRow />
+        <TestimonialRow />
+        <ConnectRow />
+        <WhyDownloadRow />
+        <footer style={{ background: "#bdbdbd", padding: "32px 0", textAlign: "center" }}>
+          <div style={{ fontSize: 18, marginBottom: 8 }}>
+            <span style={{ margin: "0 8px" }}><i className="fab fa-instagram" /></span>
+            <span style={{ margin: "0 8px" }}><i className="fab fa-facebook" /></span>
+            <span style={{ margin: "0 8px" }}><i className="fas fa-times" /></span>
+          </div>
+          <div style={{ fontSize: 16 }}>Yardyman</div>
+        </footer>
+      </main>
       {selectedProvider && (
         <ProviderPopupCard
           provider={{ ...selectedProvider, description: getRelevantDescription(selectedProvider) }}

@@ -1,4 +1,5 @@
 import React from "react";
+import { BsCircleFill } from "react-icons/bs";
 
 export interface ProviderPopupCardProps {
   provider: any;
@@ -6,7 +7,7 @@ export interface ProviderPopupCardProps {
   activeService?: 'snow' | 'lawn';
 }
 
-const GreenCheckIcon: React.FC<{ size?: number }> = ({ size = 16 }) => (
+const GreenCheckIcon: React.FC<{ size?: number }> = ({ size = 14 }) => (
   <span style={{
     display: 'inline-flex',
     alignItems: 'center',
@@ -14,7 +15,7 @@ const GreenCheckIcon: React.FC<{ size?: number }> = ({ size = 16 }) => (
     width: size,
     height: size,
     borderRadius: '50%',
-    background: '#22c55e',
+    background: '#09f',
     color: '#fff',
   }}>
     <svg width={size * 0.7} height={size * 0.7} viewBox="0 0 20 20" fill="none" xmlns="http://www.w3.org/2000/svg">
@@ -79,25 +80,20 @@ const ProviderPopupCard: React.FC<ProviderPopupCardProps> = ({ provider, onClose
               <span>{formatPhoneNumber(phone)}</span>
             </div>
           )}
-          {provider.instagramID && (
-            <div style={{ color: "#e1306c", fontWeight: 500, marginTop: 2 }}>
-              <span style={{ marginRight: 4 }}>@</span>{provider.instagramID}
-            </div>
-          )}
         </div>
       </div>
       <div style={{ marginTop: 16, color: "#444", fontSize: 15, whiteSpace: "pre-line" }}>
         {provider.description}
       </div>
-      <div style={{ marginTop: 16, color: "#444", fontSize: 15, whiteSpace: "pre-line" }}>
+      <div style={{ marginTop: 10, color: "#444", fontSize: 15, whiteSpace: "pre-line" }}>
         {provider.hasTools ? (
           <span style={{ display: 'inline-flex', alignItems: 'center', gap: 6 }}>
-            <GreenCheckIcon />
+            <BsCircleFill color="#22c55e" size={10} />
             Has tools
           </span>
         ) : "❌ No tools"}
       </div>
-      <div style={{ marginTop: 16, color: "#444", fontSize: 15, whiteSpace: "pre-line" }}>
+      <div style={{ marginTop: 10, color: "#444", fontSize: 15, whiteSpace: "pre-line" }}>
         {provider.paymentMethods && provider.paymentMethods.length > 0 ? (
           <span style={{ display: 'inline-flex', alignItems: 'center', gap: 8 }}>
             {provider.paymentMethods.map((method: string, idx: number) => (
@@ -105,13 +101,13 @@ const ProviderPopupCard: React.FC<ProviderPopupCardProps> = ({ provider, onClose
                 <GreenCheckIcon/>
                 {method}
               </span>
-            ))}
+            ))} 
           </span>
         ) : "💳 No payment methods"}
       </div>
-      <div style={{ marginTop: 16, display: "flex", gap: 12, alignItems: "center" }}>
+      <div style={{ marginTop: 10, display: "flex", gap: 12, alignItems: "flex-start" }}>
         {provider.rating && (
-          <span style={{ color: "#f7b500", fontWeight: 600, fontSize: 18 }}>★ {provider.rating.toFixed(1)}</span>
+          <span style={{ color: "#f7b500", fontWeight: 600, fontSize: 15 }}>★ {provider.rating.toFixed(1)}</span>
         )}
         {provider.ratingsCount && (
           <span style={{ color: "#888", fontSize: 14 }}>({provider.ratingsCount})</span>

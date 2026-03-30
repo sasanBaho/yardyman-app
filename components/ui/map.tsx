@@ -807,6 +807,17 @@ function MapControls({
           setWaitingForLocation(false);
         },
         (error) => {
+          let message = "Unable to get your location.";
+          if (error.code === 1) {
+            message = "Location permission denied. Please enable location access in your browser settings.";
+          } else if (error.code === 2) {
+            message = "Location unavailable. Please check your device settings.";
+          } else if (error.code === 3) {
+            message = "Location request timed out. Please try again.";
+          }
+          if (typeof window !== 'undefined') {
+            alert(message);
+          }
           console.error("Error getting location:", error);
           setWaitingForLocation(false);
         }
