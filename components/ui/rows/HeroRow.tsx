@@ -1,6 +1,6 @@
 export default function HeroRow() {
   return (
-    <section style={{ textAlign: "center", padding: "32px 0" }}>
+    <section style={{ textAlign: "center", padding: "32px 0", borderTop: "1px solid #000" }}>
       <h1 style={{ fontSize: 32, fontWeight: 700, marginBottom: 16 }}>
         Lawn Moving & Snow Removal
         <br />

@@ -4,11 +4,11 @@ import ProviderPopupCard from "@/components/ui/ProviderPopupCard";
 import type { ProviderPopupCardProps } from "@/components/ui/ProviderPopupCard";
 import Navbar from "@/components/ui/Navbar";
 import Image from "next/image";
-import LawnSnowRow from "@/components/ui/LawnSnowRow";
-import HeroRow from "@/components/ui/HeroRow";
-import TestimonialRow from "@/components/ui/TestimonialRow";
-import ConnectRow from "@/components/ui/ConnectRow";
-import WhyDownloadRow from "@/components/ui/WhyDownloadRow";
+import LawnSnowRow from "@/components/ui/rows/LawnSnowRow";
+import HeroRow from "@/components/ui/rows/HeroRow";
+import TestimonialRow from "@/components/ui/rows/TestimonialRow";
+import ConnectRow from "@/components/ui/rows/ConnectRow";
+import WhyDownloadRow from "@/components/ui/rows/WhyDownloadRow";
 
 type Provider = Omit<ProviderPopupCardProps["provider"], ""> & {
   latitude: number;
@@ -109,10 +109,26 @@ export default function Home() {
   });
   const [userLocation, setUserLocation] = useState<[number, number] | null>(null);
   const [activeService, setActiveService] = useState<"snow" | "lawn">("snow");
+  const [isSmallScreen, setIsSmallScreen] = useState(false);
 
   const [mounted, setMounted] = useState(false);
   useEffect(() => {
     setMounted(true);
+  }, []);
+
+  useEffect(() => {
+    if (typeof window === "undefined") return;
+
+    const updateScreenSize = () => {
+      setIsSmallScreen(window.innerWidth < 768);
+    };
+
+    updateScreenSize();
+    window.addEventListener("resize", updateScreenSize);
+
+    return () => {
+      window.removeEventListener("resize", updateScreenSize);
+    };
   }, []);
 
   useEffect(() => {
@@ -181,12 +197,70 @@ export default function Home() {
 
   return (
     <>
-      <Navbar
-        active={activeService}
-        onSelect={(service) => setActiveService(service)}
-      />
+      <Navbar />
       {/* Map Section */}
-      <div style={{ position: "relative", width: "100vw", height: "700px", zIndex: 0 }}>
+      <div style={{ position: "relative", width: "100vw", height: isSmallScreen ? "600px" : "700px", zIndex: 0 }}>
+        <div
+          style={{
+            position: "absolute",
+            top: 72,
+            right: 16,
+            zIndex: 120,
+            display: "flex",
+            gap: 10,
+            background: "rgba(255, 255, 255, 0.5)",
+            borderRadius: "9999px",
+            padding: "8px 12px",
+            boxShadow: "0 2px 10px rgba(0,0,0,0.12)",
+            backdropFilter: "blur(4px)",
+          }}
+        >
+          <button
+            onClick={() => setActiveService("snow")}
+            style={{
+              border: "none",
+              background: "none",
+              fontWeight: 600,
+              fontSize: 15,
+              color: activeService === "snow" ? "#09f" : "#555",
+              cursor: "pointer",
+              display: "flex",
+              alignItems: "center",
+              gap: 6,
+              padding: "6px 8px",
+            }}
+          >
+            <img
+              src={activeService === "snow" ? "/shovel-blue.png" : "/shovel-black.png"}
+              alt="Shovel icon"
+              style={{ width: 24, height: 24 }}
+            />
+            <span>Snow removals</span>
+          </button>
+
+          <button
+            onClick={() => setActiveService("lawn")}
+            style={{
+              border: "none",
+              background: "none",
+              fontWeight: 600,
+              fontSize: 15,
+              color: activeService === "lawn" ? "rgb(5, 181, 5)" : "#555",
+              cursor: "pointer",
+              display: "flex",
+              alignItems: "center",
+              gap: 6,
+              padding: "6px 8px",
+            }}
+          >
+            <img
+              src={activeService === "lawn" ? "/lawn-mower-green.png" : "/lawn-mower-black.png"}
+              alt="Lawn mower icon"
+              style={{ width: 24, height: 24 }}
+            />
+            <span>Lawn care</span>
+          </button>
+        </div>
         <Map
           className="w-full h-full"
           viewport={viewport}
@@ -224,7 +298,7 @@ export default function Home() {
       </div>
 
       {/* Main Content Section */}
-      <main style={{ background: "#cdeda0", padding: 0, margin: 0 }}>
+      <main style={{ background: "#ffffff", padding: 0, margin: 0 }}>
         <LawnSnowRow />
         <HeroRow />
         <TestimonialRow />

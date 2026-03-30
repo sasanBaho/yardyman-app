@@ -2,7 +2,7 @@ import Image from "next/image";
 
 export default function ConnectRow() {
   return (
-    <section style={{ display: "flex", gap: 32, justifyContent: "center", alignItems: "center", padding: "32px 0" }}>
+    <section style={{ display: "flex", gap: 32, justifyContent: "center", alignItems: "center", padding: "32px 0", borderTop: "1px solid #000" }}>
       <div style={{ maxWidth: 400 }}>
         <h2 style={{ fontSize: 22, fontWeight: 600, marginBottom: 12 }}>
           Connecting you with local snow removal service providers

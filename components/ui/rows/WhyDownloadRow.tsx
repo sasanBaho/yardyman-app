@@ -2,7 +2,7 @@ import Image from "next/image";
 
 export default function WhyDownloadRow() {
   return (
-    <section style={{ background: "#ececec", padding: "32px 0" }}>
+    <section style={{ background: "#ececec", padding: "32px 0", borderTop: "1px solid #000" }}>
       <div style={{ display: "flex", gap: 32, justifyContent: "center", alignItems: "flex-start" }}>
         <div style={{ maxWidth: 320 }}>
           <h3 style={{ fontSize: 20, fontWeight: 600, marginBottom: 12 }}>Why download Yardyman?</h3>

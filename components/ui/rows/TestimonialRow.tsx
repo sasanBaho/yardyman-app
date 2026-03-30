@@ -2,7 +2,7 @@ import Image from "next/image";
 
 export default function TestimonialRow() {
   return (
-    <section style={{ display: "flex", gap: 32, justifyContent: "center", alignItems: "center", padding: "32px 0" }}>
+    <section style={{ display: "flex", gap: 32, justifyContent: "center", alignItems: "center", padding: "32px 0", borderTop: "1px solid #000" }}>
       <div style={{ width: 320, height: 320, background: "#ddd", borderRadius: 8, overflow: "hidden" }}>
         <Image src="/placeholder.svg" alt="Yard work" width={320} height={320} style={{ objectFit: "cover", width: "100%", height: "100%" }} />
       </div>
