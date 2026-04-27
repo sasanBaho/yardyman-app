@@ -13,7 +13,7 @@ function normalizeFirebaseEventName(name: string) {
     ? normalized
     : `event_${normalized || "unnamed"}`;
 
-  return prefixed.slice(0, 40);
+  return prefixed.toLowerCase().slice(0, 40);
 }
 
 export async function trackEvent(name: string, params?: Record<string, any>) {

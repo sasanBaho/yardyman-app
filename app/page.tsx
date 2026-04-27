@@ -208,7 +208,7 @@ export default function Home() {
   }
 
   function handleProviderSelect(provider: Provider) {
-    trackEvent("Provider Annotation Tapped", {
+    trackEvent("Provider Profile Viewed", {
       providerId: provider.id,
       providerName: provider.providerName || "Unknown",
       serviceType: activeService,
@@ -217,6 +217,7 @@ export default function Home() {
       ratingsCount: provider.ratingsCount ?? 0,
       paymentMethodsCount: provider.paymentMethods?.length ?? 0,
       hasInstagram: Boolean(provider.instagramID),
+      viewSource: "map_annotation",
     });
 
     setSelectedProvider(provider);
