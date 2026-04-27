@@ -299,11 +299,7 @@ export default function Home() {
 
       {/* Main Content Section */}
       <main style={{ background: "#ffffff", padding: 0, margin: 0 }}>
-        <LawnSnowRow />
-        <HeroRow />
-        <TestimonialRow />
-        <ConnectRow />
-        <WhyDownloadRow />
+        
         <footer style={{ background: "#bdbdbd", padding: "32px 0", textAlign: "center" }}>
           <div style={{ fontSize: 18, marginBottom: 8 }}>
             <span style={{ margin: "0 8px" }}><i className="fab fa-instagram" /></span>
