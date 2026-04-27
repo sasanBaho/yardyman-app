@@ -304,7 +304,7 @@ export default function Home() {
               )
           )}
         </Map>
-        <Analytics />ß
+        <Analytics />
       </div>
       {selectedProvider && (
         <ProviderPopupCard
