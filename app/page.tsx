@@ -296,19 +296,6 @@ export default function Home() {
           )}
         </Map>
       </div>
-
-      {/* Main Content Section */}
-      <main style={{ background: "#ffffff", padding: 0, margin: 0 }}>
-        
-        <footer style={{ background: "#bdbdbd", padding: "32px 0", textAlign: "center" }}>
-          <div style={{ fontSize: 18, marginBottom: 8 }}>
-            <span style={{ margin: "0 8px" }}><i className="fab fa-instagram" /></span>
-            <span style={{ margin: "0 8px" }}><i className="fab fa-facebook" /></span>
-            <span style={{ margin: "0 8px" }}><i className="fas fa-times" /></span>
-          </div>
-          <div style={{ fontSize: 16 }}>Yardyman</div>
-        </footer>
-      </main>
       {selectedProvider && (
         <ProviderPopupCard
           provider={{ ...selectedProvider, description: getRelevantDescription(selectedProvider) }}
