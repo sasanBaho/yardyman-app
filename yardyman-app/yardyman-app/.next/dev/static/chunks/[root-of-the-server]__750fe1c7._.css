@@ -423,6 +423,11 @@
     display: none !important;
   }
 
+  html, body {
+    min-height: 100%;
+    margin: 0;
+  }
+
   .maplibregl-popup-content {
     padding: calc(var(--spacing) * 0) !important;
     --tw-shadow: 0 0 #0000 !important;

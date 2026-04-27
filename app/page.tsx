@@ -26,7 +26,9 @@ type Provider = Omit<ProviderPopupCardProps["provider"], ""> & {
   paymentMethods?: string[];
 };
 
-import { Map, MapControls, MapMarker, MarkerContent } from "@/components/ui/map";
+import { Map } from "@/components/map/components/Map";
+import { MapControls } from "@/components/map/components/MapControls";
+import { MapMarker, MarkerContent } from "@/components/map/components/MapMarker";
 // import { useEffect, useState } from "react";
 import { db, collection, getDocs } from "../firebase";
 
