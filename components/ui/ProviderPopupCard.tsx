@@ -1,5 +1,6 @@
 import React from "react";
 import { BsCircleFill } from "react-icons/bs";
+import { track } from "@vercel/analytics";
 
 export interface ProviderPopupCardProps {
   provider: any;
@@ -52,6 +53,32 @@ const ProviderPopupCard: React.FC<ProviderPopupCardProps> = ({ provider, onClose
     return num;
   }
 
+  function getAnalyticsPayload() {
+    return {
+      providerId: provider.id || "unknown",
+      providerName: provider.providerName || "Unknown",
+      serviceType: activeService || "unknown",
+      hasTools: Boolean(provider.hasTools),
+      rating: provider.rating ?? null,
+      ratingsCount: provider.ratingsCount ?? 0,
+      paymentMethodsCount: provider.paymentMethods?.length ?? 0,
+      hasPhone: Boolean(phone),
+    };
+  }
+
+  function handleClose() {
+    track("Provider Details Closed", getAnalyticsPayload());
+    onClose();
+  }
+
+  function handleCallTap() {
+    track("Provider Call Tapped", getAnalyticsPayload());
+  }
+
+  function handleMessageTap() {
+    track("Provider Message Tapped", getAnalyticsPayload());
+  }
+
   return (
     <div style={{
       position: "absolute",
@@ -67,7 +94,7 @@ const ProviderPopupCard: React.FC<ProviderPopupCardProps> = ({ provider, onClose
       maxWidth: 350,
       border: "1px solid #e0e0e0",
     }}>
-      <button onClick={onClose} style={{ position: "absolute", right: 16, top: 16, background: "none", border: "none", fontSize: 20, cursor: "pointer" }}>×</button>
+      <button onClick={handleClose} style={{ position: "absolute", right: 16, top: 16, background: "none", border: "none", fontSize: 20, cursor: "pointer" }}>×</button>
       <div style={{ display: "flex", alignItems: "center", gap: 16 }}>
         <img src={provider.imageUrl} alt={provider.providerName} style={{ width: 72, height: 72, borderRadius: "50%", border: `2px solid ${activeService === 'lawn' ? '#1db954' : '#09f'}`}} />
         <div>
@@ -119,12 +146,14 @@ const ProviderPopupCard: React.FC<ProviderPopupCardProps> = ({ provider, onClose
             <>
               <a
                 href={`tel:${phone}`}
+                onClick={handleCallTap}
                 style={{ background: "#09f", color: "#fff", border: "none", borderRadius: 8, padding: "8px 18px", fontWeight: 600, fontSize: 16, cursor: "pointer", textDecoration: "none", display: "inline-block" }}
               >
                 Call
               </a>
               <a
                 href={`sms:${phone}`}
+                onClick={handleMessageTap}
                 style={{ background: "#fff", color: "#09f", border: "2px solid #09f", borderRadius: 8, padding: "8px 18px", fontWeight: 600, fontSize: 16, cursor: "pointer", textDecoration: "none", display: "inline-block" }}
               >
                 Message

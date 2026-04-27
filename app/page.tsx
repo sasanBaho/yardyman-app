@@ -215,6 +215,19 @@ export default function Home() {
     setSelectedProvider(provider);
   }
 
+  function handleServiceChange(service: "snow" | "lawn") {
+    track("Service Filter Switched", {
+      selectedService: service,
+      previousService: activeService,
+      providerResultsCount:
+        service === "snow"
+          ? providers.filter((provider) => provider.selectedServices?.includes("service-two")).length
+          : providers.filter((provider) => provider.selectedServices?.includes("service-one")).length,
+    });
+
+    setActiveService(service);
+  }
+
   return (
     <>
       <Navbar />
@@ -244,7 +257,7 @@ export default function Home() {
           }}
         >
           <button
-            onClick={() => setActiveService("snow")}
+            onClick={() => handleServiceChange("snow")}
             style={{
               border: "none",
               background: "none",
@@ -267,7 +280,7 @@ export default function Home() {
           </button>
 
           <button
-            onClick={() => setActiveService("lawn")}
+            onClick={() => handleServiceChange("lawn")}
             style={{
               border: "none",
               background: "none",
