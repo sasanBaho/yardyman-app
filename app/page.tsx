@@ -1,5 +1,6 @@
 "use client";
 import { useState, useEffect } from "react";
+import { track } from "@vercel/analytics";
 import ProviderPopupCard from "@/components/ui/ProviderPopupCard";
 import type { ProviderPopupCardProps } from "@/components/ui/ProviderPopupCard";
 import Navbar from "@/components/ui/Navbar";
@@ -9,9 +10,9 @@ import HeroRow from "@/components/ui/rows/HeroRow";
 import TestimonialRow from "@/components/ui/rows/TestimonialRow";
 import ConnectRow from "@/components/ui/rows/ConnectRow";
 import WhyDownloadRow from "@/components/ui/rows/WhyDownloadRow";
-import { Analytics } from "@vercel/analytics/next"
 
 type Provider = Omit<ProviderPopupCardProps["provider"], ""> & {
+  id: string;
   latitude: number;
   longitude: number;
   imageUrl: string;
@@ -157,6 +158,7 @@ export default function Home() {
       querySnapshot.forEach((doc) => {
         const data = doc.data();
         fetchedProviders.push({
+          id: doc.id,
           latitude: data.latitude,
           longitude: data.longitude,
           imageUrl: data.imageUrl,
@@ -196,6 +198,21 @@ export default function Home() {
       }
     }
     return provider.description || "";
+  }
+
+  function handleProviderSelect(provider: Provider) {
+    track("Provider Annotation Tapped", {
+      providerId: provider.id,
+      providerName: provider.providerName || "Unknown",
+      serviceType: activeService,
+      hasTools: Boolean(provider.hasTools),
+      rating: provider.rating ?? null,
+      ratingsCount: provider.ratingsCount ?? 0,
+      paymentMethodsCount: provider.paymentMethods?.length ?? 0,
+      hasInstagram: Boolean(provider.instagramID),
+    });
+
+    setSelectedProvider(provider);
   }
 
   return (
@@ -298,7 +315,7 @@ export default function Home() {
                   latitude={provider.latitude}
                 >
                   <MarkerContent>
-                    <div onClick={() => setSelectedProvider(provider)} style={{ cursor: "pointer" }}>
+                    <div onClick={() => handleProviderSelect(provider)} style={{ cursor: "pointer" }}>
                       <ProviderAvatar imageUrl={provider.imageUrl} name={provider.providerName || "Provider"} />
                     </div>
                   </MarkerContent>
@@ -306,7 +323,6 @@ export default function Home() {
               )
           )}
         </Map>
-        <Analytics />
       </div>
       {selectedProvider && (
         <ProviderPopupCard
