@@ -9,6 +9,7 @@ import HeroRow from "@/components/ui/rows/HeroRow";
 import TestimonialRow from "@/components/ui/rows/TestimonialRow";
 import ConnectRow from "@/components/ui/rows/ConnectRow";
 import WhyDownloadRow from "@/components/ui/rows/WhyDownloadRow";
+import { Analytics } from "@vercel/analytics/next"
 
 type Provider = Omit<ProviderPopupCardProps["provider"], ""> & {
   latitude: number;
