@@ -17,7 +17,7 @@ import {
 } from "react";
 import { createPortal } from "react-dom";
 import { X, Minus, Plus, Locate, Maximize, Loader2 } from "lucide-react";
-
+import { Analytics } from "@vercel/analytics/next"
 import { cn } from "@/lib/utils";
 
 const defaultStyles = {
