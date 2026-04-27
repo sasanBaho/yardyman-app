@@ -4,7 +4,11 @@ import { useEffect, useState } from "react";
 import { FiMenu } from "react-icons/fi";
 import Link from "next/link";
 
-const Navbar: React.FC = () => {
+type NavbarProps = {
+  children?: React.ReactNode;
+};
+
+const Navbar: React.FC<NavbarProps> = ({ children }) => {
   const [isMobile, setIsMobile] = useState(false);
   useEffect(() => {
     if (typeof window !== "undefined") {
@@ -33,7 +37,9 @@ const Navbar: React.FC = () => {
       <button style={{ background: 'none', border: 'none', padding: 0, marginRight: 16, cursor: 'pointer', display: 'flex', alignItems: 'center' }} aria-label="Open menu">
         <FiMenu size={28} />
       </button>
-      <div style={{ marginLeft: "auto" }} />
+      <div style={{ marginLeft: "auto", display: "flex", alignItems: "center", gap: isMobile ? 8 : 10 }}>
+        {children}
+      </div>
     </div>
   );
 };
