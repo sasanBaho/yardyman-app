@@ -1,6 +1,6 @@
 import React from "react";
 import { BsCircleFill } from "react-icons/bs";
-import { track } from "@vercel/analytics";
+import { trackEvent } from "@/lib/analytics";
 
 export interface ProviderPopupCardProps {
   provider: any;
@@ -67,16 +67,16 @@ const ProviderPopupCard: React.FC<ProviderPopupCardProps> = ({ provider, onClose
   }
 
   function handleClose() {
-    track("Provider Details Closed", getAnalyticsPayload());
+    trackEvent("Provider_Details _Closed", getAnalyticsPayload());
     onClose();
   }
 
   function handleCallTap() {
-    track("Provider Call Tapped", getAnalyticsPayload());
+    trackEvent("Provider_Call_Tapped", getAnalyticsPayload());
   }
 
   function handleMessageTap() {
-    track("Provider Message Tapped", getAnalyticsPayload());
+    trackEvent("Provider_Message_Tapped", getAnalyticsPayload());
   }
 
   return (
