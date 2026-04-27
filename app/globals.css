@@ -117,6 +117,12 @@
 }
 
 @layer base {
+  html,
+  body {
+    margin: 0;
+    min-height: 100%;
+  }
+
   .maplibregl-popup-content {
     @apply bg-transparent! shadow-none! p-0! rounded-none!;
   }

@@ -199,7 +199,15 @@ export default function Home() {
     <>
       <Navbar />
       {/* Map Section */}
-      <div style={{ position: "relative", width: "100vw", height: isSmallScreen ? "600px" : "700px", zIndex: 0 }}>
+      <div
+        style={{
+          position: "relative",
+          width: "100vw",
+          height: "100dvh",
+          minHeight: "100svh",
+          zIndex: 0,
+        }}
+      >
         <div
           style={{
             position: "absolute",
