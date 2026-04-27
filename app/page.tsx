@@ -1,6 +1,5 @@
 "use client";
 import { useState, useEffect } from "react";
-import { track } from "@vercel/analytics";
 import ProviderPopupCard from "@/components/ui/ProviderPopupCard";
 import type { ProviderPopupCardProps } from "@/components/ui/ProviderPopupCard";
 import Navbar from "@/components/ui/Navbar";
@@ -30,6 +29,7 @@ type Provider = Omit<ProviderPopupCardProps["provider"], ""> & {
 import { Map } from "@/components/map/components/Map";
 import { MapControls } from "@/components/map/components/MapControls";
 import { MapMarker, MarkerContent } from "@/components/map/components/MapMarker";
+import { trackEvent, trackPageView } from "@/lib/analytics";
 // import { useEffect, useState } from "react";
 import { db, collection, getDocs } from "../firebase";
 
@@ -137,6 +137,13 @@ export default function Home() {
 
   useEffect(() => {
     if (!mounted) return;
+
+    trackPageView({
+      page_title: "Home Map",
+      page_path: "/",
+      page_location: typeof window !== "undefined" ? window.location.href : "/",
+    });
+
     if (typeof window !== "undefined" && "geolocation" in navigator) {
       navigator.geolocation.getCurrentPosition(
         (pos) => {
@@ -201,7 +208,7 @@ export default function Home() {
   }
 
   function handleProviderSelect(provider: Provider) {
-    track("Provider Annotation Tapped", {
+    trackEvent("Provider Annotation Tapped", {
       providerId: provider.id,
       providerName: provider.providerName || "Unknown",
       serviceType: activeService,
@@ -216,7 +223,7 @@ export default function Home() {
   }
 
   function handleServiceChange(service: "snow" | "lawn") {
-    track("Service Filter Switched", {
+    trackEvent("Service Filter Switched", {
       selectedService: service,
       previousService: activeService,
       providerResultsCount:
