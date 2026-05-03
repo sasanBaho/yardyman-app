@@ -32,6 +32,7 @@ import { MapMarker, MarkerContent } from "@/components/map/components/MapMarker"
 import { trackEvent, trackPageView } from "@/lib/analytics";
 // import { useEffect, useState } from "react";
 import { db, collection, getDocs } from "../firebase";
+import AuthFlow from "@/components/auth/AuthFlow";
 
 function ProviderAvatar({ imageUrl, name }: { imageUrl: string; name: string }) {
   return (
@@ -114,6 +115,7 @@ export default function Home() {
   const [userLocation, setUserLocation] = useState<[number, number] | null>(null);
   const [activeService, setActiveService] = useState<"snow" | "lawn">("snow");
   const [isSmallScreen, setIsSmallScreen] = useState(false);
+  const [showAuth, setShowAuth] = useState(false);
 
   const [mounted, setMounted] = useState(false);
   useEffect(() => {
@@ -238,7 +240,7 @@ export default function Home() {
 
   return (
     <>
-      <Navbar>
+      <Navbar onCreateAccount={() => setShowAuth(true)}>
         <button
           onClick={() => handleServiceChange("snow")}
           style={{
@@ -339,6 +341,34 @@ export default function Home() {
           activeService={activeService}
         />
       )}
+      <AuthFlow
+        isOpen={showAuth}
+        onClose={() => setShowAuth(false)}
+        userLocation={userLocation}
+        onProviderCreated={async () => {
+          const querySnapshot = await getDocs(collection(db, "providers"));
+          const fetched: any[] = [];
+          querySnapshot.forEach((doc) => {
+            const data = doc.data();
+            fetched.push({
+              id: doc.id,
+              latitude: data.latitude,
+              longitude: data.longitude,
+              imageUrl: data.imageUrl,
+              providerName: data.providerName,
+              instagramID: data.instagramID,
+              rating: data.rating,
+              ratingsCount: data.ratingsCount,
+              description: data.description,
+              phoneNumber: data.phoneNumber,
+              selectedServices: Array.isArray(data.selectedServices) ? data.selectedServices : [],
+              hasTools: data.hasTools || false,
+              paymentMethods: Array.isArray(data.paymentMethods) ? data.paymentMethods : [],
+            });
+          });
+          setProviders(fetched);
+        }}
+      />
     </>
   );
 }

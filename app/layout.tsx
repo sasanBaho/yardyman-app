@@ -14,7 +14,7 @@ const geistMono = Geist_Mono({
 });
 
 export const metadata: Metadata = {
-  title: "Yardyman lawn care and snow removal App",
+  title: "Yardyman lawn care and snow removal website",
   description: "Find local lawn movers and snow removal providers.",
 };
 

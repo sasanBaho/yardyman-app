@@ -67,7 +67,7 @@ const ProviderPopupCard: React.FC<ProviderPopupCardProps> = ({ provider, onClose
   }
 
   function handleClose() {
-    trackEvent("Provider_Details _Closed", getAnalyticsPayload());
+    trackEvent("Provider_Details_Closed", getAnalyticsPayload());
     onClose();
   }
 

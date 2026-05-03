@@ -2,13 +2,15 @@ import React from "react";
 
 import { useEffect, useState } from "react";
 import { FiMenu } from "react-icons/fi";
+import { FiUserPlus } from "react-icons/fi";
 import Link from "next/link";
 
 type NavbarProps = {
   children?: React.ReactNode;
+  onCreateAccount?: () => void;
 };
 
-const Navbar: React.FC<NavbarProps> = ({ children }) => {
+const Navbar: React.FC<NavbarProps> = ({ children, onCreateAccount }) => {
   const [isMobile, setIsMobile] = useState(false);
   useEffect(() => {
     if (typeof window !== "undefined") {
@@ -34,9 +36,18 @@ const Navbar: React.FC<NavbarProps> = ({ children }) => {
       <Link href="/" style={{ display: 'flex', alignItems: 'center', marginRight: 4 }}>
         <img src="/yardyman-logo.png" alt="Yardyman Logo" style={{ width: 36, height: 36, objectFit: 'contain', marginRight: 8 }} />
       </Link>
-      <button style={{ background: 'none', border: 'none', padding: 0, marginRight: 16, cursor: 'pointer', display: 'flex', alignItems: 'center' }} aria-label="Open menu">
+      <button style={{ background: 'none', border: 'none', padding: 0, marginRight: 4, cursor: 'pointer', display: 'flex', alignItems: 'center' }} aria-label="Open menu">
         <FiMenu size={28} />
       </button>
+      {onCreateAccount && (
+        <button
+          onClick={onCreateAccount}
+          aria-label="Create provider account"
+          style={{ background: 'none', border: 'none', padding: 0, cursor: 'pointer', display: 'flex', alignItems: 'center' }}
+        >
+          <FiUserPlus size={26} color="#09f" />
+        </button>
+      )}
       <div style={{ marginLeft: "auto", display: "flex", alignItems: "center", gap: isMobile ? 8 : 10 }}>
         {children}
       </div>
