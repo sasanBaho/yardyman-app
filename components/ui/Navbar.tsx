@@ -2,7 +2,6 @@ import React from "react";
 
 import { useEffect, useState } from "react";
 import { FiMenu } from "react-icons/fi";
-import { FiUserPlus } from "react-icons/fi";
 import Link from "next/link";
 
 type NavbarProps = {
@@ -34,7 +33,7 @@ const Navbar: React.FC<NavbarProps> = ({ children, onCreateAccount }) => {
       padding: "8px 16px"
     }}>
       <Link href="/" style={{ display: 'flex', alignItems: 'center', marginRight: 4 }}>
-        <img src="/yardyman-logo.png" alt="Yardyman Logo" style={{ width: 36, height: 36, objectFit: 'contain', marginRight: 8 }} />
+        <img src="/yardyman-logo.png" alt="Yardyman Logo" style={{ width: 36, height: 36, objectFit: 'contain', marginRight: 8, borderRadius: 4 }} />
       </Link>
       <button style={{ background: 'none', border: 'none', padding: 0, marginRight: 4, cursor: 'pointer', display: 'flex', alignItems: 'center' }} aria-label="Open menu">
         <FiMenu size={28} />
@@ -45,7 +44,7 @@ const Navbar: React.FC<NavbarProps> = ({ children, onCreateAccount }) => {
           aria-label="Create provider account"
           style={{ background: 'none', border: 'none', padding: 0, cursor: 'pointer', display: 'flex', alignItems: 'center' }}
         >
-          <FiUserPlus size={26} color="#09f" />
+          <img src="/user-account.png" alt="Create account" style={{ width: 30, height: 30, objectFit: "contain" }} />
         </button>
       )}
       <div style={{ marginLeft: "auto", display: "flex", alignItems: "center", gap: isMobile ? 8 : 10 }}>

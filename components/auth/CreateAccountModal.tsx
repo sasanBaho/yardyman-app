@@ -134,7 +134,7 @@ const CreateAccountModal: React.FC<CreateAccountModalProps> = ({
                   padding: "12px 16px",
                   textAlign: "center",
                   color: "#888",
-                  fontSize: 13,
+                  fontSize: 14,
                   borderBottom: "1px solid #e5e5ea",
                 }}
               >
@@ -192,15 +192,15 @@ const CreateAccountModal: React.FC<CreateAccountModalProps> = ({
         </div>
       )}
 
-      <h2 style={{ fontSize: 24, fontWeight: 700, marginBottom: 4, paddingRight: 40, marginTop: 4 }}>
+      <h2 style={{ fontSize: 20, fontWeight: 700, marginBottom: 4, paddingRight: 40, marginTop: 4 }}>
         Create Service Provider Account!
       </h2>
-      <p style={{ color: "#e53e3e", fontSize: 13, marginBottom: 24 }}>
+      <p style={{ color: "#e53e3e", fontSize: 14, marginBottom: 5 }}>
         * All the fields are required.
       </p>
 
       {/* Photo upload */}
-      <div style={{ display: "flex", justifyContent: "center", marginBottom: 28 }}>
+      <div style={{ display: "flex", justifyContent: "center", marginBottom: 5 }}>
         <button
           type="button"
           onClick={() => setShowImagePicker(true)}
@@ -237,14 +237,14 @@ const CreateAccountModal: React.FC<CreateAccountModalProps> = ({
                 />
                 <circle cx="12" cy="13" r="4" stroke="#09f" strokeWidth="2" />
               </svg>
-              <span style={{ color: "#09f", fontSize: 13, marginTop: 5 }}>Add Photo</span>
+              <span style={{ color: "#09f", fontSize: 14, marginTop: 5 }}>Add Photo</span>
             </>
           )}
         </button>
       </div>
 
       {/* Full Name */}
-      <label style={{ fontWeight: 700, fontSize: 16, display: "block", marginBottom: 8 }}>
+      <label style={{ fontWeight: 700, fontSize: 14, display: "block", marginBottom: 8 }}>
         Full Name
       </label>
       <input
@@ -258,7 +258,7 @@ const CreateAccountModal: React.FC<CreateAccountModalProps> = ({
           background: "#f0f0f0",
           border: "none",
           borderRadius: 12,
-          fontSize: 16,
+          fontSize: 14,
           outline: "none",
           boxSizing: "border-box",
           marginBottom: 20,
@@ -266,7 +266,7 @@ const CreateAccountModal: React.FC<CreateAccountModalProps> = ({
       />
 
       {/* Phone Number */}
-      <label style={{ fontWeight: 700, fontSize: 16, display: "block", marginBottom: 8 }}>
+      <label style={{ fontWeight: 700, fontSize: 14, display: "block", marginBottom: 8 }}>
         Phone Number
       </label>
       <PhoneInput
@@ -280,7 +280,7 @@ const CreateAccountModal: React.FC<CreateAccountModalProps> = ({
       </p>
 
       {/* Email */}
-      <label style={{ fontWeight: 700, fontSize: 16, display: "block", marginBottom: 8 }}>
+      <label style={{ fontWeight: 700, fontSize: 14, display: "block", marginBottom: 8 }}>
         Email
       </label>
       <input
@@ -294,7 +294,7 @@ const CreateAccountModal: React.FC<CreateAccountModalProps> = ({
           background: "#f0f0f0",
           border: "none",
           borderRadius: 12,
-          fontSize: 16,
+          fontSize: 14,
           outline: "none",
           boxSizing: "border-box",
           marginBottom: 24,
@@ -324,7 +324,7 @@ const CreateAccountModal: React.FC<CreateAccountModalProps> = ({
         {loading ? "Sending…" : "Send Code"}
       </button>
 
-      <p style={{ textAlign: "center", color: "#888", fontSize: 13, marginBottom: 24 }}>
+      <p style={{ textAlign: "center", color: "#888", fontSize: 14, marginBottom: 24 }}>
         By tapping Send Code, you agree to our{" "}
         <span style={{ textDecoration: "underline", cursor: "pointer" }}>Terms of Use</span>
         {" "}and{" "}

@@ -70,7 +70,7 @@ const AuthFlow: React.FC<AuthFlowProps> = ({
 
   useEffect(() => {
     if (isOpen && step === "none") {
-      setStep("create");
+      setStep("login");
     } else if (!isOpen) {
       setStep("none");
       setConfirmationResult(null);

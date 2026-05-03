@@ -260,7 +260,7 @@ export default function Home() {
           <img
             src={activeService === "snow" ? "/shovel-blue.png" : "/shovel-black.png"}
             alt="Shovel icon"
-            style={{ width: 24, height: 24 }}
+            style={{ width: 30, height: 30 }}
           />
           {!isSmallScreen && <span>Snow removals</span>}
         </button>
@@ -272,7 +272,7 @@ export default function Home() {
             background: "none",
             fontWeight: 600,
             fontSize: 15,
-            color: activeService === "lawn" ? "rgb(5, 181, 5)" : "#555",
+            color: activeService === "lawn" ? "rgb(69, 197, 69)" : "#555",
             cursor: "pointer",
             display: "flex",
             alignItems: "center",
@@ -284,7 +284,7 @@ export default function Home() {
           <img
             src={activeService === "lawn" ? "/lawn-mower-green.png" : "/lawn-mower-black.png"}
             alt="Lawn mower icon"
-            style={{ width: 24, height: 24 }}
+            style={{ width: 34, height: 34 }}
           />
           {!isSmallScreen && <span>Lawn care</span>}
         </button>

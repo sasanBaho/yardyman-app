@@ -524,7 +524,6 @@ var _s = __turbopack_context__.k.signature();
 ;
 ;
 ;
-;
 const Navbar = ({ children, onCreateAccount })=>{
     _s();
     const [isMobile, setIsMobile] = (0, __TURBOPACK__imported__module__$5b$project$5d2f$yardyman$2d$app$2f$yardyman$2d$app$2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$index$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["useState"])(false);
@@ -565,16 +564,17 @@ const Navbar = ({ children, onCreateAccount })=>{
                         width: 36,
                         height: 36,
                         objectFit: 'contain',
-                        marginRight: 8
+                        marginRight: 8,
+                        borderRadius: 4
                     }
                 }, void 0, false, {
                     fileName: "[project]/yardyman-app/yardyman-app/components/ui/Navbar.tsx",
-                    lineNumber: 37,
+                    lineNumber: 36,
                     columnNumber: 9
                 }, ("TURBOPACK compile-time value", void 0))
             }, void 0, false, {
                 fileName: "[project]/yardyman-app/yardyman-app/components/ui/Navbar.tsx",
-                lineNumber: 36,
+                lineNumber: 35,
                 columnNumber: 7
             }, ("TURBOPACK compile-time value", void 0)),
             /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$yardyman$2d$app$2f$yardyman$2d$app$2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("button", {
@@ -592,12 +592,12 @@ const Navbar = ({ children, onCreateAccount })=>{
                     size: 28
                 }, void 0, false, {
                     fileName: "[project]/yardyman-app/yardyman-app/components/ui/Navbar.tsx",
-                    lineNumber: 40,
+                    lineNumber: 39,
                     columnNumber: 9
                 }, ("TURBOPACK compile-time value", void 0))
             }, void 0, false, {
                 fileName: "[project]/yardyman-app/yardyman-app/components/ui/Navbar.tsx",
-                lineNumber: 39,
+                lineNumber: 38,
                 columnNumber: 7
             }, ("TURBOPACK compile-time value", void 0)),
             onCreateAccount && /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$yardyman$2d$app$2f$yardyman$2d$app$2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("button", {
@@ -611,17 +611,22 @@ const Navbar = ({ children, onCreateAccount })=>{
                     display: 'flex',
                     alignItems: 'center'
                 },
-                children: /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$yardyman$2d$app$2f$yardyman$2d$app$2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])(__TURBOPACK__imported__module__$5b$project$5d2f$yardyman$2d$app$2f$yardyman$2d$app$2f$node_modules$2f$react$2d$icons$2f$fi$2f$index$2e$mjs__$5b$app$2d$client$5d$__$28$ecmascript$29$__["FiUserPlus"], {
-                    size: 26,
-                    color: "#09f"
+                children: /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$yardyman$2d$app$2f$yardyman$2d$app$2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("img", {
+                    src: "/user-account.png",
+                    alt: "Create account",
+                    style: {
+                        width: 30,
+                        height: 30,
+                        objectFit: "contain"
+                    }
                 }, void 0, false, {
                     fileName: "[project]/yardyman-app/yardyman-app/components/ui/Navbar.tsx",
-                    lineNumber: 48,
+                    lineNumber: 47,
                     columnNumber: 11
                 }, ("TURBOPACK compile-time value", void 0))
             }, void 0, false, {
                 fileName: "[project]/yardyman-app/yardyman-app/components/ui/Navbar.tsx",
-                lineNumber: 43,
+                lineNumber: 42,
                 columnNumber: 9
             }, ("TURBOPACK compile-time value", void 0)),
             /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$yardyman$2d$app$2f$yardyman$2d$app$2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("div", {
@@ -634,13 +639,13 @@ const Navbar = ({ children, onCreateAccount })=>{
                 children: children
             }, void 0, false, {
                 fileName: "[project]/yardyman-app/yardyman-app/components/ui/Navbar.tsx",
-                lineNumber: 51,
+                lineNumber: 50,
                 columnNumber: 7
             }, ("TURBOPACK compile-time value", void 0))
         ]
     }, void 0, true, {
         fileName: "[project]/yardyman-app/yardyman-app/components/ui/Navbar.tsx",
-        lineNumber: 22,
+        lineNumber: 21,
         columnNumber: 5
     }, ("TURBOPACK compile-time value", void 0));
 };
@@ -2410,7 +2415,7 @@ const CreateAccountModal = ({ onClose, onCodeSent, onLogin, onPhoneAlreadyRegist
                                         padding: "12px 16px",
                                         textAlign: "center",
                                         color: "#888",
-                                        fontSize: 13,
+                                        fontSize: 14,
                                         borderBottom: "1px solid #e5e5ea"
                                     },
                                     children: "Select Photo"
@@ -2492,7 +2497,7 @@ const CreateAccountModal = ({ onClose, onCodeSent, onLogin, onPhoneAlreadyRegist
             }, ("TURBOPACK compile-time value", void 0)),
             /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$yardyman$2d$app$2f$yardyman$2d$app$2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("h2", {
                 style: {
-                    fontSize: 24,
+                    fontSize: 20,
                     fontWeight: 700,
                     marginBottom: 4,
                     paddingRight: 40,
@@ -2507,8 +2512,8 @@ const CreateAccountModal = ({ onClose, onCodeSent, onLogin, onPhoneAlreadyRegist
             /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$yardyman$2d$app$2f$yardyman$2d$app$2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("p", {
                 style: {
                     color: "#e53e3e",
-                    fontSize: 13,
-                    marginBottom: 24
+                    fontSize: 14,
+                    marginBottom: 5
                 },
                 children: "* All the fields are required."
             }, void 0, false, {
@@ -2520,7 +2525,7 @@ const CreateAccountModal = ({ onClose, onCodeSent, onLogin, onPhoneAlreadyRegist
                 style: {
                     display: "flex",
                     justifyContent: "center",
-                    marginBottom: 28
+                    marginBottom: 5
                 },
                 children: /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$yardyman$2d$app$2f$yardyman$2d$app$2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("button", {
                     type: "button",
@@ -2590,7 +2595,7 @@ const CreateAccountModal = ({ onClose, onCodeSent, onLogin, onPhoneAlreadyRegist
                             /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$yardyman$2d$app$2f$yardyman$2d$app$2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("span", {
                                 style: {
                                     color: "#09f",
-                                    fontSize: 13,
+                                    fontSize: 14,
                                     marginTop: 5
                                 },
                                 children: "Add Photo"
@@ -2614,7 +2619,7 @@ const CreateAccountModal = ({ onClose, onCodeSent, onLogin, onPhoneAlreadyRegist
             /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$yardyman$2d$app$2f$yardyman$2d$app$2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("label", {
                 style: {
                     fontWeight: 700,
-                    fontSize: 16,
+                    fontSize: 14,
                     display: "block",
                     marginBottom: 8
                 },
@@ -2635,7 +2640,7 @@ const CreateAccountModal = ({ onClose, onCodeSent, onLogin, onPhoneAlreadyRegist
                     background: "#f0f0f0",
                     border: "none",
                     borderRadius: 12,
-                    fontSize: 16,
+                    fontSize: 14,
                     outline: "none",
                     boxSizing: "border-box",
                     marginBottom: 20
@@ -2648,7 +2653,7 @@ const CreateAccountModal = ({ onClose, onCodeSent, onLogin, onPhoneAlreadyRegist
             /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$yardyman$2d$app$2f$yardyman$2d$app$2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("label", {
                 style: {
                     fontWeight: 700,
-                    fontSize: 16,
+                    fontSize: 14,
                     display: "block",
                     marginBottom: 8
                 },
@@ -2683,7 +2688,7 @@ const CreateAccountModal = ({ onClose, onCodeSent, onLogin, onPhoneAlreadyRegist
             /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$yardyman$2d$app$2f$yardyman$2d$app$2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("label", {
                 style: {
                     fontWeight: 700,
-                    fontSize: 16,
+                    fontSize: 14,
                     display: "block",
                     marginBottom: 8
                 },
@@ -2704,7 +2709,7 @@ const CreateAccountModal = ({ onClose, onCodeSent, onLogin, onPhoneAlreadyRegist
                     background: "#f0f0f0",
                     border: "none",
                     borderRadius: 12,
-                    fontSize: 16,
+                    fontSize: 14,
                     outline: "none",
                     boxSizing: "border-box",
                     marginBottom: 24
@@ -2751,7 +2756,7 @@ const CreateAccountModal = ({ onClose, onCodeSent, onLogin, onPhoneAlreadyRegist
                 style: {
                     textAlign: "center",
                     color: "#888",
-                    fontSize: 13,
+                    fontSize: 14,
                     marginBottom: 24
                 },
                 children: [
@@ -4483,7 +4488,7 @@ const AuthFlow = ({ isOpen, onClose, userLocation, onProviderCreated })=>{
     (0, __TURBOPACK__imported__module__$5b$project$5d2f$yardyman$2d$app$2f$yardyman$2d$app$2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$index$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["useEffect"])({
         "AuthFlow.useEffect": ()=>{
             if (isOpen && step === "none") {
-                setStep("create");
+                setStep("login");
             } else if (!isOpen) {
                 setStep("none");
                 setConfirmationResult(null);
@@ -5038,8 +5043,8 @@ function Home() {
                                 src: activeService === "snow" ? "/shovel-blue.png" : "/shovel-black.png",
                                 alt: "Shovel icon",
                                 style: {
-                                    width: 24,
-                                    height: 24
+                                    width: 30,
+                                    height: 30
                                 }
                             }, void 0, false, {
                                 fileName: "[project]/yardyman-app/yardyman-app/app/page.tsx",
@@ -5066,7 +5071,7 @@ function Home() {
                             background: "none",
                             fontWeight: 600,
                             fontSize: 15,
-                            color: activeService === "lawn" ? "rgb(5, 181, 5)" : "#555",
+                            color: activeService === "lawn" ? "rgb(69, 197, 69)" : "#555",
                             cursor: "pointer",
                             display: "flex",
                             alignItems: "center",
@@ -5079,8 +5084,8 @@ function Home() {
                                 src: activeService === "lawn" ? "/lawn-mower-green.png" : "/lawn-mower-black.png",
                                 alt: "Lawn mower icon",
                                 style: {
-                                    width: 24,
-                                    height: 24
+                                    width: 34,
+                                    height: 34
                                 }
                             }, void 0, false, {
                                 fileName: "[project]/yardyman-app/yardyman-app/app/page.tsx",
