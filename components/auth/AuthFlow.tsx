@@ -64,6 +64,9 @@ const AuthFlow: React.FC<AuthFlowProps> = ({
   const [signupData, setSignupData] = useState<SignupFormData | null>(null);
   const [profile, setProfile] = useState<ProviderProfile | null>(null);
   const [saving, setSaving] = useState(false);
+  const [prefillPhone, setPrefillPhone] = useState("");
+  const [prefillCountryCode, setPrefillCountryCode] = useState("+1");
+  const [loginSlideFrom, setLoginSlideFrom] = useState<"right" | "left" | undefined>(undefined);
 
   useEffect(() => {
     if (isOpen && step === "none") {
@@ -78,6 +81,13 @@ const AuthFlow: React.FC<AuthFlowProps> = ({
 
   const close = () => {
     onClose();
+  };
+
+  const handlePhoneAlreadyRegistered = (rawPhone: string, code: string) => {
+    setPrefillPhone(rawPhone);
+    setPrefillCountryCode(code);
+    setLoginSlideFrom("right");
+    setStep("login");
   };
 
   // ── Create account flow ──────────────────────────────────────────────────
@@ -245,7 +255,8 @@ const AuthFlow: React.FC<AuthFlowProps> = ({
         <CreateAccountModal
           onClose={close}
           onCodeSent={handleCreateCodeSent}
-          onLogin={() => setStep("login")}
+          onLogin={() => { setLoginSlideFrom(undefined); setStep("login"); }}
+          onPhoneAlreadyRegistered={handlePhoneAlreadyRegistered}
         />
       )}
 
@@ -254,6 +265,9 @@ const AuthFlow: React.FC<AuthFlowProps> = ({
           onClose={close}
           onCodeSent={handleLoginCodeSent}
           onCreateAccount={() => setStep("create")}
+          initialPhone={prefillPhone}
+          initialCountryCode={prefillCountryCode}
+          slideFrom={loginSlideFrom}
         />
       )}
 

@@ -5,13 +5,22 @@ interface ModalBaseProps {
   onClose: () => void;
   children: React.ReactNode;
   closeButtonColor?: string;
+  slideFrom?: "right" | "left";
 }
 
 const ModalBase: React.FC<ModalBaseProps> = ({
   onClose,
   children,
   closeButtonColor = "#09f",
+  slideFrom,
 }) => {
+  const animationName =
+    slideFrom === "right"
+      ? "modalSlideFromRight"
+      : slideFrom === "left"
+      ? "modalSlideFromLeft"
+      : "modalSlideUp";
+
   return (
     <div
       style={{
@@ -27,6 +36,20 @@ const ModalBase: React.FC<ModalBaseProps> = ({
         if (e.target === e.currentTarget) onClose();
       }}
     >
+      <style>{`
+        @keyframes modalSlideUp {
+          from { transform: translateY(40px); opacity: 0; }
+          to   { transform: translateY(0);   opacity: 1; }
+        }
+        @keyframes modalSlideFromRight {
+          from { transform: translateX(60px); opacity: 0; }
+          to   { transform: translateX(0);    opacity: 1; }
+        }
+        @keyframes modalSlideFromLeft {
+          from { transform: translateX(-60px); opacity: 0; }
+          to   { transform: translateX(0);     opacity: 1; }
+        }
+      `}</style>
       <div
         style={{
           background: "#fff",
@@ -37,6 +60,7 @@ const ModalBase: React.FC<ModalBaseProps> = ({
           overflowY: "auto",
           padding: "24px 24px 48px",
           position: "relative",
+          animation: `${animationName} 0.28s cubic-bezier(0.25, 0.46, 0.45, 0.94) both`,
         }}
         onClick={(e) => e.stopPropagation()}
       >

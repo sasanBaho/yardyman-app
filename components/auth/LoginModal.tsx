@@ -9,11 +9,21 @@ interface LoginModalProps {
   onClose: () => void;
   onCodeSent: (result: ConfirmationResult, phone: string) => void;
   onCreateAccount: () => void;
+  initialPhone?: string;
+  initialCountryCode?: string;
+  slideFrom?: "right" | "left";
 }
 
-const LoginModal: React.FC<LoginModalProps> = ({ onClose, onCodeSent, onCreateAccount }) => {
-  const [phone, setPhone] = useState("");
-  const [countryCode, setCountryCode] = useState("+1");
+const LoginModal: React.FC<LoginModalProps> = ({
+  onClose,
+  onCodeSent,
+  onCreateAccount,
+  initialPhone = "",
+  initialCountryCode = "+1",
+  slideFrom,
+}) => {
+  const [phone, setPhone] = useState(initialPhone);
+  const [countryCode, setCountryCode] = useState(initialCountryCode);
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState("");
   const recaptchaRef = useRef<RecaptchaVerifier | null>(null);
@@ -42,7 +52,7 @@ const LoginModal: React.FC<LoginModalProps> = ({ onClose, onCodeSent, onCreateAc
   };
 
   return (
-    <ModalBase onClose={onClose}>
+    <ModalBase onClose={onClose} slideFrom={slideFrom}>
       <div id="recaptcha-login" />
 
       <h2 style={{ fontSize: 26, fontWeight: 700, marginBottom: 28, paddingRight: 40, marginTop: 4 }}>

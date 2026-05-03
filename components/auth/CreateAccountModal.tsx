@@ -3,7 +3,7 @@ import React, { useRef, useState } from "react";
 import { RecaptchaVerifier, signInWithPhoneNumber, ConfirmationResult } from "firebase/auth";
 import ModalBase from "./ModalBase";
 import PhoneInput from "./PhoneInput";
-import { auth } from "@/firebase";
+import { auth, db, collection, query, where, getDocs } from "@/firebase";
 
 export interface SignupFormData {
   name: string;
@@ -16,12 +16,14 @@ interface CreateAccountModalProps {
   onClose: () => void;
   onCodeSent: (result: ConfirmationResult, phone: string, data: SignupFormData) => void;
   onLogin: () => void;
+  onPhoneAlreadyRegistered: (phone: string, countryCode: string) => void;
 }
 
 const CreateAccountModal: React.FC<CreateAccountModalProps> = ({
   onClose,
   onCodeSent,
   onLogin,
+  onPhoneAlreadyRegistered,
 }) => {
   const [name, setName] = useState("");
   const [phone, setPhone] = useState("");
@@ -59,6 +61,14 @@ const CreateAccountModal: React.FC<CreateAccountModalProps> = ({
     setLoading(true);
     setError("");
     try {
+      const snapshot = await getDocs(
+        query(collection(db, "providers"), where("phoneNumber", "==", fullPhone))
+      );
+      if (!snapshot.empty) {
+        setLoading(false);
+        onPhoneAlreadyRegistered(phone, countryCode);
+        return;
+      }
       if (!recaptchaRef.current) {
         recaptchaRef.current = new RecaptchaVerifier(auth, "recaptcha-create", {
           size: "invisible",
