@@ -5690,6 +5690,16 @@ function Home() {
                                 ...p,
                                 isAvailable
                             } : p));
+                },
+                onProfileUpdated: (updated)=>{
+                    setCurrentProviderData(updated);
+                    setProviders((prev)=>prev.map((p)=>p.id === updated.uid ? {
+                                ...p,
+                                selectedServices: updated.selectedServices,
+                                description: updated.descriptions,
+                                hasTools: updated.hasTools,
+                                paymentMethods: updated.paymentMethods
+                            } : p));
                 }
             }, void 0, false, {
                 fileName: "[project]/yardyman-app/yardyman-app/app/page.tsx",
@@ -5726,7 +5736,7 @@ function Home() {
                 }
             }, void 0, false, {
                 fileName: "[project]/yardyman-app/yardyman-app/app/page.tsx",
-                lineNumber: 405,
+                lineNumber: 421,
                 columnNumber: 7
             }, this)
         ]

@@ -400,6 +400,22 @@ export default function Home() {
               )
             );
           }}
+          onProfileUpdated={(updated) => {
+            setCurrentProviderData(updated);
+            setProviders((prev) =>
+              prev.map((p) =>
+                p.id === updated.uid
+                  ? {
+                      ...p,
+                      selectedServices: updated.selectedServices,
+                      description: updated.descriptions as any,
+                      hasTools: updated.hasTools,
+                      paymentMethods: updated.paymentMethods,
+                    }
+                  : p
+              )
+            );
+          }}
         />
       )}
       <AuthFlow
