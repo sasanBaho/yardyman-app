@@ -1,5 +1,8 @@
 "use client";
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
+import { updateDoc, doc, getDoc } from "firebase/firestore";
+import { db } from "@/firebase";
+import SelectServicesModal, { ServicesFormData } from "./SelectServicesModal";
 
 export interface ProviderProfile {
   uid: string;
@@ -20,6 +23,7 @@ interface ProviderProfileModalProps {
   profile: ProviderProfile;
   onClose: () => void;
   onAvailabilityChange?: (isAvailable: boolean) => void;
+  onProfileUpdated?: (updated: ProviderProfile) => void;
 }
 
 const SERVICE_META: Record<string, { shortName: string; icon: string }> = {
@@ -56,14 +60,82 @@ const ProviderProfileModal: React.FC<ProviderProfileModalProps> = ({
   profile,
   onClose,
   onAvailabilityChange,
+  onProfileUpdated,
 }) => {
   const [isAvailable, setIsAvailable] = useState(profile.isAvailable);
+  const [profileState, setProfileState] = useState(profile);
+  const [showEditServices, setShowEditServices] = useState(false);
+  const [saving, setSaving] = useState(false);
 
-  const handleToggle = () => {
+  useEffect(() => {
+    getDoc(doc(db, "providers", profile.uid)).then((snap) => {
+      if (snap.exists()) {
+        setIsAvailable(snap.data().isAvailable ?? true);
+      }
+    });
+  }, []);
+
+  const handleToggle = async () => {
     const next = !isAvailable;
     setIsAvailable(next);
     onAvailabilityChange?.(next);
+    try {
+      await updateDoc(doc(db, "providers", profile.uid), { isAvailable: next });
+    } catch {
+      setIsAvailable(!next);
+    }
   };
+
+  const handleServicesDone = async (data: ServicesFormData) => {
+    setSaving(true);
+    try {
+      await updateDoc(doc(db, "providers", profile.uid), {
+        selectedServices: data.selectedServices,
+        description: data.descriptions,
+        hasTools: data.hasTools,
+        paymentMethods: data.paymentMethods,
+      });
+      const updated: ProviderProfile = {
+        ...profileState,
+        selectedServices: data.selectedServices,
+        descriptions: data.descriptions,
+        hasTools: data.hasTools,
+        paymentMethods: data.paymentMethods,
+      };
+      setProfileState(updated);
+      onProfileUpdated?.(updated);
+    } finally {
+      setSaving(false);
+      setShowEditServices(false);
+    }
+  };
+
+  if (showEditServices) {
+    return (
+      <SelectServicesModal
+        onClose={() => setShowEditServices(false)}
+        onDone={handleServicesDone}
+        initialData={{
+          selectedServices: profileState.selectedServices,
+          descriptions: profileState.descriptions,
+          hasTools: profileState.hasTools,
+          paymentMethods: profileState.paymentMethods,
+        }}
+      />
+    );
+  }
+
+  if (saving) {
+    return (
+      <div style={{ position: "fixed", inset: 0, zIndex: 600, display: "flex", alignItems: "center", justifyContent: "center", background: "rgba(0,0,0,0.45)" }}>
+        <div style={{ background: "#fff", borderRadius: 16, padding: "32px 40px", textAlign: "center" }}>
+          <div style={{ width: 40, height: 40, border: "4px solid #e0e0e0", borderTopColor: "#22c55e", borderRadius: "50%", animation: "spin 0.8s linear infinite", margin: "0 auto 16px" }} />
+          <style>{`@keyframes spin { to { transform: rotate(360deg); } }`}</style>
+          <p style={{ margin: 0, fontWeight: 600, fontSize: 16 }}>Saving changes…</p>
+        </div>
+      </div>
+    );
+  }
 
   return (
     <div
@@ -102,7 +174,7 @@ const ProviderProfileModal: React.FC<ProviderProfileModalProps> = ({
           }}
         >
           <span style={{ position: "absolute", top: 18, left: 18, fontSize: 13, color: "#555" }}>
-            Profile views: {profile.profileViews}
+            Profile views: {profileState.profileViews}
           </span>
 
           <button
@@ -138,10 +210,10 @@ const ProviderProfileModal: React.FC<ProviderProfileModalProps> = ({
               marginTop: 8,
             }}
           >
-            {profile.photoUrl ? (
+            {profileState.photoUrl ? (
               <img
-                src={profile.photoUrl}
-                alt={profile.name}
+                src={profileState.photoUrl}
+                alt={profileState.name}
                 style={{
                   width: 100,
                   height: 100,
@@ -166,7 +238,7 @@ const ProviderProfileModal: React.FC<ProviderProfileModalProps> = ({
                   fontWeight: 700,
                 }}
               >
-                {profile.name.charAt(0).toUpperCase()}
+                {profileState.name.charAt(0).toUpperCase()}
               </div>
             )}
             <div
@@ -212,7 +284,7 @@ const ProviderProfileModal: React.FC<ProviderProfileModalProps> = ({
                 textDecoration: "underline",
               }}
             >
-              {profile.name}
+              {profileState.name}
             </span>
             <button
               style={{ background: "none", border: "none", cursor: "pointer", padding: 0 }}
@@ -265,7 +337,7 @@ const ProviderProfileModal: React.FC<ProviderProfileModalProps> = ({
               >
                 <polygon points="3 11 22 2 13 21 11 13 3 11" />
               </svg>
-              <span>{profile.city}</span>
+              <span>{profileState.city}</span>
             </div>
             <div style={{ display: "flex", alignItems: "center", gap: 4 }}>
               <svg
@@ -278,7 +350,7 @@ const ProviderProfileModal: React.FC<ProviderProfileModalProps> = ({
               >
                 <path d="M22 16.92v3a2 2 0 01-2.18 2 19.79 19.79 0 01-8.63-3.07A19.5 19.5 0 013.07 12a19.79 19.79 0 01-3.07-8.67A2 2 0 012 1.13h3a2 2 0 012 1.72 12.84 12.84 0 00.7 2.81 2 2 0 01-.45 2.11L6.09 8.92a16 16 0 006 6l1.27-1.27a2 2 0 012.11-.45 12.84 12.84 0 002.81.7A2 2 0 0122 16.92z" />
               </svg>
-              <span>{profile.phone}</span>
+              <span>{profileState.phone}</span>
             </div>
           </div>
         </div>
@@ -348,6 +420,7 @@ const ProviderProfileModal: React.FC<ProviderProfileModalProps> = ({
           >
             <span style={{ fontWeight: 700, fontSize: 17 }}>Your Services:</span>
             <button
+              onClick={() => setShowEditServices(true)}
               style={{
                 background: "none",
                 border: "none",
@@ -355,13 +428,20 @@ const ProviderProfileModal: React.FC<ProviderProfileModalProps> = ({
                 fontSize: 15,
                 fontWeight: 600,
                 cursor: "pointer",
+                display: "flex",
+                alignItems: "center",
+                gap: 5,
               }}
             >
+              <svg width={15} height={15} viewBox="0 0 24 24" fill="none" stroke="#22c55e" strokeWidth="2.2" strokeLinecap="round" strokeLinejoin="round">
+                <path d="M11 4H4a2 2 0 00-2 2v14a2 2 0 002 2h14a2 2 0 002-2v-7" />
+                <path d="M18.5 2.5a2.121 2.121 0 013 3L12 15l-4 1 1-4 9.5-9.5z" />
+              </svg>
               Edit
             </button>
           </div>
 
-          {profile.selectedServices.map((id) => {
+          {profileState.selectedServices.map((id) => {
             const meta = SERVICE_META[id];
             if (!meta) return null;
             return (
@@ -377,7 +457,7 @@ const ProviderProfileModal: React.FC<ProviderProfileModalProps> = ({
                   </span>
                 </div>
                 <p style={{ color: "#666", fontSize: 14, margin: "0 0 6px 38px" }}>
-                  {profile.descriptions[id]}
+                  {profileState.descriptions[id]}
                 </p>
                 {id === "service-two" && (
                   <div
@@ -400,7 +480,7 @@ const ProviderProfileModal: React.FC<ProviderProfileModalProps> = ({
                         flexShrink: 0,
                       }}
                     />
-                    {profile.hasTools ? "I have tools" : "I will use home-owner's tools"}
+                    {profileState.hasTools ? "I have tools" : "I will use home-owner's tools"}
                   </div>
                 )}
               </div>
@@ -413,7 +493,7 @@ const ProviderProfileModal: React.FC<ProviderProfileModalProps> = ({
               Payment Methods:
             </span>
             <div style={{ display: "flex", flexWrap: "wrap", gap: 14 }}>
-              {profile.paymentMethods.map((method) => (
+              {profileState.paymentMethods.map((method) => (
                 <span
                   key={method}
                   style={{ display: "flex", alignItems: "center", gap: 6, fontSize: 15 }}

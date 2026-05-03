@@ -35,6 +35,7 @@ export interface ServicesFormData {
 interface SelectServicesModalProps {
   onClose: () => void;
   onDone: (data: ServicesFormData) => void;
+  initialData?: ServicesFormData;
 }
 
 const Checkbox: React.FC<{ checked: boolean; onChange: () => void }> = ({ checked, onChange }) => (
@@ -82,15 +83,36 @@ const RadioDot: React.FC<{ checked: boolean; onChange: () => void }> = ({ checke
   />
 );
 
-const SelectServicesModal: React.FC<SelectServicesModalProps> = ({ onClose, onDone }) => {
-  const [services, setServices] = useState<Record<ServiceId, ServiceState>>({
-    "service-one": { selected: false, description: "", hasTools: false },
-    "service-two": { selected: false, description: "", hasTools: true },
+const SelectServicesModal: React.FC<SelectServicesModalProps> = ({ onClose, onDone, initialData }) => {
+  const [services, setServices] = useState<Record<ServiceId, ServiceState>>(() => {
+    if (initialData) {
+      return {
+        "service-one": {
+          selected: initialData.selectedServices.includes("service-one"),
+          description: initialData.descriptions["service-one"] ?? "",
+          hasTools: false,
+        },
+        "service-two": {
+          selected: initialData.selectedServices.includes("service-two"),
+          description: initialData.descriptions["service-two"] ?? "",
+          hasTools: initialData.hasTools,
+        },
+      };
+    }
+    return {
+      "service-one": { selected: false, description: "", hasTools: false },
+      "service-two": { selected: false, description: "", hasTools: true },
+    };
   });
-  const [payments, setPayments] = useState<Record<string, boolean>>({
-    Cash: false,
-    "Credit Card": false,
-    "e-Transfer": false,
+  const [payments, setPayments] = useState<Record<string, boolean>>(() => {
+    if (initialData) {
+      return {
+        Cash: initialData.paymentMethods.includes("Cash"),
+        "Credit Card": initialData.paymentMethods.includes("Credit Card"),
+        "e-Transfer": initialData.paymentMethods.includes("e-Transfer"),
+      };
+    }
+    return { Cash: false, "Credit Card": false, "e-Transfer": false };
   });
 
   const update = (id: ServiceId, patch: Partial<ServiceState>) =>

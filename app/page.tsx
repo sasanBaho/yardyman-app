@@ -24,15 +24,17 @@ type Provider = Omit<ProviderPopupCardProps["provider"], ""> & {
   phoneNumber: String;
   hasTools?: boolean;
   paymentMethods?: string[];
+  isAvailable?: boolean;
 };
 
 import { Map } from "@/components/map/components/Map";
 import { MapControls } from "@/components/map/components/MapControls";
 import { MapMarker, MarkerContent } from "@/components/map/components/MapMarker";
 import { trackEvent, trackPageView } from "@/lib/analytics";
-// import { useEffect, useState } from "react";
-import { db, collection, getDocs } from "../firebase";
+import { db, collection, getDocs, auth, query, where } from "../firebase";
+import { onAuthStateChanged, signOut } from "firebase/auth";
 import AuthFlow from "@/components/auth/AuthFlow";
+import ProviderProfileModal, { ProviderProfile } from "@/components/auth/ProviderProfileModal";
 
 function ProviderAvatar({ imageUrl, name }: { imageUrl: string; name: string }) {
   return (
@@ -116,11 +118,50 @@ export default function Home() {
   const [activeService, setActiveService] = useState<"snow" | "lawn">("snow");
   const [isSmallScreen, setIsSmallScreen] = useState(false);
   const [showAuth, setShowAuth] = useState(false);
+  const [currentProviderData, setCurrentProviderData] = useState<ProviderProfile | null>(null);
+  const [showProfile, setShowProfile] = useState(false);
 
   const [mounted, setMounted] = useState(false);
   useEffect(() => {
     setMounted(true);
   }, []);
+
+  useEffect(() => {
+    const unsubscribe = onAuthStateChanged(auth, async (user) => {
+      if (!user) {
+        setCurrentProviderData(null);
+        return;
+      }
+      try {
+        const snap = await getDocs(query(collection(db, "providers"), where("uid", "==", user.uid)));
+        if (!snap.empty) {
+          const data = snap.docs[0].data();
+          setCurrentProviderData({
+            uid: user.uid,
+            name: data.providerName ?? "",
+            phone: data.phoneNumber ?? "",
+            email: data.email ?? "",
+            photoUrl: data.imageUrl ?? "",
+            city: data.city ?? "",
+            selectedServices: Array.isArray(data.selectedServices) ? data.selectedServices : [],
+            descriptions: data.description && typeof data.description === "object" ? data.description : {},
+            hasTools: data.hasTools ?? false,
+            paymentMethods: Array.isArray(data.paymentMethods) ? data.paymentMethods : [],
+            isAvailable: data.isAvailable ?? true,
+            profileViews: data.profileViews ?? 0,
+          });
+        }
+      } catch {
+        setCurrentProviderData(null);
+      }
+    });
+    return () => unsubscribe();
+  }, []);
+
+  async function handleSignOut() {
+    await signOut(auth);
+    setCurrentProviderData(null);
+  }
 
   useEffect(() => {
     if (typeof window === "undefined") return;
@@ -180,6 +221,7 @@ export default function Home() {
           selectedServices: Array.isArray(data.selectedServices) ? data.selectedServices : [],
           hasTools: data.hasTools || false,
           paymentMethods: Array.isArray(data.paymentMethods) ? data.paymentMethods : [],
+          isAvailable: data.isAvailable ?? true,
         });
       });
       setProviders(fetchedProviders);
@@ -189,6 +231,7 @@ export default function Home() {
 
   // Filtering logic for providers
   const filteredProviders = providers.filter((provider) => {
+    if (provider.isAvailable === false) return false;
     if (activeService === "snow") {
       return provider.selectedServices?.includes("service-two");
     } else {
@@ -240,7 +283,12 @@ export default function Home() {
 
   return (
     <>
-      <Navbar onCreateAccount={() => setShowAuth(true)}>
+      <Navbar
+        onCreateAccount={currentProviderData ? undefined : () => setShowAuth(true)}
+        currentUser={currentProviderData ? { photoUrl: currentProviderData.photoUrl, name: currentProviderData.name } : null}
+        onSignOut={handleSignOut}
+        onEditAccount={() => setShowProfile(true)}
+      >
         <button
           onClick={() => handleServiceChange("snow")}
           style={{
@@ -341,6 +389,19 @@ export default function Home() {
           activeService={activeService}
         />
       )}
+      {showProfile && currentProviderData && (
+        <ProviderProfileModal
+          profile={currentProviderData}
+          onClose={() => setShowProfile(false)}
+          onAvailabilityChange={(isAvailable) => {
+            setProviders((prev) =>
+              prev.map((p) =>
+                p.id === currentProviderData.uid ? { ...p, isAvailable } : p
+              )
+            );
+          }}
+        />
+      )}
       <AuthFlow
         isOpen={showAuth}
         onClose={() => setShowAuth(false)}
@@ -364,6 +425,7 @@ export default function Home() {
               selectedServices: Array.isArray(data.selectedServices) ? data.selectedServices : [],
               hasTools: data.hasTools || false,
               paymentMethods: Array.isArray(data.paymentMethods) ? data.paymentMethods : [],
+              isAvailable: data.isAvailable ?? true,
             });
           });
           setProviders(fetched);
