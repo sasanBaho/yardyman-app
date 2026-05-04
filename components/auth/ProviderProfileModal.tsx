@@ -79,14 +79,34 @@ const ProviderProfileModal: React.FC<ProviderProfileModalProps> = ({
   const [editingName, setEditingName] = useState(false);
   const [nameInput, setNameInput] = useState(profile.name);
   const [savingName, setSavingName] = useState(false);
+  const [stripeSubscriptionId, setStripeSubscriptionId] = useState<string | null>(null);
+  const [subscriptionInfo, setSubscriptionInfo] = useState<{
+    status: string;
+    created: number;
+    trialEnd: number | null;
+    currentPeriodEnd: number;
+    cancelAtPeriodEnd: boolean;
+  } | null>(null);
+  const [cancellingSubscription, setCancellingSubscription] = useState(false);
+  const [reactivatingSubscription, setReactivatingSubscription] = useState(false);
   const fileInputRef = useRef<HTMLInputElement>(null);
   const cameraInputRef = useRef<HTMLInputElement>(null);
   const nameInputRef = useRef<HTMLInputElement>(null);
   const isMobile = typeof window !== "undefined" && /Mobi|Android|iPhone|iPad|iPod|Opera Mini|IEMobile/i.test(navigator.userAgent);
+
   useEffect(() => {
     getDoc(doc(db, "providers", profile.uid)).then((snap) => {
       if (snap.exists()) {
-        setIsAvailable(snap.data().isAvailable ?? true);
+        const data = snap.data();
+        setIsAvailable(data.isAvailable ?? true);
+        const subId = data.stripeSubscriptionId ?? null;
+        setStripeSubscriptionId(subId);
+        if (subId) {
+          fetch(`/api/stripe/subscription?subscriptionId=${subId}`)
+            .then((r) => r.json())
+            .then((info) => { if (!info.error) setSubscriptionInfo(info); })
+            .catch(() => {});
+        }
       }
     });
   }, []);
@@ -589,7 +609,7 @@ const ProviderProfileModal: React.FC<ProviderProfileModalProps> = ({
               display: "flex",
               justifyContent: "space-between",
               alignItems: "center",
-              marginBottom: 16,
+              marginBottom: 0,
             }}
           >
             <span style={{ fontWeight: 700, fontSize: 17 }}>Your Services:</span>
@@ -619,12 +639,12 @@ const ProviderProfileModal: React.FC<ProviderProfileModalProps> = ({
             const meta = SERVICE_META[id];
             if (!meta) return null;
             return (
-              <div key={id} style={{ marginBottom: 18 }}>
+              <div key={id} style={{ marginBottom: 10 }}>
                 <div style={{ display: "flex", alignItems: "center", gap: 10, marginBottom: 4 }}>
                   <img
                     src={meta.icon}
                     alt={meta.shortName}
-                    style={{ width: 28, height: 28, objectFit: "contain" }}
+                    style={{ width: 32, height: 32, objectFit: "contain" }}
                   />
                   <span style={{ fontSize: 16, color: "#555", fontWeight: 500 }}>
                     {meta.shortName}
@@ -638,7 +658,7 @@ const ProviderProfileModal: React.FC<ProviderProfileModalProps> = ({
           })}
 
           {/* Tools preference */}
-          <div style={{ display: "flex", alignItems: "center", gap: 8, marginBottom: 20, marginTop: 4 }}>
+          <div style={{ display: "flex", alignItems: "center", gap: 8, marginBottom: 15, marginTop: 4 }}>
               <BsCircleFill color="#22c55e" size={10} />
             <span style={{ fontSize: 14, color: "#555", fontWeight: 500 }}>
               {profileState.hasTools ? "I have tools" : "I will use home-owner's tools"}
@@ -663,14 +683,116 @@ const ProviderProfileModal: React.FC<ProviderProfileModalProps> = ({
             </div>
           </div>
 
+          {/* Subscription */}
+          {stripeSubscriptionId && (
+            <div style={{ marginTop: 18 }}>
+              <span style={{ fontWeight: 700, fontSize: 17, display: "block", marginBottom: 10 }}>
+                My Subscription:
+              </span>
+              {subscriptionInfo ? (
+                <div style={{ display: "flex", flexDirection: "column", gap: 6 }}>
+                  <span style={{ fontSize: 14, color: "#555" }}>
+                    Subscription date:{" "}
+                    <span style={{ fontWeight: 600 }}>
+                      {new Date(subscriptionInfo.created * 1000).toLocaleDateString("en-US", { month: "long", day: "numeric", year: "numeric" })}
+                    </span>
+                  </span>
+                  {!subscriptionInfo.cancelAtPeriodEnd ? (
+                    <>
+                      <span style={{ fontSize: 14, color: "#555" }}>
+                        Next payment:{" "}
+                        <span style={{ fontWeight: 600 }}>
+                          {new Date(
+                            (subscriptionInfo.trialEnd ?? subscriptionInfo.currentPeriodEnd) * 1000
+                          ).toLocaleDateString("en-US", { month: "long", day: "numeric", year: "numeric" })}
+                        </span>
+                      </span>
+                      <button
+                        onClick={async () => {
+                          if (!stripeSubscriptionId) return;
+                          setCancellingSubscription(true);
+                          try {
+                            await fetch("/api/stripe/cancel-subscription", {
+                              method: "POST",
+                              headers: { "Content-Type": "application/json" },
+                              body: JSON.stringify({ subscriptionId: stripeSubscriptionId }),
+                            });
+                            setSubscriptionInfo((prev) => prev ? { ...prev, cancelAtPeriodEnd: true } : prev);
+                          } finally {
+                            setCancellingSubscription(false);
+                          }
+                        }}
+                        disabled={cancellingSubscription}
+                        style={{
+                          background: "none",
+                          border: "none",
+                          color: "#555",
+                          fontSize: 14,
+                          textDecoration: "underline",
+                          cursor: cancellingSubscription ? "not-allowed" : "pointer",
+                          padding: 0,
+                          textAlign: "left",
+                          marginTop: 4,
+                        }}
+                      >
+                        {cancellingSubscription ? "Cancelling…" : "Cancel my subscription"}
+                      </button>
+                    </>
+                  ) : (
+                    <>
+                      <span style={{ fontSize: 14, color: "#888" }}>
+                        Subscription ends on:{" "}
+                        <span style={{ fontWeight: 600, color: "#555" }}>
+                          {new Date(subscriptionInfo.currentPeriodEnd * 1000).toLocaleDateString("en-US", { month: "long", day: "numeric", year: "numeric" })}
+                        </span>
+                      </span>
+                      <button
+                        onClick={async () => {
+                          if (!stripeSubscriptionId) return;
+                          setReactivatingSubscription(true);
+                          try {
+                            await fetch("/api/stripe/reactivate-subscription", {
+                              method: "POST",
+                              headers: { "Content-Type": "application/json" },
+                              body: JSON.stringify({ subscriptionId: stripeSubscriptionId }),
+                            });
+                            setSubscriptionInfo((prev) => prev ? { ...prev, cancelAtPeriodEnd: false } : prev);
+                          } finally {
+                            setReactivatingSubscription(false);
+                          }
+                        }}
+                        disabled={reactivatingSubscription}
+                        style={{
+                          background: "none",
+                          border: "none",
+                          color: reactivatingSubscription ? "#aaa" : "#22c55e",
+                          fontSize: 14,
+                          textDecoration: "underline",
+                          cursor: reactivatingSubscription ? "not-allowed" : "pointer",
+                          padding: 0,
+                          textAlign: "left",
+                          marginTop: 4,
+                        }}
+                      >
+                        {reactivatingSubscription ? "Subscribing…" : "Subscribe"}
+                      </button>
+                    </>
+                  )}
+                </div>
+              ) : (
+                <span style={{ fontSize: 14, color: "#aaa" }}>Loading…</span>
+              )}
+            </div>
+          )}
+
           {/* Sign out */}
-          <div style={{ textAlign: "center", paddingTop: 28, paddingBottom: 40 }}>
+          <div style={{ paddingTop: 28, paddingBottom: 40 }}>
             <button
               onClick={async () => { await signOut(auth); onClose(); }}
               style={{
                 background: "none",
                 border: "none",
-                color: "#555",
+                color: "#22c55e",
                 fontSize: 14,
                 textDecoration: "underline",
                 cursor: "pointer",
