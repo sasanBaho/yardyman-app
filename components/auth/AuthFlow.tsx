@@ -3,11 +3,12 @@ import React, { useEffect, useState } from "react";
 import { ConfirmationResult, UserCredential } from "firebase/auth";
 import { ref, uploadBytes, getDownloadURL } from "firebase/storage";
 
-import { auth, storage, db, collection, setDoc, doc, serverTimestamp, query, where, getDocs } from "@/firebase";
+import { auth, storage, db, collection, query, where, getDocs } from "@/firebase";
 import LoginModal from "./LoginModal";
 import CreateAccountModal, { SignupFormData } from "./CreateAccountModal";
 import VerifyCodeModal from "./VerifyCodeModal";
 import SelectServicesModal, { ServicesFormData } from "./SelectServicesModal";
+import SubscriptionModal from "./SubscriptionModal";
 import ProviderProfileModal, { ProviderProfile } from "./ProviderProfileModal";
 
 type Step =
@@ -17,6 +18,7 @@ type Step =
   | "verify-create"
   | "verify-login"
   | "select-services"
+  | "subscription"
   | "profile";
 
 interface AuthFlowProps {
@@ -86,14 +88,14 @@ const AuthFlow: React.FC<AuthFlowProps> = ({
   isOpen,
   onClose,
   userLocation,
-  onProviderCreated,
 }) => {
   const [step, setStep] = useState<Step>("none");
   const [confirmationResult, setConfirmationResult] = useState<ConfirmationResult | null>(null);
   const [phone, setPhone] = useState("");
   const [signupData, setSignupData] = useState<SignupFormData | null>(null);
+  const [pendingServicesData, setPendingServicesData] = useState<ServicesFormData | null>(null);
   const [profile, setProfile] = useState<ProviderProfile | null>(null);
-  const [saving, setSaving] = useState(false);
+  const [subscriptionLoading, setSubscriptionLoading] = useState(false);
   const [prefillPhone, setPrefillPhone] = useState("");
   const [prefillCountryCode, setPrefillCountryCode] = useState("+1");
   const [loginSlideFrom, setLoginSlideFrom] = useState<"right" | "left" | undefined>(undefined);
@@ -137,31 +139,35 @@ const AuthFlow: React.FC<AuthFlowProps> = ({
     setStep("select-services");
   };
 
-  const handleServicesDone = async (servicesData: ServicesFormData) => {
-    if (!signupData) return;
+  const handleServicesDone = (servicesData: ServicesFormData) => {
+    setPendingServicesData(servicesData);
+    setStep("subscription");
+  };
+
+  const handleSubscriptionPlanSelected = async (priceId: string) => {
+    if (!signupData || !pendingServicesData) return;
     const user = auth.currentUser;
     if (!user) return;
 
-    setSaving(true);
+    setSubscriptionLoading(true);
     try {
       let photoUrl = "";
       if (signupData.photoFile) {
         photoUrl = await uploadPhoto(signupData.photoFile, user.uid);
       }
 
-      let city = "Unknown";
-      let country = "Unknown";
       const lat = userLocation ? userLocation[1] : 0;
       const lng = userLocation ? userLocation[0] : 0;
+      let city = "Unknown";
+      let country = "Unknown";
       if (userLocation) {
         const location = await getCityAndCountry(lat, lng);
         city = location.city;
         country = location.country;
       }
 
-      const providerDoc = {
+      const pending = {
         uid: user.uid,
-        id: user.uid,
         providerName: signupData.name,
         email: signupData.email,
         phoneNumber: phone,
@@ -171,43 +177,22 @@ const AuthFlow: React.FC<AuthFlowProps> = ({
         geohash: encodeGeohash(lat, lng),
         city,
         country,
-        serviceLocation: [],
-        selectedServices: servicesData.selectedServices,
-        description: servicesData.descriptions,
-        hasTools: servicesData.hasTools,
-        hasDelivery: false,
-        paymentMethods: servicesData.paymentMethods,
-        isAvailable: true,
-        instagramID: "",
-        profileViewCount: 0,
-        gotCallCount: 0,
-        gotMessageCount: 0,
-        instaViewCount: 0,
-        createdAt: serverTimestamp(),
-        updatedAt: serverTimestamp(),
+        selectedServices: pendingServicesData.selectedServices,
+        description: pendingServicesData.descriptions,
+        hasTools: pendingServicesData.hasTools,
+        paymentMethods: pendingServicesData.paymentMethods,
       };
+      localStorage.setItem("pendingProviderRegistration", JSON.stringify(pending));
 
-      await setDoc(doc(db, "providers", user.uid), providerDoc);
-
-      setProfile({
-        uid: user.uid,
-        name: signupData.name,
-        phone,
-        email: signupData.email,
-        photoUrl,
-        city,
-        selectedServices: servicesData.selectedServices,
-        descriptions: servicesData.descriptions,
-        hasTools: servicesData.hasTools,
-        paymentMethods: servicesData.paymentMethods,
-        isAvailable: true,
-        profileViews: 0,
+      const res = await fetch("/api/stripe/create-checkout-session", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({ priceId, uid: user.uid, email: signupData.email, phone }),
       });
-
-      setStep("profile");
-      onProviderCreated?.();
-    } finally {
-      setSaving(false);
+      const { url } = await res.json();
+      window.location.href = url;
+    } catch {
+      setSubscriptionLoading(false);
     }
   };
 
@@ -254,45 +239,6 @@ const AuthFlow: React.FC<AuthFlowProps> = ({
   // ── Render ───────────────────────────────────────────────────────────────
 
   if (step === "none") return null;
-
-  if (saving) {
-    return (
-      <div
-        style={{
-          position: "fixed",
-          inset: 0,
-          zIndex: 600,
-          display: "flex",
-          alignItems: "center",
-          justifyContent: "center",
-          background: "rgba(0,0,0,0.45)",
-        }}
-      >
-        <div
-          style={{
-            background: "#fff",
-            borderRadius: 16,
-            padding: "32px 40px",
-            textAlign: "center",
-          }}
-        >
-          <div
-            style={{
-              width: 40,
-              height: 40,
-              border: "4px solid #e0e0e0",
-              borderTopColor: "#22c55e",
-              borderRadius: "50%",
-              animation: "spin 0.8s linear infinite",
-              margin: "0 auto 16px",
-            }}
-          />
-          <style>{`@keyframes spin { to { transform: rotate(360deg); } }`}</style>
-          <p style={{ margin: 0, fontWeight: 600, fontSize: 16 }}>Creating your profile…</p>
-        </div>
-      </div>
-    );
-  }
 
   return (
     <>
@@ -341,6 +287,14 @@ const AuthFlow: React.FC<AuthFlowProps> = ({
 
       {step === "select-services" && (
         <SelectServicesModal onClose={close} onDone={handleServicesDone} />
+      )}
+
+      {step === "subscription" && (
+        <SubscriptionModal
+          onClose={close}
+          onPlanSelected={handleSubscriptionPlanSelected}
+          loading={subscriptionLoading}
+        />
       )}
 
       {step === "profile" && profile && (

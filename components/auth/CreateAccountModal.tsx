@@ -112,6 +112,7 @@ const CreateAccountModal: React.FC<CreateAccountModalProps> = ({
         ref={fileInputRef}
         type="file"
         accept="image/*"
+        capture={false}
         style={{ display: "none" }}
         onChange={(e) => e.target.files?.[0] && handlePhotoSelected(e.target.files[0])}
       />

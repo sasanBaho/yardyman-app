@@ -161,7 +161,7 @@ const ProviderPopupCard: React.FC<ProviderPopupCardProps> = ({ provider, onClose
               <div style={{
                 position: "absolute",
                 bottom: 4,
-                right: 4,
+                right: 2,
                 width: 34,
                 height: 34,
                 borderRadius: "50%",
@@ -172,7 +172,7 @@ const ProviderPopupCard: React.FC<ProviderPopupCardProps> = ({ provider, onClose
                 justifyContent: "center",
                 boxShadow: "0 1px 4px rgba(0,0,0,0.1)",
               }}>
-                <img src={serviceIcon} alt="service" style={{ width: 30, height: 30, objectFit: "contain" }} />
+                <img src={serviceIcon} alt="service" style={{ width: 30, height: 30, objectFit: "contain"}} />
               </div>
             </div>
             <span style={{ fontWeight: 700, fontSize: 17, textAlign: "center" }}>

@@ -31,7 +31,7 @@ import { Map } from "@/components/map/components/Map";
 import { MapControls } from "@/components/map/components/MapControls";
 import { MapMarker, MarkerContent } from "@/components/map/components/MapMarker";
 import { trackEvent, trackPageView } from "@/lib/analytics";
-import { db, collection, getDocs, auth, query, where } from "../firebase";
+import { db, collection, getDocs, auth, query, where, setDoc, doc, serverTimestamp } from "../firebase";
 import { onAuthStateChanged, signInAnonymously } from "firebase/auth";
 import AuthFlow from "@/components/auth/AuthFlow";
 import ProviderProfileModal, { ProviderProfile } from "@/components/auth/ProviderProfileModal";
@@ -39,8 +39,8 @@ import ProviderProfileModal, { ProviderProfile } from "@/components/auth/Provide
 function ProviderAvatar({ imageUrl, name }: { imageUrl: string; name: string }) {
   return (
     <div style={{
-      width: 40,
-      height: 40,
+      width: 45,
+      height: 45,
       borderRadius: "50%",
       overflow: "hidden",
       border: "2px solid #fff",
@@ -122,9 +122,101 @@ export default function Home() {
   const [showProfile, setShowProfile] = useState(false);
 
   const [mounted, setMounted] = useState(false);
+  const [completingStripeRegistration, setCompletingStripeRegistration] = useState(false);
+
   useEffect(() => {
     setMounted(true);
   }, []);
+
+  useEffect(() => {
+    if (!mounted) return;
+    const params = new URLSearchParams(window.location.search);
+    const sessionId = params.get("stripe_session_id");
+    const cancelled = params.get("stripe_cancelled");
+
+    if (cancelled) {
+      localStorage.removeItem("pendingProviderRegistration");
+      window.history.replaceState({}, "", "/");
+      return;
+    }
+    if (!sessionId) return;
+
+    const pending = localStorage.getItem("pendingProviderRegistration");
+    if (!pending) return;
+
+    setCompletingStripeRegistration(true);
+    (async () => {
+      try {
+        const res = await fetch(`/api/stripe/verify-session?session_id=${sessionId}`);
+        const data = await res.json();
+        if (!data.ok) return;
+
+        const providerData = JSON.parse(pending);
+        const providerDoc = {
+          ...providerData,
+          id: providerData.uid,
+          isAvailable: true,
+          instagramID: "",
+          profileViewCount: 0,
+          gotCallCount: 0,
+          gotMessageCount: 0,
+          instaViewCount: 0,
+          hasDelivery: false,
+          serviceLocation: [],
+          stripeCustomerId: data.customerId,
+          stripeSubscriptionId: data.subscriptionId,
+          subscriptionStatus: data.subscriptionStatus,
+          createdAt: serverTimestamp(),
+          updatedAt: serverTimestamp(),
+        };
+
+        await setDoc(doc(db, "providers", providerData.uid), providerDoc);
+        localStorage.removeItem("pendingProviderRegistration");
+        window.history.replaceState({}, "", "/");
+
+        setCurrentProviderData({
+          uid: providerData.uid,
+          name: providerData.providerName,
+          phone: providerData.phoneNumber,
+          email: providerData.email,
+          photoUrl: providerData.imageUrl,
+          city: providerData.city,
+          selectedServices: providerData.selectedServices,
+          descriptions: providerData.description,
+          hasTools: providerData.hasTools,
+          paymentMethods: providerData.paymentMethods,
+          isAvailable: true,
+          profileViews: 0,
+        });
+        setShowProfile(true);
+
+        const querySnapshot = await getDocs(collection(db, "providers"));
+        const fetched: any[] = [];
+        querySnapshot.forEach((docSnap) => {
+          const d = docSnap.data();
+          fetched.push({
+            id: docSnap.id,
+            latitude: d.latitude,
+            longitude: d.longitude,
+            imageUrl: d.imageUrl,
+            providerName: d.providerName,
+            instagramID: d.instagramID,
+            rating: d.rating,
+            ratingsCount: d.ratingsCount,
+            description: d.description,
+            phoneNumber: d.phoneNumber,
+            selectedServices: Array.isArray(d.selectedServices) ? d.selectedServices : [],
+            hasTools: d.hasTools || false,
+            paymentMethods: Array.isArray(d.paymentMethods) ? d.paymentMethods : [],
+            isAvailable: d.isAvailable ?? true,
+          });
+        });
+        setProviders(fetched);
+      } finally {
+        setCompletingStripeRegistration(false);
+      }
+    })();
+  }, [mounted]);
 
   useEffect(() => {
     const unsubscribe = onAuthStateChanged(auth, async (user) => {
@@ -418,6 +510,37 @@ export default function Home() {
           }}
         />
       )}
+      {completingStripeRegistration && (
+        <div style={{
+          position: "fixed",
+          inset: 0,
+          zIndex: 600,
+          display: "flex",
+          alignItems: "center",
+          justifyContent: "center",
+          background: "rgba(0,0,0,0.45)",
+        }}>
+          <div style={{
+            background: "#fff",
+            borderRadius: 16,
+            padding: "32px 40px",
+            textAlign: "center",
+          }}>
+            <div style={{
+              width: 40,
+              height: 40,
+              border: "4px solid #e0e0e0",
+              borderTopColor: "#22c55e",
+              borderRadius: "50%",
+              animation: "spin 0.8s linear infinite",
+              margin: "0 auto 16px",
+            }} />
+            <style>{`@keyframes spin { to { transform: rotate(360deg); } }`}</style>
+            <p style={{ margin: 0, fontWeight: 600, fontSize: 16 }}>Setting up your profile…</p>
+          </div>
+        </div>
+      )}
+
       <AuthFlow
         isOpen={showAuth}
         onClose={() => setShowAuth(false)}
