@@ -32,7 +32,8 @@ import { MapControls } from "@/components/map/components/MapControls";
 import { MapMarker, MarkerContent } from "@/components/map/components/MapMarker";
 import { trackEvent, trackPageView } from "@/lib/analytics";
 import { db, collection, getDocs, auth, query, where, setDoc, doc, serverTimestamp } from "../firebase";
-import { onAuthStateChanged, signInAnonymously } from "firebase/auth";
+import { deleteDoc } from "firebase/firestore";
+import { onAuthStateChanged, signInAnonymously, signOut } from "firebase/auth";
 import AuthFlow from "@/components/auth/AuthFlow";
 import ProviderProfileModal, { ProviderProfile } from "@/components/auth/ProviderProfileModal";
 
@@ -410,6 +411,33 @@ export default function Home() {
     setSelectedProvider(provider);
   }
 
+  const handleSignOut = async () => {
+    await signOut(auth);
+    // onAuthStateChanged fires and clears currentProviderData automatically
+  };
+
+  const handleCancelSubscription = async () => {
+    if (!currentProviderData) return;
+    const snap = await getDocs(query(collection(db, "providers"), where("uid", "==", currentProviderData.uid)));
+    if (snap.empty) return;
+    const subscriptionId = snap.docs[0].data().stripeSubscriptionId;
+    if (!subscriptionId) return;
+    await fetch("/api/stripe/cancel-subscription", {
+      method: "POST",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify({ subscriptionId }),
+    });
+  };
+
+  const handleDeleteAccount = async () => {
+    if (!currentProviderData) return;
+    const user = auth.currentUser;
+    if (!user) return;
+    await deleteDoc(doc(db, "providers", currentProviderData.uid));
+    await user.delete();
+    // onAuthStateChanged fires and clears state automatically
+  };
+
   function handleServiceChange(service: "snow" | "lawn") {
     trackEvent("Service Filter Switched", {
       selectedService: service,
@@ -430,6 +458,9 @@ export default function Home() {
         onSignIn={currentProviderData ? undefined : () => { setAuthDefaultStep("login"); setShowAuth(true); }}
         currentUser={currentProviderData ? { photoUrl: currentProviderData.photoUrl, name: currentProviderData.name } : null}
         onEditAccount={() => setShowProfile(true)}
+        onSignOut={handleSignOut}
+        onCancelSubscription={handleCancelSubscription}
+        onDeleteAccount={handleDeleteAccount}
       >
         <button
           onClick={() => handleServiceChange("snow")}
