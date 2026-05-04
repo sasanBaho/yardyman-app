@@ -1,5 +1,5 @@
 "use client";
-import React, { useState, useEffect } from "react";
+import React, { useState, useRef } from "react";
 import { ConfirmationResult, UserCredential } from "firebase/auth";
 import ModalBase from "./ModalBase";
 
@@ -24,18 +24,44 @@ const VerifyCodeModal: React.FC<VerifyCodeModalProps> = ({
   isSignup = false,
   onLoginInstead,
 }) => {
-  const [code, setCode] = useState("");
+  const [digits, setDigits] = useState<string[]>(["", "", "", "", "", ""]);
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState("");
-  const [showBanner, setShowBanner] = useState(true);
+  const inputRefs = useRef<(HTMLInputElement | null)[]>([]);
 
-  useEffect(() => {
-    const t = setTimeout(() => setShowBanner(false), 4000);
-    return () => clearTimeout(t);
-  }, []);
+  const code = digits.join("");
+  const isComplete = code.length === 6;
+
+  const handleDigitChange = (idx: number, val: string) => {
+    const cleaned = val.replace(/\D/g, "").slice(-1);
+    const newDigits = [...digits];
+    newDigits[idx] = cleaned;
+    setDigits(newDigits);
+    if (cleaned && idx < 5) {
+      inputRefs.current[idx + 1]?.focus();
+    }
+  };
+
+  const handleKeyDown = (idx: number, e: React.KeyboardEvent<HTMLInputElement>) => {
+    if (e.key === "Backspace" && !digits[idx] && idx > 0) {
+      const newDigits = [...digits];
+      newDigits[idx - 1] = "";
+      setDigits(newDigits);
+      inputRefs.current[idx - 1]?.focus();
+    }
+  };
+
+  const handlePaste = (e: React.ClipboardEvent) => {
+    e.preventDefault();
+    const pasted = e.clipboardData.getData("text").replace(/\D/g, "").slice(0, 6);
+    if (!pasted) return;
+    const newDigits = Array(6).fill("").map((_, i) => pasted[i] ?? "");
+    setDigits(newDigits);
+    inputRefs.current[Math.min(pasted.length, 5)]?.focus();
+  };
 
   const handleVerify = async () => {
-    if (code.length !== 6 || loading) return;
+    if (!isComplete || loading) return;
     setLoading(true);
     setError("");
     try {
@@ -43,194 +69,163 @@ const VerifyCodeModal: React.FC<VerifyCodeModalProps> = ({
       onVerified(credential);
     } catch {
       setError("Invalid code. Please check and try again.");
+      setDigits(["", "", "", "", "", ""]);
+      inputRefs.current[0]?.focus();
     }
     setLoading(false);
   };
 
   return (
-    <ModalBase onClose={onClose}>
-      <div
-        style={{
-          display: "flex",
-          flexDirection: "column",
-          alignItems: "center",
-          paddingTop: 8,
-        }}
-      >
-        {photoPreview && (
+    <ModalBase onClose={onClose} closeButtonColor="#22c55e">
+      <div style={{ display: "flex", flexDirection: "column", alignItems: "center", paddingTop: 4 }}>
+
+        {/* Header */}
+        {photoPreview ? (
           <img
             src={photoPreview}
             alt="Profile"
             style={{
-              width: 90,
-              height: 90,
+              width: 80,
+              height: 80,
               borderRadius: "50%",
               objectFit: "cover",
               border: "3px solid #22c55e",
               marginBottom: 16,
             }}
           />
-        )}
-
-        {/* Message bubble icon */}
-        <div
-          style={{
-            width: 54,
-            height: 54,
+        ) : (
+          <div style={{
+            width: 56,
+            height: 56,
             borderRadius: "50%",
-            background: "#09f",
+            background: "#f0fdf4",
             display: "flex",
             alignItems: "center",
             justifyContent: "center",
             marginBottom: 16,
-          }}
-        >
-          <svg width={28} height={28} viewBox="0 0 24 24" fill="white">
-            <path d="M20 2H4c-1.1 0-2 .9-2 2v18l4-4h14c1.1 0 2-.9 2-2V4c0-1.1-.9-2-2-2z" />
-          </svg>
-        </div>
+          }}>
+            <svg width={26} height={26} viewBox="0 0 24 24" fill="none" stroke="#22c55e" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
+              <path d="M21 15a2 2 0 01-2 2H7l-4 4V5a2 2 0 012-2h14a2 2 0 012 2z" />
+            </svg>
+          </div>
+        )}
 
-        <h2
-          style={{
-            fontSize: 22,
-            fontWeight: 700,
-            marginBottom: 8,
-            textAlign: "center",
-          }}
-        >
-          Enter the verification code
+        <h2 style={{ fontSize: 22, fontWeight: 700, color: "#111827", marginBottom: 6, textAlign: "center" }}>
+          Check your messages
         </h2>
-        <p style={{ color: "#888", fontSize: 15, marginBottom: 4, textAlign: "center" }}>
+        <p style={{ color: "#6b7280", fontSize: 14, textAlign: "center", margin: "0 0 6px" }}>
           We sent a 6-digit code to
         </p>
-        <p style={{ fontWeight: 700, fontSize: 16, marginBottom: 28, textAlign: "center" }}>
-          {phone}
-        </p>
+        <div style={{ display: "flex", alignItems: "center", gap: 8, marginBottom: 28 }}>
+          <span style={{ fontWeight: 700, fontSize: 15, color: "#111827" }}>{phone}</span>
+          <button
+            onClick={onEditPhone}
+            style={{
+              background: "none",
+              border: "none",
+              color: "#22c55e",
+              fontSize: 13,
+              fontWeight: 600,
+              cursor: "pointer",
+              padding: 0,
+              textDecoration: "underline",
+            }}
+          >
+            Edit
+          </button>
+        </div>
 
-        <input
-          type="tel"
-          inputMode="numeric"
-          maxLength={6}
-          value={code}
-          onChange={(e) => setCode(e.target.value.replace(/\D/g, "").slice(0, 6))}
-          placeholder="Enter 6-digit code"
-          style={{
-            width: "100%",
-            padding: "16px",
-            background: "#f0f0f0",
-            border: "none",
-            borderRadius: 12,
-            fontSize: 22,
-            letterSpacing: 8,
-            textAlign: "center",
-            outline: "none",
-            boxSizing: "border-box",
-            marginBottom: 16,
-            fontWeight: 600,
-          }}
-        />
+        {/* 6-box OTP input */}
+        <div
+          style={{ display: "flex", gap: 6, marginBottom: 20, width: "100%" }}
+          onPaste={handlePaste}
+        >
+          {digits.map((d, idx) => (
+            <input
+              key={idx}
+              ref={(el) => { inputRefs.current[idx] = el; }}
+              type="tel"
+              inputMode="numeric"
+              maxLength={1}
+              value={d}
+              onChange={(e) => handleDigitChange(idx, e.target.value)}
+              onKeyDown={(e) => handleKeyDown(idx, e)}
+              style={{
+                flex: 1,
+                minWidth: 0,
+                height: 46,
+                border: `2px solid ${error ? "#fca5a5" : d ? "#22c55e" : "#e5e7eb"}`,
+                borderRadius: 10,
+                fontSize: 18,
+                fontWeight: 700,
+                textAlign: "center",
+                outline: "none",
+                background: error ? "#fff5f5" : d ? "#f0fdf4" : "#f9fafb",
+                color: "#111827",
+                cursor: "text",
+                transition: "border-color 0.15s, background 0.15s",
+              }}
+            />
+          ))}
+        </div>
 
         {error && (
-          <p style={{ color: "#e53e3e", fontSize: 14, marginBottom: 12, textAlign: "center" }}>
-            {error}
-          </p>
+          <div style={{
+            background: "#fef2f2",
+            border: "1px solid #fecaca",
+            borderRadius: 10,
+            padding: "10px 14px",
+            marginBottom: 16,
+            display: "flex",
+            alignItems: "center",
+            gap: 8,
+            width: "100%",
+            boxSizing: "border-box",
+          }}>
+            <svg width={16} height={16} viewBox="0 0 24 24" fill="none" stroke="#ef4444" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" style={{ flexShrink: 0 }}>
+              <circle cx="12" cy="12" r="10" />
+              <line x1="12" y1="8" x2="12" y2="12" />
+              <line x1="12" y1="16" x2="12.01" y2="16" />
+            </svg>
+            <p style={{ color: "#ef4444", fontSize: 13, margin: 0 }}>{error}</p>
+          </div>
         )}
 
         <button
           onClick={handleVerify}
-          disabled={code.length !== 6 || loading}
+          disabled={!isComplete || loading}
           style={{
             width: "100%",
             padding: "16px",
-            background: code.length === 6 && !loading ? "#09f" : "#ddd",
-            color: "#fff",
+            background: isComplete && !loading ? "#22c55e" : "#e5e7eb",
+            color: isComplete && !loading ? "#fff" : "#9ca3af",
             border: "none",
             borderRadius: 14,
-            fontSize: 17,
-            fontWeight: 600,
-            cursor: code.length === 6 && !loading ? "pointer" : "not-allowed",
-            marginBottom: 18,
-          }}
-        >
-          {loading ? "Verifying…" : "Verify"}
-        </button>
-
-        <button
-          onClick={onEditPhone}
-          style={{
-            background: "none",
-            border: "none",
-            color: "#09f",
             fontSize: 16,
-            cursor: "pointer",
-            textDecoration: "underline",
-            marginBottom: 20,
+            fontWeight: 700,
+            cursor: isComplete && !loading ? "pointer" : "not-allowed",
+            marginBottom: 16,
+            transition: "background 0.15s",
           }}
         >
-          Edit phone number
+          {loading ? "Verifying…" : "Verify Code"}
         </button>
-
-        {showBanner && (
-          <div
-            style={{
-              background: "#f0fff4",
-              border: "1px solid #68d391",
-              borderRadius: 10,
-              padding: "12px 16px",
-              display: "flex",
-              alignItems: "center",
-              gap: 10,
-              marginBottom: 20,
-              width: "100%",
-              boxSizing: "border-box",
-            }}
-          >
-            <div
-              style={{
-                width: 22,
-                height: 22,
-                borderRadius: "50%",
-                background: "#22c55e",
-                display: "flex",
-                alignItems: "center",
-                justifyContent: "center",
-                flexShrink: 0,
-              }}
-            >
-              <svg width={12} height={12} viewBox="0 0 20 20" fill="none">
-                <path
-                  d="M5 10.5L9 14.5L15 7.5"
-                  stroke="white"
-                  strokeWidth="2.5"
-                  strokeLinecap="round"
-                  strokeLinejoin="round"
-                />
-              </svg>
-            </div>
-            <span style={{ color: "#276749", fontSize: 14 }}>
-              Verification code sent to {phone}
-            </span>
-          </div>
-        )}
 
         {isSignup && onLoginInstead && (
-          <div style={{ textAlign: "center", marginTop: 4 }}>
-            <p style={{ color: "#888", fontSize: 15, margin: "0 0 4px" }}>
-              Already have an account?
-            </p>
+          <div style={{ textAlign: "center", borderTop: "1px solid #f3f4f6", paddingTop: 16, width: "100%" }}>
+            <p style={{ color: "#6b7280", fontSize: 14, margin: "0 0 8px" }}>Already have an account?</p>
             <button
               onClick={onLoginInstead}
               style={{
                 background: "none",
                 border: "none",
-                color: "#09f",
-                fontSize: 17,
+                color: "#22c55e",
+                fontSize: 15,
                 fontWeight: 700,
                 cursor: "pointer",
-                textDecoration: "underline",
               }}
             >
-              Log in!
+              Sign In
             </button>
           </div>
         )}

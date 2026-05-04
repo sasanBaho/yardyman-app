@@ -3978,6 +3978,7 @@ const LoginModal = ({ onClose, onCodeSent, onCreateAccount, initialPhone = "", i
     return /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$yardyman$2d$app$2f$yardyman$2d$app$2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])(__TURBOPACK__imported__module__$5b$project$5d2f$yardyman$2d$app$2f$yardyman$2d$app$2f$components$2f$auth$2f$ModalBase$2e$tsx__$5b$app$2d$client$5d$__$28$ecmascript$29$__["default"], {
         onClose: onClose,
         slideFrom: slideFrom,
+        closeButtonColor: "#22c55e",
         children: [
             /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$yardyman$2d$app$2f$yardyman$2d$app$2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("div", {
                 id: "recaptcha-login"
@@ -3986,31 +3987,113 @@ const LoginModal = ({ onClose, onCodeSent, onCreateAccount, initialPhone = "", i
                 lineNumber: 56,
                 columnNumber: 7
             }, ("TURBOPACK compile-time value", void 0)),
-            /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$yardyman$2d$app$2f$yardyman$2d$app$2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("h2", {
+            /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$yardyman$2d$app$2f$yardyman$2d$app$2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("div", {
                 style: {
-                    fontSize: 26,
-                    fontWeight: 700,
+                    textAlign: "center",
                     marginBottom: 28,
-                    paddingRight: 40,
-                    marginTop: 4
+                    paddingTop: 4
                 },
-                children: "Sign in to your account!"
-            }, void 0, false, {
+                children: [
+                    /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$yardyman$2d$app$2f$yardyman$2d$app$2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("div", {
+                        style: {
+                            width: 56,
+                            height: 56,
+                            borderRadius: "50%",
+                            background: "#f0fdf4",
+                            display: "flex",
+                            alignItems: "center",
+                            justifyContent: "center",
+                            margin: "0 auto 14px"
+                        },
+                        children: /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$yardyman$2d$app$2f$yardyman$2d$app$2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("svg", {
+                            width: 26,
+                            height: 26,
+                            viewBox: "0 0 24 24",
+                            fill: "none",
+                            stroke: "#22c55e",
+                            strokeWidth: "2",
+                            strokeLinecap: "round",
+                            strokeLinejoin: "round",
+                            children: [
+                                /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$yardyman$2d$app$2f$yardyman$2d$app$2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("path", {
+                                    d: "M15 3h4a2 2 0 012 2v14a2 2 0 01-2 2h-4"
+                                }, void 0, false, {
+                                    fileName: "[project]/yardyman-app/yardyman-app/components/auth/LoginModal.tsx",
+                                    lineNumber: 71,
+                                    columnNumber: 13
+                                }, ("TURBOPACK compile-time value", void 0)),
+                                /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$yardyman$2d$app$2f$yardyman$2d$app$2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("polyline", {
+                                    points: "10 17 15 12 10 7"
+                                }, void 0, false, {
+                                    fileName: "[project]/yardyman-app/yardyman-app/components/auth/LoginModal.tsx",
+                                    lineNumber: 72,
+                                    columnNumber: 13
+                                }, ("TURBOPACK compile-time value", void 0)),
+                                /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$yardyman$2d$app$2f$yardyman$2d$app$2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("line", {
+                                    x1: "15",
+                                    y1: "12",
+                                    x2: "3",
+                                    y2: "12"
+                                }, void 0, false, {
+                                    fileName: "[project]/yardyman-app/yardyman-app/components/auth/LoginModal.tsx",
+                                    lineNumber: 73,
+                                    columnNumber: 13
+                                }, ("TURBOPACK compile-time value", void 0))
+                            ]
+                        }, void 0, true, {
+                            fileName: "[project]/yardyman-app/yardyman-app/components/auth/LoginModal.tsx",
+                            lineNumber: 70,
+                            columnNumber: 11
+                        }, ("TURBOPACK compile-time value", void 0))
+                    }, void 0, false, {
+                        fileName: "[project]/yardyman-app/yardyman-app/components/auth/LoginModal.tsx",
+                        lineNumber: 60,
+                        columnNumber: 9
+                    }, ("TURBOPACK compile-time value", void 0)),
+                    /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$yardyman$2d$app$2f$yardyman$2d$app$2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("h2", {
+                        style: {
+                            fontSize: 22,
+                            fontWeight: 700,
+                            color: "#111827",
+                            margin: "0 0 6px"
+                        },
+                        children: "Welcome Back"
+                    }, void 0, false, {
+                        fileName: "[project]/yardyman-app/yardyman-app/components/auth/LoginModal.tsx",
+                        lineNumber: 76,
+                        columnNumber: 9
+                    }, ("TURBOPACK compile-time value", void 0)),
+                    /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$yardyman$2d$app$2f$yardyman$2d$app$2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("p", {
+                        style: {
+                            fontSize: 14,
+                            color: "#6b7280",
+                            margin: 0
+                        },
+                        children: "Sign in to manage your services"
+                    }, void 0, false, {
+                        fileName: "[project]/yardyman-app/yardyman-app/components/auth/LoginModal.tsx",
+                        lineNumber: 79,
+                        columnNumber: 9
+                    }, ("TURBOPACK compile-time value", void 0))
+                ]
+            }, void 0, true, {
                 fileName: "[project]/yardyman-app/yardyman-app/components/auth/LoginModal.tsx",
-                lineNumber: 58,
+                lineNumber: 59,
                 columnNumber: 7
             }, ("TURBOPACK compile-time value", void 0)),
             /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$yardyman$2d$app$2f$yardyman$2d$app$2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("label", {
                 style: {
-                    fontWeight: 700,
-                    fontSize: 16,
+                    fontWeight: 600,
+                    fontSize: 13,
+                    color: "#374151",
                     display: "block",
-                    marginBottom: 10
+                    marginBottom: 6,
+                    letterSpacing: "0.02em"
                 },
                 children: "Phone Number"
             }, void 0, false, {
                 fileName: "[project]/yardyman-app/yardyman-app/components/auth/LoginModal.tsx",
-                lineNumber: 62,
+                lineNumber: 84,
                 columnNumber: 7
             }, ("TURBOPACK compile-time value", void 0)),
             /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$yardyman$2d$app$2f$yardyman$2d$app$2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])(__TURBOPACK__imported__module__$5b$project$5d2f$yardyman$2d$app$2f$yardyman$2d$app$2f$components$2f$auth$2f$PhoneInput$2e$tsx__$5b$app$2d$client$5d$__$28$ecmascript$29$__["default"], {
@@ -4020,31 +4103,97 @@ const LoginModal = ({ onClose, onCodeSent, onCreateAccount, initialPhone = "", i
                 onCountryCodeChange: setCountryCode
             }, void 0, false, {
                 fileName: "[project]/yardyman-app/yardyman-app/components/auth/LoginModal.tsx",
-                lineNumber: 65,
+                lineNumber: 87,
                 columnNumber: 7
             }, ("TURBOPACK compile-time value", void 0)),
             /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$yardyman$2d$app$2f$yardyman$2d$app$2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("p", {
                 style: {
-                    color: "#888",
-                    fontSize: 14,
-                    margin: "8px 0 28px"
+                    color: "#9ca3af",
+                    fontSize: 13,
+                    margin: "6px 0 28px"
                 },
-                children: "We'll send you a verification code via SMS."
+                children: "A verification code will be sent via SMS."
             }, void 0, false, {
                 fileName: "[project]/yardyman-app/yardyman-app/components/auth/LoginModal.tsx",
-                lineNumber: 71,
+                lineNumber: 93,
                 columnNumber: 7
             }, ("TURBOPACK compile-time value", void 0)),
-            error && /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$yardyman$2d$app$2f$yardyman$2d$app$2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("p", {
+            error && /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$yardyman$2d$app$2f$yardyman$2d$app$2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("div", {
                 style: {
-                    color: "#e53e3e",
-                    fontSize: 14,
-                    marginBottom: 12
+                    background: "#fef2f2",
+                    border: "1px solid #fecaca",
+                    borderRadius: 10,
+                    padding: "10px 14px",
+                    marginBottom: 16,
+                    display: "flex",
+                    alignItems: "center",
+                    gap: 8
                 },
-                children: error
-            }, void 0, false, {
+                children: [
+                    /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$yardyman$2d$app$2f$yardyman$2d$app$2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("svg", {
+                        width: 16,
+                        height: 16,
+                        viewBox: "0 0 24 24",
+                        fill: "none",
+                        stroke: "#ef4444",
+                        strokeWidth: "2",
+                        strokeLinecap: "round",
+                        strokeLinejoin: "round",
+                        style: {
+                            flexShrink: 0
+                        },
+                        children: [
+                            /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$yardyman$2d$app$2f$yardyman$2d$app$2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("circle", {
+                                cx: "12",
+                                cy: "12",
+                                r: "10"
+                            }, void 0, false, {
+                                fileName: "[project]/yardyman-app/yardyman-app/components/auth/LoginModal.tsx",
+                                lineNumber: 109,
+                                columnNumber: 13
+                            }, ("TURBOPACK compile-time value", void 0)),
+                            /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$yardyman$2d$app$2f$yardyman$2d$app$2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("line", {
+                                x1: "12",
+                                y1: "8",
+                                x2: "12",
+                                y2: "12"
+                            }, void 0, false, {
+                                fileName: "[project]/yardyman-app/yardyman-app/components/auth/LoginModal.tsx",
+                                lineNumber: 110,
+                                columnNumber: 13
+                            }, ("TURBOPACK compile-time value", void 0)),
+                            /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$yardyman$2d$app$2f$yardyman$2d$app$2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("line", {
+                                x1: "12",
+                                y1: "16",
+                                x2: "12.01",
+                                y2: "16"
+                            }, void 0, false, {
+                                fileName: "[project]/yardyman-app/yardyman-app/components/auth/LoginModal.tsx",
+                                lineNumber: 111,
+                                columnNumber: 13
+                            }, ("TURBOPACK compile-time value", void 0))
+                        ]
+                    }, void 0, true, {
+                        fileName: "[project]/yardyman-app/yardyman-app/components/auth/LoginModal.tsx",
+                        lineNumber: 108,
+                        columnNumber: 11
+                    }, ("TURBOPACK compile-time value", void 0)),
+                    /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$yardyman$2d$app$2f$yardyman$2d$app$2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("p", {
+                        style: {
+                            color: "#ef4444",
+                            fontSize: 13,
+                            margin: 0
+                        },
+                        children: error
+                    }, void 0, false, {
+                        fileName: "[project]/yardyman-app/yardyman-app/components/auth/LoginModal.tsx",
+                        lineNumber: 113,
+                        columnNumber: 11
+                    }, ("TURBOPACK compile-time value", void 0))
+                ]
+            }, void 0, true, {
                 fileName: "[project]/yardyman-app/yardyman-app/components/auth/LoginModal.tsx",
-                lineNumber: 76,
+                lineNumber: 98,
                 columnNumber: 9
             }, ("TURBOPACK compile-time value", void 0)),
             /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$yardyman$2d$app$2f$yardyman$2d$app$2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("button", {
@@ -4053,40 +4202,43 @@ const LoginModal = ({ onClose, onCodeSent, onCreateAccount, initialPhone = "", i
                 style: {
                     width: "100%",
                     padding: "16px",
-                    background: isValid && !loading ? "#09f" : "#ddd",
-                    color: "#fff",
+                    background: isValid && !loading ? "#22c55e" : "#e5e7eb",
+                    color: isValid && !loading ? "#fff" : "#9ca3af",
                     border: "none",
                     borderRadius: 14,
-                    fontSize: 17,
-                    fontWeight: 600,
+                    fontSize: 16,
+                    fontWeight: 700,
                     cursor: isValid && !loading ? "pointer" : "not-allowed",
-                    marginBottom: 14
+                    marginBottom: 12,
+                    transition: "background 0.15s"
                 },
-                children: loading ? "Sending…" : "Send Code"
+                children: loading ? "Sending…" : "Send Verification Code"
             }, void 0, false, {
                 fileName: "[project]/yardyman-app/yardyman-app/components/auth/LoginModal.tsx",
-                lineNumber: 79,
+                lineNumber: 117,
                 columnNumber: 7
             }, ("TURBOPACK compile-time value", void 0)),
             /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$yardyman$2d$app$2f$yardyman$2d$app$2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("p", {
                 style: {
                     textAlign: "center",
-                    color: "#888",
-                    fontSize: 13,
-                    marginBottom: 24
+                    color: "#9ca3af",
+                    fontSize: 12,
+                    marginBottom: 20,
+                    lineHeight: 1.6
                 },
                 children: [
-                    "By tapping Send Code, you agree to our",
+                    "By continuing, you agree to our",
                     " ",
                     /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$yardyman$2d$app$2f$yardyman$2d$app$2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("span", {
                         style: {
                             textDecoration: "underline",
-                            cursor: "pointer"
+                            cursor: "pointer",
+                            color: "#6b7280"
                         },
                         children: "Terms of Use"
                     }, void 0, false, {
                         fileName: "[project]/yardyman-app/yardyman-app/components/auth/LoginModal.tsx",
-                        lineNumber: 100,
+                        lineNumber: 139,
                         columnNumber: 9
                     }, ("TURBOPACK compile-time value", void 0)),
                     " ",
@@ -4095,35 +4247,38 @@ const LoginModal = ({ onClose, onCodeSent, onCreateAccount, initialPhone = "", i
                     /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$yardyman$2d$app$2f$yardyman$2d$app$2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("span", {
                         style: {
                             textDecoration: "underline",
-                            cursor: "pointer"
+                            cursor: "pointer",
+                            color: "#6b7280"
                         },
                         children: "Privacy Policy"
                     }, void 0, false, {
                         fileName: "[project]/yardyman-app/yardyman-app/components/auth/LoginModal.tsx",
-                        lineNumber: 102,
+                        lineNumber: 141,
                         columnNumber: 9
                     }, ("TURBOPACK compile-time value", void 0))
                 ]
             }, void 0, true, {
                 fileName: "[project]/yardyman-app/yardyman-app/components/auth/LoginModal.tsx",
-                lineNumber: 98,
+                lineNumber: 137,
                 columnNumber: 7
             }, ("TURBOPACK compile-time value", void 0)),
             /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$yardyman$2d$app$2f$yardyman$2d$app$2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("div", {
                 style: {
-                    textAlign: "center"
+                    textAlign: "center",
+                    borderTop: "1px solid #f3f4f6",
+                    paddingTop: 16
                 },
                 children: [
                     /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$yardyman$2d$app$2f$yardyman$2d$app$2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("p", {
                         style: {
-                            color: "#888",
-                            fontSize: 15,
-                            margin: "0 0 4px"
+                            color: "#6b7280",
+                            fontSize: 14,
+                            margin: "0 0 8px"
                         },
-                        children: "Don't have an account?"
+                        children: "New to Yardyman?"
                     }, void 0, false, {
                         fileName: "[project]/yardyman-app/yardyman-app/components/auth/LoginModal.tsx",
-                        lineNumber: 106,
+                        lineNumber: 145,
                         columnNumber: 9
                     }, ("TURBOPACK compile-time value", void 0)),
                     /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$yardyman$2d$app$2f$yardyman$2d$app$2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("button", {
@@ -4131,22 +4286,21 @@ const LoginModal = ({ onClose, onCodeSent, onCreateAccount, initialPhone = "", i
                         style: {
                             background: "none",
                             border: "none",
-                            color: "#09f",
-                            fontSize: 17,
+                            color: "#22c55e",
+                            fontSize: 15,
                             fontWeight: 700,
-                            cursor: "pointer",
-                            textDecoration: "underline"
+                            cursor: "pointer"
                         },
-                        children: "Create account!"
+                        children: "Create Provider Account"
                     }, void 0, false, {
                         fileName: "[project]/yardyman-app/yardyman-app/components/auth/LoginModal.tsx",
-                        lineNumber: 107,
+                        lineNumber: 146,
                         columnNumber: 9
                     }, ("TURBOPACK compile-time value", void 0))
                 ]
             }, void 0, true, {
                 fileName: "[project]/yardyman-app/yardyman-app/components/auth/LoginModal.tsx",
-                lineNumber: 105,
+                lineNumber: 144,
                 columnNumber: 7
             }, ("TURBOPACK compile-time value", void 0))
         ]
@@ -4511,6 +4665,7 @@ const CreateAccountModal = ({ onClose, onCodeSent, onLogin, onPhoneAlreadyRegist
     const [cropSrc, setCropSrc] = (0, __TURBOPACK__imported__module__$5b$project$5d2f$yardyman$2d$app$2f$yardyman$2d$app$2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$index$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["useState"])(null);
     const [loading, setLoading] = (0, __TURBOPACK__imported__module__$5b$project$5d2f$yardyman$2d$app$2f$yardyman$2d$app$2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$index$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["useState"])(false);
     const [error, setError] = (0, __TURBOPACK__imported__module__$5b$project$5d2f$yardyman$2d$app$2f$yardyman$2d$app$2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$index$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["useState"])("");
+    const [focusedField, setFocusedField] = (0, __TURBOPACK__imported__module__$5b$project$5d2f$yardyman$2d$app$2f$yardyman$2d$app$2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$index$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["useState"])(null);
     const fileInputRef = (0, __TURBOPACK__imported__module__$5b$project$5d2f$yardyman$2d$app$2f$yardyman$2d$app$2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$index$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["useRef"])(null);
     const cameraInputRef = (0, __TURBOPACK__imported__module__$5b$project$5d2f$yardyman$2d$app$2f$yardyman$2d$app$2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$index$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["useRef"])(null);
     const recaptchaRef = (0, __TURBOPACK__imported__module__$5b$project$5d2f$yardyman$2d$app$2f$yardyman$2d$app$2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$index$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["useRef"])(null);
@@ -4518,6 +4673,18 @@ const CreateAccountModal = ({ onClose, onCodeSent, onLogin, onPhoneAlreadyRegist
     const digits = phone.replace(/\D/g, "");
     const fullPhone = countryCode + digits;
     const isValid = name.trim().length > 0 && digits.length >= 10 && email.trim().length > 0;
+    const fieldStyle = (fieldName)=>({
+            width: "100%",
+            padding: "14px 16px",
+            background: "#f9fafb",
+            border: `1.5px solid ${focusedField === fieldName ? "#22c55e" : "#e5e7eb"}`,
+            borderRadius: 12,
+            fontSize: 15,
+            outline: "none",
+            boxSizing: "border-box",
+            color: "#111827",
+            transition: "border-color 0.15s"
+        });
     const handlePhotoSelected = (file)=>{
         setShowImagePicker(false);
         const reader = new FileReader();
@@ -4575,18 +4742,19 @@ const CreateAccountModal = ({ onClose, onCodeSent, onLogin, onPhoneAlreadyRegist
                 onCancel: ()=>setCropSrc(null)
             }, void 0, false, {
                 fileName: "[project]/yardyman-app/yardyman-app/components/auth/CreateAccountModal.tsx",
-                lineNumber: 101,
+                lineNumber: 114,
                 columnNumber: 9
             }, ("TURBOPACK compile-time value", void 0)),
             /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$yardyman$2d$app$2f$yardyman$2d$app$2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])(__TURBOPACK__imported__module__$5b$project$5d2f$yardyman$2d$app$2f$yardyman$2d$app$2f$components$2f$auth$2f$ModalBase$2e$tsx__$5b$app$2d$client$5d$__$28$ecmascript$29$__["default"], {
                 onClose: onClose,
+                closeButtonColor: "#22c55e",
                 children: [
                     /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$yardyman$2d$app$2f$yardyman$2d$app$2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("div", {
                         id: "recaptcha-create"
                     }, void 0, false, {
                         fileName: "[project]/yardyman-app/yardyman-app/components/auth/CreateAccountModal.tsx",
-                        lineNumber: 108,
-                        columnNumber: 7
+                        lineNumber: 121,
+                        columnNumber: 9
                     }, ("TURBOPACK compile-time value", void 0)),
                     /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$yardyman$2d$app$2f$yardyman$2d$app$2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("input", {
                         ref: fileInputRef,
@@ -4599,8 +4767,8 @@ const CreateAccountModal = ({ onClose, onCodeSent, onLogin, onPhoneAlreadyRegist
                         onChange: (e)=>e.target.files?.[0] && handlePhotoSelected(e.target.files[0])
                     }, void 0, false, {
                         fileName: "[project]/yardyman-app/yardyman-app/components/auth/CreateAccountModal.tsx",
-                        lineNumber: 111,
-                        columnNumber: 7
+                        lineNumber: 123,
+                        columnNumber: 9
                     }, ("TURBOPACK compile-time value", void 0)),
                     /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$yardyman$2d$app$2f$yardyman$2d$app$2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("input", {
                         ref: cameraInputRef,
@@ -4613,8 +4781,8 @@ const CreateAccountModal = ({ onClose, onCodeSent, onLogin, onPhoneAlreadyRegist
                         onChange: (e)=>e.target.files?.[0] && handlePhotoSelected(e.target.files[0])
                     }, void 0, false, {
                         fileName: "[project]/yardyman-app/yardyman-app/components/auth/CreateAccountModal.tsx",
-                        lineNumber: 119,
-                        columnNumber: 7
+                        lineNumber: 131,
+                        columnNumber: 9
                     }, ("TURBOPACK compile-time value", void 0)),
                     showImagePicker && /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$yardyman$2d$app$2f$yardyman$2d$app$2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("div", {
                         style: {
@@ -4645,15 +4813,16 @@ const CreateAccountModal = ({ onClose, onCodeSent, onLogin, onPhoneAlreadyRegist
                                             style: {
                                                 padding: "12px 16px",
                                                 textAlign: "center",
-                                                color: "#888",
-                                                fontSize: 14,
-                                                borderBottom: "1px solid #e5e5ea"
+                                                color: "#6b7280",
+                                                fontSize: 13,
+                                                fontWeight: 600,
+                                                borderBottom: "1px solid #f3f4f6"
                                             },
                                             children: "Select Photo"
                                         }, void 0, false, {
                                             fileName: "[project]/yardyman-app/yardyman-app/components/auth/CreateAccountModal.tsx",
-                                            lineNumber: 153,
-                                            columnNumber: 15
+                                            lineNumber: 157,
+                                            columnNumber: 17
                                         }, ("TURBOPACK compile-time value", void 0)),
                                         isMobile && /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$yardyman$2d$app$2f$yardyman$2d$app$2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("button", {
                                             onClick: ()=>cameraInputRef.current?.click(),
@@ -4662,16 +4831,16 @@ const CreateAccountModal = ({ onClose, onCodeSent, onLogin, onPhoneAlreadyRegist
                                                 padding: "18px",
                                                 background: "#fff",
                                                 border: "none",
-                                                borderBottom: "1px solid #e5e5ea",
-                                                color: "#007aff",
+                                                borderBottom: "1px solid #f3f4f6",
+                                                color: "#22c55e",
                                                 fontSize: 17,
                                                 cursor: "pointer"
                                             },
                                             children: "Camera"
                                         }, void 0, false, {
                                             fileName: "[project]/yardyman-app/yardyman-app/components/auth/CreateAccountModal.tsx",
-                                            lineNumber: 165,
-                                            columnNumber: 17
+                                            lineNumber: 168,
+                                            columnNumber: 19
                                         }, ("TURBOPACK compile-time value", void 0)),
                                         /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$yardyman$2d$app$2f$yardyman$2d$app$2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("button", {
                                             onClick: ()=>fileInputRef.current?.click(),
@@ -4680,21 +4849,21 @@ const CreateAccountModal = ({ onClose, onCodeSent, onLogin, onPhoneAlreadyRegist
                                                 padding: "18px",
                                                 background: "#fff",
                                                 border: "none",
-                                                color: "#007aff",
+                                                color: "#22c55e",
                                                 fontSize: 17,
                                                 cursor: "pointer"
                                             },
                                             children: "Photo Library"
                                         }, void 0, false, {
                                             fileName: "[project]/yardyman-app/yardyman-app/components/auth/CreateAccountModal.tsx",
-                                            lineNumber: 181,
-                                            columnNumber: 15
+                                            lineNumber: 184,
+                                            columnNumber: 17
                                         }, ("TURBOPACK compile-time value", void 0))
                                     ]
                                 }, void 0, true, {
                                     fileName: "[project]/yardyman-app/yardyman-app/components/auth/CreateAccountModal.tsx",
-                                    lineNumber: 145,
-                                    columnNumber: 13
+                                    lineNumber: 156,
+                                    columnNumber: 15
                                 }, ("TURBOPACK compile-time value", void 0)),
                                 /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$yardyman$2d$app$2f$yardyman$2d$app$2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("button", {
                                     onClick: ()=>setShowImagePicker(false),
@@ -4704,7 +4873,7 @@ const CreateAccountModal = ({ onClose, onCodeSent, onLogin, onPhoneAlreadyRegist
                                         background: "#fff",
                                         border: "none",
                                         borderRadius: 14,
-                                        color: "#007aff",
+                                        color: "#374151",
                                         fontSize: 17,
                                         fontWeight: 700,
                                         cursor: "pointer"
@@ -4712,61 +4881,142 @@ const CreateAccountModal = ({ onClose, onCodeSent, onLogin, onPhoneAlreadyRegist
                                     children: "Cancel"
                                 }, void 0, false, {
                                     fileName: "[project]/yardyman-app/yardyman-app/components/auth/CreateAccountModal.tsx",
-                                    lineNumber: 196,
-                                    columnNumber: 13
+                                    lineNumber: 199,
+                                    columnNumber: 15
                                 }, ("TURBOPACK compile-time value", void 0))
                             ]
                         }, void 0, true, {
                             fileName: "[project]/yardyman-app/yardyman-app/components/auth/CreateAccountModal.tsx",
-                            lineNumber: 141,
-                            columnNumber: 11
+                            lineNumber: 152,
+                            columnNumber: 13
                         }, ("TURBOPACK compile-time value", void 0))
                     }, void 0, false, {
                         fileName: "[project]/yardyman-app/yardyman-app/components/auth/CreateAccountModal.tsx",
-                        lineNumber: 130,
+                        lineNumber: 141,
+                        columnNumber: 11
+                    }, ("TURBOPACK compile-time value", void 0)),
+                    /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$yardyman$2d$app$2f$yardyman$2d$app$2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("div", {
+                        style: {
+                            textAlign: "center",
+                            marginBottom: 24,
+                            paddingTop: 4
+                        },
+                        children: [
+                            /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$yardyman$2d$app$2f$yardyman$2d$app$2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("div", {
+                                style: {
+                                    width: 56,
+                                    height: 56,
+                                    borderRadius: "50%",
+                                    background: "#f0fdf4",
+                                    display: "flex",
+                                    alignItems: "center",
+                                    justifyContent: "center",
+                                    margin: "0 auto 14px"
+                                },
+                                children: /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$yardyman$2d$app$2f$yardyman$2d$app$2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("svg", {
+                                    width: 28,
+                                    height: 28,
+                                    viewBox: "0 0 24 24",
+                                    fill: "none",
+                                    stroke: "#22c55e",
+                                    strokeWidth: "2",
+                                    strokeLinecap: "round",
+                                    strokeLinejoin: "round",
+                                    children: [
+                                        /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$yardyman$2d$app$2f$yardyman$2d$app$2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("path", {
+                                            d: "M16 21v-2a4 4 0 00-4-4H6a4 4 0 00-4 4v2"
+                                        }, void 0, false, {
+                                            fileName: "[project]/yardyman-app/yardyman-app/components/auth/CreateAccountModal.tsx",
+                                            lineNumber: 232,
+                                            columnNumber: 15
+                                        }, ("TURBOPACK compile-time value", void 0)),
+                                        /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$yardyman$2d$app$2f$yardyman$2d$app$2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("circle", {
+                                            cx: "9",
+                                            cy: "7",
+                                            r: "4"
+                                        }, void 0, false, {
+                                            fileName: "[project]/yardyman-app/yardyman-app/components/auth/CreateAccountModal.tsx",
+                                            lineNumber: 233,
+                                            columnNumber: 15
+                                        }, ("TURBOPACK compile-time value", void 0)),
+                                        /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$yardyman$2d$app$2f$yardyman$2d$app$2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("line", {
+                                            x1: "19",
+                                            y1: "8",
+                                            x2: "19",
+                                            y2: "14"
+                                        }, void 0, false, {
+                                            fileName: "[project]/yardyman-app/yardyman-app/components/auth/CreateAccountModal.tsx",
+                                            lineNumber: 234,
+                                            columnNumber: 15
+                                        }, ("TURBOPACK compile-time value", void 0)),
+                                        /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$yardyman$2d$app$2f$yardyman$2d$app$2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("line", {
+                                            x1: "22",
+                                            y1: "11",
+                                            x2: "16",
+                                            y2: "11"
+                                        }, void 0, false, {
+                                            fileName: "[project]/yardyman-app/yardyman-app/components/auth/CreateAccountModal.tsx",
+                                            lineNumber: 235,
+                                            columnNumber: 15
+                                        }, ("TURBOPACK compile-time value", void 0))
+                                    ]
+                                }, void 0, true, {
+                                    fileName: "[project]/yardyman-app/yardyman-app/components/auth/CreateAccountModal.tsx",
+                                    lineNumber: 231,
+                                    columnNumber: 13
+                                }, ("TURBOPACK compile-time value", void 0))
+                            }, void 0, false, {
+                                fileName: "[project]/yardyman-app/yardyman-app/components/auth/CreateAccountModal.tsx",
+                                lineNumber: 221,
+                                columnNumber: 11
+                            }, ("TURBOPACK compile-time value", void 0)),
+                            /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$yardyman$2d$app$2f$yardyman$2d$app$2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("h2", {
+                                style: {
+                                    fontSize: 22,
+                                    fontWeight: 700,
+                                    color: "#111827",
+                                    margin: "0 0 6px"
+                                },
+                                children: "Become a Provider"
+                            }, void 0, false, {
+                                fileName: "[project]/yardyman-app/yardyman-app/components/auth/CreateAccountModal.tsx",
+                                lineNumber: 238,
+                                columnNumber: 11
+                            }, ("TURBOPACK compile-time value", void 0)),
+                            /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$yardyman$2d$app$2f$yardyman$2d$app$2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("p", {
+                                style: {
+                                    fontSize: 14,
+                                    color: "#6b7280",
+                                    margin: 0
+                                },
+                                children: "Join Yardyman and start getting clients"
+                            }, void 0, false, {
+                                fileName: "[project]/yardyman-app/yardyman-app/components/auth/CreateAccountModal.tsx",
+                                lineNumber: 241,
+                                columnNumber: 11
+                            }, ("TURBOPACK compile-time value", void 0))
+                        ]
+                    }, void 0, true, {
+                        fileName: "[project]/yardyman-app/yardyman-app/components/auth/CreateAccountModal.tsx",
+                        lineNumber: 220,
                         columnNumber: 9
-                    }, ("TURBOPACK compile-time value", void 0)),
-                    /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$yardyman$2d$app$2f$yardyman$2d$app$2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("h2", {
-                        style: {
-                            fontSize: 20,
-                            fontWeight: 700,
-                            marginBottom: 4,
-                            paddingRight: 40,
-                            marginTop: 4
-                        },
-                        children: "Create Service Provider Account!"
-                    }, void 0, false, {
-                        fileName: "[project]/yardyman-app/yardyman-app/components/auth/CreateAccountModal.tsx",
-                        lineNumber: 216,
-                        columnNumber: 7
-                    }, ("TURBOPACK compile-time value", void 0)),
-                    /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$yardyman$2d$app$2f$yardyman$2d$app$2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("p", {
-                        style: {
-                            color: "#e53e3e",
-                            fontSize: 14,
-                            marginBottom: 5
-                        },
-                        children: "* All the fields are required."
-                    }, void 0, false, {
-                        fileName: "[project]/yardyman-app/yardyman-app/components/auth/CreateAccountModal.tsx",
-                        lineNumber: 219,
-                        columnNumber: 7
                     }, ("TURBOPACK compile-time value", void 0)),
                     /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$yardyman$2d$app$2f$yardyman$2d$app$2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("div", {
                         style: {
                             display: "flex",
                             justifyContent: "center",
-                            marginBottom: 5
+                            marginBottom: 24
                         },
                         children: /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$yardyman$2d$app$2f$yardyman$2d$app$2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("button", {
                             type: "button",
                             onClick: ()=>setShowImagePicker(true),
                             style: {
+                                position: "relative",
                                 width: 100,
                                 height: 100,
                                 borderRadius: "50%",
-                                background: "#e8e8e8",
-                                border: photoPreview ? "3px solid #22c55e" : "none",
+                                background: photoPreview ? "transparent" : "#f0fdf4",
+                                border: photoPreview ? "3px solid #22c55e" : "2px dashed #86efac",
                                 cursor: "pointer",
                                 display: "flex",
                                 flexDirection: "column",
@@ -4775,124 +5025,173 @@ const CreateAccountModal = ({ onClose, onCodeSent, onLogin, onPhoneAlreadyRegist
                                 overflow: "hidden",
                                 padding: 0
                             },
-                            children: photoPreview ? /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$yardyman$2d$app$2f$yardyman$2d$app$2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("img", {
-                                src: photoPreview,
-                                alt: "Profile preview",
-                                style: {
-                                    width: "100%",
-                                    height: "100%",
-                                    objectFit: "cover"
-                                }
-                            }, void 0, false, {
-                                fileName: "[project]/yardyman-app/yardyman-app/components/auth/CreateAccountModal.tsx",
-                                lineNumber: 244,
-                                columnNumber: 13
-                            }, ("TURBOPACK compile-time value", void 0)) : /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$yardyman$2d$app$2f$yardyman$2d$app$2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])(__TURBOPACK__imported__module__$5b$project$5d2f$yardyman$2d$app$2f$yardyman$2d$app$2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["Fragment"], {
+                            children: photoPreview ? /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$yardyman$2d$app$2f$yardyman$2d$app$2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])(__TURBOPACK__imported__module__$5b$project$5d2f$yardyman$2d$app$2f$yardyman$2d$app$2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["Fragment"], {
+                                children: [
+                                    /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$yardyman$2d$app$2f$yardyman$2d$app$2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("img", {
+                                        src: photoPreview,
+                                        alt: "Profile preview",
+                                        style: {
+                                            width: "100%",
+                                            height: "100%",
+                                            objectFit: "cover"
+                                        }
+                                    }, void 0, false, {
+                                        fileName: "[project]/yardyman-app/yardyman-app/components/auth/CreateAccountModal.tsx",
+                                        lineNumber: 269,
+                                        columnNumber: 17
+                                    }, ("TURBOPACK compile-time value", void 0)),
+                                    /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$yardyman$2d$app$2f$yardyman$2d$app$2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("div", {
+                                        style: {
+                                            position: "absolute",
+                                            bottom: 0,
+                                            left: 0,
+                                            right: 0,
+                                            height: 30,
+                                            background: "rgba(0,0,0,0.42)",
+                                            display: "flex",
+                                            alignItems: "center",
+                                            justifyContent: "center"
+                                        },
+                                        children: /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$yardyman$2d$app$2f$yardyman$2d$app$2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("svg", {
+                                            width: 13,
+                                            height: 13,
+                                            viewBox: "0 0 24 24",
+                                            fill: "none",
+                                            stroke: "white",
+                                            strokeWidth: "2.5",
+                                            strokeLinecap: "round",
+                                            strokeLinejoin: "round",
+                                            children: [
+                                                /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$yardyman$2d$app$2f$yardyman$2d$app$2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("path", {
+                                                    d: "M11 4H4a2 2 0 00-2 2v14a2 2 0 002 2h14a2 2 0 002-2v-7"
+                                                }, void 0, false, {
+                                                    fileName: "[project]/yardyman-app/yardyman-app/components/auth/CreateAccountModal.tsx",
+                                                    lineNumber: 286,
+                                                    columnNumber: 21
+                                                }, ("TURBOPACK compile-time value", void 0)),
+                                                /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$yardyman$2d$app$2f$yardyman$2d$app$2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("path", {
+                                                    d: "M18.5 2.5a2.121 2.121 0 013 3L12 15l-4 1 1-4 9.5-9.5z"
+                                                }, void 0, false, {
+                                                    fileName: "[project]/yardyman-app/yardyman-app/components/auth/CreateAccountModal.tsx",
+                                                    lineNumber: 287,
+                                                    columnNumber: 21
+                                                }, ("TURBOPACK compile-time value", void 0))
+                                            ]
+                                        }, void 0, true, {
+                                            fileName: "[project]/yardyman-app/yardyman-app/components/auth/CreateAccountModal.tsx",
+                                            lineNumber: 285,
+                                            columnNumber: 19
+                                        }, ("TURBOPACK compile-time value", void 0))
+                                    }, void 0, false, {
+                                        fileName: "[project]/yardyman-app/yardyman-app/components/auth/CreateAccountModal.tsx",
+                                        lineNumber: 274,
+                                        columnNumber: 17
+                                    }, ("TURBOPACK compile-time value", void 0))
+                                ]
+                            }, void 0, true) : /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$yardyman$2d$app$2f$yardyman$2d$app$2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])(__TURBOPACK__imported__module__$5b$project$5d2f$yardyman$2d$app$2f$yardyman$2d$app$2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["Fragment"], {
                                 children: [
                                     /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$yardyman$2d$app$2f$yardyman$2d$app$2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("svg", {
-                                        width: 32,
-                                        height: 32,
+                                        width: 26,
+                                        height: 26,
                                         viewBox: "0 0 24 24",
                                         fill: "none",
+                                        stroke: "#22c55e",
+                                        strokeWidth: "2",
+                                        strokeLinecap: "round",
+                                        strokeLinejoin: "round",
                                         children: [
                                             /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$yardyman$2d$app$2f$yardyman$2d$app$2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("path", {
-                                                d: "M23 19a2 2 0 01-2 2H3a2 2 0 01-2-2V8a2 2 0 012-2h4l2-3h6l2 3h4a2 2 0 012 2z",
-                                                stroke: "#09f",
-                                                strokeWidth: "2",
-                                                strokeLinecap: "round",
-                                                strokeLinejoin: "round"
+                                                d: "M23 19a2 2 0 01-2 2H3a2 2 0 01-2-2V8a2 2 0 012-2h4l2-3h6l2 3h4a2 2 0 012 2z"
                                             }, void 0, false, {
                                                 fileName: "[project]/yardyman-app/yardyman-app/components/auth/CreateAccountModal.tsx",
-                                                lineNumber: 252,
-                                                columnNumber: 17
+                                                lineNumber: 294,
+                                                columnNumber: 19
                                             }, ("TURBOPACK compile-time value", void 0)),
                                             /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$yardyman$2d$app$2f$yardyman$2d$app$2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("circle", {
                                                 cx: "12",
                                                 cy: "13",
-                                                r: "4",
-                                                stroke: "#09f",
-                                                strokeWidth: "2"
+                                                r: "4"
                                             }, void 0, false, {
                                                 fileName: "[project]/yardyman-app/yardyman-app/components/auth/CreateAccountModal.tsx",
-                                                lineNumber: 259,
-                                                columnNumber: 17
+                                                lineNumber: 295,
+                                                columnNumber: 19
                                             }, ("TURBOPACK compile-time value", void 0))
                                         ]
                                     }, void 0, true, {
                                         fileName: "[project]/yardyman-app/yardyman-app/components/auth/CreateAccountModal.tsx",
-                                        lineNumber: 251,
-                                        columnNumber: 15
+                                        lineNumber: 293,
+                                        columnNumber: 17
                                     }, ("TURBOPACK compile-time value", void 0)),
                                     /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$yardyman$2d$app$2f$yardyman$2d$app$2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("span", {
                                         style: {
-                                            color: "#09f",
-                                            fontSize: 14,
-                                            marginTop: 5
+                                            color: "#22c55e",
+                                            fontSize: 11,
+                                            marginTop: 6,
+                                            fontWeight: 600
                                         },
                                         children: "Add Photo"
                                     }, void 0, false, {
                                         fileName: "[project]/yardyman-app/yardyman-app/components/auth/CreateAccountModal.tsx",
-                                        lineNumber: 261,
-                                        columnNumber: 15
+                                        lineNumber: 297,
+                                        columnNumber: 17
                                     }, ("TURBOPACK compile-time value", void 0))
                                 ]
                             }, void 0, true)
                         }, void 0, false, {
                             fileName: "[project]/yardyman-app/yardyman-app/components/auth/CreateAccountModal.tsx",
-                            lineNumber: 225,
-                            columnNumber: 9
+                            lineNumber: 248,
+                            columnNumber: 11
                         }, ("TURBOPACK compile-time value", void 0))
                     }, void 0, false, {
                         fileName: "[project]/yardyman-app/yardyman-app/components/auth/CreateAccountModal.tsx",
-                        lineNumber: 224,
-                        columnNumber: 7
+                        lineNumber: 247,
+                        columnNumber: 9
                     }, ("TURBOPACK compile-time value", void 0)),
                     /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$yardyman$2d$app$2f$yardyman$2d$app$2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("label", {
                         style: {
-                            fontWeight: 700,
-                            fontSize: 14,
+                            fontWeight: 600,
+                            fontSize: 13,
+                            color: "#374151",
                             display: "block",
-                            marginBottom: 8
+                            marginBottom: 6,
+                            letterSpacing: "0.02em"
                         },
                         children: "Full Name"
                     }, void 0, false, {
                         fileName: "[project]/yardyman-app/yardyman-app/components/auth/CreateAccountModal.tsx",
-                        lineNumber: 268,
-                        columnNumber: 7
+                        lineNumber: 304,
+                        columnNumber: 9
                     }, ("TURBOPACK compile-time value", void 0)),
                     /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$yardyman$2d$app$2f$yardyman$2d$app$2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("input", {
                         type: "text",
                         value: name,
                         onChange: (e)=>setName(e.target.value),
+                        onFocus: ()=>setFocusedField("name"),
+                        onBlur: ()=>setFocusedField(null),
                         placeholder: "Enter your full name",
                         style: {
-                            width: "100%",
-                            padding: "14px 16px",
-                            background: "#f0f0f0",
-                            border: "none",
-                            borderRadius: 12,
-                            fontSize: 14,
-                            outline: "none",
-                            boxSizing: "border-box",
-                            marginBottom: 20
+                            ...fieldStyle("name"),
+                            marginBottom: 16
                         }
                     }, void 0, false, {
                         fileName: "[project]/yardyman-app/yardyman-app/components/auth/CreateAccountModal.tsx",
-                        lineNumber: 271,
-                        columnNumber: 7
+                        lineNumber: 307,
+                        columnNumber: 9
                     }, ("TURBOPACK compile-time value", void 0)),
                     /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$yardyman$2d$app$2f$yardyman$2d$app$2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("label", {
                         style: {
-                            fontWeight: 700,
-                            fontSize: 14,
+                            fontWeight: 600,
+                            fontSize: 13,
+                            color: "#374151",
                             display: "block",
-                            marginBottom: 8
+                            marginBottom: 6,
+                            letterSpacing: "0.02em"
                         },
                         children: "Phone Number"
                     }, void 0, false, {
                         fileName: "[project]/yardyman-app/yardyman-app/components/auth/CreateAccountModal.tsx",
-                        lineNumber: 290,
-                        columnNumber: 7
+                        lineNumber: 318,
+                        columnNumber: 9
                     }, ("TURBOPACK compile-time value", void 0)),
                     /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$yardyman$2d$app$2f$yardyman$2d$app$2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])(__TURBOPACK__imported__module__$5b$project$5d2f$yardyman$2d$app$2f$yardyman$2d$app$2f$components$2f$auth$2f$PhoneInput$2e$tsx__$5b$app$2d$client$5d$__$28$ecmascript$29$__["default"], {
                         value: phone,
@@ -4901,66 +5200,129 @@ const CreateAccountModal = ({ onClose, onCodeSent, onLogin, onPhoneAlreadyRegist
                         onCountryCodeChange: setCountryCode
                     }, void 0, false, {
                         fileName: "[project]/yardyman-app/yardyman-app/components/auth/CreateAccountModal.tsx",
-                        lineNumber: 293,
-                        columnNumber: 7
+                        lineNumber: 321,
+                        columnNumber: 9
                     }, ("TURBOPACK compile-time value", void 0)),
                     /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$yardyman$2d$app$2f$yardyman$2d$app$2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("p", {
                         style: {
-                            color: "#888",
-                            fontSize: 14,
-                            margin: "8px 0 20px"
+                            color: "#9ca3af",
+                            fontSize: 13,
+                            margin: "6px 0 16px"
                         },
-                        children: "We'll send you a verification code via SMS."
+                        children: "A verification code will be sent via SMS."
                     }, void 0, false, {
                         fileName: "[project]/yardyman-app/yardyman-app/components/auth/CreateAccountModal.tsx",
-                        lineNumber: 299,
-                        columnNumber: 7
+                        lineNumber: 327,
+                        columnNumber: 9
                     }, ("TURBOPACK compile-time value", void 0)),
                     /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$yardyman$2d$app$2f$yardyman$2d$app$2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("label", {
                         style: {
-                            fontWeight: 700,
-                            fontSize: 14,
+                            fontWeight: 600,
+                            fontSize: 13,
+                            color: "#374151",
                             display: "block",
-                            marginBottom: 8
+                            marginBottom: 6,
+                            letterSpacing: "0.02em"
                         },
-                        children: "Email"
+                        children: "Email Address"
                     }, void 0, false, {
                         fileName: "[project]/yardyman-app/yardyman-app/components/auth/CreateAccountModal.tsx",
-                        lineNumber: 304,
-                        columnNumber: 7
+                        lineNumber: 332,
+                        columnNumber: 9
                     }, ("TURBOPACK compile-time value", void 0)),
                     /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$yardyman$2d$app$2f$yardyman$2d$app$2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("input", {
                         type: "email",
                         value: email,
                         onChange: (e)=>setEmail(e.target.value),
+                        onFocus: ()=>setFocusedField("email"),
+                        onBlur: ()=>setFocusedField(null),
                         placeholder: "Enter your email address",
                         style: {
-                            width: "100%",
-                            padding: "14px 16px",
-                            background: "#f0f0f0",
-                            border: "none",
-                            borderRadius: 12,
-                            fontSize: 14,
-                            outline: "none",
-                            boxSizing: "border-box",
+                            ...fieldStyle("email"),
                             marginBottom: 24
                         }
                     }, void 0, false, {
                         fileName: "[project]/yardyman-app/yardyman-app/components/auth/CreateAccountModal.tsx",
-                        lineNumber: 307,
-                        columnNumber: 7
-                    }, ("TURBOPACK compile-time value", void 0)),
-                    error && /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$yardyman$2d$app$2f$yardyman$2d$app$2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("p", {
-                        style: {
-                            color: "#e53e3e",
-                            fontSize: 14,
-                            marginBottom: 12
-                        },
-                        children: error
-                    }, void 0, false, {
-                        fileName: "[project]/yardyman-app/yardyman-app/components/auth/CreateAccountModal.tsx",
-                        lineNumber: 326,
+                        lineNumber: 335,
                         columnNumber: 9
+                    }, ("TURBOPACK compile-time value", void 0)),
+                    error && /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$yardyman$2d$app$2f$yardyman$2d$app$2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("div", {
+                        style: {
+                            background: "#fef2f2",
+                            border: "1px solid #fecaca",
+                            borderRadius: 10,
+                            padding: "10px 14px",
+                            marginBottom: 16,
+                            display: "flex",
+                            alignItems: "center",
+                            gap: 8
+                        },
+                        children: [
+                            /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$yardyman$2d$app$2f$yardyman$2d$app$2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("svg", {
+                                width: 16,
+                                height: 16,
+                                viewBox: "0 0 24 24",
+                                fill: "none",
+                                stroke: "#ef4444",
+                                strokeWidth: "2",
+                                strokeLinecap: "round",
+                                strokeLinejoin: "round",
+                                style: {
+                                    flexShrink: 0
+                                },
+                                children: [
+                                    /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$yardyman$2d$app$2f$yardyman$2d$app$2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("circle", {
+                                        cx: "12",
+                                        cy: "12",
+                                        r: "10"
+                                    }, void 0, false, {
+                                        fileName: "[project]/yardyman-app/yardyman-app/components/auth/CreateAccountModal.tsx",
+                                        lineNumber: 357,
+                                        columnNumber: 15
+                                    }, ("TURBOPACK compile-time value", void 0)),
+                                    /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$yardyman$2d$app$2f$yardyman$2d$app$2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("line", {
+                                        x1: "12",
+                                        y1: "8",
+                                        x2: "12",
+                                        y2: "12"
+                                    }, void 0, false, {
+                                        fileName: "[project]/yardyman-app/yardyman-app/components/auth/CreateAccountModal.tsx",
+                                        lineNumber: 358,
+                                        columnNumber: 15
+                                    }, ("TURBOPACK compile-time value", void 0)),
+                                    /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$yardyman$2d$app$2f$yardyman$2d$app$2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("line", {
+                                        x1: "12",
+                                        y1: "16",
+                                        x2: "12.01",
+                                        y2: "16"
+                                    }, void 0, false, {
+                                        fileName: "[project]/yardyman-app/yardyman-app/components/auth/CreateAccountModal.tsx",
+                                        lineNumber: 359,
+                                        columnNumber: 15
+                                    }, ("TURBOPACK compile-time value", void 0))
+                                ]
+                            }, void 0, true, {
+                                fileName: "[project]/yardyman-app/yardyman-app/components/auth/CreateAccountModal.tsx",
+                                lineNumber: 356,
+                                columnNumber: 13
+                            }, ("TURBOPACK compile-time value", void 0)),
+                            /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$yardyman$2d$app$2f$yardyman$2d$app$2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("p", {
+                                style: {
+                                    color: "#ef4444",
+                                    fontSize: 13,
+                                    margin: 0
+                                },
+                                children: error
+                            }, void 0, false, {
+                                fileName: "[project]/yardyman-app/yardyman-app/components/auth/CreateAccountModal.tsx",
+                                lineNumber: 361,
+                                columnNumber: 13
+                            }, ("TURBOPACK compile-time value", void 0))
+                        ]
+                    }, void 0, true, {
+                        fileName: "[project]/yardyman-app/yardyman-app/components/auth/CreateAccountModal.tsx",
+                        lineNumber: 346,
+                        columnNumber: 11
                     }, ("TURBOPACK compile-time value", void 0)),
                     /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$yardyman$2d$app$2f$yardyman$2d$app$2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("button", {
                         onClick: handleSendCode,
@@ -4968,41 +5330,44 @@ const CreateAccountModal = ({ onClose, onCodeSent, onLogin, onPhoneAlreadyRegist
                         style: {
                             width: "100%",
                             padding: "16px",
-                            background: isValid && !loading ? "#09f" : "#ddd",
-                            color: "#fff",
+                            background: isValid && !loading ? "#22c55e" : "#e5e7eb",
+                            color: isValid && !loading ? "#fff" : "#9ca3af",
                             border: "none",
                             borderRadius: 14,
-                            fontSize: 17,
-                            fontWeight: 600,
+                            fontSize: 16,
+                            fontWeight: 700,
                             cursor: isValid && !loading ? "pointer" : "not-allowed",
-                            marginBottom: 14
+                            marginBottom: 12,
+                            transition: "background 0.15s"
                         },
-                        children: loading ? "Sending…" : "Send Code"
+                        children: loading ? "Sending…" : "Send Verification Code"
                     }, void 0, false, {
                         fileName: "[project]/yardyman-app/yardyman-app/components/auth/CreateAccountModal.tsx",
-                        lineNumber: 329,
-                        columnNumber: 7
+                        lineNumber: 365,
+                        columnNumber: 9
                     }, ("TURBOPACK compile-time value", void 0)),
                     /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$yardyman$2d$app$2f$yardyman$2d$app$2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("p", {
                         style: {
                             textAlign: "center",
-                            color: "#888",
-                            fontSize: 14,
-                            marginBottom: 24
+                            color: "#9ca3af",
+                            fontSize: 12,
+                            marginBottom: 20,
+                            lineHeight: 1.6
                         },
                         children: [
-                            "By tapping Send Code, you agree to our",
+                            "By continuing, you agree to our",
                             " ",
                             /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$yardyman$2d$app$2f$yardyman$2d$app$2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("span", {
                                 style: {
                                     textDecoration: "underline",
-                                    cursor: "pointer"
+                                    cursor: "pointer",
+                                    color: "#6b7280"
                                 },
                                 children: "Terms of Use"
                             }, void 0, false, {
                                 fileName: "[project]/yardyman-app/yardyman-app/components/auth/CreateAccountModal.tsx",
-                                lineNumber: 350,
-                                columnNumber: 9
+                                lineNumber: 387,
+                                columnNumber: 11
                             }, ("TURBOPACK compile-time value", void 0)),
                             " ",
                             "and",
@@ -5010,70 +5375,72 @@ const CreateAccountModal = ({ onClose, onCodeSent, onLogin, onPhoneAlreadyRegist
                             /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$yardyman$2d$app$2f$yardyman$2d$app$2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("span", {
                                 style: {
                                     textDecoration: "underline",
-                                    cursor: "pointer"
+                                    cursor: "pointer",
+                                    color: "#6b7280"
                                 },
                                 children: "Privacy Policy"
                             }, void 0, false, {
                                 fileName: "[project]/yardyman-app/yardyman-app/components/auth/CreateAccountModal.tsx",
-                                lineNumber: 352,
-                                columnNumber: 9
+                                lineNumber: 389,
+                                columnNumber: 11
                             }, ("TURBOPACK compile-time value", void 0))
                         ]
                     }, void 0, true, {
                         fileName: "[project]/yardyman-app/yardyman-app/components/auth/CreateAccountModal.tsx",
-                        lineNumber: 348,
-                        columnNumber: 7
+                        lineNumber: 385,
+                        columnNumber: 9
                     }, ("TURBOPACK compile-time value", void 0)),
                     /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$yardyman$2d$app$2f$yardyman$2d$app$2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("div", {
                         style: {
-                            textAlign: "center"
+                            textAlign: "center",
+                            borderTop: "1px solid #f3f4f6",
+                            paddingTop: 16
                         },
                         children: [
                             /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$yardyman$2d$app$2f$yardyman$2d$app$2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("p", {
                                 style: {
-                                    color: "#888",
-                                    fontSize: 15,
-                                    margin: "0 0 4px"
+                                    color: "#6b7280",
+                                    fontSize: 14,
+                                    margin: "0 0 8px"
                                 },
                                 children: "Already have an account?"
                             }, void 0, false, {
                                 fileName: "[project]/yardyman-app/yardyman-app/components/auth/CreateAccountModal.tsx",
-                                lineNumber: 356,
-                                columnNumber: 9
+                                lineNumber: 393,
+                                columnNumber: 11
                             }, ("TURBOPACK compile-time value", void 0)),
                             /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$yardyman$2d$app$2f$yardyman$2d$app$2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("button", {
                                 onClick: onLogin,
                                 style: {
                                     background: "none",
                                     border: "none",
-                                    color: "#09f",
-                                    fontSize: 17,
+                                    color: "#22c55e",
+                                    fontSize: 15,
                                     fontWeight: 700,
-                                    cursor: "pointer",
-                                    textDecoration: "underline"
+                                    cursor: "pointer"
                                 },
-                                children: "Log in!"
+                                children: "Sign In"
                             }, void 0, false, {
                                 fileName: "[project]/yardyman-app/yardyman-app/components/auth/CreateAccountModal.tsx",
-                                lineNumber: 357,
-                                columnNumber: 9
+                                lineNumber: 394,
+                                columnNumber: 11
                             }, ("TURBOPACK compile-time value", void 0))
                         ]
                     }, void 0, true, {
                         fileName: "[project]/yardyman-app/yardyman-app/components/auth/CreateAccountModal.tsx",
-                        lineNumber: 355,
-                        columnNumber: 7
+                        lineNumber: 392,
+                        columnNumber: 9
                     }, ("TURBOPACK compile-time value", void 0))
                 ]
             }, void 0, true, {
                 fileName: "[project]/yardyman-app/yardyman-app/components/auth/CreateAccountModal.tsx",
-                lineNumber: 107,
-                columnNumber: 5
+                lineNumber: 120,
+                columnNumber: 7
             }, ("TURBOPACK compile-time value", void 0))
         ]
     }, void 0, true);
 };
-_s(CreateAccountModal, "jKJS4NvM9owloLsdTn4KJRuXH3c=");
+_s(CreateAccountModal, "ekf4AGV1edq3TiCCfAbB/jqfs3Q=");
 _c = CreateAccountModal;
 const __TURBOPACK__default__export__ = CreateAccountModal;
 var _c;
@@ -5099,22 +5466,50 @@ var _s = __turbopack_context__.k.signature();
 ;
 const VerifyCodeModal = ({ onClose, confirmationResult, phone, photoPreview, onVerified, onEditPhone, isSignup = false, onLoginInstead })=>{
     _s();
-    const [code, setCode] = (0, __TURBOPACK__imported__module__$5b$project$5d2f$yardyman$2d$app$2f$yardyman$2d$app$2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$index$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["useState"])("");
+    const [digits, setDigits] = (0, __TURBOPACK__imported__module__$5b$project$5d2f$yardyman$2d$app$2f$yardyman$2d$app$2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$index$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["useState"])([
+        "",
+        "",
+        "",
+        "",
+        "",
+        ""
+    ]);
     const [loading, setLoading] = (0, __TURBOPACK__imported__module__$5b$project$5d2f$yardyman$2d$app$2f$yardyman$2d$app$2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$index$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["useState"])(false);
     const [error, setError] = (0, __TURBOPACK__imported__module__$5b$project$5d2f$yardyman$2d$app$2f$yardyman$2d$app$2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$index$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["useState"])("");
-    const [showBanner, setShowBanner] = (0, __TURBOPACK__imported__module__$5b$project$5d2f$yardyman$2d$app$2f$yardyman$2d$app$2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$index$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["useState"])(true);
-    (0, __TURBOPACK__imported__module__$5b$project$5d2f$yardyman$2d$app$2f$yardyman$2d$app$2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$index$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["useEffect"])({
-        "VerifyCodeModal.useEffect": ()=>{
-            const t = setTimeout({
-                "VerifyCodeModal.useEffect.t": ()=>setShowBanner(false)
-            }["VerifyCodeModal.useEffect.t"], 4000);
-            return ({
-                "VerifyCodeModal.useEffect": ()=>clearTimeout(t)
-            })["VerifyCodeModal.useEffect"];
+    const inputRefs = (0, __TURBOPACK__imported__module__$5b$project$5d2f$yardyman$2d$app$2f$yardyman$2d$app$2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$index$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["useRef"])([]);
+    const code = digits.join("");
+    const isComplete = code.length === 6;
+    const handleDigitChange = (idx, val)=>{
+        const cleaned = val.replace(/\D/g, "").slice(-1);
+        const newDigits = [
+            ...digits
+        ];
+        newDigits[idx] = cleaned;
+        setDigits(newDigits);
+        if (cleaned && idx < 5) {
+            inputRefs.current[idx + 1]?.focus();
         }
-    }["VerifyCodeModal.useEffect"], []);
+    };
+    const handleKeyDown = (idx, e)=>{
+        if (e.key === "Backspace" && !digits[idx] && idx > 0) {
+            const newDigits = [
+                ...digits
+            ];
+            newDigits[idx - 1] = "";
+            setDigits(newDigits);
+            inputRefs.current[idx - 1]?.focus();
+        }
+    };
+    const handlePaste = (e)=>{
+        e.preventDefault();
+        const pasted = e.clipboardData.getData("text").replace(/\D/g, "").slice(0, 6);
+        if (!pasted) return;
+        const newDigits = Array(6).fill("").map((_, i)=>pasted[i] ?? "");
+        setDigits(newDigits);
+        inputRefs.current[Math.min(pasted.length, 5)]?.focus();
+    };
     const handleVerify = async ()=>{
-        if (code.length !== 6 || loading) return;
+        if (!isComplete || loading) return;
         setLoading(true);
         setError("");
         try {
@@ -5122,25 +5517,35 @@ const VerifyCodeModal = ({ onClose, confirmationResult, phone, photoPreview, onV
             onVerified(credential);
         } catch  {
             setError("Invalid code. Please check and try again.");
+            setDigits([
+                "",
+                "",
+                "",
+                "",
+                "",
+                ""
+            ]);
+            inputRefs.current[0]?.focus();
         }
         setLoading(false);
     };
     return /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$yardyman$2d$app$2f$yardyman$2d$app$2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])(__TURBOPACK__imported__module__$5b$project$5d2f$yardyman$2d$app$2f$yardyman$2d$app$2f$components$2f$auth$2f$ModalBase$2e$tsx__$5b$app$2d$client$5d$__$28$ecmascript$29$__["default"], {
         onClose: onClose,
+        closeButtonColor: "#22c55e",
         children: /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$yardyman$2d$app$2f$yardyman$2d$app$2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("div", {
             style: {
                 display: "flex",
                 flexDirection: "column",
                 alignItems: "center",
-                paddingTop: 8
+                paddingTop: 4
             },
             children: [
-                photoPreview && /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$yardyman$2d$app$2f$yardyman$2d$app$2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("img", {
+                photoPreview ? /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$yardyman$2d$app$2f$yardyman$2d$app$2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("img", {
                     src: photoPreview,
                     alt: "Profile",
                     style: {
-                        width: 90,
-                        height: 90,
+                        width: 80,
+                        height: 80,
                         borderRadius: "50%",
                         objectFit: "cover",
                         border: "3px solid #22c55e",
@@ -5148,245 +5553,279 @@ const VerifyCodeModal = ({ onClose, confirmationResult, phone, photoPreview, onV
                     }
                 }, void 0, false, {
                     fileName: "[project]/yardyman-app/yardyman-app/components/auth/VerifyCodeModal.tsx",
-                    lineNumber: 61,
+                    lineNumber: 84,
                     columnNumber: 11
-                }, ("TURBOPACK compile-time value", void 0)),
-                /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$yardyman$2d$app$2f$yardyman$2d$app$2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("div", {
+                }, ("TURBOPACK compile-time value", void 0)) : /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$yardyman$2d$app$2f$yardyman$2d$app$2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("div", {
                     style: {
-                        width: 54,
-                        height: 54,
+                        width: 56,
+                        height: 56,
                         borderRadius: "50%",
-                        background: "#09f",
+                        background: "#f0fdf4",
                         display: "flex",
                         alignItems: "center",
                         justifyContent: "center",
                         marginBottom: 16
                     },
                     children: /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$yardyman$2d$app$2f$yardyman$2d$app$2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("svg", {
-                        width: 28,
-                        height: 28,
+                        width: 26,
+                        height: 26,
                         viewBox: "0 0 24 24",
-                        fill: "white",
+                        fill: "none",
+                        stroke: "#22c55e",
+                        strokeWidth: "2",
+                        strokeLinecap: "round",
+                        strokeLinejoin: "round",
                         children: /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$yardyman$2d$app$2f$yardyman$2d$app$2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("path", {
-                            d: "M20 2H4c-1.1 0-2 .9-2 2v18l4-4h14c1.1 0 2-.9 2-2V4c0-1.1-.9-2-2-2z"
+                            d: "M21 15a2 2 0 01-2 2H7l-4 4V5a2 2 0 012-2h14a2 2 0 012 2z"
                         }, void 0, false, {
                             fileName: "[project]/yardyman-app/yardyman-app/components/auth/VerifyCodeModal.tsx",
-                            lineNumber: 89,
-                            columnNumber: 13
+                            lineNumber: 108,
+                            columnNumber: 15
                         }, ("TURBOPACK compile-time value", void 0))
                     }, void 0, false, {
                         fileName: "[project]/yardyman-app/yardyman-app/components/auth/VerifyCodeModal.tsx",
-                        lineNumber: 88,
-                        columnNumber: 11
+                        lineNumber: 107,
+                        columnNumber: 13
                     }, ("TURBOPACK compile-time value", void 0))
                 }, void 0, false, {
                     fileName: "[project]/yardyman-app/yardyman-app/components/auth/VerifyCodeModal.tsx",
-                    lineNumber: 76,
-                    columnNumber: 9
+                    lineNumber: 97,
+                    columnNumber: 11
                 }, ("TURBOPACK compile-time value", void 0)),
                 /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$yardyman$2d$app$2f$yardyman$2d$app$2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("h2", {
                     style: {
                         fontSize: 22,
                         fontWeight: 700,
-                        marginBottom: 8,
+                        color: "#111827",
+                        marginBottom: 6,
                         textAlign: "center"
                     },
-                    children: "Enter the verification code"
+                    children: "Check your messages"
                 }, void 0, false, {
                     fileName: "[project]/yardyman-app/yardyman-app/components/auth/VerifyCodeModal.tsx",
-                    lineNumber: 93,
+                    lineNumber: 113,
                     columnNumber: 9
                 }, ("TURBOPACK compile-time value", void 0)),
                 /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$yardyman$2d$app$2f$yardyman$2d$app$2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("p", {
                     style: {
-                        color: "#888",
-                        fontSize: 15,
-                        marginBottom: 4,
-                        textAlign: "center"
+                        color: "#6b7280",
+                        fontSize: 14,
+                        textAlign: "center",
+                        margin: "0 0 6px"
                     },
                     children: "We sent a 6-digit code to"
                 }, void 0, false, {
                     fileName: "[project]/yardyman-app/yardyman-app/components/auth/VerifyCodeModal.tsx",
-                    lineNumber: 103,
+                    lineNumber: 116,
                     columnNumber: 9
                 }, ("TURBOPACK compile-time value", void 0)),
-                /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$yardyman$2d$app$2f$yardyman$2d$app$2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("p", {
+                /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$yardyman$2d$app$2f$yardyman$2d$app$2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("div", {
                     style: {
-                        fontWeight: 700,
-                        fontSize: 16,
-                        marginBottom: 28,
-                        textAlign: "center"
+                        display: "flex",
+                        alignItems: "center",
+                        gap: 8,
+                        marginBottom: 28
                     },
-                    children: phone
-                }, void 0, false, {
+                    children: [
+                        /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$yardyman$2d$app$2f$yardyman$2d$app$2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("span", {
+                            style: {
+                                fontWeight: 700,
+                                fontSize: 15,
+                                color: "#111827"
+                            },
+                            children: phone
+                        }, void 0, false, {
+                            fileName: "[project]/yardyman-app/yardyman-app/components/auth/VerifyCodeModal.tsx",
+                            lineNumber: 120,
+                            columnNumber: 11
+                        }, ("TURBOPACK compile-time value", void 0)),
+                        /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$yardyman$2d$app$2f$yardyman$2d$app$2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("button", {
+                            onClick: onEditPhone,
+                            style: {
+                                background: "none",
+                                border: "none",
+                                color: "#22c55e",
+                                fontSize: 13,
+                                fontWeight: 600,
+                                cursor: "pointer",
+                                padding: 0,
+                                textDecoration: "underline"
+                            },
+                            children: "Edit"
+                        }, void 0, false, {
+                            fileName: "[project]/yardyman-app/yardyman-app/components/auth/VerifyCodeModal.tsx",
+                            lineNumber: 121,
+                            columnNumber: 11
+                        }, ("TURBOPACK compile-time value", void 0))
+                    ]
+                }, void 0, true, {
                     fileName: "[project]/yardyman-app/yardyman-app/components/auth/VerifyCodeModal.tsx",
-                    lineNumber: 106,
+                    lineNumber: 119,
                     columnNumber: 9
                 }, ("TURBOPACK compile-time value", void 0)),
-                /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$yardyman$2d$app$2f$yardyman$2d$app$2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("input", {
-                    type: "tel",
-                    inputMode: "numeric",
-                    maxLength: 6,
-                    value: code,
-                    onChange: (e)=>setCode(e.target.value.replace(/\D/g, "").slice(0, 6)),
-                    placeholder: "Enter 6-digit code",
+                /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$yardyman$2d$app$2f$yardyman$2d$app$2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("div", {
                     style: {
-                        width: "100%",
-                        padding: "16px",
-                        background: "#f0f0f0",
-                        border: "none",
-                        borderRadius: 12,
-                        fontSize: 22,
-                        letterSpacing: 8,
-                        textAlign: "center",
-                        outline: "none",
-                        boxSizing: "border-box",
-                        marginBottom: 16,
-                        fontWeight: 600
-                    }
-                }, void 0, false, {
-                    fileName: "[project]/yardyman-app/yardyman-app/components/auth/VerifyCodeModal.tsx",
-                    lineNumber: 110,
-                    columnNumber: 9
-                }, ("TURBOPACK compile-time value", void 0)),
-                error && /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$yardyman$2d$app$2f$yardyman$2d$app$2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("p", {
-                    style: {
-                        color: "#e53e3e",
-                        fontSize: 14,
-                        marginBottom: 12,
-                        textAlign: "center"
+                        display: "flex",
+                        gap: 6,
+                        marginBottom: 20,
+                        width: "100%"
                     },
-                    children: error
-                }, void 0, false, {
-                    fileName: "[project]/yardyman-app/yardyman-app/components/auth/VerifyCodeModal.tsx",
-                    lineNumber: 134,
-                    columnNumber: 11
-                }, ("TURBOPACK compile-time value", void 0)),
-                /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$yardyman$2d$app$2f$yardyman$2d$app$2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("button", {
-                    onClick: handleVerify,
-                    disabled: code.length !== 6 || loading,
-                    style: {
-                        width: "100%",
-                        padding: "16px",
-                        background: code.length === 6 && !loading ? "#09f" : "#ddd",
-                        color: "#fff",
-                        border: "none",
-                        borderRadius: 14,
-                        fontSize: 17,
-                        fontWeight: 600,
-                        cursor: code.length === 6 && !loading ? "pointer" : "not-allowed",
-                        marginBottom: 18
-                    },
-                    children: loading ? "Verifying…" : "Verify"
+                    onPaste: handlePaste,
+                    children: digits.map((d, idx)=>/*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$yardyman$2d$app$2f$yardyman$2d$app$2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("input", {
+                            ref: (el)=>{
+                                inputRefs.current[idx] = el;
+                            },
+                            type: "tel",
+                            inputMode: "numeric",
+                            maxLength: 1,
+                            value: d,
+                            onChange: (e)=>handleDigitChange(idx, e.target.value),
+                            onKeyDown: (e)=>handleKeyDown(idx, e),
+                            style: {
+                                flex: 1,
+                                minWidth: 0,
+                                height: 46,
+                                border: `2px solid ${error ? "#fca5a5" : d ? "#22c55e" : "#e5e7eb"}`,
+                                borderRadius: 10,
+                                fontSize: 18,
+                                fontWeight: 700,
+                                textAlign: "center",
+                                outline: "none",
+                                background: error ? "#fff5f5" : d ? "#f0fdf4" : "#f9fafb",
+                                color: "#111827",
+                                cursor: "text",
+                                transition: "border-color 0.15s, background 0.15s"
+                            }
+                        }, idx, false, {
+                            fileName: "[project]/yardyman-app/yardyman-app/components/auth/VerifyCodeModal.tsx",
+                            lineNumber: 144,
+                            columnNumber: 13
+                        }, ("TURBOPACK compile-time value", void 0)))
                 }, void 0, false, {
                     fileName: "[project]/yardyman-app/yardyman-app/components/auth/VerifyCodeModal.tsx",
                     lineNumber: 139,
                     columnNumber: 9
                 }, ("TURBOPACK compile-time value", void 0)),
-                /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$yardyman$2d$app$2f$yardyman$2d$app$2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("button", {
-                    onClick: onEditPhone,
+                error && /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$yardyman$2d$app$2f$yardyman$2d$app$2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("div", {
                     style: {
-                        background: "none",
-                        border: "none",
-                        color: "#09f",
-                        fontSize: 16,
-                        cursor: "pointer",
-                        textDecoration: "underline",
-                        marginBottom: 20
-                    },
-                    children: "Edit phone number"
-                }, void 0, false, {
-                    fileName: "[project]/yardyman-app/yardyman-app/components/auth/VerifyCodeModal.tsx",
-                    lineNumber: 158,
-                    columnNumber: 9
-                }, ("TURBOPACK compile-time value", void 0)),
-                showBanner && /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$yardyman$2d$app$2f$yardyman$2d$app$2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("div", {
-                    style: {
-                        background: "#f0fff4",
-                        border: "1px solid #68d391",
+                        background: "#fef2f2",
+                        border: "1px solid #fecaca",
                         borderRadius: 10,
-                        padding: "12px 16px",
+                        padding: "10px 14px",
+                        marginBottom: 16,
                         display: "flex",
                         alignItems: "center",
-                        gap: 10,
-                        marginBottom: 20,
+                        gap: 8,
                         width: "100%",
                         boxSizing: "border-box"
                     },
                     children: [
-                        /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$yardyman$2d$app$2f$yardyman$2d$app$2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("div", {
+                        /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$yardyman$2d$app$2f$yardyman$2d$app$2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("svg", {
+                            width: 16,
+                            height: 16,
+                            viewBox: "0 0 24 24",
+                            fill: "none",
+                            stroke: "#ef4444",
+                            strokeWidth: "2",
+                            strokeLinecap: "round",
+                            strokeLinejoin: "round",
                             style: {
-                                width: 22,
-                                height: 22,
-                                borderRadius: "50%",
-                                background: "#22c55e",
-                                display: "flex",
-                                alignItems: "center",
-                                justifyContent: "center",
                                 flexShrink: 0
                             },
-                            children: /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$yardyman$2d$app$2f$yardyman$2d$app$2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("svg", {
-                                width: 12,
-                                height: 12,
-                                viewBox: "0 0 20 20",
-                                fill: "none",
-                                children: /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$yardyman$2d$app$2f$yardyman$2d$app$2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("path", {
-                                    d: "M5 10.5L9 14.5L15 7.5",
-                                    stroke: "white",
-                                    strokeWidth: "2.5",
-                                    strokeLinecap: "round",
-                                    strokeLinejoin: "round"
+                            children: [
+                                /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$yardyman$2d$app$2f$yardyman$2d$app$2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("circle", {
+                                    cx: "12",
+                                    cy: "12",
+                                    r: "10"
                                 }, void 0, false, {
                                     fileName: "[project]/yardyman-app/yardyman-app/components/auth/VerifyCodeModal.tsx",
-                                    lineNumber: 201,
-                                    columnNumber: 17
+                                    lineNumber: 186,
+                                    columnNumber: 15
+                                }, ("TURBOPACK compile-time value", void 0)),
+                                /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$yardyman$2d$app$2f$yardyman$2d$app$2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("line", {
+                                    x1: "12",
+                                    y1: "8",
+                                    x2: "12",
+                                    y2: "12"
+                                }, void 0, false, {
+                                    fileName: "[project]/yardyman-app/yardyman-app/components/auth/VerifyCodeModal.tsx",
+                                    lineNumber: 187,
+                                    columnNumber: 15
+                                }, ("TURBOPACK compile-time value", void 0)),
+                                /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$yardyman$2d$app$2f$yardyman$2d$app$2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("line", {
+                                    x1: "12",
+                                    y1: "16",
+                                    x2: "12.01",
+                                    y2: "16"
+                                }, void 0, false, {
+                                    fileName: "[project]/yardyman-app/yardyman-app/components/auth/VerifyCodeModal.tsx",
+                                    lineNumber: 188,
+                                    columnNumber: 15
                                 }, ("TURBOPACK compile-time value", void 0))
-                            }, void 0, false, {
-                                fileName: "[project]/yardyman-app/yardyman-app/components/auth/VerifyCodeModal.tsx",
-                                lineNumber: 200,
-                                columnNumber: 15
-                            }, ("TURBOPACK compile-time value", void 0))
-                        }, void 0, false, {
-                            fileName: "[project]/yardyman-app/yardyman-app/components/auth/VerifyCodeModal.tsx",
-                            lineNumber: 188,
-                            columnNumber: 13
-                        }, ("TURBOPACK compile-time value", void 0)),
-                        /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$yardyman$2d$app$2f$yardyman$2d$app$2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("span", {
-                            style: {
-                                color: "#276749",
-                                fontSize: 14
-                            },
-                            children: [
-                                "Verification code sent to ",
-                                phone
                             ]
                         }, void 0, true, {
                             fileName: "[project]/yardyman-app/yardyman-app/components/auth/VerifyCodeModal.tsx",
-                            lineNumber: 210,
+                            lineNumber: 185,
+                            columnNumber: 13
+                        }, ("TURBOPACK compile-time value", void 0)),
+                        /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$yardyman$2d$app$2f$yardyman$2d$app$2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("p", {
+                            style: {
+                                color: "#ef4444",
+                                fontSize: 13,
+                                margin: 0
+                            },
+                            children: error
+                        }, void 0, false, {
+                            fileName: "[project]/yardyman-app/yardyman-app/components/auth/VerifyCodeModal.tsx",
+                            lineNumber: 190,
                             columnNumber: 13
                         }, ("TURBOPACK compile-time value", void 0))
                     ]
                 }, void 0, true, {
                     fileName: "[project]/yardyman-app/yardyman-app/components/auth/VerifyCodeModal.tsx",
-                    lineNumber: 174,
+                    lineNumber: 173,
                     columnNumber: 11
+                }, ("TURBOPACK compile-time value", void 0)),
+                /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$yardyman$2d$app$2f$yardyman$2d$app$2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("button", {
+                    onClick: handleVerify,
+                    disabled: !isComplete || loading,
+                    style: {
+                        width: "100%",
+                        padding: "16px",
+                        background: isComplete && !loading ? "#22c55e" : "#e5e7eb",
+                        color: isComplete && !loading ? "#fff" : "#9ca3af",
+                        border: "none",
+                        borderRadius: 14,
+                        fontSize: 16,
+                        fontWeight: 700,
+                        cursor: isComplete && !loading ? "pointer" : "not-allowed",
+                        marginBottom: 16,
+                        transition: "background 0.15s"
+                    },
+                    children: loading ? "Verifying…" : "Verify Code"
+                }, void 0, false, {
+                    fileName: "[project]/yardyman-app/yardyman-app/components/auth/VerifyCodeModal.tsx",
+                    lineNumber: 194,
+                    columnNumber: 9
                 }, ("TURBOPACK compile-time value", void 0)),
                 isSignup && onLoginInstead && /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$yardyman$2d$app$2f$yardyman$2d$app$2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("div", {
                     style: {
                         textAlign: "center",
-                        marginTop: 4
+                        borderTop: "1px solid #f3f4f6",
+                        paddingTop: 16,
+                        width: "100%"
                     },
                     children: [
                         /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$yardyman$2d$app$2f$yardyman$2d$app$2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("p", {
                             style: {
-                                color: "#888",
-                                fontSize: 15,
-                                margin: "0 0 4px"
+                                color: "#6b7280",
+                                fontSize: 14,
+                                margin: "0 0 8px"
                             },
                             children: "Already have an account?"
                         }, void 0, false, {
                             fileName: "[project]/yardyman-app/yardyman-app/components/auth/VerifyCodeModal.tsx",
-                            lineNumber: 218,
+                            lineNumber: 216,
                             columnNumber: 13
                         }, ("TURBOPACK compile-time value", void 0)),
                         /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$yardyman$2d$app$2f$yardyman$2d$app$2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("button", {
@@ -5394,37 +5833,36 @@ const VerifyCodeModal = ({ onClose, confirmationResult, phone, photoPreview, onV
                             style: {
                                 background: "none",
                                 border: "none",
-                                color: "#09f",
-                                fontSize: 17,
+                                color: "#22c55e",
+                                fontSize: 15,
                                 fontWeight: 700,
-                                cursor: "pointer",
-                                textDecoration: "underline"
+                                cursor: "pointer"
                             },
-                            children: "Log in!"
+                            children: "Sign In"
                         }, void 0, false, {
                             fileName: "[project]/yardyman-app/yardyman-app/components/auth/VerifyCodeModal.tsx",
-                            lineNumber: 221,
+                            lineNumber: 217,
                             columnNumber: 13
                         }, ("TURBOPACK compile-time value", void 0))
                     ]
                 }, void 0, true, {
                     fileName: "[project]/yardyman-app/yardyman-app/components/auth/VerifyCodeModal.tsx",
-                    lineNumber: 217,
+                    lineNumber: 215,
                     columnNumber: 11
                 }, ("TURBOPACK compile-time value", void 0))
             ]
         }, void 0, true, {
             fileName: "[project]/yardyman-app/yardyman-app/components/auth/VerifyCodeModal.tsx",
-            lineNumber: 52,
+            lineNumber: 80,
             columnNumber: 7
         }, ("TURBOPACK compile-time value", void 0))
     }, void 0, false, {
         fileName: "[project]/yardyman-app/yardyman-app/components/auth/VerifyCodeModal.tsx",
-        lineNumber: 51,
+        lineNumber: 79,
         columnNumber: 5
     }, ("TURBOPACK compile-time value", void 0));
 };
-_s(VerifyCodeModal, "iWTVNr2ovjuzppKIJ7143r32HhI=");
+_s(VerifyCodeModal, "bhlNN7M/Pnkva/uLQikhIN0+rYM=");
 _c = VerifyCodeModal;
 const __TURBOPACK__default__export__ = VerifyCodeModal;
 var _c;

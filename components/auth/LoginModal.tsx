@@ -52,14 +52,36 @@ const LoginModal: React.FC<LoginModalProps> = ({
   };
 
   return (
-    <ModalBase onClose={onClose} slideFrom={slideFrom}>
+    <ModalBase onClose={onClose} slideFrom={slideFrom} closeButtonColor="#22c55e">
       <div id="recaptcha-login" />
 
-      <h2 style={{ fontSize: 26, fontWeight: 700, marginBottom: 28, paddingRight: 40, marginTop: 4 }}>
-        Sign in to your account!
-      </h2>
+      {/* Header */}
+      <div style={{ textAlign: "center", marginBottom: 28, paddingTop: 4 }}>
+        <div style={{
+          width: 56,
+          height: 56,
+          borderRadius: "50%",
+          background: "#f0fdf4",
+          display: "flex",
+          alignItems: "center",
+          justifyContent: "center",
+          margin: "0 auto 14px",
+        }}>
+          <svg width={26} height={26} viewBox="0 0 24 24" fill="none" stroke="#22c55e" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
+            <path d="M15 3h4a2 2 0 012 2v14a2 2 0 01-2 2h-4" />
+            <polyline points="10 17 15 12 10 7" />
+            <line x1="15" y1="12" x2="3" y2="12" />
+          </svg>
+        </div>
+        <h2 style={{ fontSize: 22, fontWeight: 700, color: "#111827", margin: "0 0 6px" }}>
+          Welcome Back
+        </h2>
+        <p style={{ fontSize: 14, color: "#6b7280", margin: 0 }}>
+          Sign in to manage your services
+        </p>
+      </div>
 
-      <label style={{ fontWeight: 700, fontSize: 16, display: "block", marginBottom: 10 }}>
+      <label style={{ fontWeight: 600, fontSize: 13, color: "#374151", display: "block", marginBottom: 6, letterSpacing: "0.02em" }}>
         Phone Number
       </label>
       <PhoneInput
@@ -68,12 +90,28 @@ const LoginModal: React.FC<LoginModalProps> = ({
         countryCode={countryCode}
         onCountryCodeChange={setCountryCode}
       />
-      <p style={{ color: "#888", fontSize: 14, margin: "8px 0 28px" }}>
-        We'll send you a verification code via SMS.
+      <p style={{ color: "#9ca3af", fontSize: 13, margin: "6px 0 28px" }}>
+        A verification code will be sent via SMS.
       </p>
 
       {error && (
-        <p style={{ color: "#e53e3e", fontSize: 14, marginBottom: 12 }}>{error}</p>
+        <div style={{
+          background: "#fef2f2",
+          border: "1px solid #fecaca",
+          borderRadius: 10,
+          padding: "10px 14px",
+          marginBottom: 16,
+          display: "flex",
+          alignItems: "center",
+          gap: 8,
+        }}>
+          <svg width={16} height={16} viewBox="0 0 24 24" fill="none" stroke="#ef4444" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" style={{ flexShrink: 0 }}>
+            <circle cx="12" cy="12" r="10" />
+            <line x1="12" y1="8" x2="12" y2="12" />
+            <line x1="12" y1="16" x2="12.01" y2="16" />
+          </svg>
+          <p style={{ color: "#ef4444", fontSize: 13, margin: 0 }}>{error}</p>
+        </div>
       )}
 
       <button
@@ -82,41 +120,41 @@ const LoginModal: React.FC<LoginModalProps> = ({
         style={{
           width: "100%",
           padding: "16px",
-          background: isValid && !loading ? "#09f" : "#ddd",
-          color: "#fff",
+          background: isValid && !loading ? "#22c55e" : "#e5e7eb",
+          color: isValid && !loading ? "#fff" : "#9ca3af",
           border: "none",
           borderRadius: 14,
-          fontSize: 17,
-          fontWeight: 600,
+          fontSize: 16,
+          fontWeight: 700,
           cursor: isValid && !loading ? "pointer" : "not-allowed",
-          marginBottom: 14,
+          marginBottom: 12,
+          transition: "background 0.15s",
         }}
       >
-        {loading ? "Sending…" : "Send Code"}
+        {loading ? "Sending…" : "Send Verification Code"}
       </button>
 
-      <p style={{ textAlign: "center", color: "#888", fontSize: 13, marginBottom: 24 }}>
-        By tapping Send Code, you agree to our{" "}
-        <span style={{ textDecoration: "underline", cursor: "pointer" }}>Terms of Use</span>
+      <p style={{ textAlign: "center", color: "#9ca3af", fontSize: 12, marginBottom: 20, lineHeight: 1.6 }}>
+        By continuing, you agree to our{" "}
+        <span style={{ textDecoration: "underline", cursor: "pointer", color: "#6b7280" }}>Terms of Use</span>
         {" "}and{" "}
-        <span style={{ textDecoration: "underline", cursor: "pointer" }}>Privacy Policy</span>
+        <span style={{ textDecoration: "underline", cursor: "pointer", color: "#6b7280" }}>Privacy Policy</span>
       </p>
 
-      <div style={{ textAlign: "center" }}>
-        <p style={{ color: "#888", fontSize: 15, margin: "0 0 4px" }}>Don't have an account?</p>
+      <div style={{ textAlign: "center", borderTop: "1px solid #f3f4f6", paddingTop: 16 }}>
+        <p style={{ color: "#6b7280", fontSize: 14, margin: "0 0 8px" }}>New to Yardyman?</p>
         <button
           onClick={onCreateAccount}
           style={{
             background: "none",
             border: "none",
-            color: "#09f",
-            fontSize: 17,
+            color: "#22c55e",
+            fontSize: 15,
             fontWeight: 700,
             cursor: "pointer",
-            textDecoration: "underline",
           }}
         >
-          Create account!
+          Create Provider Account
         </button>
       </div>
     </ModalBase>
