@@ -742,6 +742,10 @@
     color: var(--popover-foreground);
   }
 
+  .italic {
+    font-style: italic;
+  }
+
   .underline {
     text-decoration-line: underline;
   }
