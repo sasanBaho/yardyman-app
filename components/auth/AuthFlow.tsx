@@ -26,6 +26,7 @@ interface AuthFlowProps {
   onClose: () => void;
   userLocation: [number, number] | null;
   onProviderCreated?: () => void;
+  defaultStep?: "login" | "create";
 }
 
 async function getCityAndCountry(lat: number, lng: number): Promise<{ city: string; country: string }> {
@@ -88,6 +89,7 @@ const AuthFlow: React.FC<AuthFlowProps> = ({
   isOpen,
   onClose,
   userLocation,
+  defaultStep = "login",
 }) => {
   const [step, setStep] = useState<Step>("none");
   const [confirmationResult, setConfirmationResult] = useState<ConfirmationResult | null>(null);
@@ -102,7 +104,7 @@ const AuthFlow: React.FC<AuthFlowProps> = ({
 
   useEffect(() => {
     if (isOpen && step === "none") {
-      setStep("login");
+      setStep(defaultStep);
     } else if (!isOpen) {
       setStep("none");
       setConfirmationResult(null);

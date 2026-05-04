@@ -36,27 +36,76 @@ import { onAuthStateChanged, signInAnonymously } from "firebase/auth";
 import AuthFlow from "@/components/auth/AuthFlow";
 import ProviderProfileModal, { ProviderProfile } from "@/components/auth/ProviderProfileModal";
 
-function ProviderAvatar({ imageUrl, name }: { imageUrl: string; name: string }) {
+function ProviderAvatar({ imageUrl, name, rating, ratingsCount }: {
+  imageUrl: string;
+  name: string;
+  rating?: number;
+  ratingsCount?: number;
+}) {
+  const hasRating = (ratingsCount ?? 0) > 0;
   return (
     <div style={{
-      width: 45,
-      height: 45,
-      borderRadius: "50%",
-      overflow: "hidden",
-      border: "2px solid #fff",
-      background: "#eee",
-      display: "flex",
-      alignItems: "center",
-      justifyContent: "center",
       position: "absolute",
-      left: -20,
-      top: -20,
+      left: -23,
+      top: -23,
+      display: "flex",
+      flexDirection: "column",
+      alignItems: "center",
     }}>
-      <img
-        src={imageUrl}
-        alt={name}
-        style={{ width: "100%", height: "100%", objectFit: "cover" }}
-      />
+      {/* Circle */}
+      <div style={{ position: "relative" }}>
+        <div style={{
+          width: 46,
+          height: 46,
+          borderRadius: "50%",
+          overflow: "hidden",
+          border: "1px solid #fff",
+          background: "#eee",
+          boxShadow: "0 2px 8px rgba(0,0,0,0.22)",
+        }}>
+          <img src={imageUrl} alt={name} style={{ width: "100%", height: "100%", objectFit: "cover" }} />
+        </div>
+        {/* "New" badge — top-right */}
+        {!hasRating && (
+          <span style={{
+            position: "absolute",
+            top: -10,
+            right: -16,
+            background: "#ef4444",
+            color: "#fff",
+            fontSize: 12,
+            fontWeight: 700,
+            borderRadius: 999,
+            padding: "2px 7px",
+            whiteSpace: "nowrap",
+            boxShadow: "0 1px 4px rgba(0,0,0,0.18)",
+            letterSpacing: 0.2,
+          }}>
+            New
+          </span>
+        )}
+      </div>
+      {/* Star rating — below circle */}
+      {hasRating && (
+        <div style={{
+          display: "flex",
+          alignItems: "center",
+          gap: 2,
+          background: "#fff",
+          borderRadius: 999,
+          padding: "2px 6px",
+          marginTop: -5,
+          boxShadow: "0 1px 4px rgba(0,0,0,0.15)",
+          zIndex: 999,
+        }}>
+          <svg width={14} height={14} viewBox="0 0 24 24" fill="#f59e0b" stroke="none">
+            <polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2" />
+          </svg>
+          <span style={{ fontSize: 12, fontWeight: 700, color: "#222" }}>
+            {(rating ?? 0).toFixed(1)}
+          </span>
+        </div>
+      )}
     </div>
   );
 }
@@ -118,6 +167,7 @@ export default function Home() {
   const [activeService, setActiveService] = useState<"snow" | "lawn">("lawn");
   const [isSmallScreen, setIsSmallScreen] = useState(false);
   const [showAuth, setShowAuth] = useState(false);
+  const [authDefaultStep, setAuthDefaultStep] = useState<"login" | "create">("login");
   const [currentProviderData, setCurrentProviderData] = useState<ProviderProfile | null>(null);
   const [showProfile, setShowProfile] = useState(false);
 
@@ -376,7 +426,8 @@ export default function Home() {
   return (
     <>
       <Navbar
-        onCreateAccount={currentProviderData ? undefined : () => setShowAuth(true)}
+        onCreateAccount={currentProviderData ? undefined : () => { setAuthDefaultStep("create"); setShowAuth(true); }}
+        onSignIn={currentProviderData ? undefined : () => { setAuthDefaultStep("login"); setShowAuth(true); }}
         currentUser={currentProviderData ? { photoUrl: currentProviderData.photoUrl, name: currentProviderData.name } : null}
         onEditAccount={() => setShowProfile(true)}
       >
@@ -465,7 +516,12 @@ export default function Home() {
                 >
                   <MarkerContent>
                     <div onClick={() => handleProviderSelect(provider)} style={{ cursor: "pointer" }}>
-                      <ProviderAvatar imageUrl={provider.imageUrl} name={provider.providerName || "Provider"} />
+                      <ProviderAvatar
+                        imageUrl={provider.imageUrl}
+                        name={provider.providerName || "Provider"}
+                        rating={provider.rating}
+                        ratingsCount={provider.ratingsCount}
+                      />
                     </div>
                   </MarkerContent>
                 </MapMarker>
@@ -545,6 +601,7 @@ export default function Home() {
         isOpen={showAuth}
         onClose={() => setShowAuth(false)}
         userLocation={userLocation}
+        defaultStep={authDefaultStep}
         onProviderCreated={async () => {
           const querySnapshot = await getDocs(collection(db, "providers"));
           const fetched: any[] = [];
