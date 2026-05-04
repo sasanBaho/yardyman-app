@@ -148,7 +148,7 @@ export default function Home() {
             hasTools: data.hasTools ?? false,
             paymentMethods: Array.isArray(data.paymentMethods) ? data.paymentMethods : [],
             isAvailable: data.isAvailable ?? true,
-            profileViews: data.profileViews ?? 0,
+            profileViews: data.profileViewCount ?? data.profileViews ?? 0,
           });
         }
       } catch {

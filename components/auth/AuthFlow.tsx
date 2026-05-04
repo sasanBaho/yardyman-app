@@ -26,23 +26,53 @@ interface AuthFlowProps {
   onProviderCreated?: () => void;
 }
 
-async function getCityName(lat: number, lng: number): Promise<string> {
+async function getCityAndCountry(lat: number, lng: number): Promise<{ city: string; country: string }> {
   try {
     const res = await fetch(
       `https://nominatim.openstreetmap.org/reverse?lat=${lat}&lon=${lng}&format=json`,
       { headers: { "Accept-Language": "en", "User-Agent": "YardymanApp/1.0" } }
     );
     const data = await res.json();
-    return (
-      data.address?.city ||
-      data.address?.town ||
-      data.address?.village ||
-      data.address?.suburb ||
-      "Unknown"
-    );
+    return {
+      city:
+        data.address?.city ||
+        data.address?.town ||
+        data.address?.village ||
+        data.address?.suburb ||
+        "Unknown",
+      country: data.address?.country || "Unknown",
+    };
   } catch {
-    return "Unknown";
+    return { city: "Unknown", country: "Unknown" };
   }
+}
+
+function encodeGeohash(lat: number, lng: number, precision = 9): string {
+  const BASE32 = "0123456789bcdefghjkmnpqrstuvwxyz";
+  let hash = "";
+  let isLng = true;
+  let latMin = -90, latMax = 90;
+  let lngMin = -180, lngMax = 180;
+  let bits = 0, bitCount = 0;
+
+  while (hash.length < precision) {
+    if (isLng) {
+      const mid = (lngMin + lngMax) / 2;
+      bits = (bits << 1) | (lng >= mid ? 1 : 0);
+      if (lng >= mid) lngMin = mid; else lngMax = mid;
+    } else {
+      const mid = (latMin + latMax) / 2;
+      bits = (bits << 1) | (lat >= mid ? 1 : 0);
+      if (lat >= mid) latMin = mid; else latMax = mid;
+    }
+    isLng = !isLng;
+    if (++bitCount === 5) {
+      hash += BASE32[bits];
+      bits = 0;
+      bitCount = 0;
+    }
+  }
+  return hash;
 }
 
 async function uploadPhoto(file: File, uid: string): Promise<string> {
@@ -120,26 +150,41 @@ const AuthFlow: React.FC<AuthFlowProps> = ({
       }
 
       let city = "Unknown";
+      let country = "Unknown";
+      const lat = userLocation ? userLocation[1] : 0;
+      const lng = userLocation ? userLocation[0] : 0;
       if (userLocation) {
-        city = await getCityName(userLocation[1], userLocation[0]);
+        const location = await getCityAndCountry(lat, lng);
+        city = location.city;
+        country = location.country;
       }
 
       const providerDoc = {
         uid: user.uid,
+        id: user.uid,
         providerName: signupData.name,
         email: signupData.email,
         phoneNumber: phone,
         imageUrl: photoUrl,
-        latitude: userLocation ? userLocation[1] : 0,
-        longitude: userLocation ? userLocation[0] : 0,
+        latitude: lat,
+        longitude: lng,
+        geohash: encodeGeohash(lat, lng),
         city,
+        country,
+        serviceLocation: [],
         selectedServices: servicesData.selectedServices,
         description: servicesData.descriptions,
         hasTools: servicesData.hasTools,
+        hasDelivery: false,
         paymentMethods: servicesData.paymentMethods,
         isAvailable: true,
-        profileViews: 0,
+        instagramID: "",
+        profileViewCount: 0,
+        gotCallCount: 0,
+        gotMessageCount: 0,
+        instaViewCount: 0,
         createdAt: serverTimestamp(),
+        updatedAt: serverTimestamp(),
       };
 
       await setDoc(doc(db, "providers", user.uid), providerDoc);

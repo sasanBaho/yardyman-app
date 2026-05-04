@@ -5551,7 +5551,7 @@ var _s = __turbopack_context__.k.signature();
 ;
 ;
 ;
-async function getCityName(lat, lng) {
+async function getCityAndCountry(lat, lng) {
     try {
         const res = await fetch(`https://nominatim.openstreetmap.org/reverse?lat=${lat}&lon=${lng}&format=json`, {
             headers: {
@@ -5560,10 +5560,44 @@ async function getCityName(lat, lng) {
             }
         });
         const data = await res.json();
-        return data.address?.city || data.address?.town || data.address?.village || data.address?.suburb || "Unknown";
+        return {
+            city: data.address?.city || data.address?.town || data.address?.village || data.address?.suburb || "Unknown",
+            country: data.address?.country || "Unknown"
+        };
     } catch  {
-        return "Unknown";
+        return {
+            city: "Unknown",
+            country: "Unknown"
+        };
     }
+}
+function encodeGeohash(lat, lng, precision = 9) {
+    const BASE32 = "0123456789bcdefghjkmnpqrstuvwxyz";
+    let hash = "";
+    let isLng = true;
+    let latMin = -90, latMax = 90;
+    let lngMin = -180, lngMax = 180;
+    let bits = 0, bitCount = 0;
+    while(hash.length < precision){
+        if (isLng) {
+            const mid = (lngMin + lngMax) / 2;
+            bits = bits << 1 | (lng >= mid ? 1 : 0);
+            if (lng >= mid) lngMin = mid;
+            else lngMax = mid;
+        } else {
+            const mid = (latMin + latMax) / 2;
+            bits = bits << 1 | (lat >= mid ? 1 : 0);
+            if (lat >= mid) latMin = mid;
+            else latMax = mid;
+        }
+        isLng = !isLng;
+        if (++bitCount === 5) {
+            hash += BASE32[bits];
+            bits = 0;
+            bitCount = 0;
+        }
+    }
+    return hash;
 }
 async function uploadPhoto(file, uid) {
     const ext = file.name.split(".").pop() ?? "jpg";
@@ -5626,25 +5660,40 @@ const AuthFlow = ({ isOpen, onClose, userLocation, onProviderCreated })=>{
                 photoUrl = await uploadPhoto(signupData.photoFile, user.uid);
             }
             let city = "Unknown";
+            let country = "Unknown";
+            const lat = userLocation ? userLocation[1] : 0;
+            const lng = userLocation ? userLocation[0] : 0;
             if (userLocation) {
-                city = await getCityName(userLocation[1], userLocation[0]);
+                const location = await getCityAndCountry(lat, lng);
+                city = location.city;
+                country = location.country;
             }
             const providerDoc = {
                 uid: user.uid,
+                id: user.uid,
                 providerName: signupData.name,
                 email: signupData.email,
                 phoneNumber: phone,
                 imageUrl: photoUrl,
-                latitude: userLocation ? userLocation[1] : 0,
-                longitude: userLocation ? userLocation[0] : 0,
+                latitude: lat,
+                longitude: lng,
+                geohash: encodeGeohash(lat, lng),
                 city,
+                country,
+                serviceLocation: [],
                 selectedServices: servicesData.selectedServices,
                 description: servicesData.descriptions,
                 hasTools: servicesData.hasTools,
+                hasDelivery: false,
                 paymentMethods: servicesData.paymentMethods,
                 isAvailable: true,
-                profileViews: 0,
-                createdAt: (0, __TURBOPACK__imported__module__$5b$project$5d2f$yardyman$2d$app$2f$yardyman$2d$app$2f$node_modules$2f40$firebase$2f$firestore$2f$dist$2f$index$2e$esm$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["serverTimestamp"])()
+                instagramID: "",
+                profileViewCount: 0,
+                gotCallCount: 0,
+                gotMessageCount: 0,
+                instaViewCount: 0,
+                createdAt: (0, __TURBOPACK__imported__module__$5b$project$5d2f$yardyman$2d$app$2f$yardyman$2d$app$2f$node_modules$2f40$firebase$2f$firestore$2f$dist$2f$index$2e$esm$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["serverTimestamp"])(),
+                updatedAt: (0, __TURBOPACK__imported__module__$5b$project$5d2f$yardyman$2d$app$2f$yardyman$2d$app$2f$node_modules$2f40$firebase$2f$firestore$2f$dist$2f$index$2e$esm$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["serverTimestamp"])()
             };
             await (0, __TURBOPACK__imported__module__$5b$project$5d2f$yardyman$2d$app$2f$yardyman$2d$app$2f$node_modules$2f40$firebase$2f$firestore$2f$dist$2f$index$2e$esm$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["setDoc"])((0, __TURBOPACK__imported__module__$5b$project$5d2f$yardyman$2d$app$2f$yardyman$2d$app$2f$node_modules$2f40$firebase$2f$firestore$2f$dist$2f$index$2e$esm$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["doc"])(__TURBOPACK__imported__module__$5b$project$5d2f$yardyman$2d$app$2f$yardyman$2d$app$2f$firebase$2e$ts__$5b$app$2d$client$5d$__$28$ecmascript$29$__$3c$locals$3e$__["db"], "providers", user.uid), providerDoc);
             setProfile({
@@ -5736,14 +5785,14 @@ const AuthFlow = ({ isOpen, onClose, userLocation, onProviderCreated })=>{
                         }
                     }, void 0, false, {
                         fileName: "[project]/yardyman-app/yardyman-app/components/auth/AuthFlow.tsx",
-                        lineNumber: 234,
+                        lineNumber: 279,
                         columnNumber: 11
                     }, ("TURBOPACK compile-time value", void 0)),
                     /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$yardyman$2d$app$2f$yardyman$2d$app$2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("style", {
                         children: `@keyframes spin { to { transform: rotate(360deg); } }`
                     }, void 0, false, {
                         fileName: "[project]/yardyman-app/yardyman-app/components/auth/AuthFlow.tsx",
-                        lineNumber: 245,
+                        lineNumber: 290,
                         columnNumber: 11
                     }, ("TURBOPACK compile-time value", void 0)),
                     /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$yardyman$2d$app$2f$yardyman$2d$app$2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("p", {
@@ -5755,18 +5804,18 @@ const AuthFlow = ({ isOpen, onClose, userLocation, onProviderCreated })=>{
                         children: "Creating your profile…"
                     }, void 0, false, {
                         fileName: "[project]/yardyman-app/yardyman-app/components/auth/AuthFlow.tsx",
-                        lineNumber: 246,
+                        lineNumber: 291,
                         columnNumber: 11
                     }, ("TURBOPACK compile-time value", void 0))
                 ]
             }, void 0, true, {
                 fileName: "[project]/yardyman-app/yardyman-app/components/auth/AuthFlow.tsx",
-                lineNumber: 226,
+                lineNumber: 271,
                 columnNumber: 9
             }, ("TURBOPACK compile-time value", void 0))
         }, void 0, false, {
             fileName: "[project]/yardyman-app/yardyman-app/components/auth/AuthFlow.tsx",
-            lineNumber: 215,
+            lineNumber: 260,
             columnNumber: 7
         }, ("TURBOPACK compile-time value", void 0));
     }
@@ -5782,7 +5831,7 @@ const AuthFlow = ({ isOpen, onClose, userLocation, onProviderCreated })=>{
                 onPhoneAlreadyRegistered: handlePhoneAlreadyRegistered
             }, void 0, false, {
                 fileName: "[project]/yardyman-app/yardyman-app/components/auth/AuthFlow.tsx",
-                lineNumber: 255,
+                lineNumber: 300,
                 columnNumber: 9
             }, ("TURBOPACK compile-time value", void 0)),
             step === "login" && /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$yardyman$2d$app$2f$yardyman$2d$app$2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])(__TURBOPACK__imported__module__$5b$project$5d2f$yardyman$2d$app$2f$yardyman$2d$app$2f$components$2f$auth$2f$LoginModal$2e$tsx__$5b$app$2d$client$5d$__$28$ecmascript$29$__["default"], {
@@ -5794,7 +5843,7 @@ const AuthFlow = ({ isOpen, onClose, userLocation, onProviderCreated })=>{
                 slideFrom: loginSlideFrom
             }, void 0, false, {
                 fileName: "[project]/yardyman-app/yardyman-app/components/auth/AuthFlow.tsx",
-                lineNumber: 264,
+                lineNumber: 309,
                 columnNumber: 9
             }, ("TURBOPACK compile-time value", void 0)),
             step === "verify-create" && confirmationResult && /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$yardyman$2d$app$2f$yardyman$2d$app$2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])(__TURBOPACK__imported__module__$5b$project$5d2f$yardyman$2d$app$2f$yardyman$2d$app$2f$components$2f$auth$2f$VerifyCodeModal$2e$tsx__$5b$app$2d$client$5d$__$28$ecmascript$29$__["default"], {
@@ -5808,7 +5857,7 @@ const AuthFlow = ({ isOpen, onClose, userLocation, onProviderCreated })=>{
                 onLoginInstead: ()=>setStep("login")
             }, void 0, false, {
                 fileName: "[project]/yardyman-app/yardyman-app/components/auth/AuthFlow.tsx",
-                lineNumber: 275,
+                lineNumber: 320,
                 columnNumber: 9
             }, ("TURBOPACK compile-time value", void 0)),
             step === "verify-login" && confirmationResult && /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$yardyman$2d$app$2f$yardyman$2d$app$2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])(__TURBOPACK__imported__module__$5b$project$5d2f$yardyman$2d$app$2f$yardyman$2d$app$2f$components$2f$auth$2f$VerifyCodeModal$2e$tsx__$5b$app$2d$client$5d$__$28$ecmascript$29$__["default"], {
@@ -5819,7 +5868,7 @@ const AuthFlow = ({ isOpen, onClose, userLocation, onProviderCreated })=>{
                 onEditPhone: ()=>setStep("login")
             }, void 0, false, {
                 fileName: "[project]/yardyman-app/yardyman-app/components/auth/AuthFlow.tsx",
-                lineNumber: 288,
+                lineNumber: 333,
                 columnNumber: 9
             }, ("TURBOPACK compile-time value", void 0)),
             step === "select-services" && /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$yardyman$2d$app$2f$yardyman$2d$app$2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])(__TURBOPACK__imported__module__$5b$project$5d2f$yardyman$2d$app$2f$yardyman$2d$app$2f$components$2f$auth$2f$SelectServicesModal$2e$tsx__$5b$app$2d$client$5d$__$28$ecmascript$29$__["default"], {
@@ -5827,7 +5876,7 @@ const AuthFlow = ({ isOpen, onClose, userLocation, onProviderCreated })=>{
                 onDone: handleServicesDone
             }, void 0, false, {
                 fileName: "[project]/yardyman-app/yardyman-app/components/auth/AuthFlow.tsx",
-                lineNumber: 298,
+                lineNumber: 343,
                 columnNumber: 9
             }, ("TURBOPACK compile-time value", void 0)),
             step === "profile" && profile && /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$yardyman$2d$app$2f$yardyman$2d$app$2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])(__TURBOPACK__imported__module__$5b$project$5d2f$yardyman$2d$app$2f$yardyman$2d$app$2f$components$2f$auth$2f$ProviderProfileModal$2e$tsx__$5b$app$2d$client$5d$__$28$ecmascript$29$__["default"], {
@@ -5835,7 +5884,7 @@ const AuthFlow = ({ isOpen, onClose, userLocation, onProviderCreated })=>{
                 onClose: close
             }, void 0, false, {
                 fileName: "[project]/yardyman-app/yardyman-app/components/auth/AuthFlow.tsx",
-                lineNumber: 302,
+                lineNumber: 347,
                 columnNumber: 9
             }, ("TURBOPACK compile-time value", void 0))
         ]
@@ -6025,7 +6074,7 @@ function Home() {
                                 hasTools: data.hasTools ?? false,
                                 paymentMethods: Array.isArray(data.paymentMethods) ? data.paymentMethods : [],
                                 isAvailable: data.isAvailable ?? true,
-                                profileViews: data.profileViews ?? 0
+                                profileViews: data.profileViewCount ?? data.profileViews ?? 0
                             });
                         }
                     } catch  {
