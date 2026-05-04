@@ -1,5 +1,6 @@
 "use client";
 import React, { useCallback, useEffect, useRef, useState } from "react";
+import { useBodyScrollLock } from "@/hooks/useBodyScrollLock";
 
 interface ImageCropModalProps {
   src: string;
@@ -12,6 +13,8 @@ function clamp(v: number, lo: number, hi: number) {
 }
 
 const ImageCropModal: React.FC<ImageCropModalProps> = ({ src, onCrop, onCancel }) => {
+  useBodyScrollLock();
+
   // Dynamic crop size — fills the screen width so image is shown "as-is"
   const cropSize =
     typeof window !== "undefined" ? Math.min(window.innerWidth - 24, 420) : 300;

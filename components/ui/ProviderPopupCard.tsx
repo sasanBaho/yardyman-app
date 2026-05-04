@@ -134,6 +134,17 @@ const ProviderPopupCard: React.FC<ProviderPopupCardProps> = ({ provider, onClose
           {/* Photo + name */}
           <div style={{ display: "flex", flexDirection: "column", alignItems: "center", gap: 6, flexShrink: 0 }}>
             <div style={{ position: "relative" }}>
+              <div
+                style={{
+                  width: 113,
+                  height: 113,
+                  borderRadius: "50%",
+                  background: accentColor, // outer colored circle
+                  display: "flex",
+                  alignItems: "center",
+                  justifyContent: "center",
+                }}
+              >
               <img
                 src={provider.imageUrl}
                 alt={provider.providerName}
@@ -142,10 +153,11 @@ const ProviderPopupCard: React.FC<ProviderPopupCardProps> = ({ provider, onClose
                   height: 110,
                   borderRadius: "50%",
                   objectFit: "cover",
-                  border: `3px solid ${accentColor}`,
+                  border: `2px solid white`,
                   display: "block",
                 }}
               />
+              </div>
               <div style={{
                 position: "absolute",
                 bottom: 4,
@@ -160,7 +172,7 @@ const ProviderPopupCard: React.FC<ProviderPopupCardProps> = ({ provider, onClose
                 justifyContent: "center",
                 boxShadow: "0 1px 4px rgba(0,0,0,0.1)",
               }}>
-                <img src={serviceIcon} alt="service" style={{ width: 20, height: 20, objectFit: "contain" }} />
+                <img src={serviceIcon} alt="service" style={{ width: 30, height: 30, objectFit: "contain" }} />
               </div>
             </div>
             <span style={{ fontWeight: 700, fontSize: 17, textAlign: "center" }}>
@@ -273,8 +285,8 @@ const ProviderPopupCard: React.FC<ProviderPopupCardProps> = ({ provider, onClose
               background: "#fffbeb",
               border: "1px solid #fcd34d",
               borderRadius: 999,
-              padding: "7px 14px",
-              fontSize: 14,
+              padding: "5px 10px",
+              fontSize: 12,
               fontWeight: 600,
               color: "#92400e",
               cursor: "pointer",

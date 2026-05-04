@@ -1,5 +1,6 @@
 "use client";
 import React from "react";
+import { useBodyScrollLock } from "@/hooks/useBodyScrollLock";
 
 interface ModalBaseProps {
   onClose: () => void;
@@ -14,6 +15,8 @@ const ModalBase: React.FC<ModalBaseProps> = ({
   closeButtonColor = "#09f",
   slideFrom,
 }) => {
+  useBodyScrollLock();
+
   const animationName =
     slideFrom === "right"
       ? "modalSlideFromRight"
@@ -58,6 +61,7 @@ const ModalBase: React.FC<ModalBaseProps> = ({
           maxWidth: 520,
           maxHeight: "92dvh",
           overflowY: "auto",
+          overscrollBehavior: "contain",
           padding: "24px 24px 48px",
           position: "relative",
           animation: `${animationName} 0.28s cubic-bezier(0.25, 0.46, 0.45, 0.94) both`,

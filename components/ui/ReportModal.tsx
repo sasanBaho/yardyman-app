@@ -1,6 +1,7 @@
 "use client";
 import React, { useState } from "react";
 import { auth, db } from "@/firebase";
+import { useBodyScrollLock } from "@/hooks/useBodyScrollLock";
 import { doc, setDoc, serverTimestamp } from "firebase/firestore";
 
 const REPORT_TYPES = [
@@ -97,6 +98,8 @@ interface ReportModalProps {
 }
 
 const ReportModal: React.FC<ReportModalProps> = ({ providerId, providerName, onClose }) => {
+  useBodyScrollLock();
+
   const [selectedType, setSelectedType] = useState<ReportTypeValue>("poor_service");
   const [description, setDescription] = useState("");
   const [submitting, setSubmitting] = useState(false);

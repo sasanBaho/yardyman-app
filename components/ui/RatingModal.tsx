@@ -1,6 +1,7 @@
 "use client";
 import React, { useEffect, useState } from "react";
 import { auth, db } from "@/firebase";
+import { useBodyScrollLock } from "@/hooks/useBodyScrollLock";
 import {
   doc,
   getDoc,
@@ -19,6 +20,8 @@ interface RatingModalProps {
 }
 
 const RatingModal: React.FC<RatingModalProps> = ({ providerId, providerName, onClose, onRated }) => {
+  useBodyScrollLock();
+
   const [hovered, setHovered] = useState(0);
   const [selected, setSelected] = useState(0);
   const [existingRating, setExistingRating] = useState(0);

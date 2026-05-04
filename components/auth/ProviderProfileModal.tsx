@@ -1,5 +1,6 @@
 "use client";
 import React, { useEffect, useRef, useState } from "react";
+import { useBodyScrollLock } from "@/hooks/useBodyScrollLock";
 import { updateDoc, doc, getDoc } from "firebase/firestore";
 import { ref as storageRef, uploadBytes, getDownloadURL } from "firebase/storage";
 import { db, storage } from "@/firebase";
@@ -65,6 +66,8 @@ const ProviderProfileModal: React.FC<ProviderProfileModalProps> = ({
   onAvailabilityChange,
   onProfileUpdated,
 }) => {
+  useBodyScrollLock();
+
   const [isAvailable, setIsAvailable] = useState(profile.isAvailable);
   const [profileState, setProfileState] = useState(profile);
   const [showEditServices, setShowEditServices] = useState(false);
@@ -79,7 +82,6 @@ const ProviderProfileModal: React.FC<ProviderProfileModalProps> = ({
   const cameraInputRef = useRef<HTMLInputElement>(null);
   const nameInputRef = useRef<HTMLInputElement>(null);
   const isMobile = typeof window !== "undefined" && /Mobi|Android|iPhone|iPad|iPod|Opera Mini|IEMobile/i.test(navigator.userAgent);
-
   useEffect(() => {
     getDoc(doc(db, "providers", profile.uid)).then((snap) => {
       if (snap.exists()) {
@@ -329,6 +331,17 @@ const ProviderProfileModal: React.FC<ProviderProfileModalProps> = ({
             }}
           >
             {profileState.photoUrl ? (
+              <div
+                style={{
+                  width: 103,
+                  height: 103,
+                  borderRadius: "50%",
+                  background: "#22c55e" , // outer colored circle
+                  display: "flex",
+                  alignItems: "center",
+                  justifyContent: "center",
+                }}
+              >
               <img
                 src={profileState.photoUrl}
                 alt={profileState.name}
@@ -337,9 +350,10 @@ const ProviderProfileModal: React.FC<ProviderProfileModalProps> = ({
                   height: 100,
                   borderRadius: "50%",
                   objectFit: "cover",
-                  border: "3px solid #22c55e",
+                  border: "2px solid #fff",
                 }}
               />
+              </div>
             ) : (
               <div
                 style={{
