@@ -177,48 +177,41 @@ const SelectServicesModal: React.FC<SelectServicesModalProps> = ({ onClose, onDo
                   background: state.selected ? "rgba(0,0,0,0.25)" : "rgba(0,0,0,0.08)",
                 }}
               />
-              {/* Checkmark badge */}
-              {state.selected && (
-                <div
-                  style={{
-                    position: "absolute",
-                    top: 10,
-                    left: 10,
-                    width: 28,
-                    height: 28,
-                    borderRadius: "50%",
-                    background: "#22c55e",
-                    display: "flex",
-                    alignItems: "center",
-                    justifyContent: "center",
-                  }}
-                >
-                  <svg width={15} height={15} viewBox="0 0 20 20" fill="none">
-                    <path
-                      d="M5 10.5L9 14.5L15 7.5"
-                      stroke="white"
-                      strokeWidth="2.5"
-                      strokeLinecap="round"
-                      strokeLinejoin="round"
-                    />
-                  </svg>
-                </div>
-              )}
-              {/* Service label */}
+              {/* Service label with inline circle indicator */}
               <div
                 style={{
                   position: "absolute",
                   top: 10,
-                  left: state.selected ? 48 : 10,
+                  left: 10,
                   right: 10,
                   background: "rgba(255,255,255,0.92)",
                   borderRadius: 8,
                   padding: "5px 10px",
                   fontWeight: 700,
                   fontSize: 14,
-                  maxWidth: "calc(100% - 68px)",
+                  display: "flex",
+                  alignItems: "center",
+                  gap: 8,
+                  maxWidth: "calc(100% - 20px)",
                 }}
               >
+                <div style={{
+                  width: 26,
+                  height: 26,
+                  borderRadius: "50%",
+                  background: state.selected ? "#22c55e" : "#fff",
+                  border: state.selected ? "none" : "2px solid #bbb",
+                  display: "flex",
+                  alignItems: "center",
+                  justifyContent: "center",
+                  flexShrink: 0,
+                }}>
+                  {state.selected && (
+                    <svg width={14} height={14} viewBox="0 0 20 20" fill="none">
+                      <path d="M5 10.5L9 14.5L15 7.5" stroke="white" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round" />
+                    </svg>
+                  )}
+                </div>
                 {svc.name}
               </div>
             </div>

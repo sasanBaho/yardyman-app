@@ -5,6 +5,7 @@ import { ref as storageRef, uploadBytes, getDownloadURL } from "firebase/storage
 import { db, storage } from "@/firebase";
 import SelectServicesModal, { ServicesFormData } from "./SelectServicesModal";
 import ImageCropModal from "./ImageCropModal";
+import { BsCircleFill } from "react-icons/bs";
 
 export interface ProviderProfile {
   uid: string;
@@ -71,8 +72,12 @@ const ProviderProfileModal: React.FC<ProviderProfileModalProps> = ({
   const [showImagePicker, setShowImagePicker] = useState(false);
   const [cropSrc, setCropSrc] = useState<string | null>(null);
   const [uploadingPhoto, setUploadingPhoto] = useState(false);
+  const [editingName, setEditingName] = useState(false);
+  const [nameInput, setNameInput] = useState(profile.name);
+  const [savingName, setSavingName] = useState(false);
   const fileInputRef = useRef<HTMLInputElement>(null);
   const cameraInputRef = useRef<HTMLInputElement>(null);
+  const nameInputRef = useRef<HTMLInputElement>(null);
   const isMobile = typeof window !== "undefined" && /Mobi|Android|iPhone|iPad|iPod|Opera Mini|IEMobile/i.test(navigator.userAgent);
 
   useEffect(() => {
@@ -120,6 +125,24 @@ const ProviderProfileModal: React.FC<ProviderProfileModalProps> = ({
       onProfileUpdated?.(updated);
     } finally {
       setUploadingPhoto(false);
+    }
+  };
+
+  const handleNameSave = async () => {
+    const trimmed = nameInput.trim();
+    if (!trimmed || trimmed === profileState.name) {
+      setEditingName(false);
+      return;
+    }
+    setSavingName(true);
+    try {
+      await updateDoc(doc(db, "providers", profile.uid), { providerName: trimmed });
+      const updated = { ...profileState, name: trimmed };
+      setProfileState(updated);
+      onProfileUpdated?.(updated);
+    } finally {
+      setSavingName(false);
+      setEditingName(false);
     }
   };
 
@@ -376,31 +399,68 @@ const ProviderProfileModal: React.FC<ProviderProfileModalProps> = ({
               marginBottom: 10,
             }}
           >
-            <span
-              style={{
-                fontSize: 20,
-                fontWeight: 700,
-                textDecoration: "underline",
-              }}
-            >
-              {profileState.name}
-            </span>
-            <button
-              style={{ background: "none", border: "none", cursor: "pointer", padding: 0 }}
-              aria-label="Edit name"
-            >
-              <svg
-                width={17}
-                height={17}
-                viewBox="0 0 24 24"
-                fill="none"
-                stroke="#333"
-                strokeWidth="2"
-              >
-                <path d="M11 4H4a2 2 0 00-2 2v14a2 2 0 002 2h14a2 2 0 002-2v-7" />
-                <path d="M18.5 2.5a2.121 2.121 0 013 3L12 15l-4 1 1-4 9.5-9.5z" />
-              </svg>
-            </button>
+            {editingName ? (
+              <>
+                <input
+                  ref={nameInputRef}
+                  value={nameInput}
+                  onChange={(e) => setNameInput(e.target.value)}
+                  onKeyDown={(e) => e.key === "Enter" && handleNameSave()}
+                  autoFocus
+                  style={{
+                    fontSize: 18,
+                    fontWeight: 700,
+                    border: "none",
+                    borderBottom: "2px solid #22c55e",
+                    outline: "none",
+                    background: "transparent",
+                    textAlign: "center",
+                    width: 180,
+                    padding: "2px 4px",
+                  }}
+                />
+                <button
+                  onClick={handleNameSave}
+                  disabled={savingName}
+                  style={{
+                    background: "#22c55e",
+                    border: "none",
+                    borderRadius: 999,
+                    color: "#fff",
+                    fontSize: 13,
+                    fontWeight: 700,
+                    padding: "4px 12px",
+                    cursor: savingName ? "not-allowed" : "pointer",
+                  }}
+                >
+                  {savingName ? "…" : "Done"}
+                </button>
+              </>
+            ) : (
+              <>
+                <span
+                  onClick={() => { setNameInput(profileState.name); setEditingName(true); }}
+                  style={{
+                    fontSize: 20,
+                    fontWeight: 700,
+                    textDecoration: "underline",
+                    cursor: "pointer",
+                  }}
+                >
+                  {profileState.name}
+                </span>
+                <button
+                  onClick={() => { setNameInput(profileState.name); setEditingName(true); }}
+                  style={{ background: "none", border: "none", cursor: "pointer", padding: 0 }}
+                  aria-label="Edit name"
+                >
+                  <svg width={17} height={17} viewBox="0 0 24 24" fill="none" stroke="#333" strokeWidth="2">
+                    <path d="M11 4H4a2 2 0 00-2 2v14a2 2 0 002 2h14a2 2 0 002-2v-7" />
+                    <path d="M18.5 2.5a2.121 2.121 0 013 3L12 15l-4 1 1-4 9.5-9.5z" />
+                  </svg>
+                </button>
+              </>
+            )}
           </div>
 
           {/* Location + phone */}
@@ -564,11 +624,7 @@ const ProviderProfileModal: React.FC<ProviderProfileModalProps> = ({
 
           {/* Tools preference */}
           <div style={{ display: "flex", alignItems: "center", gap: 8, marginBottom: 20, marginTop: 4 }}>
-            <img
-              src={profileState.hasTools ? "/shovel-blue.png" : "/shovel-black.png"}
-              alt="Tools"
-              style={{ width: 20, height: 20, objectFit: "contain" }}
-            />
+              <BsCircleFill color="#22c55e" size={10} />
             <span style={{ fontSize: 14, color: "#555", fontWeight: 500 }}>
               {profileState.hasTools ? "I have tools" : "I will use home-owner's tools"}
             </span>
