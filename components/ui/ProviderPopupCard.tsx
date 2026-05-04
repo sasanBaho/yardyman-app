@@ -130,7 +130,7 @@ const ProviderPopupCard: React.FC<ProviderPopupCardProps> = ({ provider, onClose
         </button>
 
         {/* Top section: photo + CTA buttons */}
-        <div style={{ display: "flex", alignItems: "center", gap: 14, padding: "20px 16px 16px" }}>
+       <div style={{ display: "flex", alignItems: "center", gap: 14, padding: "30px 16px 16px" }}>
           {/* Photo + name */}
           <div style={{ display: "flex", flexDirection: "column", alignItems: "center", gap: 6, flexShrink: 0 }}>
             <div style={{ position: "relative" }}>

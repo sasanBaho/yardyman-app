@@ -834,6 +834,10 @@
     color: var(--popover-foreground);
   }
 
+  .uppercase {
+    text-transform: uppercase;
+  }
+
   .italic {
     font-style: italic;
   }
