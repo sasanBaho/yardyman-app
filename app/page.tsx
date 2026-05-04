@@ -32,7 +32,7 @@ import { MapControls } from "@/components/map/components/MapControls";
 import { MapMarker, MarkerContent } from "@/components/map/components/MapMarker";
 import { trackEvent, trackPageView } from "@/lib/analytics";
 import { db, collection, getDocs, auth, query, where } from "../firebase";
-import { onAuthStateChanged, signOut } from "firebase/auth";
+import { onAuthStateChanged } from "firebase/auth";
 import AuthFlow from "@/components/auth/AuthFlow";
 import ProviderProfileModal, { ProviderProfile } from "@/components/auth/ProviderProfileModal";
 
@@ -158,11 +158,6 @@ export default function Home() {
     return () => unsubscribe();
   }, []);
 
-  async function handleSignOut() {
-    await signOut(auth);
-    setCurrentProviderData(null);
-  }
-
   useEffect(() => {
     if (typeof window === "undefined") return;
 
@@ -286,7 +281,6 @@ export default function Home() {
       <Navbar
         onCreateAccount={currentProviderData ? undefined : () => setShowAuth(true)}
         currentUser={currentProviderData ? { photoUrl: currentProviderData.photoUrl, name: currentProviderData.name } : null}
-        onSignOut={handleSignOut}
         onEditAccount={() => setShowProfile(true)}
       >
         <button
