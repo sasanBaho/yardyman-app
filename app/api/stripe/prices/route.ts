@@ -1,8 +1,6 @@
 import { NextResponse } from "next/server";
 import Stripe from "stripe";
 
-const stripe = new Stripe(process.env.STRIPE_SECRET_KEY!);
-
 const PRICE_IDS = [
   process.env.STRIPE_MONTHLY_PRICE_ID,
   process.env.STRIPE_QUARTERLY_PRICE_ID,
@@ -10,6 +8,7 @@ const PRICE_IDS = [
 ].filter(Boolean) as string[];
 
 export async function GET() {
+  const stripe = new Stripe(process.env.STRIPE_SECRET_KEY!);
   const prices = await Promise.all(
     PRICE_IDS.map((id) =>
       stripe.prices.retrieve(id, { expand: ["product"] })
