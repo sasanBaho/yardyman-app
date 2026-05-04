@@ -115,7 +115,7 @@ export default function Home() {
     pitch: 0,
   });
   const [userLocation, setUserLocation] = useState<[number, number] | null>(null);
-  const [activeService, setActiveService] = useState<"snow" | "lawn">("snow");
+  const [activeService, setActiveService] = useState<"snow" | "lawn">("lawn");
   const [isSmallScreen, setIsSmallScreen] = useState(false);
   const [showAuth, setShowAuth] = useState(false);
   const [currentProviderData, setCurrentProviderData] = useState<ProviderProfile | null>(null);
@@ -411,6 +411,7 @@ export default function Home() {
                       description: updated.descriptions as any,
                       hasTools: updated.hasTools,
                       paymentMethods: updated.paymentMethods,
+                      imageUrl: updated.photoUrl,
                     }
                   : p
               )

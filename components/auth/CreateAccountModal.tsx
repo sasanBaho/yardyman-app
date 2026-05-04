@@ -3,6 +3,7 @@ import React, { useRef, useState } from "react";
 import { RecaptchaVerifier, signInWithPhoneNumber, ConfirmationResult } from "firebase/auth";
 import ModalBase from "./ModalBase";
 import PhoneInput from "./PhoneInput";
+import ImageCropModal from "./ImageCropModal";
 import { auth, db, collection, query, where, getDocs } from "@/firebase";
 
 export interface SignupFormData {
@@ -32,6 +33,7 @@ const CreateAccountModal: React.FC<CreateAccountModalProps> = ({
   const [photoFile, setPhotoFile] = useState<File | null>(null);
   const [photoPreview, setPhotoPreview] = useState<string | null>(null);
   const [showImagePicker, setShowImagePicker] = useState(false);
+  const [cropSrc, setCropSrc] = useState<string | null>(null);
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState("");
 
@@ -49,11 +51,21 @@ const CreateAccountModal: React.FC<CreateAccountModalProps> = ({
     name.trim().length > 0 && digits.length >= 10 && email.trim().length > 0;
 
   const handlePhotoSelected = (file: File) => {
-    setPhotoFile(file);
-    const reader = new FileReader();
-    reader.onload = (e) => setPhotoPreview(e.target?.result as string);
-    reader.readAsDataURL(file);
     setShowImagePicker(false);
+    const reader = new FileReader();
+    reader.onload = (e) => setCropSrc(e.target?.result as string);
+    reader.readAsDataURL(file);
+  };
+
+  const handleCropDone = (dataUrl: string) => {
+    setCropSrc(null);
+    setPhotoPreview(dataUrl);
+    const arr = dataUrl.split(",");
+    const mime = arr[0].match(/:(.*?);/)![1];
+    const bstr = atob(arr[1]);
+    const u8 = new Uint8Array(bstr.length);
+    for (let i = 0; i < bstr.length; i++) u8[i] = bstr.charCodeAt(i);
+    setPhotoFile(new File([u8], "profile.jpg", { type: mime }));
   };
 
   const handleSendCode = async () => {
@@ -84,6 +96,14 @@ const CreateAccountModal: React.FC<CreateAccountModalProps> = ({
   };
 
   return (
+    <>
+      {cropSrc && (
+        <ImageCropModal
+          src={cropSrc}
+          onCrop={handleCropDone}
+          onCancel={() => setCropSrc(null)}
+        />
+      )}
     <ModalBase onClose={onClose}>
       <div id="recaptcha-create" />
 
@@ -349,6 +369,7 @@ const CreateAccountModal: React.FC<CreateAccountModalProps> = ({
         </button>
       </div>
     </ModalBase>
+    </>
   );
 };
 

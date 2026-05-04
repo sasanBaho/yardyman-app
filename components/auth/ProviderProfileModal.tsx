@@ -1,8 +1,10 @@
 "use client";
-import React, { useEffect, useState } from "react";
+import React, { useEffect, useRef, useState } from "react";
 import { updateDoc, doc, getDoc } from "firebase/firestore";
-import { db } from "@/firebase";
+import { ref as storageRef, uploadBytes, getDownloadURL } from "firebase/storage";
+import { db, storage } from "@/firebase";
 import SelectServicesModal, { ServicesFormData } from "./SelectServicesModal";
+import ImageCropModal from "./ImageCropModal";
 
 export interface ProviderProfile {
   uid: string;
@@ -66,6 +68,12 @@ const ProviderProfileModal: React.FC<ProviderProfileModalProps> = ({
   const [profileState, setProfileState] = useState(profile);
   const [showEditServices, setShowEditServices] = useState(false);
   const [saving, setSaving] = useState(false);
+  const [showImagePicker, setShowImagePicker] = useState(false);
+  const [cropSrc, setCropSrc] = useState<string | null>(null);
+  const [uploadingPhoto, setUploadingPhoto] = useState(false);
+  const fileInputRef = useRef<HTMLInputElement>(null);
+  const cameraInputRef = useRef<HTMLInputElement>(null);
+  const isMobile = typeof window !== "undefined" && /Mobi|Android|iPhone|iPad|iPod|Opera Mini|IEMobile/i.test(navigator.userAgent);
 
   useEffect(() => {
     getDoc(doc(db, "providers", profile.uid)).then((snap) => {
@@ -83,6 +91,35 @@ const ProviderProfileModal: React.FC<ProviderProfileModalProps> = ({
       await updateDoc(doc(db, "providers", profile.uid), { isAvailable: next });
     } catch {
       setIsAvailable(!next);
+    }
+  };
+
+  const handlePhotoFileSelected = (file: File) => {
+    setShowImagePicker(false);
+    const reader = new FileReader();
+    reader.onload = (e) => setCropSrc(e.target?.result as string);
+    reader.readAsDataURL(file);
+  };
+
+  const handlePhotoCropDone = async (dataUrl: string) => {
+    setCropSrc(null);
+    setUploadingPhoto(true);
+    try {
+      const arr = dataUrl.split(",");
+      const mime = arr[0].match(/:(.*?);/)![1];
+      const bstr = atob(arr[1]);
+      const u8 = new Uint8Array(bstr.length);
+      for (let i = 0; i < bstr.length; i++) u8[i] = bstr.charCodeAt(i);
+      const blob = new Blob([u8], { type: mime });
+      const sRef = storageRef(storage, `provider_profiles/${profile.uid}/profile.jpg`);
+      await uploadBytes(sRef, blob, { contentType: "image/jpeg" });
+      const url = await getDownloadURL(sRef);
+      await updateDoc(doc(db, "providers", profile.uid), { imageUrl: url });
+      const updated = { ...profileState, photoUrl: url };
+      setProfileState(updated);
+      onProfileUpdated?.(updated);
+    } finally {
+      setUploadingPhoto(false);
     }
   };
 
@@ -137,6 +174,28 @@ const ProviderProfileModal: React.FC<ProviderProfileModalProps> = ({
     );
   }
 
+  if (cropSrc) {
+    return (
+      <ImageCropModal
+        src={cropSrc}
+        onCrop={handlePhotoCropDone}
+        onCancel={() => setCropSrc(null)}
+      />
+    );
+  }
+
+  if (uploadingPhoto) {
+    return (
+      <div style={{ position: "fixed", inset: 0, zIndex: 600, display: "flex", alignItems: "center", justifyContent: "center", background: "rgba(0,0,0,0.45)" }}>
+        <div style={{ background: "#fff", borderRadius: 16, padding: "32px 40px", textAlign: "center" }}>
+          <div style={{ width: 40, height: 40, border: "4px solid #e0e0e0", borderTopColor: "#22c55e", borderRadius: "50%", animation: "spin 0.8s linear infinite", margin: "0 auto 16px" }} />
+          <style>{`@keyframes spin { to { transform: rotate(360deg); } }`}</style>
+          <p style={{ margin: 0, fontWeight: 600, fontSize: 16 }}>Uploading photo…</p>
+        </div>
+      </div>
+    );
+  }
+
   return (
     <div
       style={{
@@ -152,6 +211,40 @@ const ProviderProfileModal: React.FC<ProviderProfileModalProps> = ({
         if (e.target === e.currentTarget) onClose();
       }}
     >
+      {/* Hidden file inputs */}
+      <input ref={fileInputRef} type="file" accept="image/*" style={{ display: "none" }}
+        onChange={(e) => e.target.files?.[0] && handlePhotoFileSelected(e.target.files[0])} />
+      <input ref={cameraInputRef} type="file" accept="image/*" capture="user" style={{ display: "none" }}
+        onChange={(e) => e.target.files?.[0] && handlePhotoFileSelected(e.target.files[0])} />
+
+      {/* iOS-style image picker sheet */}
+      {showImagePicker && (
+        <div style={{ position: "fixed", inset: 0, zIndex: 700, display: "flex", alignItems: "flex-end", background: "rgba(0,0,0,0.4)" }}
+          onClick={() => setShowImagePicker(false)}>
+          <div style={{ width: "100%", padding: "0 8px 8px" }} onClick={(e) => e.stopPropagation()}>
+            <div style={{ background: "#fff", borderRadius: 14, overflow: "hidden", marginBottom: 8 }}>
+              <div style={{ padding: "12px 16px", textAlign: "center", color: "#888", fontSize: 14, borderBottom: "1px solid #e5e5ea" }}>
+                Update Profile Photo
+              </div>
+              {isMobile && (
+                <button onClick={() => cameraInputRef.current?.click()}
+                  style={{ width: "100%", padding: "18px", background: "#fff", border: "none", borderBottom: "1px solid #e5e5ea", color: "#007aff", fontSize: 17, cursor: "pointer" }}>
+                  Camera
+                </button>
+              )}
+              <button onClick={() => fileInputRef.current?.click()}
+                style={{ width: "100%", padding: "18px", background: "#fff", border: "none", color: "#007aff", fontSize: 17, cursor: "pointer" }}>
+                Photo Library
+              </button>
+            </div>
+            <button onClick={() => setShowImagePicker(false)}
+              style={{ width: "100%", padding: "18px", background: "#fff", border: "none", borderRadius: 14, color: "#007aff", fontSize: 17, fontWeight: 700, cursor: "pointer" }}>
+              Cancel
+            </button>
+          </div>
+        </div>
+      )}
+
       <div
         style={{
           width: "100%",
@@ -203,11 +296,13 @@ const ProviderProfileModal: React.FC<ProviderProfileModalProps> = ({
 
           {/* Avatar */}
           <div
+            onClick={() => setShowImagePicker(true)}
             style={{
               position: "relative",
               display: "inline-block",
               marginBottom: 14,
               marginTop: 8,
+              cursor: "pointer",
             }}
           >
             {profileState.photoUrl ? (
@@ -241,7 +336,9 @@ const ProviderProfileModal: React.FC<ProviderProfileModalProps> = ({
                 {profileState.name.charAt(0).toUpperCase()}
               </div>
             )}
-            <div
+            <button
+              onClick={() => setShowImagePicker(true)}
+              aria-label="Change profile photo"
               style={{
                 position: "absolute",
                 bottom: 2,
@@ -250,10 +347,12 @@ const ProviderProfileModal: React.FC<ProviderProfileModalProps> = ({
                 height: 30,
                 borderRadius: "50%",
                 background: "#22c55e",
+                border: "none",
                 display: "flex",
                 alignItems: "center",
                 justifyContent: "center",
                 cursor: "pointer",
+                padding: 0,
               }}
             >
               <svg width={15} height={15} viewBox="0 0 24 24" fill="none">
@@ -264,7 +363,7 @@ const ProviderProfileModal: React.FC<ProviderProfileModalProps> = ({
                 />
                 <circle cx="12" cy="13" r="4" stroke="white" strokeWidth="2" />
               </svg>
-            </div>
+            </button>
           </div>
 
           {/* Name */}
@@ -459,33 +558,21 @@ const ProviderProfileModal: React.FC<ProviderProfileModalProps> = ({
                 <p style={{ color: "#666", fontSize: 14, margin: "0 0 6px 38px" }}>
                   {profileState.descriptions[id]}
                 </p>
-                {id === "service-two" && (
-                  <div
-                    style={{
-                      display: "flex",
-                      alignItems: "center",
-                      gap: 6,
-                      marginLeft: 38,
-                      fontSize: 14,
-                      color: "#555",
-                    }}
-                  >
-                    <span
-                      style={{
-                        width: 8,
-                        height: 8,
-                        borderRadius: "50%",
-                        background: "#22c55e",
-                        display: "inline-block",
-                        flexShrink: 0,
-                      }}
-                    />
-                    {profileState.hasTools ? "I have tools" : "I will use home-owner's tools"}
-                  </div>
-                )}
               </div>
             );
           })}
+
+          {/* Tools preference */}
+          <div style={{ display: "flex", alignItems: "center", gap: 8, marginBottom: 20, marginTop: 4 }}>
+            <img
+              src={profileState.hasTools ? "/shovel-blue.png" : "/shovel-black.png"}
+              alt="Tools"
+              style={{ width: 20, height: 20, objectFit: "contain" }}
+            />
+            <span style={{ fontSize: 14, color: "#555", fontWeight: 500 }}>
+              {profileState.hasTools ? "I have tools" : "I will use home-owner's tools"}
+            </span>
+          </div>
 
           {/* Payment Methods */}
           <div style={{ paddingBottom: 40, marginTop: 8 }}>

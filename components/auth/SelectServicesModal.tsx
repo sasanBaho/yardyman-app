@@ -133,7 +133,7 @@ const SelectServicesModal: React.FC<SelectServicesModalProps> = ({ onClose, onDo
     onDone({
       selectedServices: selectedIds,
       descriptions,
-      hasTools: services["service-two"].selected ? services["service-two"].hasTools : false,
+      hasTools: services["service-two"].hasTools,
       paymentMethods: Object.entries(payments)
         .filter(([, v]) => v)
         .map(([k]) => k),
@@ -162,7 +162,7 @@ const SelectServicesModal: React.FC<SelectServicesModalProps> = ({ onClose, onDo
                 overflow: "hidden",
                 cursor: "pointer",
                 height: 160,
-                marginBottom: state.selected ? 14 : 0,
+                marginBottom: 14,
               }}
             >
               <img
@@ -243,38 +243,40 @@ const SelectServicesModal: React.FC<SelectServicesModalProps> = ({ onClose, onDo
                     resize: "none",
                     boxSizing: "border-box",
                     fontFamily: "inherit",
+                    marginBottom: svc.hasToolsOption ? 12 : 0,
                   }}
                 />
-
-                {svc.hasToolsOption && (
-                  <div style={{ marginTop: 12 }}>
-                    {(["I have tools", "I will use home-owner's tools"] as const).map(
-                      (label, i) => {
-                        const isChecked = i === 0 ? state.hasTools : !state.hasTools;
-                        return (
-                          <label
-                            key={label}
-                            style={{
-                              display: "flex",
-                              alignItems: "center",
-                              gap: 10,
-                              cursor: "pointer",
-                              marginBottom: 8,
-                              fontSize: 15,
-                            }}
-                          >
-                            <RadioDot
-                              checked={isChecked}
-                              onChange={() => update(svc.id, { hasTools: i === 0 })}
-                            />
-                            {label}
-                          </label>
-                        );
-                      }
-                    )}
-                  </div>
-                )}
               </>
+            )}
+
+            {/* Tools radio — always visible for snow service */}
+            {svc.hasToolsOption && (
+              <div style={{ marginTop: state.selected ? 0 : 4 }}>
+                {(["I have tools", "I will use home-owner's tools"] as const).map(
+                  (label, i) => {
+                    const isChecked = i === 0 ? state.hasTools : !state.hasTools;
+                    return (
+                      <label
+                        key={label}
+                        style={{
+                          display: "flex",
+                          alignItems: "center",
+                          gap: 10,
+                          cursor: "pointer",
+                          marginBottom: 8,
+                          fontSize: 15,
+                        }}
+                      >
+                        <RadioDot
+                          checked={isChecked}
+                          onChange={() => update(svc.id, { hasTools: i === 0 })}
+                        />
+                        {label}
+                      </label>
+                    );
+                  }
+                )}
+              </div>
             )}
           </div>
         );
