@@ -3,7 +3,8 @@ import React, { useEffect, useRef, useState } from "react";
 import { useBodyScrollLock } from "@/hooks/useBodyScrollLock";
 import { updateDoc, doc, getDoc } from "firebase/firestore";
 import { ref as storageRef, uploadBytes, getDownloadURL } from "firebase/storage";
-import { db, storage } from "@/firebase";
+import { db, storage, auth } from "@/firebase";
+import { signOut } from "firebase/auth";
 import SelectServicesModal, { ServicesFormData } from "./SelectServicesModal";
 import ImageCropModal from "./ImageCropModal";
 import { BsCircleFill } from "react-icons/bs";
@@ -645,7 +646,7 @@ const ProviderProfileModal: React.FC<ProviderProfileModalProps> = ({
           </div>
 
           {/* Payment Methods */}
-          <div style={{ paddingBottom: 40, marginTop: 8 }}>
+          <div style={{ marginTop: 8 }}>
             <span style={{ fontWeight: 700, fontSize: 17, display: "block", marginBottom: 12 }}>
               Payment Methods:
             </span>
@@ -660,6 +661,24 @@ const ProviderProfileModal: React.FC<ProviderProfileModalProps> = ({
                 </span>
               ))}
             </div>
+          </div>
+
+          {/* Sign out */}
+          <div style={{ textAlign: "center", paddingTop: 28, paddingBottom: 40 }}>
+            <button
+              onClick={async () => { await signOut(auth); onClose(); }}
+              style={{
+                background: "none",
+                border: "none",
+                color: "#555",
+                fontSize: 14,
+                textDecoration: "underline",
+                cursor: "pointer",
+                padding: 0,
+              }}
+            >
+              Sign out
+            </button>
           </div>
         </div>
       </div>
