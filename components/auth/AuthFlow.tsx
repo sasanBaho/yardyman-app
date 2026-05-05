@@ -3,13 +3,14 @@ import React, { useEffect, useState } from "react";
 import { ConfirmationResult, UserCredential } from "firebase/auth";
 import { ref, uploadBytes, getDownloadURL } from "firebase/storage";
 
-import { auth, storage, db, collection, query, where, getDocs } from "@/firebase";
+import { auth, storage, db, collection, query, where, getDocs, setDoc, doc, serverTimestamp } from "@/firebase";
 import LoginModal from "./LoginModal";
 import CreateAccountModal, { SignupFormData } from "./CreateAccountModal";
 import VerifyCodeModal from "./VerifyCodeModal";
 import SelectServicesModal, { ServicesFormData } from "./SelectServicesModal";
 import SubscriptionModal from "./SubscriptionModal";
 import ProviderProfileModal, { ProviderProfile } from "./ProviderProfileModal";
+import MapPreviewStep from "./MapPreviewStep";
 
 type Step =
   | "none"
@@ -18,6 +19,8 @@ type Step =
   | "verify-create"
   | "verify-login"
   | "select-services"
+  | "creating-profile"
+  | "map-preview"
   | "subscription"
   | "profile";
 
@@ -95,12 +98,12 @@ const AuthFlow: React.FC<AuthFlowProps> = ({
   const [confirmationResult, setConfirmationResult] = useState<ConfirmationResult | null>(null);
   const [phone, setPhone] = useState("");
   const [signupData, setSignupData] = useState<SignupFormData | null>(null);
-  const [pendingServicesData, setPendingServicesData] = useState<ServicesFormData | null>(null);
   const [profile, setProfile] = useState<ProviderProfile | null>(null);
   const [subscriptionLoading, setSubscriptionLoading] = useState(false);
   const [prefillPhone, setPrefillPhone] = useState("");
   const [prefillCountryCode, setPrefillCountryCode] = useState("+1");
   const [loginSlideFrom, setLoginSlideFrom] = useState<"right" | "left" | undefined>(undefined);
+  const [previewImageUrl, setPreviewImageUrl] = useState("");
 
   useEffect(() => {
     if (isOpen && step === "none") {
@@ -113,9 +116,7 @@ const AuthFlow: React.FC<AuthFlowProps> = ({
     }
   }, [isOpen]);
 
-  const close = () => {
-    onClose();
-  };
+  const close = () => onClose();
 
   const handlePhoneAlreadyRegistered = (rawPhone: string, code: string) => {
     setPrefillPhone(rawPhone);
@@ -142,16 +143,15 @@ const AuthFlow: React.FC<AuthFlowProps> = ({
   };
 
   const handleServicesDone = (servicesData: ServicesFormData) => {
-    setPendingServicesData(servicesData);
-    setStep("subscription");
+    setStep("creating-profile");
+    createProviderProfile(servicesData);
   };
 
-  const handleSubscriptionPlanSelected = async (priceId: string) => {
-    if (!signupData || !pendingServicesData) return;
+  const createProviderProfile = async (servicesData: ServicesFormData) => {
+    if (!signupData) return;
     const user = auth.currentUser;
     if (!user) return;
 
-    setSubscriptionLoading(true);
     try {
       let photoUrl = "";
       if (signupData.photoFile) {
@@ -168,8 +168,9 @@ const AuthFlow: React.FC<AuthFlowProps> = ({
         country = location.country;
       }
 
-      const pending = {
+      await setDoc(doc(db, "providers", user.uid), {
         uid: user.uid,
+        id: user.uid,
         providerName: signupData.name,
         email: signupData.email,
         phoneNumber: phone,
@@ -179,13 +180,40 @@ const AuthFlow: React.FC<AuthFlowProps> = ({
         geohash: encodeGeohash(lat, lng),
         city,
         country,
-        selectedServices: pendingServicesData.selectedServices,
-        description: pendingServicesData.descriptions,
-        hasTools: pendingServicesData.hasTools,
-        paymentMethods: pendingServicesData.paymentMethods,
-      };
-      localStorage.setItem("pendingProviderRegistration", JSON.stringify(pending));
+        selectedServices: servicesData.selectedServices,
+        description: servicesData.descriptions,
+        hasTools: servicesData.hasTools,
+        paymentMethods: servicesData.paymentMethods,
+        subscriptionStatus: "unsubscribed",
+        isAvailable: true,
+        instagramID: "",
+        profileViewCount: 0,
+        gotCallCount: 0,
+        gotMessageCount: 0,
+        instaViewCount: 0,
+        hasDelivery: false,
+        serviceLocation: [],
+        createdAt: serverTimestamp(),
+        updatedAt: serverTimestamp(),
+      });
 
+      setPreviewImageUrl(photoUrl);
+      setStep("map-preview");
+    } catch {
+      setStep("subscription");
+    }
+  };
+
+  const handleSubscriptionPlanSelected = async (priceId: string) => {
+    const user = auth.currentUser;
+    if (!user || !signupData) return;
+
+    setSubscriptionLoading(true);
+    try {
+      localStorage.setItem(
+        "pendingProviderRegistration",
+        JSON.stringify({ uid: user.uid })
+      );
       const res = await fetch("/api/stripe/create-checkout-session", {
         method: "POST",
         headers: { "Content-Type": "application/json" },
@@ -226,11 +254,11 @@ const AuthFlow: React.FC<AuthFlowProps> = ({
           hasTools: data.hasTools ?? false,
           paymentMethods: Array.isArray(data.paymentMethods) ? data.paymentMethods : [],
           isAvailable: data.isAvailable ?? true,
-          profileViews: data.profileViews ?? 0,
+          profileViews: data.profileViewCount ?? data.profileViews ?? 0,
+          subscriptionStatus: data.subscriptionStatus ?? "unsubscribed",
         });
         setStep("profile");
       } else {
-        // No provider account found — redirect to create
         setStep("create");
       }
     } catch {
@@ -289,6 +317,46 @@ const AuthFlow: React.FC<AuthFlowProps> = ({
 
       {step === "select-services" && (
         <SelectServicesModal onClose={close} onDone={handleServicesDone} />
+      )}
+
+      {step === "creating-profile" && (
+        <div
+          style={{
+            position: "fixed",
+            inset: 0,
+            zIndex: 500,
+            display: "flex",
+            alignItems: "center",
+            justifyContent: "center",
+            background: "rgba(0,0,0,0.45)",
+            flexDirection: "column",
+            gap: 16,
+          }}
+        >
+          <div
+            style={{
+              width: 52,
+              height: 52,
+              border: "4px solid rgba(255,255,255,0.3)",
+              borderTopColor: "#22c55e",
+              borderRadius: "50%",
+              animation: "spin 0.8s linear infinite",
+            }}
+          />
+          <style>{`@keyframes spin { to { transform: rotate(360deg); } }`}</style>
+          <p style={{ color: "#fff", fontWeight: 600, fontSize: 16, margin: 0 }}>
+            Setting up your profile…
+          </p>
+        </div>
+      )}
+
+      {step === "map-preview" && (
+        <MapPreviewStep
+          imageUrl={previewImageUrl}
+          providerName={signupData?.name ?? ""}
+          onSubscribe={() => setStep("subscription")}
+          onLater={close}
+        />
       )}
 
       {step === "subscription" && (

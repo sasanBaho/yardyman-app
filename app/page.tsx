@@ -25,17 +25,20 @@ type Provider = Omit<ProviderPopupCardProps["provider"], ""> & {
   hasTools?: boolean;
   paymentMethods?: string[];
   isAvailable?: boolean;
+  subscriptionStatus?: string;
 };
 
 import { Map } from "@/components/map/components/Map";
 import { MapControls } from "@/components/map/components/MapControls";
 import { MapMarker, MarkerContent } from "@/components/map/components/MapMarker";
 import { trackEvent, trackPageView } from "@/lib/analytics";
-import { db, collection, getDocs, auth, query, where, setDoc, doc, serverTimestamp } from "../firebase";
-import { deleteDoc, updateDoc, increment } from "firebase/firestore";
+import { db, collection, getDocs, auth, query, where, doc, serverTimestamp } from "../firebase";
+import { deleteDoc, updateDoc, increment, getDoc } from "firebase/firestore";
 import { onAuthStateChanged, signInAnonymously, signOut } from "firebase/auth";
 import AuthFlow from "@/components/auth/AuthFlow";
 import ProviderProfileModal, { ProviderProfile } from "@/components/auth/ProviderProfileModal";
+import UnsubscribedPopup from "@/components/auth/UnsubscribedPopup";
+import SubscriptionModal from "@/components/auth/SubscriptionModal";
 
 function ProviderAvatar({ imageUrl, name, rating, ratingsCount }: {
   imageUrl: string;
@@ -174,6 +177,12 @@ export default function Home() {
 
   const [mounted, setMounted] = useState(false);
   const [completingStripeRegistration, setCompletingStripeRegistration] = useState(false);
+  const [providerLocation, setProviderLocation] = useState<{ lat: number; lng: number } | null>(null);
+  const [providerStripeSubId, setProviderStripeSubId] = useState<string | null>(null);
+  const [showUnsubscribedPopup, setShowUnsubscribedPopup] = useState(false);
+  const [showSubscribeModal, setShowSubscribeModal] = useState(false);
+  const [subscribeModalLoading, setSubscribeModalLoading] = useState(false);
+  const [showOwnPin, setShowOwnPin] = useState(false);
 
   useEffect(() => {
     setMounted(true);
@@ -202,43 +211,37 @@ export default function Home() {
         const data = await res.json();
         if (!data.ok) return;
 
-        const providerData = JSON.parse(pending);
-        const providerDoc = {
-          ...providerData,
-          id: providerData.uid,
-          isAvailable: true,
-          instagramID: "",
-          profileViewCount: 0,
-          gotCallCount: 0,
-          gotMessageCount: 0,
-          instaViewCount: 0,
-          hasDelivery: false,
-          serviceLocation: [],
+        const { uid } = JSON.parse(pending);
+        await updateDoc(doc(db, "providers", uid), {
           stripeCustomerId: data.customerId,
           stripeSubscriptionId: data.subscriptionId,
           subscriptionStatus: data.subscriptionStatus,
-          createdAt: serverTimestamp(),
           updatedAt: serverTimestamp(),
-        };
-
-        await setDoc(doc(db, "providers", providerData.uid), providerDoc);
+        });
         localStorage.removeItem("pendingProviderRegistration");
         window.history.replaceState({}, "", "/");
 
-        setCurrentProviderData({
-          uid: providerData.uid,
-          name: providerData.providerName,
-          phone: providerData.phoneNumber,
-          email: providerData.email,
-          photoUrl: providerData.imageUrl,
-          city: providerData.city,
-          selectedServices: providerData.selectedServices,
-          descriptions: providerData.description,
-          hasTools: providerData.hasTools,
-          paymentMethods: providerData.paymentMethods,
-          isAvailable: true,
-          profileViews: 0,
-        });
+        const providerSnap = await getDoc(doc(db, "providers", uid));
+        if (providerSnap.exists()) {
+          const d = providerSnap.data();
+          setCurrentProviderData({
+            uid,
+            name: d.providerName ?? "",
+            phone: d.phoneNumber ?? "",
+            email: d.email ?? "",
+            photoUrl: d.imageUrl ?? "",
+            city: d.city ?? "",
+            selectedServices: Array.isArray(d.selectedServices) ? d.selectedServices : [],
+            descriptions: d.description && typeof d.description === "object" ? d.description : {},
+            hasTools: d.hasTools ?? false,
+            paymentMethods: Array.isArray(d.paymentMethods) ? d.paymentMethods : [],
+            isAvailable: d.isAvailable ?? true,
+            profileViews: d.profileViewCount ?? 0,
+            subscriptionStatus: d.subscriptionStatus,
+          });
+          setProviderLocation({ lat: d.latitude ?? 0, lng: d.longitude ?? 0 });
+          setProviderStripeSubId(d.stripeSubscriptionId ?? null);
+        }
         setShowProfile(true);
 
         const querySnapshot = await getDocs(collection(db, "providers"));
@@ -260,6 +263,7 @@ export default function Home() {
             hasTools: d.hasTools || false,
             paymentMethods: Array.isArray(d.paymentMethods) ? d.paymentMethods : [],
             isAvailable: d.isAvailable ?? true,
+            subscriptionStatus: d.subscriptionStatus,
           });
         });
         setProviders(fetched);
@@ -284,6 +288,7 @@ export default function Home() {
         const snap = await getDocs(query(collection(db, "providers"), where("uid", "==", user.uid)));
         if (!snap.empty) {
           const data = snap.docs[0].data();
+          const subStatus = data.subscriptionStatus ?? "unsubscribed";
           setCurrentProviderData({
             uid: user.uid,
             name: data.providerName ?? "",
@@ -297,7 +302,15 @@ export default function Home() {
             paymentMethods: Array.isArray(data.paymentMethods) ? data.paymentMethods : [],
             isAvailable: data.isAvailable ?? true,
             profileViews: data.profileViewCount ?? data.profileViews ?? 0,
+            subscriptionStatus: subStatus,
           });
+          setProviderStripeSubId(data.stripeSubscriptionId ?? null);
+          if (data.latitude && data.longitude) {
+            setProviderLocation({ lat: data.latitude, lng: data.longitude });
+          }
+          const isInactive = !["active", "trialing"].includes(subStatus);
+          setShowOwnPin(isInactive);
+          if (isInactive) setShowUnsubscribedPopup(true);
         }
       } catch {
         setCurrentProviderData(null);
@@ -365,6 +378,7 @@ export default function Home() {
           hasTools: data.hasTools || false,
           paymentMethods: Array.isArray(data.paymentMethods) ? data.paymentMethods : [],
           isAvailable: data.isAvailable ?? true,
+          subscriptionStatus: data.subscriptionStatus,
         });
       });
       setProviders(fetchedProviders);
@@ -375,6 +389,8 @@ export default function Home() {
   // Filtering logic for providers
   const filteredProviders = providers.filter((provider) => {
     if (provider.isAvailable === false) return false;
+    const sub = provider.subscriptionStatus;
+    if (sub && !["active", "trialing"].includes(sub)) return false;
     if (activeService === "snow") {
       return provider.selectedServices?.includes("service-two");
     } else {
@@ -440,6 +456,39 @@ export default function Home() {
     await deleteDoc(doc(db, "providers", currentProviderData.uid));
     await user.delete();
     // onAuthStateChanged fires and clears state automatically
+  };
+
+  const handleUnsubscribedGoLive = async () => {
+    if (providerStripeSubId) {
+      await fetch("/api/stripe/reactivate-subscription", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({ subscriptionId: providerStripeSubId }),
+      });
+      setCurrentProviderData((prev) => prev ? { ...prev, subscriptionStatus: "active" } : prev);
+      setShowOwnPin(false);
+      setShowUnsubscribedPopup(false);
+    } else {
+      setShowUnsubscribedPopup(false);
+      setShowSubscribeModal(true);
+    }
+  };
+
+  const handleExistingProviderSubscribe = async (priceId: string) => {
+    if (!currentProviderData) return;
+    setSubscribeModalLoading(true);
+    try {
+      localStorage.setItem("pendingProviderRegistration", JSON.stringify({ uid: currentProviderData.uid }));
+      const res = await fetch("/api/stripe/create-checkout-session", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({ priceId, uid: currentProviderData.uid, email: currentProviderData.email, phone: currentProviderData.phone }),
+      });
+      const { url } = await res.json();
+      window.location.href = url;
+    } catch {
+      setSubscribeModalLoading(false);
+    }
   };
 
   function handleServiceChange(service: "snow" | "lawn") {
@@ -562,6 +611,59 @@ export default function Home() {
                 </MapMarker>
               )
           )}
+
+          {/* Owner's own greyscale pin — only visible to themselves when unsubscribed */}
+          {showOwnPin && providerLocation && currentProviderData && (
+            <MapMarker longitude={providerLocation.lng} latitude={providerLocation.lat}>
+              <MarkerContent>
+                <div
+                  onClick={() => setSelectedProvider({
+                    id: currentProviderData.uid,
+                    latitude: providerLocation.lat,
+                    longitude: providerLocation.lng,
+                    imageUrl: currentProviderData.photoUrl,
+                    providerName: currentProviderData.name,
+                    phoneNumber: currentProviderData.phone,
+                    selectedServices: currentProviderData.selectedServices,
+                    hasTools: currentProviderData.hasTools,
+                    paymentMethods: currentProviderData.paymentMethods,
+                    subscriptionStatus: currentProviderData.subscriptionStatus,
+                  } as any)}
+                  style={{ cursor: "pointer" }}
+                >
+                  <div
+                    style={{
+                      position: "absolute",
+                      left: -23,
+                      top: -23,
+                      display: "flex",
+                      flexDirection: "column",
+                      alignItems: "center",
+                    }}
+                  >
+                    <div
+                      style={{
+                        width: 46,
+                        height: 46,
+                        borderRadius: "50%",
+                        overflow: "hidden",
+                        border: "2px solid #fff",
+                        background: "#eee",
+                        boxShadow: "0 2px 8px rgba(0,0,0,0.22)",
+                        filter: "grayscale(1) opacity(0.6)",
+                      }}
+                    >
+                      <img
+                        src={currentProviderData.photoUrl}
+                        alt={currentProviderData.name}
+                        style={{ width: "100%", height: "100%", objectFit: "cover" }}
+                      />
+                    </div>
+                  </div>
+                </div>
+              </MarkerContent>
+            </MapMarker>
+          )}
         </Map>
       </div>
       {selectedProvider && (
@@ -569,6 +671,16 @@ export default function Home() {
           provider={{ ...selectedProvider, description: getRelevantDescription(selectedProvider) }}
           onClose={() => setSelectedProvider(null)}
           activeService={activeService}
+          isOwnerInactive={
+            !!(currentProviderData &&
+              selectedProvider.id === currentProviderData.uid &&
+              !["active", "trialing"].includes(currentProviderData.subscriptionStatus ?? ""))
+          }
+          onSubscribe={
+            currentProviderData && selectedProvider.id === currentProviderData.uid
+              ? () => { setSelectedProvider(null); setShowSubscribeModal(true); }
+              : undefined
+          }
         />
       )}
       {showProfile && currentProviderData && (
@@ -630,6 +742,23 @@ export default function Home() {
             <p style={{ margin: 0, fontWeight: 600, fontSize: 16 }}>Setting up your profile…</p>
           </div>
         </div>
+      )}
+
+      {showUnsubscribedPopup && currentProviderData && (
+        <UnsubscribedPopup
+          profileViews={currentProviderData.profileViews}
+          isCancelled={!!providerStripeSubId}
+          onGoLive={handleUnsubscribedGoLive}
+          onDismiss={() => setShowUnsubscribedPopup(false)}
+        />
+      )}
+
+      {showSubscribeModal && (
+        <SubscriptionModal
+          onClose={() => setShowSubscribeModal(false)}
+          onPlanSelected={handleExistingProviderSubscribe}
+          loading={subscribeModalLoading}
+        />
       )}
 
       <AuthFlow

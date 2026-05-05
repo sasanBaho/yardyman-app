@@ -7,6 +7,7 @@ import { db, storage, auth } from "@/firebase";
 import { signOut } from "firebase/auth";
 import SelectServicesModal, { ServicesFormData } from "./SelectServicesModal";
 import ImageCropModal from "./ImageCropModal";
+import SubscriptionModal from "./SubscriptionModal";
 import { BsCircleFill } from "react-icons/bs";
 
 export interface ProviderProfile {
@@ -22,6 +23,7 @@ export interface ProviderProfile {
   paymentMethods: string[];
   isAvailable: boolean;
   profileViews: number;
+  subscriptionStatus?: string;
 }
 
 interface ProviderProfileModalProps {
@@ -89,6 +91,8 @@ const ProviderProfileModal: React.FC<ProviderProfileModalProps> = ({
   } | null>(null);
   const [cancellingSubscription, setCancellingSubscription] = useState(false);
   const [reactivatingSubscription, setReactivatingSubscription] = useState(false);
+  const [showSubscriptionPlanModal, setShowSubscriptionPlanModal] = useState(false);
+  const [subscribeModalLoading, setSubscribeModalLoading] = useState(false);
   const fileInputRef = useRef<HTMLInputElement>(null);
   const cameraInputRef = useRef<HTMLInputElement>(null);
   const nameInputRef = useRef<HTMLInputElement>(null);
@@ -115,6 +119,11 @@ const ProviderProfileModal: React.FC<ProviderProfileModalProps> = ({
     });
   }, []);
 
+  const isSubscriptionInactive =
+    profile.subscriptionStatus === "unsubscribed" ||
+    subscriptionInfo?.cancelAtPeriodEnd === true ||
+    (subscriptionInfo !== null && !["active", "trialing"].includes(subscriptionInfo.status));
+
   const handleToggle = async () => {
     const next = !isAvailable;
     setIsAvailable(next);
@@ -123,6 +132,22 @@ const ProviderProfileModal: React.FC<ProviderProfileModalProps> = ({
       await updateDoc(doc(db, "providers", profile.uid), { isAvailable: next });
     } catch {
       setIsAvailable(!next);
+    }
+  };
+
+  const handleSubscribeNow = async (priceId: string) => {
+    setSubscribeModalLoading(true);
+    try {
+      localStorage.setItem("stripeReturn", JSON.stringify({ uid: profile.uid }));
+      const res = await fetch("/api/stripe/create-checkout-session", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({ uid: profile.uid, email: profile.email, phone: profile.phone, priceId }),
+      });
+      const data = await res.json();
+      if (data.url) window.location.href = data.url;
+    } finally {
+      setSubscribeModalLoading(false);
     }
   };
 
@@ -261,6 +286,14 @@ const ProviderProfileModal: React.FC<ProviderProfileModalProps> = ({
         if (e.target === e.currentTarget) onClose();
       }}
     >
+      {showSubscriptionPlanModal && (
+        <SubscriptionModal
+          onClose={() => setShowSubscriptionPlanModal(false)}
+          onPlanSelected={handleSubscribeNow}
+          loading={subscribeModalLoading}
+        />
+      )}
+
       {/* Hidden file inputs */}
       <input ref={fileInputRef} type="file" accept="image/*" style={{ display: "none" }}
         onChange={(e) => e.target.files?.[0] && handlePhotoFileSelected(e.target.files[0])} />
@@ -552,6 +585,64 @@ const ProviderProfileModal: React.FC<ProviderProfileModalProps> = ({
             </div>
           </div>
         </div>
+
+        {/* Inactive subscription alert */}
+        {isSubscriptionInactive && (
+          <div
+            style={{
+              background: "#fef2f2",
+              borderLeft: "4px solid #ef4444",
+              padding: "14px 20px",
+              display: "flex",
+              alignItems: "flex-start",
+              gap: 12,
+            }}
+          >
+            <svg width={18} height={18} viewBox="0 0 24 24" fill="#ef4444" style={{ flexShrink: 0, marginTop: 1 }}>
+              <path d="M10.29 3.86L1.82 18a2 2 0 001.71 3h16.94a2 2 0 001.71-3L13.71 3.86a2 2 0 00-3.42 0z" />
+              <line x1="12" y1="9" x2="12" y2="13" stroke="#fff" strokeWidth="2" strokeLinecap="round" />
+              <line x1="12" y1="17" x2="12.01" y2="17" stroke="#fff" strokeWidth="2" strokeLinecap="round" />
+            </svg>
+            <div style={{ flex: 1 }}>
+              <p style={{ margin: "0 0 4px", fontWeight: 700, fontSize: 14, color: "#991b1b" }}>
+                Your account is not visible to homeowners
+              </p>
+              <p style={{ margin: "0 0 10px", fontSize: 13, color: "#b91c1c" }}>
+                Subscribe to appear on the map and start receiving customer requests.
+              </p>
+              <button
+                onClick={() => {
+                  if (stripeSubscriptionId) {
+                    setReactivatingSubscription(true);
+                    fetch("/api/stripe/reactivate-subscription", {
+                      method: "POST",
+                      headers: { "Content-Type": "application/json" },
+                      body: JSON.stringify({ subscriptionId: stripeSubscriptionId }),
+                    })
+                      .then(() => setSubscriptionInfo((prev) => prev ? { ...prev, cancelAtPeriodEnd: false } : prev))
+                      .finally(() => setReactivatingSubscription(false));
+                  } else {
+                    setShowSubscriptionPlanModal(true);
+                  }
+                }}
+                disabled={reactivatingSubscription}
+                style={{
+                  background: "#ef4444",
+                  color: "#fff",
+                  border: "none",
+                  borderRadius: 999,
+                  padding: "8px 18px",
+                  fontWeight: 700,
+                  fontSize: 13,
+                  cursor: reactivatingSubscription ? "not-allowed" : "pointer",
+                  opacity: reactivatingSubscription ? 0.6 : 1,
+                }}
+              >
+                {reactivatingSubscription ? "Activating…" : stripeSubscriptionId ? "Reactivate Subscription" : "Subscribe Now"}
+              </button>
+            </div>
+          </div>
+        )}
 
         {/* Availability toggle */}
         <div
