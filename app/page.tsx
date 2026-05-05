@@ -32,7 +32,7 @@ import { MapControls } from "@/components/map/components/MapControls";
 import { MapMarker, MarkerContent } from "@/components/map/components/MapMarker";
 import { trackEvent, trackPageView } from "@/lib/analytics";
 import { db, collection, getDocs, auth, query, where, setDoc, doc, serverTimestamp } from "../firebase";
-import { deleteDoc } from "firebase/firestore";
+import { deleteDoc, updateDoc, increment } from "firebase/firestore";
 import { onAuthStateChanged, signInAnonymously, signOut } from "firebase/auth";
 import AuthFlow from "@/components/auth/AuthFlow";
 import ProviderProfileModal, { ProviderProfile } from "@/components/auth/ProviderProfileModal";
@@ -407,6 +407,10 @@ export default function Home() {
       hasInstagram: Boolean(provider.instagramID),
       viewSource: "map_annotation",
     });
+
+    updateDoc(doc(db, "providers", provider.id), {
+      profileViewCount: increment(1),
+    }).catch(() => {});
 
     setSelectedProvider(provider);
   }

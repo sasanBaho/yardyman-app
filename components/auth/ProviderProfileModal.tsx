@@ -99,6 +99,10 @@ const ProviderProfileModal: React.FC<ProviderProfileModalProps> = ({
       if (snap.exists()) {
         const data = snap.data();
         setIsAvailable(data.isAvailable ?? true);
+        setProfileState((prev) => ({
+          ...prev,
+          profileViews: data.profileViewCount ?? prev.profileViews,
+        }));
         const subId = data.stripeSubscriptionId ?? null;
         setStripeSubscriptionId(subId);
         if (subId) {

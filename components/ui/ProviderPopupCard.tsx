@@ -1,5 +1,5 @@
 "use client";
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import { BsCircleFill } from "react-icons/bs";
 import { trackEvent } from "@/lib/analytics";
 import ReportModal from "./ReportModal";
@@ -50,9 +50,26 @@ const ProviderPopupCard: React.FC<ProviderPopupCardProps> = ({ provider, onClose
   const [showRating, setShowRating] = useState(false);
   const [displayRating, setDisplayRating] = useState<number>(provider?.rating ?? 0);
   const [displayCount, setDisplayCount] = useState<number>(provider?.ratingsCount ?? 0);
+  const [isLargeScreen, setIsLargeScreen] = useState(false);
+
+  useEffect(() => {
+    const mq = window.matchMedia("(min-width: 768px)");
+    setIsLargeScreen(mq.matches);
+    const handler = (e: MediaQueryListEvent) => setIsLargeScreen(e.matches);
+    mq.addEventListener("change", handler);
+    return () => mq.removeEventListener("change", handler);
+  }, []);
+
   if (!provider) return null;
 
-  const phone = provider.phone || provider.phoneNumber || provider.contactNumber || "";
+  const rawPhone = provider.phone || provider.phoneNumber || provider.contactNumber || "";
+  const phone = rawPhone;
+  const formattedPhone = (() => {
+    const digits = rawPhone.replace(/\D/g, "");
+    if (digits.length === 10) return `(${digits.slice(0,3)}) ${digits.slice(3,6)}-${digits.slice(6)}`;
+    if (digits.length === 11 && digits[0] === "1") return `(${digits.slice(1,4)}) ${digits.slice(4,7)}-${digits.slice(7)}`;
+    return rawPhone;
+  })();
   const accentColor = activeService === "snow" ? "#09f" : "#22c55e";
   const serviceIcon = activeService === "snow" ? "/shovel-blue.png" : "/lawn-mower-green.png";
 
@@ -180,53 +197,79 @@ const ProviderPopupCard: React.FC<ProviderPopupCardProps> = ({ provider, onClose
             </span>
           </div>
 
-          {/* Call / Message buttons */}
+          {/* Call / Message buttons (mobile) or phone number (desktop/tablet) */}
           <div style={{ flex: 1, display: "flex", flexDirection: "column", gap: 10 }}>
-            <a
-              href={`tel:${phone}`}
-              onClick={() => trackEvent("Provider_Call_Tapped", getAnalyticsPayload())}
-              style={{
-                display: "flex",
-                alignItems: "center",
-                justifyContent: "center",
-                gap: 8,
-                background: "#22c55e",
-                color: "#fff",
-                borderRadius: 999,
-                padding: "13px 0",
-                fontWeight: 700,
-                fontSize: 17,
-                textDecoration: "none",
-              }}
-            >
-              <svg width={18} height={18} viewBox="0 0 24 24" fill="none" stroke="#fff" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
-                <path d="M22 16.92v3a2 2 0 01-2.18 2 19.79 19.79 0 01-8.63-3.07A19.5 19.5 0 013.07 12a19.79 19.79 0 01-3.07-8.67A2 2 0 012 1.13h3a2 2 0 012 1.72 12.84 12.84 0 00.7 2.81 2 2 0 01-.45 2.11L6.09 8.92a16 16 0 006 6l1.27-1.27a2 2 0 012.11-.45 12.84 12.84 0 002.81.7A2 2 0 0122 16.92z" />
-              </svg>
-              Call
-            </a>
-            <a
-              href={`sms:${phone}`}
-              onClick={() => trackEvent("Provider_Message_Tapped", getAnalyticsPayload())}
-              style={{
-                display: "flex",
-                alignItems: "center",
-                justifyContent: "center",
-                gap: 8,
-                background: "#fff",
-                color: "#22c55e",
-                border: "2px solid #22c55e",
-                borderRadius: 999,
-                padding: "11px 0",
-                fontWeight: 700,
-                fontSize: 17,
-                textDecoration: "none",
-              }}
-            >
-              <svg width={18} height={18} viewBox="0 0 24 24" fill="none" stroke="#22c55e" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
-                <path d="M21 15a2 2 0 01-2 2H7l-4 4V5a2 2 0 012-2h14a2 2 0 012 2z" />
-              </svg>
-              Message
-            </a>
+            {isLargeScreen ? (
+              <a
+                href={`tel:${phone}`}
+                onClick={() => trackEvent("Provider_Call_Tapped", getAnalyticsPayload())}
+                style={{
+                  display: "flex",
+                  alignItems: "center",
+                  justifyContent: "center",
+                  gap: 10,
+                  background: "#f9fafb",
+                  borderRadius: 999,
+                  padding: "14px 16px",
+                  textDecoration: "none",
+                }}
+              >
+                <svg width={20} height={20} viewBox="0 0 24 24" fill="none" stroke="#9ca3af" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
+                  <path d="M22 16.92v3a2 2 0 01-2.18 2 19.79 19.79 0 01-8.63-3.07A19.5 19.5 0 013.07 12a19.79 19.79 0 01-3.07-8.67A2 2 0 012 1.13h3a2 2 0 012 1.72 12.84 12.84 0 00.7 2.81 2 2 0 01-.45 2.11L6.09 8.92a16 16 0 006 6l1.27-1.27a2 2 0 012.11-.45 12.84 12.84 0 002.81.7A2 2 0 0122 16.92z" />
+                </svg>
+                <span style={{ fontWeight: 600, fontSize: 17, color: "#6b7280", letterSpacing: "0.03em" }}>
+                  {formattedPhone}
+                </span>
+              </a>
+            ) : (
+              <>
+                <a
+                  href={`tel:${phone}`}
+                  onClick={() => trackEvent("Provider_Call_Tapped", getAnalyticsPayload())}
+                  style={{
+                    display: "flex",
+                    alignItems: "center",
+                    justifyContent: "center",
+                    gap: 8,
+                    background: "#22c55e",
+                    color: "#fff",
+                    borderRadius: 999,
+                    padding: "13px 0",
+                    fontWeight: 700,
+                    fontSize: 17,
+                    textDecoration: "none",
+                  }}
+                >
+                  <svg width={18} height={18} viewBox="0 0 24 24" fill="none" stroke="#fff" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
+                    <path d="M22 16.92v3a2 2 0 01-2.18 2 19.79 19.79 0 01-8.63-3.07A19.5 19.5 0 013.07 12a19.79 19.79 0 01-3.07-8.67A2 2 0 012 1.13h3a2 2 0 012 1.72 12.84 12.84 0 00.7 2.81 2 2 0 01-.45 2.11L6.09 8.92a16 16 0 006 6l1.27-1.27a2 2 0 012.11-.45 12.84 12.84 0 002.81.7A2 2 0 0122 16.92z" />
+                  </svg>
+                  Call
+                </a>
+                <a
+                  href={`sms:${phone}`}
+                  onClick={() => trackEvent("Provider_Message_Tapped", getAnalyticsPayload())}
+                  style={{
+                    display: "flex",
+                    alignItems: "center",
+                    justifyContent: "center",
+                    gap: 8,
+                    background: "#fff",
+                    color: "#22c55e",
+                    border: "2px solid #22c55e",
+                    borderRadius: 999,
+                    padding: "11px 0",
+                    fontWeight: 700,
+                    fontSize: 17,
+                    textDecoration: "none",
+                  }}
+                >
+                  <svg width={18} height={18} viewBox="0 0 24 24" fill="none" stroke="#22c55e" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
+                    <path d="M21 15a2 2 0 01-2 2H7l-4 4V5a2 2 0 012-2h14a2 2 0 012 2z" />
+                  </svg>
+                  Message
+                </a>
+              </>
+            )}
           </div>
         </div>
 
