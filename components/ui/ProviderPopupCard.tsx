@@ -129,23 +129,32 @@ const ProviderPopupCard: React.FC<ProviderPopupCardProps> = ({ provider, onClose
           onClick={() => { trackEvent("Provider_Details_Closed", getAnalyticsPayload()); onClose(); }}
           style={{
             position: "absolute",
-            top: 12,
+            top: 70,
             right: 12,
             width: 28,
             height: 28,
             borderRadius: "50%",
-            background: "rgba(0,0,0,0.07)",
+            background: "rgba(0,0,0,0.3)",
             border: "none",
-            fontSize: 18,
             cursor: "pointer",
             display: "flex",
             alignItems: "center",
             justifyContent: "center",
-            color: "#555",
             zIndex: 1,
+            padding: 0,
           }}
         >
-          ×
+          <svg
+            width={14}
+            height={14}
+            viewBox="0 0 24 24"
+            stroke="#fff"
+            strokeWidth="2.5"
+            strokeLinecap="round"
+          >
+            <line x1="5" y1="5" x2="19" y2="19" />
+            <line x1="19" y1="5" x2="5" y2="19" />
+          </svg>
         </button>
 
         {/* Owner inactive alert */}
