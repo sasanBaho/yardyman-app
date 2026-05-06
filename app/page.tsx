@@ -329,7 +329,9 @@ export default function Home() {
           }
           const isInactive = !["active", "trialing"].includes(subStatus);
           setShowOwnPin(isInactive);
-          if (isInactive) setShowUnsubscribedPopup(true);
+          if (isInactive && !sessionStorage.getItem("unsubscribedPopupSeen")) {
+            setShowUnsubscribedPopup(true);
+          }
         }
       } catch {
         setCurrentProviderData(null);
@@ -478,6 +480,7 @@ export default function Home() {
   };
 
   const handleUnsubscribedGoLive = async () => {
+    sessionStorage.setItem("unsubscribedPopupSeen", "1");
     if (providerStripeSubId) {
       await fetch("/api/stripe/reactivate-subscription", {
         method: "POST",
@@ -746,7 +749,10 @@ export default function Home() {
           profileViews={currentProviderData.profileViews}
           isCancelled={!!providerStripeSubId}
           onGoLive={handleUnsubscribedGoLive}
-          onDismiss={() => setShowUnsubscribedPopup(false)}
+          onDismiss={() => {
+            sessionStorage.setItem("unsubscribedPopupSeen", "1");
+            setShowUnsubscribedPopup(false);
+          }}
         />
       )}
 

@@ -1,6 +1,5 @@
 "use client";
 import React, { useState, useEffect } from "react";
-import { BsCircleFill } from "react-icons/bs";
 import { trackEvent } from "@/lib/analytics";
 import ReportModal from "./ReportModal";
 import RatingModal from "./RatingModal";
@@ -13,41 +12,13 @@ export interface ProviderPopupCardProps {
   onSubscribe?: () => void;
 }
 
-const GreenCheck: React.FC = () => (
-  <span style={{
-    display: "inline-flex",
-    alignItems: "center",
-    justifyContent: "center",
-    width: 22,
-    height: 22,
-    borderRadius: "50%",
-    background: "#22c55e",
-    flexShrink: 0,
-  }}>
-    <svg width={11} height={11} viewBox="0 0 20 20" fill="none">
-      <path d="M5 10.5L9 14.5L15 7.5" stroke="white" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round" />
-    </svg>
-  </span>
-);
-
-const StarRating: React.FC<{ rating: number; count: number }> = ({ rating, count }) => {
-  const filled = Math.round(rating);
-  return (
-    <div style={{ display: "flex", alignItems: "center", gap: 3 }}>
-      {[...Array(5)].map((_, i) => (
-        <svg key={i} width={22} height={22} viewBox="0 0 24 24" fill={i < filled ? "#f7b500" : "none"} stroke={i < filled ? "#f7b500" : "#d1d5db"} strokeWidth="1.5">
-          <polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2" />
-        </svg>
-      ))}
-      <span style={{ fontWeight: 700, fontSize: 15, marginLeft: 4, color: "#222" }}>
-        {rating > 0 ? rating.toFixed(1) : "0.0"}
-      </span>
-      <span style={{ fontSize: 14, color: "#888" }}>({count})</span>
-    </div>
-  );
-};
-
-const ProviderPopupCard: React.FC<ProviderPopupCardProps> = ({ provider, onClose, activeService, isOwnerInactive, onSubscribe }) => {
+const ProviderPopupCard: React.FC<ProviderPopupCardProps> = ({
+  provider,
+  onClose,
+  activeService,
+  isOwnerInactive,
+  onSubscribe,
+}) => {
   const [showReport, setShowReport] = useState(false);
   const [showRating, setShowRating] = useState(false);
   const [displayRating, setDisplayRating] = useState<number>(provider?.rating ?? 0);
@@ -68,12 +39,16 @@ const ProviderPopupCard: React.FC<ProviderPopupCardProps> = ({ provider, onClose
   const phone = rawPhone;
   const formattedPhone = (() => {
     const digits = rawPhone.replace(/\D/g, "");
-    if (digits.length === 10) return `(${digits.slice(0,3)}) ${digits.slice(3,6)}-${digits.slice(6)}`;
-    if (digits.length === 11 && digits[0] === "1") return `(${digits.slice(1,4)}) ${digits.slice(4,7)}-${digits.slice(7)}`;
+    if (digits.length === 10) return `(${digits.slice(0, 3)}) ${digits.slice(3, 6)}-${digits.slice(6)}`;
+    if (digits.length === 11 && digits[0] === "1") return `(${digits.slice(1, 4)}) ${digits.slice(4, 7)}-${digits.slice(7)}`;
     return rawPhone;
   })();
-  const accentColor = activeService === "snow" ? "#09f" : "#22c55e";
-  const serviceIcon = activeService === "snow" ? "/shovel-blue.png" : "/lawn-mower-green.png";
+
+  const isSnow = activeService === "snow";
+  const accentColor = isSnow ? "#0ea5e9" : "#22c55e";
+  const accentLight = isSnow ? "#e0f2fe" : "#f0fdf4";
+  const serviceLabel = isSnow ? "Snow Removal" : "Lawn Care";
+  const serviceIcon = isSnow ? "/shovel-blue.png" : "/lawn-mower-green.png";
 
   function getAnalyticsPayload() {
     return {
@@ -88,8 +63,17 @@ const ProviderPopupCard: React.FC<ProviderPopupCardProps> = ({ provider, onClose
     };
   }
 
+  const filledStars = Math.round(displayRating);
+
   return (
     <>
+      <style>{`
+        @keyframes cardSlideUp {
+          from { opacity: 0; transform: translateX(-50%) translateY(24px); }
+          to   { opacity: 1; transform: translateX(-50%) translateY(0); }
+        }
+      `}</style>
+
       {showReport && (
         <ReportModal
           providerId={provider.id || ""}
@@ -112,70 +96,36 @@ const ProviderPopupCard: React.FC<ProviderPopupCardProps> = ({ provider, onClose
       <div
         style={{
           position: "fixed",
-          bottom: 24,
+          bottom: 20,
           left: "50%",
           transform: "translateX(-50%)",
           zIndex: 100,
           background: "#fff",
-          borderRadius: 20,
-          boxShadow: "0 8px 40px rgba(0,0,0,0.18)",
+          borderRadius: 24,
+          boxShadow: "0 2px 8px rgba(0,0,0,0.06), 0 16px 48px rgba(0,0,0,0.16)",
           width: "calc(100vw - 32px)",
-          maxWidth: 400,
+          maxWidth: 440,
           overflow: "hidden",
+          animation: "cardSlideUp 0.28s cubic-bezier(0.34,1.1,0.64,1) both",
         }}
       >
-        {/* Close button */}
-        <button
-          onClick={() => { trackEvent("Provider_Details_Closed", getAnalyticsPayload()); onClose(); }}
-          style={{
-            position: "absolute",
-            top: 70,
-            right: 12,
-            width: 28,
-            height: 28,
-            borderRadius: "50%",
-            background: "rgba(0,0,0,0.3)",
-            border: "none",
-            cursor: "pointer",
-            display: "flex",
-            alignItems: "center",
-            justifyContent: "center",
-            zIndex: 1,
-            padding: 0,
-          }}
-        >
-          <svg
-            width={14}
-            height={14}
-            viewBox="0 0 24 24"
-            stroke="#fff"
-            strokeWidth="2.5"
-            strokeLinecap="round"
-          >
-            <line x1="5" y1="5" x2="19" y2="19" />
-            <line x1="19" y1="5" x2="5" y2="19" />
-          </svg>
-        </button>
-
         {/* Owner inactive alert */}
         {isOwnerInactive && (
-          <div
-            style={{
-              background: "#fff7ed",
-              borderBottom: "1px solid #fed7aa",
-              padding: "10px 14px",
-              display: "flex",
-              alignItems: "center",
-              gap: 10,
-            }}
-          >
-            <svg width={16} height={16} viewBox="0 0 24 24" fill="#f97316" style={{ flexShrink: 0 }}>
+          <div style={{
+            background: "#fff7ed",
+            borderBottom: "1px solid #fed7aa",
+            padding: "10px 16px",
+            display: "flex",
+            alignItems: "center",
+            gap: 10,
+          }}>
+            <svg width={15} height={15} viewBox="0 0 24 24" fill="#f97316" style={{ flexShrink: 0 }}>
               <path d="M10.29 3.86L1.82 18a2 2 0 001.71 3h16.94a2 2 0 001.71-3L13.71 3.86a2 2 0 00-3.42 0z" />
               <line x1="12" y1="9" x2="12" y2="13" stroke="#fff" strokeWidth="2" strokeLinecap="round" />
               <line x1="12" y1="17" x2="12.01" y2="17" stroke="#fff" strokeWidth="2" strokeLinecap="round" />
             </svg>
             <p style={{ margin: 0, fontSize: 13, color: "#9a3412", flex: 1, lineHeight: 1.4 }}>
-              Your account is not visible to homeowners
+              Your profile is hidden from homeowners
             </p>
             {onSubscribe && (
               <button
@@ -199,199 +149,301 @@ const ProviderPopupCard: React.FC<ProviderPopupCardProps> = ({ provider, onClose
           </div>
         )}
 
-        {/* Top section: photo + CTA buttons */}
-       <div style={{ display: "flex", alignItems: "center", gap: 14, padding: "30px 16px 16px" }}>
-          {/* Photo + name */}
-          <div style={{ display: "flex", flexDirection: "column", alignItems: "center", gap: 6, flexShrink: 0 }}>
-            <div style={{ position: "relative" }}>
-              <div
-                style={{
-                  width: 113,
-                  height: 113,
-                  borderRadius: "50%",
-                  background: accentColor, // outer colored circle
-                  display: "flex",
-                  alignItems: "center",
-                  justifyContent: "center",
-                }}
-              >
+        {/* ── Profile header ── */}
+        <div style={{ padding: "20px 20px 0" }}>
+          <div style={{ display: "flex", alignItems: "flex-start", gap: 16 }}>
+
+            {/* Avatar with colored ring */}
+            <div style={{
+              width: 100,
+              height: 100,
+              borderRadius: "50%",
+              padding: 1,
+              background: accentColor,
+              flexShrink: 0,
+            }}>
               <img
                 src={provider.imageUrl}
                 alt={provider.providerName}
                 style={{
-                  width: 110,
-                  height: 110,
+                  width: "100%",
+                  height: "100%",
                   borderRadius: "50%",
                   objectFit: "cover",
-                  border: `2px solid white`,
+                  border: "2px solid #fff",
                   display: "block",
                 }}
               />
+            </div>
+
+            {/* Name + badges */}
+            <div style={{ flex: 1, minWidth: 0, paddingTop: 4 }}>
+              <div style={{ display: "flex", alignItems: "center", gap: 8, marginBottom: 6 }}>
+                <span style={{
+                  fontWeight: 800,
+                  fontSize: 19,
+                  color: "#111827",
+                  whiteSpace: "nowrap",
+                  overflow: "hidden",
+                  textOverflow: "ellipsis",
+                }}>
+                  {provider.providerName}
+                </span>
               </div>
+
+              {/* Service badge */}
               <div style={{
-                position: "absolute",
-                bottom: 4,
-                right: 2,
-                width: 34,
-                height: 34,
+                display: "inline-flex",
+                alignItems: "center",
+                gap: 5,
+                background: accentLight,
+                borderRadius: 999,
+                padding: "4px 10px 4px 6px",
+                marginBottom: 8,
+              }}>
+                <img src={serviceIcon} alt={serviceLabel} style={{ width: 18, height: 18, objectFit: "contain" }} />
+                <span style={{ fontSize: 12, fontWeight: 700, color: accentColor }}>{serviceLabel}</span>
+              </div>
+
+              {/* Rating */}
+              <div
+                onClick={() => setShowRating(true)}
+                style={{ cursor: "pointer", display: "flex", alignItems: "center", gap: 4 }}
+                title="Tap to rate"
+              >
+                {displayCount > 0 ? (
+                  <>
+                    {[...Array(5)].map((_, i) => (
+                      <svg key={i} width={16} height={16} viewBox="0 0 24 24"
+                        fill={i < filledStars ? "#f59e0b" : "none"}
+                        stroke={i < filledStars ? "#f59e0b" : "#d1d5db"}
+                        strokeWidth="1.5">
+                        <polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2" />
+                      </svg>
+                    ))}
+                    <span style={{ fontWeight: 700, fontSize: 13, color: "#111827", marginLeft: 2 }}>
+                      {displayRating.toFixed(1)}
+                    </span>
+                    <span style={{ fontSize: 12, color: "#9ca3af" }}>({displayCount})</span>
+                  </>
+                ) : (
+                  <span style={{ fontSize: 12, color: "#9ca3af", fontStyle: "italic" }}>
+                    No ratings yet — tap to rate
+                  </span>
+                )}
+              </div>
+            </div>
+
+            {/* Close button */}
+            <button
+              onClick={() => { trackEvent("Provider_Details_Closed", getAnalyticsPayload()); onClose(); }}
+              style={{
+                width: 32,
+                height: 32,
                 borderRadius: "50%",
-                background: "#fff",
-                border: "1px solid #e5e7eb",
+                background: "#f3f4f6",
+                border: "none",
+                cursor: "pointer",
                 display: "flex",
                 alignItems: "center",
                 justifyContent: "center",
-                boxShadow: "0 1px 4px rgba(0,0,0,0.1)",
-              }}>
-                <img src={serviceIcon} alt="service" style={{ width: 30, height: 30, objectFit: "contain"}} />
-              </div>
-            </div>
-            <span style={{ fontWeight: 700, fontSize: 17, textAlign: "center" }}>
-              {provider.providerName}
-            </span>
+                flexShrink: 0,
+                padding: 0,
+              }}
+            >
+              <svg width={14} height={14} viewBox="0 0 24 24" stroke="#6b7280" strokeWidth="2.5" strokeLinecap="round">
+                <line x1="5" y1="5" x2="19" y2="19" />
+                <line x1="19" y1="5" x2="5" y2="19" />
+              </svg>
+            </button>
           </div>
 
-          {/* Call / Message buttons (mobile) or phone number (desktop/tablet) */}
-          <div style={{ flex: 1, display: "flex", flexDirection: "column", gap: 10 }}>
-            {isLargeScreen ? (
+          {/* ── Description ── */}
+          {provider.description ? (
+            <p style={{
+              fontSize: 14,
+              color: "#4b5563",
+              lineHeight: 1.6,
+              margin: "14px 0 0",
+              padding: "12px 14px",
+              background: "#ecedef85",
+              borderRadius: 12,
+              borderLeft: `4px solid ${accentColor}`,
+            }}>
+              {provider.description}
+            </p>
+          ) : null}
+        </div>
+
+        {/* ── Details chips ── */}
+        <div style={{ padding: "12px 20px", display: "flex", flexWrap: "wrap", gap: 8 }}>
+          {/* Tools chip */}
+          <span style={{
+            display: "inline-flex",
+            alignItems: "center",
+            gap: 5,
+            background: "#f3f4f6",
+            borderRadius: 999,
+            padding: "5px 11px",
+            fontSize: 12,
+            fontWeight: 600,
+            color: "#374151",
+          }}>
+            <svg width={13} height={13} viewBox="0 0 24 24" fill="none" stroke="#6b7280" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
+              <path d="M14.7 6.3a1 1 0 000 1.4l1.6 1.6a1 1 0 001.4 0l3.77-3.77a6 6 0 01-7.94 7.94l-6.91 6.91a2.12 2.12 0 01-3-3l6.91-6.91a6 6 0 017.94-7.94l-3.76 3.76z" />
+            </svg>
+            {provider.hasTools ? "Has own tools" : "Uses owner's tools"}
+          </span>
+
+          {/* Payment chips */}
+          {(provider.paymentMethods ?? []).map((method: string) => (
+            <span key={method} style={{
+              display: "inline-flex",
+              alignItems: "center",
+              gap: 5,
+              background: "#f0fdf4",
+              border: `1px solid #bbf7d0`,
+              borderRadius: 999,
+              padding: "5px 11px",
+              fontSize: 12,
+              fontWeight: 600,
+              color: "#166534",
+            }}>
+              <svg width={12} height={12} viewBox="0 0 20 20" fill="none">
+                <path d="M5 10.5L9 14.5L15 7.5" stroke="#22c55e" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round" />
+              </svg>
+              {method}
+            </span>
+          ))}
+        </div>
+
+        {/* ── CTA Buttons ── */}
+        <div style={{ padding: "0 16px 16px", display: "flex", gap: 10 }}>
+          {isLargeScreen ? (
+            <a
+              href={`tel:${phone}`}
+              onClick={() => trackEvent("Provider_Call_Tapped", getAnalyticsPayload())}
+              style={{
+                flex: 1,
+                display: "flex",
+                alignItems: "center",
+                justifyContent: "center",
+                gap: 8,
+                background: accentColor,
+                color: "#fff",
+                borderRadius: 14,
+                padding: "13px 0",
+                fontWeight: 700,
+                fontSize: 15,
+                textDecoration: "none",
+              }}
+            >
+              <svg width={17} height={17} viewBox="0 0 24 24" fill="none" stroke="#fff" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
+                <path d="M22 16.92v3a2 2 0 01-2.18 2 19.79 19.79 0 01-8.63-3.07A19.5 19.5 0 013.07 12a19.79 19.79 0 01-3.07-8.67A2 2 0 012 1.13h3a2 2 0 012 1.72 12.84 12.84 0 00.7 2.81 2 2 0 01-.45 2.11L6.09 8.92a16 16 0 006 6l1.27-1.27a2 2 0 012.11-.45 12.84 12.84 0 002.81.7A2 2 0 0122 16.92z" />
+              </svg>
+              {formattedPhone}
+            </a>
+          ) : (
+            <>
               <a
                 href={`tel:${phone}`}
                 onClick={() => trackEvent("Provider_Call_Tapped", getAnalyticsPayload())}
                 style={{
+                  flex: 1,
                   display: "flex",
                   alignItems: "center",
                   justifyContent: "center",
-                  gap: 10,
+                  gap: 8,
+                  background: accentColor,
+                  color: "#fff",
+                  borderRadius: 14,
+                  padding: "14px 0",
+                  fontWeight: 700,
+                  fontSize: 16,
+                  textDecoration: "none",
+                  boxShadow: `0 4px 14px ${accentColor}44`,
+                }}
+              >
+                <svg width={18} height={18} viewBox="0 0 24 24" fill="none" stroke="#fff" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
+                  <path d="M22 16.92v3a2 2 0 01-2.18 2 19.79 19.79 0 01-8.63-3.07A19.5 19.5 0 013.07 12a19.79 19.79 0 01-3.07-8.67A2 2 0 012 1.13h3a2 2 0 012 1.72 12.84 12.84 0 00.7 2.81 2 2 0 01-.45 2.11L6.09 8.92a16 16 0 006 6l1.27-1.27a2 2 0 012.11-.45 12.84 12.84 0 002.81.7A2 2 0 0122 16.92z" />
+                </svg>
+                Call
+              </a>
+              <a
+                href={`sms:${phone}`}
+                onClick={() => trackEvent("Provider_Message_Tapped", getAnalyticsPayload())}
+                style={{
+                  flex: 1,
+                  display: "flex",
+                  alignItems: "center",
+                  justifyContent: "center",
+                  gap: 8,
                   background: "#f9fafb",
-                  borderRadius: 999,
-                  padding: "14px 16px",
+                  color: "#374151",
+                  border: "1.5px solid #e5e7eb",
+                  borderRadius: 14,
+                  padding: "14px 0",
+                  fontWeight: 700,
+                  fontSize: 16,
                   textDecoration: "none",
                 }}
               >
-                <svg width={20} height={20} viewBox="0 0 24 24" fill="none" stroke="#9ca3af" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
-                  <path d="M22 16.92v3a2 2 0 01-2.18 2 19.79 19.79 0 01-8.63-3.07A19.5 19.5 0 013.07 12a19.79 19.79 0 01-3.07-8.67A2 2 0 012 1.13h3a2 2 0 012 1.72 12.84 12.84 0 00.7 2.81 2 2 0 01-.45 2.11L6.09 8.92a16 16 0 006 6l1.27-1.27a2 2 0 012.11-.45 12.84 12.84 0 002.81.7A2 2 0 0122 16.92z" />
+                <svg width={18} height={18} viewBox="0 0 24 24" fill="none" stroke="#374151" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
+                  <path d="M21 15a2 2 0 01-2 2H7l-4 4V5a2 2 0 012-2h14a2 2 0 012 2z" />
                 </svg>
-                <span style={{ fontWeight: 600, fontSize: 17, color: "#6b7280", letterSpacing: "0.03em" }}>
-                  {formattedPhone}
-                </span>
+                Message
               </a>
-            ) : (
-              <>
-                <a
-                  href={`tel:${phone}`}
-                  onClick={() => trackEvent("Provider_Call_Tapped", getAnalyticsPayload())}
-                  style={{
-                    display: "flex",
-                    alignItems: "center",
-                    justifyContent: "center",
-                    gap: 8,
-                    background: "#22c55e",
-                    color: "#fff",
-                    borderRadius: 999,
-                    padding: "13px 0",
-                    fontWeight: 700,
-                    fontSize: 17,
-                    textDecoration: "none",
-                  }}
-                >
-                  <svg width={18} height={18} viewBox="0 0 24 24" fill="none" stroke="#fff" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
-                    <path d="M22 16.92v3a2 2 0 01-2.18 2 19.79 19.79 0 01-8.63-3.07A19.5 19.5 0 013.07 12a19.79 19.79 0 01-3.07-8.67A2 2 0 012 1.13h3a2 2 0 012 1.72 12.84 12.84 0 00.7 2.81 2 2 0 01-.45 2.11L6.09 8.92a16 16 0 006 6l1.27-1.27a2 2 0 012.11-.45 12.84 12.84 0 002.81.7A2 2 0 0122 16.92z" />
-                  </svg>
-                  Call
-                </a>
-                <a
-                  href={`sms:${phone}`}
-                  onClick={() => trackEvent("Provider_Message_Tapped", getAnalyticsPayload())}
-                  style={{
-                    display: "flex",
-                    alignItems: "center",
-                    justifyContent: "center",
-                    gap: 8,
-                    background: "#fff",
-                    color: "#22c55e",
-                    border: "2px solid #22c55e",
-                    borderRadius: 999,
-                    padding: "11px 0",
-                    fontWeight: 700,
-                    fontSize: 17,
-                    textDecoration: "none",
-                  }}
-                >
-                  <svg width={18} height={18} viewBox="0 0 24 24" fill="none" stroke="#22c55e" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
-                    <path d="M21 15a2 2 0 01-2 2H7l-4 4V5a2 2 0 012-2h14a2 2 0 012 2z" />
-                  </svg>
-                  Message
-                </a>
-              </>
-            )}
-          </div>
-        </div>
-
-        {/* Details section */}
-        <div style={{ padding: "0 16px 12px" }}>
-          {/* Tools */}
-          <div style={{ display: "flex", alignItems: "center", gap: 7, marginBottom: 6 }}>
-            <BsCircleFill color="#22c55e" size={9} />
-            <span style={{ fontSize: 14, color: "#444" }}>
-              {provider.hasTools ? "I have tools" : "I will use home-owner's tools"}
-            </span>
-          </div>
-
-          {/* Description */}
-          {provider.description ? (
-            <p style={{ fontStyle: "italic", fontSize: 14, color: "#666", margin: "0 0 8px" }}>
-              {provider.description}
-            </p>
-          ) : null}
-
-          {/* Payment methods */}
-          {provider.paymentMethods && provider.paymentMethods.length > 0 && (
-            <div style={{ display: "flex", flexWrap: "wrap", gap: 10 }}>
-              {provider.paymentMethods.map((method: string) => (
-                <span key={method} style={{ display: "flex", alignItems: "center", gap: 6, fontSize: 14, color: "#444" }}>
-                  <GreenCheck />
-                  {method}
-                </span>
-              ))}
-            </div>
+            </>
           )}
         </div>
 
-        {/* Bottom: stars + report */}
+        {/* ── Footer: rate + report ── */}
         <div style={{
-          padding: "10px 16px 18px",
           display: "flex",
           alignItems: "center",
           justifyContent: "space-between",
+          padding: "10px 20px 18px",
           borderTop: "1px solid #f3f4f6",
         }}>
-          <div
+          <button
             onClick={() => setShowRating(true)}
-            style={{ cursor: "pointer" }}
-            title="Tap to rate"
+            style={{
+              display: "flex",
+              alignItems: "center",
+              gap: 6,
+              background: "none",
+              border: "none",
+              cursor: "pointer",
+              padding: 0,
+              color: "#f59e0b",
+              fontWeight: 600,
+              fontSize: 13,
+            }}
           >
-            <StarRating rating={displayRating} count={displayCount} />
-          </div>
+            <svg width={16} height={16} viewBox="0 0 24 24" fill="#f59e0b" stroke="none">
+              <polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2" />
+            </svg>
+            Rate this provider
+          </button>
 
           <button
             onClick={() => setShowReport(true)}
             style={{
               display: "flex",
               alignItems: "center",
-              gap: 6,
-              background: "#fffbeb",
-              border: "1px solid #fcd34d",
-              borderRadius: 999,
-              padding: "5px 10px",
-              fontSize: 12,
-              fontWeight: 600,
-              color: "#92400e",
+              gap: 5,
+              background: "none",
+              border: "none",
               cursor: "pointer",
+              padding: 0,
+              color: "#9ca3af",
+              fontSize: 12,
+              fontWeight: 500,
             }}
           >
-            <svg width={15} height={15} viewBox="0 0 24 24" fill="#f59e0b">
-              <path d="M10.29 3.86L1.82 18a2 2 0 001.71 3h16.94a2 2 0 001.71-3L13.71 3.86a2 2 0 00-3.42 0z" />
-              <line x1="12" y1="9" x2="12" y2="13" stroke="#fff" strokeWidth="2" strokeLinecap="round" />
-              <line x1="12" y1="17" x2="12.01" y2="17" stroke="#fff" strokeWidth="2" strokeLinecap="round" />
+            <svg width={13} height={13} viewBox="0 0 24 24" fill="none" stroke="#9ca3af" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
+              <path d="M4 15s1-1 4-1 5 2 8 2 4-1 4-1V3s-1 1-4 1-5-2-8-2-4 1-4 1z" />
+              <line x1="4" y1="22" x2="4" y2="15" />
             </svg>
             Report
           </button>
