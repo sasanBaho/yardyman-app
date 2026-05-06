@@ -32,29 +32,34 @@ const CreateAccountModal: React.FC<CreateAccountModalProps> = ({
   const [email, setEmail] = useState("");
   const [photoFile, setPhotoFile] = useState<File | null>(null);
   const [photoPreview, setPhotoPreview] = useState<string | null>(null);
-  const [showImagePicker, setShowImagePicker] = useState(false);
   const [cropSrc, setCropSrc] = useState<string | null>(null);
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState("");
   const [focusedField, setFocusedField] = useState<string | null>(null);
+  const [touched, setTouched] = useState<Record<string, boolean>>({});
 
   const fileInputRef = useRef<HTMLInputElement>(null);
-  const cameraInputRef = useRef<HTMLInputElement>(null);
   const recaptchaRef = useRef<RecaptchaVerifier | null>(null);
-
-  const isMobile =
-    typeof window !== "undefined" &&
-    /Mobi|Android|iPhone|iPad|iPod|Opera Mini|IEMobile/i.test(navigator.userAgent);
 
   const digits = phone.replace(/\D/g, "");
   const fullPhone = countryCode + digits;
-  const isValid = name.trim().length > 0 && digits.length >= 10 && email.trim().length > 0;
 
-  const fieldStyle = (fieldName: string): React.CSSProperties => ({
+  const isValidName = name.trim().length >= 2;
+  const isValidPhone = digits.length >= 10;
+  const isValidEmail = /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email.trim());
+  const isValid = isValidName && isValidPhone && isValidEmail;
+
+  const nameError = touched.name && !isValidName;
+  const phoneError = touched.phone && !isValidPhone;
+  const emailError = touched.email && !isValidEmail;
+
+  const touch = (field: string) => setTouched((t) => ({ ...t, [field]: true }));
+
+  const fieldStyle = (fieldName: string, hasError = false): React.CSSProperties => ({
     width: "100%",
     padding: "14px 16px",
     background: "#f9fafb",
-    border: `1.5px solid ${focusedField === fieldName ? "#22c55e" : "#e5e7eb"}`,
+    border: `1.5px solid ${focusedField === fieldName ? "#22c55e" : hasError ? "#f87171" : "#e5e7eb"}`,
     borderRadius: 12,
     fontSize: 15,
     outline: "none",
@@ -63,8 +68,11 @@ const CreateAccountModal: React.FC<CreateAccountModalProps> = ({
     transition: "border-color 0.15s",
   });
 
+  const inlineError = (msg: string) => (
+    <p style={{ color: "#ef4444", fontSize: 12, margin: "4px 0 8px 2px", lineHeight: 1.4 }}>{msg}</p>
+  );
+
   const handlePhotoSelected = (file: File) => {
-    setShowImagePicker(false);
     const reader = new FileReader();
     reader.onload = (e) => setCropSrc(e.target?.result as string);
     reader.readAsDataURL(file);
@@ -117,104 +125,21 @@ const CreateAccountModal: React.FC<CreateAccountModalProps> = ({
           onCancel={() => setCropSrc(null)}
         />
       )}
+
       <ModalBase onClose={onClose} closeButtonColor="#22c55e">
         <div id="recaptcha-create" />
 
+        {/* Hidden file input — "image/*" lets iOS show its native Camera/Library sheet */}
         <input
           ref={fileInputRef}
           type="file"
           accept="image/*"
-          capture={false as any}
           style={{ display: "none" }}
-          onChange={(e) => e.target.files?.[0] && handlePhotoSelected(e.target.files[0])}
+          onChange={(e) => {
+            if (e.target.files?.[0]) handlePhotoSelected(e.target.files[0]);
+            e.target.value = "";
+          }}
         />
-        <input
-          ref={cameraInputRef}
-          type="file"
-          accept="image/*"
-          capture="user"
-          style={{ display: "none" }}
-          onChange={(e) => e.target.files?.[0] && handlePhotoSelected(e.target.files[0])}
-        />
-
-        {showImagePicker && (
-          <div
-            style={{
-              position: "fixed",
-              inset: 0,
-              zIndex: 700,
-              display: "flex",
-              alignItems: "flex-end",
-              background: "rgba(0,0,0,0.4)",
-            }}
-            onClick={() => setShowImagePicker(false)}
-          >
-            <div
-              style={{ width: "100%", padding: "0 8px 8px" }}
-              onClick={(e) => e.stopPropagation()}
-            >
-              <div style={{ background: "#fff", borderRadius: 14, overflow: "hidden", marginBottom: 8 }}>
-                <div style={{
-                  padding: "12px 16px",
-                  textAlign: "center",
-                  color: "#6b7280",
-                  fontSize: 13,
-                  fontWeight: 600,
-                  borderBottom: "1px solid #f3f4f6",
-                }}>
-                  Select Photo
-                </div>
-                {isMobile && (
-                  <button
-                    onClick={() => cameraInputRef.current?.click()}
-                    style={{
-                      width: "100%",
-                      padding: "18px",
-                      background: "#fff",
-                      border: "none",
-                      borderBottom: "1px solid #f3f4f6",
-                      color: "#22c55e",
-                      fontSize: 17,
-                      cursor: "pointer",
-                    }}
-                  >
-                    Camera
-                  </button>
-                )}
-                <button
-                  onClick={() => fileInputRef.current?.click()}
-                  style={{
-                    width: "100%",
-                    padding: "18px",
-                    background: "#fff",
-                    border: "none",
-                    color: "#22c55e",
-                    fontSize: 17,
-                    cursor: "pointer",
-                  }}
-                >
-                  Photo Library
-                </button>
-              </div>
-              <button
-                onClick={() => setShowImagePicker(false)}
-                style={{
-                  width: "100%",
-                  padding: "18px",
-                  background: "#fff",
-                  border: "none",
-                  borderRadius: 14,
-                  color: "#374151",
-                  fontSize: 17,
-                  fontWeight: 700,
-                  cursor: "pointer",
-                }}
-              >
-                Cancel
-              </button>
-            </div>
-          </div>
-        )}
 
         {/* Header */}
         <div style={{ textAlign: "center", marginBottom: 24, paddingTop: 4 }}>
@@ -243,11 +168,11 @@ const CreateAccountModal: React.FC<CreateAccountModalProps> = ({
           </p>
         </div>
 
-        {/* Photo upload */}
+        {/* Photo upload — tapping directly opens the file picker */}
         <div style={{ display: "flex", justifyContent: "center", marginBottom: 24 }}>
           <button
             type="button"
-            onClick={() => setShowImagePicker(true)}
+            onClick={() => fileInputRef.current?.click()}
             style={{
               position: "relative",
               width: 100,
@@ -309,13 +234,14 @@ const CreateAccountModal: React.FC<CreateAccountModalProps> = ({
           value={name}
           onChange={(e) => setName(e.target.value)}
           onFocus={() => setFocusedField("name")}
-          onBlur={() => setFocusedField(null)}
+          onBlur={() => { setFocusedField(null); touch("name"); }}
           placeholder="Enter your full name"
-          style={{ ...fieldStyle("name"), marginBottom: 16 }}
+          style={{ ...fieldStyle("name", nameError), marginBottom: nameError ? 0 : 16 }}
         />
+        {nameError && inlineError("Please enter your full name")}
 
         {/* Phone Number */}
-        <label style={{ fontWeight: 600, fontSize: 13, color: "#374151", display: "block", marginBottom: 6, letterSpacing: "0.02em" }}>
+        <label style={{ fontWeight: 600, fontSize: 13, color: "#374151", display: "block", marginBottom: 6, letterSpacing: "0.02em", marginTop: nameError ? 12 : 0 }}>
           Phone Number
         </label>
         <PhoneInput
@@ -323,13 +249,16 @@ const CreateAccountModal: React.FC<CreateAccountModalProps> = ({
           onChange={setPhone}
           countryCode={countryCode}
           onCountryCodeChange={setCountryCode}
+          onBlur={() => touch("phone")}
+          hasError={phoneError}
         />
-        <p style={{ color: "#9ca3af", fontSize: 13, margin: "6px 0 16px" }}>
-          A verification code will be sent via SMS.
-        </p>
+        {phoneError
+          ? inlineError("Please enter a valid 10-digit phone number")
+          : <p style={{ color: "#9ca3af", fontSize: 13, margin: "6px 0 16px" }}>A verification code will be sent via SMS.</p>
+        }
 
         {/* Email */}
-        <label style={{ fontWeight: 600, fontSize: 13, color: "#374151", display: "block", marginBottom: 6, letterSpacing: "0.02em" }}>
+        <label style={{ fontWeight: 600, fontSize: 13, color: "#374151", display: "block", marginBottom: 6, letterSpacing: "0.02em", marginTop: phoneError ? 4 : 0 }}>
           Email Address
         </label>
         <input
@@ -337,10 +266,13 @@ const CreateAccountModal: React.FC<CreateAccountModalProps> = ({
           value={email}
           onChange={(e) => setEmail(e.target.value)}
           onFocus={() => setFocusedField("email")}
-          onBlur={() => setFocusedField(null)}
+          onBlur={() => { setFocusedField(null); touch("email"); }}
           placeholder="Enter your email address"
-          style={{ ...fieldStyle("email"), marginBottom: 24 }}
+          style={{ ...fieldStyle("email", emailError), marginBottom: emailError ? 0 : 24 }}
         />
+        {emailError && inlineError("Please enter a valid email address (e.g. name@example.com)")}
+
+        <div style={{ marginTop: emailError ? 16 : 0 }} />
 
         {error && (
           <div style={{

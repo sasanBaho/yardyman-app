@@ -3,7 +3,7 @@ import React, { useRef, useState } from "react";
 import { RecaptchaVerifier, signInWithPhoneNumber, ConfirmationResult } from "firebase/auth";
 import ModalBase from "./ModalBase";
 import PhoneInput from "./PhoneInput";
-import { auth } from "@/firebase";
+import { auth, db, collection, query, where, getDocs } from "@/firebase";
 
 interface LoginModalProps {
   onClose: () => void;
@@ -26,17 +26,30 @@ const LoginModal: React.FC<LoginModalProps> = ({
   const [countryCode, setCountryCode] = useState(initialCountryCode);
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState("");
+  const [phoneTouched, setPhoneTouched] = useState(false);
+  const [notFound, setNotFound] = useState(false);
   const recaptchaRef = useRef<RecaptchaVerifier | null>(null);
 
   const digits = phone.replace(/\D/g, "");
   const fullPhone = countryCode + digits;
-  const isValid = digits.length >= 10;
+  const isValidPhone = digits.length >= 10;
+  const isValid = isValidPhone;
+  const phoneError = phoneTouched && !isValidPhone;
 
   const handleSendCode = async () => {
     if (!isValid || loading) return;
     setLoading(true);
     setError("");
+    setNotFound(false);
     try {
+      const snapshot = await getDocs(
+        query(collection(db, "providers"), where("phoneNumber", "==", fullPhone))
+      );
+      if (snapshot.empty) {
+        setNotFound(true);
+        setLoading(false);
+        return;
+      }
       if (!recaptchaRef.current) {
         recaptchaRef.current = new RecaptchaVerifier(auth, "recaptcha-login", {
           size: "invisible",
@@ -86,13 +99,58 @@ const LoginModal: React.FC<LoginModalProps> = ({
       </label>
       <PhoneInput
         value={phone}
-        onChange={setPhone}
+        onChange={(v) => { setPhone(v); setNotFound(false); }}
         countryCode={countryCode}
         onCountryCodeChange={setCountryCode}
+        onBlur={() => setPhoneTouched(true)}
+        hasError={phoneError}
       />
-      <p style={{ color: "#9ca3af", fontSize: 13, margin: "6px 0 28px" }}>
-        A verification code will be sent via SMS.
-      </p>
+      {phoneError ? (
+        <p style={{ color: "#ef4444", fontSize: 12, margin: "4px 0 20px 2px" }}>
+          Please enter a valid 10-digit phone number
+        </p>
+      ) : (
+        <p style={{ color: "#9ca3af", fontSize: 13, margin: "6px 0 28px" }}>
+          A verification code will be sent via SMS.
+        </p>
+      )}
+
+      {notFound && (
+        <div style={{
+          background: "#fef2f2",
+          border: "1px solid #fecaca",
+          borderRadius: 12,
+          padding: "14px 16px",
+          marginBottom: 16,
+        }}>
+          <div style={{ display: "flex", alignItems: "flex-start", gap: 10, marginBottom: 12 }}>
+            <svg width={17} height={17} viewBox="0 0 24 24" fill="none" stroke="#ef4444" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" style={{ flexShrink: 0, marginTop: 1 }}>
+              <circle cx="12" cy="12" r="10" />
+              <line x1="12" y1="8" x2="12" y2="12" />
+              <line x1="12" y1="16" x2="12.01" y2="16" />
+            </svg>
+            <p style={{ color: "#991b1b", fontSize: 13, margin: 0, lineHeight: 1.5 }}>
+              No account found for this phone number. Want to join Yardyman as a provider?
+            </p>
+          </div>
+          <button
+            onClick={onCreateAccount}
+            style={{
+              width: "100%",
+              padding: "11px 0",
+              background: "#22c55e",
+              color: "#fff",
+              border: "none",
+              borderRadius: 9,
+              fontWeight: 700,
+              fontSize: 14,
+              cursor: "pointer",
+            }}
+          >
+            Create Provider Account
+          </button>
+        </div>
+      )}
 
       {error && (
         <div style={{

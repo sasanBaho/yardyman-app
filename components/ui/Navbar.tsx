@@ -13,6 +13,7 @@ type NavbarProps = {
   onSignOut?: () => void;
   onCancelSubscription?: () => Promise<void>;
   onDeleteAccount?: () => Promise<void>;
+  canCancelSubscription?: boolean;
 };
 
 const Navbar: React.FC<NavbarProps> = ({
@@ -24,6 +25,7 @@ const Navbar: React.FC<NavbarProps> = ({
   onSignOut,
   onCancelSubscription,
   onDeleteAccount,
+  canCancelSubscription,
 }) => {
   const [isMobile, setIsMobile] = useState(false);
   const [dropdownOpen, setDropdownOpen] = useState(false);
@@ -203,6 +205,7 @@ const Navbar: React.FC<NavbarProps> = ({
         onSignOut={onSignOut}
         onCancelSubscription={onCancelSubscription}
         onDeleteAccount={onDeleteAccount}
+        canCancelSubscription={canCancelSubscription}
       />
     </>
   );

@@ -161,27 +161,27 @@ const ProviderPopupCard: React.FC<ProviderPopupCardProps> = ({ provider, onClose
         {isOwnerInactive && (
           <div
             style={{
-              background: "#fef2f2",
-              borderBottom: "1px solid #fecaca",
+              background: "#fff7ed",
+              borderBottom: "1px solid #fed7aa",
               padding: "10px 14px",
               display: "flex",
               alignItems: "center",
               gap: 10,
             }}
           >
-            <svg width={16} height={16} viewBox="0 0 24 24" fill="#ef4444" style={{ flexShrink: 0 }}>
+            <svg width={16} height={16} viewBox="0 0 24 24" fill="#f97316" style={{ flexShrink: 0 }}>
               <path d="M10.29 3.86L1.82 18a2 2 0 001.71 3h16.94a2 2 0 001.71-3L13.71 3.86a2 2 0 00-3.42 0z" />
               <line x1="12" y1="9" x2="12" y2="13" stroke="#fff" strokeWidth="2" strokeLinecap="round" />
               <line x1="12" y1="17" x2="12.01" y2="17" stroke="#fff" strokeWidth="2" strokeLinecap="round" />
             </svg>
-            <p style={{ margin: 0, fontSize: 13, color: "#991b1b", flex: 1, lineHeight: 1.4 }}>
+            <p style={{ margin: 0, fontSize: 13, color: "#9a3412", flex: 1, lineHeight: 1.4 }}>
               Your account is not visible to homeowners
             </p>
             {onSubscribe && (
               <button
                 onClick={onSubscribe}
                 style={{
-                  background: "#ef4444",
+                  background: "#f97316",
                   color: "#fff",
                   border: "none",
                   borderRadius: 999,

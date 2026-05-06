@@ -9,6 +9,7 @@ interface SidebarMenuProps {
   onSignOut?: () => void;
   onCancelSubscription?: () => Promise<void>;
   onDeleteAccount?: () => Promise<void>;
+  canCancelSubscription?: boolean;
 }
 
 // ── Icon components ────────────────────────────────────────────────────────
@@ -209,6 +210,7 @@ const SidebarMenu: React.FC<SidebarMenuProps> = ({
   onSignOut,
   onCancelSubscription,
   onDeleteAccount,
+  canCancelSubscription,
 }) => {
   const [confirmAction, setConfirmAction] = useState<"cancel" | "delete" | null>(null);
   const [actionLoading, setActionLoading] = useState(false);
@@ -397,44 +399,46 @@ const SidebarMenu: React.FC<SidebarMenuProps> = ({
                   <span style={{ fontSize: 15, color: "#374151", fontWeight: 500 }}>Sign Out</span>
                 </button>
 
-                {/* Cancel Subscription */}
-                {confirmAction === "cancel" ? (
-                  <ConfirmPanel
-                    message="Cancel your subscription? You'll keep access until the end of your billing period."
-                    confirmLabel="Yes, Cancel"
-                    loading={actionLoading}
-                    onConfirm={handleCancelSubscription}
-                    onDismiss={() => setConfirmAction(null)}
-                  />
-                ) : (
-                  <button
-                    onClick={() => setConfirmAction("cancel")}
-                    style={{
-                      width: "100%",
-                      display: "flex",
-                      alignItems: "center",
-                      gap: 12,
-                      padding: "11px 20px",
-                      background: "none",
-                      border: "none",
-                      cursor: "pointer",
-                      textAlign: "left",
-                    }}
-                  >
-                    <span style={{
-                      width: 34,
-                      height: 34,
-                      borderRadius: "50%",
-                      background: "#fff7ed",
-                      display: "flex",
-                      alignItems: "center",
-                      justifyContent: "center",
-                      flexShrink: 0,
-                    }}>
-                      <CancelSubIcon />
-                    </span>
-                    <span style={{ fontSize: 15, color: "#f97316", fontWeight: 500 }}>Cancel Subscription</span>
-                  </button>
+                {/* Cancel Subscription — only shown when provider has an active subscription */}
+                {canCancelSubscription && (
+                  confirmAction === "cancel" ? (
+                    <ConfirmPanel
+                      message="Cancel your subscription? You'll keep access until the end of your billing period."
+                      confirmLabel="Yes, Cancel"
+                      loading={actionLoading}
+                      onConfirm={handleCancelSubscription}
+                      onDismiss={() => setConfirmAction(null)}
+                    />
+                  ) : (
+                    <button
+                      onClick={() => setConfirmAction("cancel")}
+                      style={{
+                        width: "100%",
+                        display: "flex",
+                        alignItems: "center",
+                        gap: 12,
+                        padding: "11px 20px",
+                        background: "none",
+                        border: "none",
+                        cursor: "pointer",
+                        textAlign: "left",
+                      }}
+                    >
+                      <span style={{
+                        width: 34,
+                        height: 34,
+                        borderRadius: "50%",
+                        background: "#fff7ed",
+                        display: "flex",
+                        alignItems: "center",
+                        justifyContent: "center",
+                        flexShrink: 0,
+                      }}>
+                        <CancelSubIcon />
+                      </span>
+                      <span style={{ fontSize: 15, color: "#f97316", fontWeight: 500 }}>Cancel Subscription</span>
+                    </button>
+                  )
                 )}
 
                 {/* Delete Account */}

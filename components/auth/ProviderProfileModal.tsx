@@ -1,10 +1,10 @@
 "use client";
 import React, { useEffect, useRef, useState } from "react";
 import { useBodyScrollLock } from "@/hooks/useBodyScrollLock";
-import { updateDoc, doc, getDoc } from "firebase/firestore";
+import { updateDoc, doc, getDoc, deleteDoc } from "firebase/firestore";
 import { ref as storageRef, uploadBytes, getDownloadURL } from "firebase/storage";
 import { db, storage, auth } from "@/firebase";
-import { signOut } from "firebase/auth";
+import { signOut, deleteUser } from "firebase/auth";
 import SelectServicesModal, { ServicesFormData } from "./SelectServicesModal";
 import ImageCropModal from "./ImageCropModal";
 import SubscriptionModal from "./SubscriptionModal";
@@ -75,7 +75,6 @@ const ProviderProfileModal: React.FC<ProviderProfileModalProps> = ({
   const [profileState, setProfileState] = useState(profile);
   const [showEditServices, setShowEditServices] = useState(false);
   const [saving, setSaving] = useState(false);
-  const [showImagePicker, setShowImagePicker] = useState(false);
   const [cropSrc, setCropSrc] = useState<string | null>(null);
   const [uploadingPhoto, setUploadingPhoto] = useState(false);
   const [editingName, setEditingName] = useState(false);
@@ -93,10 +92,10 @@ const ProviderProfileModal: React.FC<ProviderProfileModalProps> = ({
   const [reactivatingSubscription, setReactivatingSubscription] = useState(false);
   const [showSubscriptionPlanModal, setShowSubscriptionPlanModal] = useState(false);
   const [subscribeModalLoading, setSubscribeModalLoading] = useState(false);
+  const [showDeleteConfirm, setShowDeleteConfirm] = useState(false);
+  const [deletingAccount, setDeletingAccount] = useState(false);
   const fileInputRef = useRef<HTMLInputElement>(null);
-  const cameraInputRef = useRef<HTMLInputElement>(null);
   const nameInputRef = useRef<HTMLInputElement>(null);
-  const isMobile = typeof window !== "undefined" && /Mobi|Android|iPhone|iPad|iPod|Opera Mini|IEMobile/i.test(navigator.userAgent);
 
   useEffect(() => {
     getDoc(doc(db, "providers", profile.uid)).then((snap) => {
@@ -151,8 +150,27 @@ const ProviderProfileModal: React.FC<ProviderProfileModalProps> = ({
     }
   };
 
+  const handleDeleteAccount = async () => {
+    setDeletingAccount(true);
+    try {
+      if (stripeSubscriptionId) {
+        await fetch("/api/stripe/cancel-subscription-immediately", {
+          method: "POST",
+          headers: { "Content-Type": "application/json" },
+          body: JSON.stringify({ subscriptionId: stripeSubscriptionId }),
+        });
+      }
+      await deleteDoc(doc(db, "providers", profile.uid));
+      const user = auth.currentUser;
+      if (user) await deleteUser(user);
+      onClose();
+    } catch {
+      setDeletingAccount(false);
+      setShowDeleteConfirm(false);
+    }
+  };
+
   const handlePhotoFileSelected = (file: File) => {
-    setShowImagePicker(false);
     const reader = new FileReader();
     reader.onload = (e) => setCropSrc(e.target?.result as string);
     reader.readAsDataURL(file);
@@ -294,39 +312,117 @@ const ProviderProfileModal: React.FC<ProviderProfileModalProps> = ({
         />
       )}
 
-      {/* Hidden file inputs */}
-      <input ref={fileInputRef} type="file" accept="image/*" style={{ display: "none" }}
-        onChange={(e) => e.target.files?.[0] && handlePhotoFileSelected(e.target.files[0])} />
-      <input ref={cameraInputRef} type="file" accept="image/*" capture="user" style={{ display: "none" }}
-        onChange={(e) => e.target.files?.[0] && handlePhotoFileSelected(e.target.files[0])} />
-
-      {/* iOS-style image picker sheet */}
-      {showImagePicker && (
-        <div style={{ position: "fixed", inset: 0, zIndex: 700, display: "flex", alignItems: "flex-end", background: "rgba(0,0,0,0.4)" }}
-          onClick={() => setShowImagePicker(false)}>
-          <div style={{ width: "100%", padding: "0 8px 8px" }} onClick={(e) => e.stopPropagation()}>
-            <div style={{ background: "#fff", borderRadius: 14, overflow: "hidden", marginBottom: 8 }}>
-              <div style={{ padding: "12px 16px", textAlign: "center", color: "#888", fontSize: 14, borderBottom: "1px solid #e5e5ea" }}>
-                Update Profile Photo
+      {showDeleteConfirm && (
+        <div
+          style={{
+            position: "fixed",
+            inset: 0,
+            zIndex: 800,
+            display: "flex",
+            alignItems: "center",
+            justifyContent: "center",
+            background: "rgba(0,0,0,0.55)",
+            padding: "0 20px",
+          }}
+          onClick={() => !deletingAccount && setShowDeleteConfirm(false)}
+        >
+          <div
+            style={{
+              background: "#fff",
+              borderRadius: 20,
+              padding: "28px 24px 24px",
+              width: "100%",
+              maxWidth: 380,
+              boxShadow: "0 20px 60px rgba(0,0,0,0.25)",
+            }}
+            onClick={(e) => e.stopPropagation()}
+          >
+            <div style={{ display: "flex", justifyContent: "center", marginBottom: 16 }}>
+              <div style={{ width: 52, height: 52, borderRadius: "50%", background: "#fef2f2", display: "flex", alignItems: "center", justifyContent: "center" }}>
+                <svg width={24} height={24} viewBox="0 0 24 24" fill="none" stroke="#ef4444" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
+                  <polyline points="3 6 5 6 21 6" />
+                  <path d="M19 6l-1 14a2 2 0 01-2 2H8a2 2 0 01-2-2L5 6" />
+                  <path d="M10 11v6M14 11v6" />
+                  <path d="M9 6V4a1 1 0 011-1h4a1 1 0 011 1v2" />
+                </svg>
               </div>
-              {isMobile && (
-                <button onClick={() => cameraInputRef.current?.click()}
-                  style={{ width: "100%", padding: "18px", background: "#fff", border: "none", borderBottom: "1px solid #e5e5ea", color: "#007aff", fontSize: 17, cursor: "pointer" }}>
-                  Camera
-                </button>
-              )}
-              <button onClick={() => fileInputRef.current?.click()}
-                style={{ width: "100%", padding: "18px", background: "#fff", border: "none", color: "#007aff", fontSize: 17, cursor: "pointer" }}>
-                Photo Library
+            </div>
+
+            <h3 style={{ textAlign: "center", fontSize: 18, fontWeight: 700, color: "#111827", margin: "0 0 10px" }}>
+              Delete Account?
+            </h3>
+
+            <p style={{ textAlign: "center", fontSize: 14, color: "#6b7280", margin: "0 0 12px", lineHeight: 1.6 }}>
+              This will permanently delete your account and all your profile data. This action cannot be undone.
+            </p>
+
+            {stripeSubscriptionId && (
+              <div style={{
+                background: "#fff7ed",
+                border: "1px solid #fed7aa",
+                borderRadius: 10,
+                padding: "10px 14px",
+                marginBottom: 20,
+                display: "flex",
+                alignItems: "flex-start",
+                gap: 8,
+              }}>
+                <svg width={15} height={15} viewBox="0 0 24 24" fill="none" stroke="#f97316" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" style={{ flexShrink: 0, marginTop: 1 }}>
+                  <circle cx="12" cy="12" r="10" />
+                  <line x1="12" y1="8" x2="12" y2="12" />
+                  <line x1="12" y1="16" x2="12.01" y2="16" />
+                </svg>
+                <p style={{ color: "#c2410c", fontSize: 13, margin: 0, lineHeight: 1.5 }}>
+                  Your active subscription will be <strong>cancelled immediately</strong> and you will not be charged again.
+                </p>
+              </div>
+            )}
+
+            <div style={{ display: "flex", gap: 10 }}>
+              <button
+                onClick={() => setShowDeleteConfirm(false)}
+                disabled={deletingAccount}
+                style={{
+                  flex: 1,
+                  padding: "13px",
+                  background: "#f3f4f6",
+                  color: "#374151",
+                  border: "none",
+                  borderRadius: 12,
+                  fontSize: 15,
+                  fontWeight: 600,
+                  cursor: deletingAccount ? "not-allowed" : "pointer",
+                  opacity: deletingAccount ? 0.5 : 1,
+                }}
+              >
+                Cancel
+              </button>
+              <button
+                onClick={handleDeleteAccount}
+                disabled={deletingAccount}
+                style={{
+                  flex: 1,
+                  padding: "13px",
+                  background: deletingAccount ? "#fca5a5" : "#ef4444",
+                  color: "#fff",
+                  border: "none",
+                  borderRadius: 12,
+                  fontSize: 15,
+                  fontWeight: 700,
+                  cursor: deletingAccount ? "not-allowed" : "pointer",
+                  transition: "background 0.15s",
+                }}
+              >
+                {deletingAccount ? "Deleting…" : "Delete Account"}
               </button>
             </div>
-            <button onClick={() => setShowImagePicker(false)}
-              style={{ width: "100%", padding: "18px", background: "#fff", border: "none", borderRadius: 14, color: "#007aff", fontSize: 17, fontWeight: 700, cursor: "pointer" }}>
-              Cancel
-            </button>
           </div>
         </div>
       )}
+
+      {/* Hidden file input */}
+      <input ref={fileInputRef} type="file" accept="image/*" style={{ display: "none" }}
+        onChange={(e) => { if (e.target.files?.[0]) handlePhotoFileSelected(e.target.files[0]); e.target.value = ""; }} />
 
       <div
         style={{
@@ -379,7 +475,7 @@ const ProviderProfileModal: React.FC<ProviderProfileModalProps> = ({
 
           {/* Avatar */}
           <div
-            onClick={() => setShowImagePicker(true)}
+            onClick={() => fileInputRef.current?.click()}
             style={{
               position: "relative",
               display: "inline-block",
@@ -432,7 +528,7 @@ const ProviderProfileModal: React.FC<ProviderProfileModalProps> = ({
               </div>
             )}
             <button
-              onClick={() => setShowImagePicker(true)}
+              onClick={(e) => { e.stopPropagation(); fileInputRef.current?.click(); }}
               aria-label="Change profile photo"
               style={{
                 position: "absolute",
@@ -590,24 +686,24 @@ const ProviderProfileModal: React.FC<ProviderProfileModalProps> = ({
         {isSubscriptionInactive && (
           <div
             style={{
-              background: "#fef2f2",
-              borderLeft: "4px solid #ef4444",
+              background: "#fff7ed",
+              borderLeft: "4px solid #f97316",
               padding: "14px 20px",
               display: "flex",
               alignItems: "flex-start",
               gap: 12,
             }}
           >
-            <svg width={18} height={18} viewBox="0 0 24 24" fill="#ef4444" style={{ flexShrink: 0, marginTop: 1 }}>
+            <svg width={18} height={18} viewBox="0 0 24 24" fill="#f97316" style={{ flexShrink: 0, marginTop: 1 }}>
               <path d="M10.29 3.86L1.82 18a2 2 0 001.71 3h16.94a2 2 0 001.71-3L13.71 3.86a2 2 0 00-3.42 0z" />
               <line x1="12" y1="9" x2="12" y2="13" stroke="#fff" strokeWidth="2" strokeLinecap="round" />
               <line x1="12" y1="17" x2="12.01" y2="17" stroke="#fff" strokeWidth="2" strokeLinecap="round" />
             </svg>
             <div style={{ flex: 1 }}>
-              <p style={{ margin: "0 0 4px", fontWeight: 700, fontSize: 14, color: "#991b1b" }}>
+              <p style={{ margin: "0 0 4px", fontWeight: 700, fontSize: 14, color: "#9a3412" }}>
                 Your account is not visible to homeowners
               </p>
-              <p style={{ margin: "0 0 10px", fontSize: 13, color: "#b91c1c" }}>
+              <p style={{ margin: "0 0 10px", fontSize: 13, color: "#c2410c" }}>
                 Subscribe to appear on the map and start receiving customer requests.
               </p>
               <button
@@ -627,7 +723,7 @@ const ProviderProfileModal: React.FC<ProviderProfileModalProps> = ({
                 }}
                 disabled={reactivatingSubscription}
                 style={{
-                  background: "#ef4444",
+                  background: "#f97316",
                   color: "#fff",
                   border: "none",
                   borderRadius: 999,
@@ -880,8 +976,8 @@ const ProviderProfileModal: React.FC<ProviderProfileModalProps> = ({
             </div>
           )}
 
-          {/* Sign out */}
-          <div style={{ paddingTop: 28, paddingBottom: 40 }}>
+          {/* Sign out / Delete account */}
+          <div style={{ paddingTop: 28, paddingBottom: 40, display: "flex", justifyContent: "space-between", alignItems: "center" }}>
             <button
               onClick={async () => { await signOut(auth); onClose(); }}
               style={{
@@ -895,6 +991,20 @@ const ProviderProfileModal: React.FC<ProviderProfileModalProps> = ({
               }}
             >
               Sign out
+            </button>
+            <button
+              onClick={() => setShowDeleteConfirm(true)}
+              style={{
+                background: "none",
+                border: "none",
+                color: "#ef4444",
+                fontSize: 14,
+                textDecoration: "underline",
+                cursor: "pointer",
+                padding: 0,
+              }}
+            >
+              Delete account
             </button>
           </div>
         </div>

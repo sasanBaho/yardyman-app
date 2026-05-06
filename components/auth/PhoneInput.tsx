@@ -15,6 +15,8 @@ interface PhoneInputProps {
   onChange: (phone: string) => void;
   countryCode: string;
   onCountryCodeChange: (code: string) => void;
+  onBlur?: () => void;
+  hasError?: boolean;
 }
 
 const PhoneInput: React.FC<PhoneInputProps> = ({
@@ -22,6 +24,8 @@ const PhoneInput: React.FC<PhoneInputProps> = ({
   onChange,
   countryCode,
   onCountryCodeChange,
+  onBlur,
+  hasError,
 }) => {
   const [open, setOpen] = useState(false);
   const wrapperRef = useRef<HTMLDivElement>(null);
@@ -112,16 +116,18 @@ const PhoneInput: React.FC<PhoneInputProps> = ({
         type="tel"
         value={value}
         onChange={(e) => onChange(e.target.value)}
+        onBlur={onBlur}
         placeholder="Phone number"
         style={{
           flex: 1,
           padding: "14px 16px",
-          background: "#f0f0f0",
-          border: "none",
+          background: hasError ? "#fff5f5" : "#f0f0f0",
+          border: hasError ? "1.5px solid #f87171" : "1.5px solid transparent",
           borderRadius: 12,
           fontSize: 16,
           outline: "none",
           minWidth: 0,
+          transition: "border-color 0.15s, background 0.15s",
         }}
       />
     </div>

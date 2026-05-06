@@ -533,6 +533,7 @@ export default function Home() {
         onSignOut={handleSignOut}
         onCancelSubscription={handleCancelSubscription}
         onDeleteAccount={handleDeleteAccount}
+        canCancelSubscription={["active", "trialing"].includes(currentProviderData?.subscriptionStatus ?? "")}
       >
         <button
           onClick={() => handleServiceChange("snow")}
@@ -631,8 +632,8 @@ export default function Home() {
               )
           )}
 
-          {/* Owner's own greyscale pin — only visible to themselves when unsubscribed */}
-          {showOwnPin && providerLocation && currentProviderData && (
+          {/* Owner's own greyscale pin — only visible to themselves when unsubscribed and available */}
+          {showOwnPin && providerLocation && currentProviderData && currentProviderData.isAvailable !== false && (
             <MapMarker longitude={providerLocation.lng} latitude={providerLocation.lat}>
               <MarkerContent>
                 <div
@@ -683,6 +684,7 @@ export default function Home() {
           profile={currentProviderData}
           onClose={() => setShowProfile(false)}
           onAvailabilityChange={(isAvailable) => {
+            setCurrentProviderData((prev) => prev ? { ...prev, isAvailable } : prev);
             setProviders((prev) =>
               prev.map((p) =>
                 p.id === currentProviderData.uid ? { ...p, isAvailable } : p

@@ -11,6 +11,7 @@ import SelectServicesModal, { ServicesFormData } from "./SelectServicesModal";
 import SubscriptionModal from "./SubscriptionModal";
 import ProviderProfileModal, { ProviderProfile } from "./ProviderProfileModal";
 import MapPreviewStep from "./MapPreviewStep";
+import LocationPermissionModal from "./LocationPermissionModal";
 
 type Step =
   | "none"
@@ -104,6 +105,9 @@ const AuthFlow: React.FC<AuthFlowProps> = ({
   const [prefillCountryCode, setPrefillCountryCode] = useState("+1");
   const [loginSlideFrom, setLoginSlideFrom] = useState<"right" | "left" | undefined>(undefined);
   const [previewImageUrl, setPreviewImageUrl] = useState("");
+  const [locationOverride, setLocationOverride] = useState<[number, number] | null>(null);
+
+  const effectiveLocation = locationOverride ?? userLocation;
 
   useEffect(() => {
     if (isOpen && step === "none") {
@@ -158,11 +162,11 @@ const AuthFlow: React.FC<AuthFlowProps> = ({
         photoUrl = await uploadPhoto(signupData.photoFile, user.uid);
       }
 
-      const lat = userLocation ? userLocation[1] : 0;
-      const lng = userLocation ? userLocation[0] : 0;
+      const lat = effectiveLocation ? effectiveLocation[1] : 0;
+      const lng = effectiveLocation ? effectiveLocation[0] : 0;
       let city = "Unknown";
       let country = "Unknown";
-      if (userLocation) {
+      if (effectiveLocation) {
         const location = await getCityAndCountry(lat, lng);
         city = location.city;
         country = location.country;
@@ -259,7 +263,7 @@ const AuthFlow: React.FC<AuthFlowProps> = ({
         });
         setStep("profile");
       } else {
-        setStep("create");
+        close();
       }
     } catch {
       setStep("profile");
@@ -272,7 +276,14 @@ const AuthFlow: React.FC<AuthFlowProps> = ({
 
   return (
     <>
-      {step === "create" && (
+      {step === "create" && !effectiveLocation && (
+        <LocationPermissionModal
+          onGranted={(coords) => setLocationOverride(coords)}
+          onClose={close}
+        />
+      )}
+
+      {step === "create" && effectiveLocation && (
         <CreateAccountModal
           onClose={close}
           onCodeSent={handleCreateCodeSent}
