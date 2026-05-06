@@ -3,12 +3,6 @@ import { useState, useEffect } from "react";
 import ProviderPopupCard from "@/components/ui/ProviderPopupCard";
 import type { ProviderPopupCardProps } from "@/components/ui/ProviderPopupCard";
 import Navbar from "@/components/ui/Navbar";
-import Image from "next/image";
-import LawnSnowRow from "@/components/ui/rows/LawnSnowRow";
-import HeroRow from "@/components/ui/rows/HeroRow";
-import TestimonialRow from "@/components/ui/rows/TestimonialRow";
-import ConnectRow from "@/components/ui/rows/ConnectRow";
-import WhyDownloadRow from "@/components/ui/rows/WhyDownloadRow";
 
 type Provider = Omit<ProviderPopupCardProps["provider"], ""> & {
   id: string;
@@ -40,11 +34,12 @@ import ProviderProfileModal, { ProviderProfile } from "@/components/auth/Provide
 import UnsubscribedPopup from "@/components/auth/UnsubscribedPopup";
 import SubscriptionModal from "@/components/auth/SubscriptionModal";
 
-function ProviderAvatar({ imageUrl, name, rating, ratingsCount }: {
+function ProviderAvatar({ imageUrl, name, rating, ratingsCount, showLock }: {
   imageUrl: string;
   name: string;
   rating?: number;
   ratingsCount?: number;
+  showLock?: boolean;
 }) {
   const hasRating = (ratingsCount ?? 0) > 0;
   return (
@@ -69,8 +64,32 @@ function ProviderAvatar({ imageUrl, name, rating, ratingsCount }: {
         }}>
           <img src={imageUrl} alt={name} style={{ width: "100%", height: "100%", objectFit: "cover" }} />
         </div>
-        {/* "New" badge — top-right */}
-        {!hasRating && (
+        {/* Lock badge — bottom-right when own unsubscribed pin */}
+        {showLock ? (
+          <span style={{
+            position: "absolute",
+            top: -10,
+            right: -10,
+            width: 28,
+            height: 28,
+            background: "#ffffff",
+            borderRadius: "50%",
+            border: "1.5px solid #000000",
+            display: "flex",
+            alignItems: "center",
+            justifyContent: "center",
+            boxShadow: "0 1px 4px rgba(0,0,0,0.18)",
+          }}>
+           <img
+            src="/hidden.png"
+            alt="Hidden"
+            width={15}
+            height={15}
+            style={{ display: "block" }}
+          />
+          </span>
+        ) : !hasRating ? (
+          /* "New" badge — top-right */
           <span style={{
             position: "absolute",
             top: -10,
@@ -87,10 +106,10 @@ function ProviderAvatar({ imageUrl, name, rating, ratingsCount }: {
           }}>
             New
           </span>
-        )}
+        ) : null}
       </div>
       {/* Star rating — below circle */}
-      {hasRating && (
+      {!showLock && hasRating && (
         <div style={{
           display: "flex",
           alignItems: "center",
@@ -631,35 +650,11 @@ export default function Home() {
                   } as any)}
                   style={{ cursor: "pointer" }}
                 >
-                  <div
-                    style={{
-                      position: "absolute",
-                      left: -23,
-                      top: -23,
-                      display: "flex",
-                      flexDirection: "column",
-                      alignItems: "center",
-                    }}
-                  >
-                    <div
-                      style={{
-                        width: 46,
-                        height: 46,
-                        borderRadius: "50%",
-                        overflow: "hidden",
-                        border: "2px solid #fff",
-                        background: "#eee",
-                        boxShadow: "0 2px 8px rgba(0,0,0,0.22)",
-                        filter: "grayscale(1) opacity(0.6)",
-                      }}
-                    >
-                      <img
-                        src={currentProviderData.photoUrl}
-                        alt={currentProviderData.name}
-                        style={{ width: "100%", height: "100%", objectFit: "cover" }}
-                      />
-                    </div>
-                  </div>
+                  <ProviderAvatar
+                    imageUrl={currentProviderData.photoUrl}
+                    name={currentProviderData.name}
+                    showLock
+                  />
                 </div>
               </MarkerContent>
             </MapMarker>
