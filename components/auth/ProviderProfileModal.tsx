@@ -1,10 +1,10 @@
 "use client";
 import React, { useEffect, useRef, useState } from "react";
 import { useBodyScrollLock } from "@/hooks/useBodyScrollLock";
-import { updateDoc, doc, getDoc, deleteDoc } from "firebase/firestore";
+import { updateDoc, doc, getDoc } from "firebase/firestore";
 import { ref as storageRef, uploadBytes, getDownloadURL } from "firebase/storage";
 import { db, storage, auth } from "@/firebase";
-import { signOut, deleteUser } from "firebase/auth";
+import { signOut } from "firebase/auth";
 import SelectServicesModal, { ServicesFormData } from "./SelectServicesModal";
 import ImageCropModal from "./ImageCropModal";
 import SubscriptionModal from "./SubscriptionModal";
@@ -92,8 +92,6 @@ const ProviderProfileModal: React.FC<ProviderProfileModalProps> = ({
   const [reactivatingSubscription, setReactivatingSubscription] = useState(false);
   const [showSubscriptionPlanModal, setShowSubscriptionPlanModal] = useState(false);
   const [subscribeModalLoading, setSubscribeModalLoading] = useState(false);
-  const [showDeleteConfirm, setShowDeleteConfirm] = useState(false);
-  const [deletingAccount, setDeletingAccount] = useState(false);
   const fileInputRef = useRef<HTMLInputElement>(null);
   const nameInputRef = useRef<HTMLInputElement>(null);
 
@@ -147,26 +145,6 @@ const ProviderProfileModal: React.FC<ProviderProfileModalProps> = ({
       if (data.url) window.location.href = data.url;
     } finally {
       setSubscribeModalLoading(false);
-    }
-  };
-
-  const handleDeleteAccount = async () => {
-    setDeletingAccount(true);
-    try {
-      if (stripeSubscriptionId) {
-        await fetch("/api/stripe/cancel-subscription-immediately", {
-          method: "POST",
-          headers: { "Content-Type": "application/json" },
-          body: JSON.stringify({ subscriptionId: stripeSubscriptionId }),
-        });
-      }
-      await deleteDoc(doc(db, "providers", profile.uid));
-      const user = auth.currentUser;
-      if (user) await deleteUser(user);
-      onClose();
-    } catch {
-      setDeletingAccount(false);
-      setShowDeleteConfirm(false);
     }
   };
 
@@ -310,114 +288,6 @@ const ProviderProfileModal: React.FC<ProviderProfileModalProps> = ({
           onPlanSelected={handleSubscribeNow}
           loading={subscribeModalLoading}
         />
-      )}
-
-      {showDeleteConfirm && (
-        <div
-          style={{
-            position: "fixed",
-            inset: 0,
-            zIndex: 800,
-            display: "flex",
-            alignItems: "center",
-            justifyContent: "center",
-            background: "rgba(0,0,0,0.55)",
-            padding: "0 20px",
-          }}
-          onClick={() => !deletingAccount && setShowDeleteConfirm(false)}
-        >
-          <div
-            style={{
-              background: "#fff",
-              borderRadius: 20,
-              padding: "28px 24px 24px",
-              width: "100%",
-              maxWidth: 380,
-              boxShadow: "0 20px 60px rgba(0,0,0,0.25)",
-            }}
-            onClick={(e) => e.stopPropagation()}
-          >
-            <div style={{ display: "flex", justifyContent: "center", marginBottom: 16 }}>
-              <div style={{ width: 52, height: 52, borderRadius: "50%", background: "#fef2f2", display: "flex", alignItems: "center", justifyContent: "center" }}>
-                <svg width={24} height={24} viewBox="0 0 24 24" fill="none" stroke="#ef4444" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
-                  <polyline points="3 6 5 6 21 6" />
-                  <path d="M19 6l-1 14a2 2 0 01-2 2H8a2 2 0 01-2-2L5 6" />
-                  <path d="M10 11v6M14 11v6" />
-                  <path d="M9 6V4a1 1 0 011-1h4a1 1 0 011 1v2" />
-                </svg>
-              </div>
-            </div>
-
-            <h3 style={{ textAlign: "center", fontSize: 18, fontWeight: 700, color: "#111827", margin: "0 0 10px" }}>
-              Delete Account?
-            </h3>
-
-            <p style={{ textAlign: "center", fontSize: 14, color: "#6b7280", margin: "0 0 12px", lineHeight: 1.6 }}>
-              This will permanently delete your account and all your profile data. This action cannot be undone.
-            </p>
-
-            {stripeSubscriptionId && (
-              <div style={{
-                background: "#fff7ed",
-                border: "1px solid #fed7aa",
-                borderRadius: 10,
-                padding: "10px 14px",
-                marginBottom: 20,
-                display: "flex",
-                alignItems: "flex-start",
-                gap: 8,
-              }}>
-                <svg width={15} height={15} viewBox="0 0 24 24" fill="none" stroke="#f97316" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" style={{ flexShrink: 0, marginTop: 1 }}>
-                  <circle cx="12" cy="12" r="10" />
-                  <line x1="12" y1="8" x2="12" y2="12" />
-                  <line x1="12" y1="16" x2="12.01" y2="16" />
-                </svg>
-                <p style={{ color: "#c2410c", fontSize: 13, margin: 0, lineHeight: 1.5 }}>
-                  Your active subscription will be <strong>cancelled immediately</strong> and you will not be charged again.
-                </p>
-              </div>
-            )}
-
-            <div style={{ display: "flex", gap: 10 }}>
-              <button
-                onClick={() => setShowDeleteConfirm(false)}
-                disabled={deletingAccount}
-                style={{
-                  flex: 1,
-                  padding: "13px",
-                  background: "#f3f4f6",
-                  color: "#374151",
-                  border: "none",
-                  borderRadius: 12,
-                  fontSize: 15,
-                  fontWeight: 600,
-                  cursor: deletingAccount ? "not-allowed" : "pointer",
-                  opacity: deletingAccount ? 0.5 : 1,
-                }}
-              >
-                Cancel
-              </button>
-              <button
-                onClick={handleDeleteAccount}
-                disabled={deletingAccount}
-                style={{
-                  flex: 1,
-                  padding: "13px",
-                  background: deletingAccount ? "#fca5a5" : "#ef4444",
-                  color: "#fff",
-                  border: "none",
-                  borderRadius: 12,
-                  fontSize: 15,
-                  fontWeight: 700,
-                  cursor: deletingAccount ? "not-allowed" : "pointer",
-                  transition: "background 0.15s",
-                }}
-              >
-                {deletingAccount ? "Deleting…" : "Delete Account"}
-              </button>
-            </div>
-          </div>
-        </div>
       )}
 
       {/* Hidden file input */}
@@ -976,8 +846,8 @@ const ProviderProfileModal: React.FC<ProviderProfileModalProps> = ({
             </div>
           )}
 
-          {/* Sign out / Delete account */}
-          <div style={{ paddingTop: 28, paddingBottom: 40, display: "flex", justifyContent: "space-between", alignItems: "center" }}>
+          {/* Sign out */}
+          <div style={{ paddingTop: 28, paddingBottom: 40 }}>
             <button
               onClick={async () => { await signOut(auth); onClose(); }}
               style={{
@@ -991,20 +861,6 @@ const ProviderProfileModal: React.FC<ProviderProfileModalProps> = ({
               }}
             >
               Sign out
-            </button>
-            <button
-              onClick={() => setShowDeleteConfirm(true)}
-              style={{
-                background: "none",
-                border: "none",
-                color: "#ef4444",
-                fontSize: 14,
-                textDecoration: "underline",
-                cursor: "pointer",
-                padding: 0,
-              }}
-            >
-              Delete account
             </button>
           </div>
         </div>

@@ -12,7 +12,6 @@ type NavbarProps = {
   onEditAccount?: () => void;
   onSignOut?: () => void;
   onCancelSubscription?: () => Promise<void>;
-  onDeleteAccount?: () => Promise<void>;
   canCancelSubscription?: boolean;
 };
 
@@ -24,7 +23,6 @@ const Navbar: React.FC<NavbarProps> = ({
   onEditAccount,
   onSignOut,
   onCancelSubscription,
-  onDeleteAccount,
   canCancelSubscription,
 }) => {
   const [isMobile, setIsMobile] = useState(false);
@@ -63,7 +61,10 @@ const Navbar: React.FC<NavbarProps> = ({
         background: "#fff",
         borderRadius: 0,
         boxShadow: "0 2px 12px rgba(0,0,0,0.08)",
-        padding: "8px 16px"
+        padding: "8px 16px",
+        paddingTop: "max(8px, env(safe-area-inset-top, 8px))",
+        transform: "translateZ(0)",
+        WebkitTransform: "translateZ(0)",
       }}>
         <Link href="/" style={{ display: 'flex', alignItems: 'center', marginRight: 4 }}>
           <img src="/yardyman-logo.png" alt="Yardyman Logo" style={{ width: 36, height: 36, objectFit: 'contain', marginRight: 8, borderRadius: 4 }} />
@@ -204,7 +205,6 @@ const Navbar: React.FC<NavbarProps> = ({
         currentUser={currentUser}
         onSignOut={onSignOut}
         onCancelSubscription={onCancelSubscription}
-        onDeleteAccount={onDeleteAccount}
         canCancelSubscription={canCancelSubscription}
       />
     </>

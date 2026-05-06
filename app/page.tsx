@@ -27,7 +27,7 @@ import { MapControls } from "@/components/map/components/MapControls";
 import { MapMarker, MarkerContent } from "@/components/map/components/MapMarker";
 import { trackEvent, trackPageView } from "@/lib/analytics";
 import { db, collection, getDocs, auth, query, where, doc, serverTimestamp } from "../firebase";
-import { deleteDoc, updateDoc, increment, getDoc } from "firebase/firestore";
+import { updateDoc, increment, getDoc } from "firebase/firestore";
 import { onAuthStateChanged, signInAnonymously, signOut } from "firebase/auth";
 import AuthFlow from "@/components/auth/AuthFlow";
 import ProviderProfileModal, { ProviderProfile } from "@/components/auth/ProviderProfileModal";
@@ -470,15 +470,6 @@ export default function Home() {
     });
   };
 
-  const handleDeleteAccount = async () => {
-    if (!currentProviderData) return;
-    const user = auth.currentUser;
-    if (!user) return;
-    await deleteDoc(doc(db, "providers", currentProviderData.uid));
-    await user.delete();
-    // onAuthStateChanged fires and clears state automatically
-  };
-
   const handleUnsubscribedGoLive = async () => {
     sessionStorage.setItem("unsubscribedPopupSeen", "1");
     if (providerStripeSubId) {
@@ -535,7 +526,6 @@ export default function Home() {
         onEditAccount={() => setShowProfile(true)}
         onSignOut={handleSignOut}
         onCancelSubscription={handleCancelSubscription}
-        onDeleteAccount={handleDeleteAccount}
         canCancelSubscription={["active", "trialing"].includes(currentProviderData?.subscriptionStatus ?? "")}
       >
         <button

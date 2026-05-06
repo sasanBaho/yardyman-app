@@ -8,7 +8,6 @@ interface SidebarMenuProps {
   currentUser?: { photoUrl: string; name: string } | null;
   onSignOut?: () => void;
   onCancelSubscription?: () => Promise<void>;
-  onDeleteAccount?: () => Promise<void>;
   canCancelSubscription?: boolean;
 }
 
@@ -75,15 +74,6 @@ const CancelSubIcon = () => (
     <line x1="3" y1="10" x2="21" y2="10" />
     <line x1="10" y1="14" x2="14" y2="18" />
     <line x1="14" y1="14" x2="10" y2="18" />
-  </svg>
-);
-
-const DeleteIcon = () => (
-  <svg width={18} height={18} viewBox="0 0 24 24" fill="none" stroke="#ef4444" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
-    <polyline points="3 6 5 6 21 6" />
-    <path d="M19 6v14a2 2 0 01-2 2H7a2 2 0 01-2-2V6m3 0V4a1 1 0 011-1h4a1 1 0 011 1v2" />
-    <line x1="10" y1="11" x2="10" y2="17" />
-    <line x1="14" y1="11" x2="14" y2="17" />
   </svg>
 );
 
@@ -209,10 +199,9 @@ const SidebarMenu: React.FC<SidebarMenuProps> = ({
   currentUser,
   onSignOut,
   onCancelSubscription,
-  onDeleteAccount,
   canCancelSubscription,
 }) => {
-  const [confirmAction, setConfirmAction] = useState<"cancel" | "delete" | null>(null);
+  const [confirmAction, setConfirmAction] = useState<"cancel" | null>(null);
   const [actionLoading, setActionLoading] = useState(false);
 
   if (!isOpen) return null;
@@ -225,14 +214,6 @@ const SidebarMenu: React.FC<SidebarMenuProps> = ({
   const handleCancelSubscription = async () => {
     setActionLoading(true);
     await onCancelSubscription?.();
-    setActionLoading(false);
-    setConfirmAction(null);
-    onClose();
-  };
-
-  const handleDeleteAccount = async () => {
-    setActionLoading(true);
-    await onDeleteAccount?.();
     setActionLoading(false);
     setConfirmAction(null);
     onClose();
@@ -441,45 +422,6 @@ const SidebarMenu: React.FC<SidebarMenuProps> = ({
                   )
                 )}
 
-                {/* Delete Account */}
-                {confirmAction === "delete" ? (
-                  <ConfirmPanel
-                    message="Delete your account? This permanently removes all your data and cannot be undone."
-                    confirmLabel="Delete Account"
-                    loading={actionLoading}
-                    onConfirm={handleDeleteAccount}
-                    onDismiss={() => setConfirmAction(null)}
-                  />
-                ) : (
-                  <button
-                    onClick={() => setConfirmAction("delete")}
-                    style={{
-                      width: "100%",
-                      display: "flex",
-                      alignItems: "center",
-                      gap: 12,
-                      padding: "11px 20px",
-                      background: "none",
-                      border: "none",
-                      cursor: "pointer",
-                      textAlign: "left",
-                    }}
-                  >
-                    <span style={{
-                      width: 34,
-                      height: 34,
-                      borderRadius: "50%",
-                      background: "#fef2f2",
-                      display: "flex",
-                      alignItems: "center",
-                      justifyContent: "center",
-                      flexShrink: 0,
-                    }}>
-                      <DeleteIcon />
-                    </span>
-                    <span style={{ fontSize: 15, color: "#ef4444", fontWeight: 500 }}>Delete My Account</span>
-                  </button>
-                )}
               </div>
             </>
           )}
