@@ -71,11 +71,11 @@ function ContactBox() {
     <div style={{ background: "#f0fdf4", borderRadius: 12, padding: "14px 16px", marginTop: 8 }}>
       <p style={{ margin: "0 0 5px", fontSize: 14, color: "#374151" }}>
         <strong>Email:</strong>{" "}
-        <a href="mailto:refund@localibo.com" style={{ color: "#22c55e", textDecoration: "none" }}>refund@localibo.com</a>
+        <a href="mailto:refund@yardyman.com" style={{ color: "#22c55e", textDecoration: "none" }}>refund@yardyman.com</a>
       </p>
       <p style={{ margin: 0, fontSize: 14, color: "#374151" }}>
         <strong>Website:</strong>{" "}
-        <a href="https://localibo.com" target="_blank" rel="noopener noreferrer" style={{ color: "#22c55e", textDecoration: "none" }}>localibo.com</a>
+        <a href="https://yardyman.com" target="_blank" rel="noopener noreferrer" style={{ color: "#22c55e", textDecoration: "none" }}>yardyman.com</a>
       </p>
     </div>
   );
@@ -118,7 +118,7 @@ export default function RefundPage() {
             <Para>To be eligible for a refund:</Para>
             <Bullets items={[
               "Your request must be received within thirty (30) calendar days of the original purchase date.",
-              "You must submit your request via email to refund@localibo.com.",
+              "You must submit your request via email to refund@yardyman.com.",
               "Include the email address used during checkout.",
               "Include a brief explanation of the reason for the refund.",
               "Optionally include your order ID or the last 4 digits of your payment card for verification.",
@@ -160,7 +160,7 @@ export default function RefundPage() {
 
           <PolicySection title="5. How to Submit a Refund Request">
             <Para>
-              Send an email to <strong>refund@localibo.com</strong> with the subject line: <em>Refund Request &ndash; Yardyman</em>
+              Send an email to <strong>refund@yardyman.com</strong> with the subject line: <em>Refund Request &ndash; Yardyman</em>
             </Para>
             <Para>Your email should include:</Para>
             <Bullets items={[

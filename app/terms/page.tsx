@@ -67,7 +67,7 @@ function ContactBox() {
     <div style={{ background: "#f0fdf4", borderRadius: 12, padding: "14px 16px", marginTop: 8 }}>
       <p style={{ margin: "0 0 5px", fontSize: 14, color: "#374151" }}>
         <strong>Email:</strong>{" "}
-        <a href="mailto:hi@localibo.com" style={{ color: "#22c55e", textDecoration: "none" }}>hi@localibo.com</a>
+        <a href="mailto:hi@yardyman.com" style={{ color: "#22c55e", textDecoration: "none" }}>hi@yardyman.com</a>
       </p>
       <p style={{ margin: 0, fontSize: 14, color: "#374151" }}>
         <strong>Tel:</strong> +1 (438) 994-5322
