@@ -252,6 +252,7 @@ const ImageCropModal: React.FC<ImageCropModalProps> = ({ src, onCrop, onCancel }
         top: 0,
         left: 0,
         right: 0,
+        zIndex: 1,
         display: "flex",
         alignItems: "center",
         justifyContent: "space-between",
@@ -261,13 +262,15 @@ const ImageCropModal: React.FC<ImageCropModalProps> = ({ src, onCrop, onCancel }
         <button
           onClick={onCancel}
           style={{
-            background: "none",
-            border: "none",
-            color: "rgba(255,255,255,0.65)",
-            fontSize: 16,
+            background: "rgba(255,255,255,0.12)",
+            border: "1px solid rgba(255,255,255,0.2)",
+            borderRadius: 999,
+            color: "#fff",
+            fontSize: 14,
+            fontWeight: 500,
             cursor: "pointer",
-            padding: "6px 2px",
-            fontWeight: 400,
+            padding: "7px 16px",
+            backdropFilter: "blur(6px)",
           }}
         >
           Cancel
@@ -279,13 +282,15 @@ const ImageCropModal: React.FC<ImageCropModalProps> = ({ src, onCrop, onCancel }
           onClick={handleCrop}
           disabled={!ready}
           style={{
-            background: "none",
+            background: ready ? "#22c55e" : "rgba(255,255,255,0.1)",
             border: "none",
-            color: ready ? "#22c55e" : "rgba(255,255,255,0.25)",
-            fontSize: 16,
+            borderRadius: 999,
+            color: ready ? "#fff" : "rgba(255,255,255,0.3)",
+            fontSize: 14,
             fontWeight: 700,
             cursor: ready ? "pointer" : "default",
-            padding: "6px 2px",
+            padding: "7px 16px",
+            transition: "background 0.15s",
           }}
         >
           Choose
@@ -379,9 +384,11 @@ const ImageCropModal: React.FC<ImageCropModalProps> = ({ src, onCrop, onCancel }
         gap: 14,
         marginTop: 36,
         width: cz,
+        position: "relative",
+        zIndex: 1,
       }}>
         {/* Minus icon */}
-        <svg width={20} height={20} viewBox="0 0 24 24" fill="none" stroke="rgba(255,255,255,0.45)" strokeWidth="2" strokeLinecap="round">
+        <svg width={20} height={20} viewBox="0 0 24 24" fill="none" stroke="rgba(255,255,255,0.85)" strokeWidth="2" strokeLinecap="round">
           <circle cx="11" cy="11" r="8" />
           <line x1="8" y1="11" x2="14" y2="11" />
           <line x1="21" y1="21" x2="16.65" y2="16.65" />
@@ -400,7 +407,7 @@ const ImageCropModal: React.FC<ImageCropModalProps> = ({ src, onCrop, onCancel }
         />
 
         {/* Plus icon */}
-        <svg width={20} height={20} viewBox="0 0 24 24" fill="none" stroke="rgba(255,255,255,0.45)" strokeWidth="2" strokeLinecap="round">
+        <svg width={20} height={20} viewBox="0 0 24 24" fill="none" stroke="rgba(255,255,255,0.85)" strokeWidth="2" strokeLinecap="round">
           <circle cx="11" cy="11" r="8" />
           <line x1="11" y1="8" x2="11" y2="14" />
           <line x1="8" y1="11" x2="14" y2="11" />
@@ -409,10 +416,12 @@ const ImageCropModal: React.FC<ImageCropModalProps> = ({ src, onCrop, onCancel }
       </div>
 
       <p style={{
-        color: "rgba(255,255,255,0.3)",
+        color: "rgba(255,255,255,0.65)",
         fontSize: 12,
         margin: "10px 0 0",
         letterSpacing: 0.3,
+        position: "relative",
+        zIndex: 1,
       }}>
         Drag to reposition · Pinch or slide to zoom
       </p>

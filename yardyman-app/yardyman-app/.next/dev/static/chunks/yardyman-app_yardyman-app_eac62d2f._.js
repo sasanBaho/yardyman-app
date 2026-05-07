@@ -6101,6 +6101,7 @@ const ImageCropModal = ({ src, onCrop, onCancel })=>{
                     top: 0,
                     left: 0,
                     right: 0,
+                    zIndex: 1,
                     display: "flex",
                     alignItems: "center",
                     justifyContent: "space-between",
@@ -6111,18 +6112,20 @@ const ImageCropModal = ({ src, onCrop, onCancel })=>{
                     /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$yardyman$2d$app$2f$yardyman$2d$app$2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("button", {
                         onClick: onCancel,
                         style: {
-                            background: "none",
-                            border: "none",
-                            color: "rgba(255,255,255,0.65)",
-                            fontSize: 16,
+                            background: "rgba(255,255,255,0.12)",
+                            border: "1px solid rgba(255,255,255,0.2)",
+                            borderRadius: 999,
+                            color: "#fff",
+                            fontSize: 14,
+                            fontWeight: 500,
                             cursor: "pointer",
-                            padding: "6px 2px",
-                            fontWeight: 400
+                            padding: "7px 16px",
+                            backdropFilter: "blur(6px)"
                         },
                         children: "Cancel"
                     }, void 0, false, {
                         fileName: "[project]/yardyman-app/yardyman-app/components/auth/ImageCropModal.tsx",
-                        lineNumber: 261,
+                        lineNumber: 262,
                         columnNumber: 9
                     }, ("TURBOPACK compile-time value", void 0)),
                     /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$yardyman$2d$app$2f$yardyman$2d$app$2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("span", {
@@ -6135,25 +6138,27 @@ const ImageCropModal = ({ src, onCrop, onCancel })=>{
                         children: "Move and Scale"
                     }, void 0, false, {
                         fileName: "[project]/yardyman-app/yardyman-app/components/auth/ImageCropModal.tsx",
-                        lineNumber: 275,
+                        lineNumber: 278,
                         columnNumber: 9
                     }, ("TURBOPACK compile-time value", void 0)),
                     /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$yardyman$2d$app$2f$yardyman$2d$app$2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("button", {
                         onClick: handleCrop,
                         disabled: !ready,
                         style: {
-                            background: "none",
+                            background: ready ? "#22c55e" : "rgba(255,255,255,0.1)",
                             border: "none",
-                            color: ready ? "#22c55e" : "rgba(255,255,255,0.25)",
-                            fontSize: 16,
+                            borderRadius: 999,
+                            color: ready ? "#fff" : "rgba(255,255,255,0.3)",
+                            fontSize: 14,
                             fontWeight: 700,
                             cursor: ready ? "pointer" : "default",
-                            padding: "6px 2px"
+                            padding: "7px 16px",
+                            transition: "background 0.15s"
                         },
                         children: "Choose"
                     }, void 0, false, {
                         fileName: "[project]/yardyman-app/yardyman-app/components/auth/ImageCropModal.tsx",
-                        lineNumber: 278,
+                        lineNumber: 281,
                         columnNumber: 9
                     }, ("TURBOPACK compile-time value", void 0))
                 ]
@@ -6198,7 +6203,7 @@ const ImageCropModal = ({ src, onCrop, onCancel })=>{
                         }
                     }, void 0, false, {
                         fileName: "[project]/yardyman-app/yardyman-app/components/auth/ImageCropModal.tsx",
-                        lineNumber: 314,
+                        lineNumber: 319,
                         columnNumber: 9
                     }, ("TURBOPACK compile-time value", void 0)),
                     /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$yardyman$2d$app$2f$yardyman$2d$app$2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("svg", {
@@ -6225,7 +6230,7 @@ const ImageCropModal = ({ src, onCrop, onCancel })=>{
                                         strokeWidth: "0.8"
                                     }, void 0, false, {
                                         fileName: "[project]/yardyman-app/yardyman-app/components/auth/ImageCropModal.tsx",
-                                        lineNumber: 340,
+                                        lineNumber: 345,
                                         columnNumber: 15
                                     }, ("TURBOPACK compile-time value", void 0)),
                                     /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$yardyman$2d$app$2f$yardyman$2d$app$2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("line", {
@@ -6237,18 +6242,18 @@ const ImageCropModal = ({ src, onCrop, onCancel })=>{
                                         strokeWidth: "0.8"
                                     }, void 0, false, {
                                         fileName: "[project]/yardyman-app/yardyman-app/components/auth/ImageCropModal.tsx",
-                                        lineNumber: 344,
+                                        lineNumber: 349,
                                         columnNumber: 15
                                     }, ("TURBOPACK compile-time value", void 0))
                                 ]
                             }, i, true, {
                                 fileName: "[project]/yardyman-app/yardyman-app/components/auth/ImageCropModal.tsx",
-                                lineNumber: 339,
+                                lineNumber: 344,
                                 columnNumber: 13
                             }, ("TURBOPACK compile-time value", void 0)))
                     }, void 0, false, {
                         fileName: "[project]/yardyman-app/yardyman-app/components/auth/ImageCropModal.tsx",
-                        lineNumber: 333,
+                        lineNumber: 338,
                         columnNumber: 9
                     }, ("TURBOPACK compile-time value", void 0)),
                     !ready && /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$yardyman$2d$app$2f$yardyman$2d$app$2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("div", {
@@ -6272,26 +6277,26 @@ const ImageCropModal = ({ src, onCrop, onCancel })=>{
                                 }
                             }, void 0, false, {
                                 fileName: "[project]/yardyman-app/yardyman-app/components/auth/ImageCropModal.tsx",
-                                lineNumber: 362,
+                                lineNumber: 367,
                                 columnNumber: 13
                             }, ("TURBOPACK compile-time value", void 0)),
                             /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$yardyman$2d$app$2f$yardyman$2d$app$2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("style", {
                                 children: `@keyframes spin { to { transform: rotate(360deg); } }`
                             }, void 0, false, {
                                 fileName: "[project]/yardyman-app/yardyman-app/components/auth/ImageCropModal.tsx",
-                                lineNumber: 370,
+                                lineNumber: 375,
                                 columnNumber: 13
                             }, ("TURBOPACK compile-time value", void 0))
                         ]
                     }, void 0, true, {
                         fileName: "[project]/yardyman-app/yardyman-app/components/auth/ImageCropModal.tsx",
-                        lineNumber: 354,
+                        lineNumber: 359,
                         columnNumber: 11
                     }, ("TURBOPACK compile-time value", void 0))
                 ]
             }, void 0, true, {
                 fileName: "[project]/yardyman-app/yardyman-app/components/auth/ImageCropModal.tsx",
-                lineNumber: 296,
+                lineNumber: 301,
                 columnNumber: 7
             }, ("TURBOPACK compile-time value", void 0)),
             /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$yardyman$2d$app$2f$yardyman$2d$app$2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("div", {
@@ -6300,7 +6305,9 @@ const ImageCropModal = ({ src, onCrop, onCancel })=>{
                     alignItems: "center",
                     gap: 14,
                     marginTop: 36,
-                    width: cz
+                    width: cz,
+                    position: "relative",
+                    zIndex: 1
                 },
                 children: [
                     /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$yardyman$2d$app$2f$yardyman$2d$app$2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("svg", {
@@ -6308,7 +6315,7 @@ const ImageCropModal = ({ src, onCrop, onCancel })=>{
                         height: 20,
                         viewBox: "0 0 24 24",
                         fill: "none",
-                        stroke: "rgba(255,255,255,0.45)",
+                        stroke: "rgba(255,255,255,0.85)",
                         strokeWidth: "2",
                         strokeLinecap: "round",
                         children: [
@@ -6318,7 +6325,7 @@ const ImageCropModal = ({ src, onCrop, onCancel })=>{
                                 r: "8"
                             }, void 0, false, {
                                 fileName: "[project]/yardyman-app/yardyman-app/components/auth/ImageCropModal.tsx",
-                                lineNumber: 385,
+                                lineNumber: 392,
                                 columnNumber: 11
                             }, ("TURBOPACK compile-time value", void 0)),
                             /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$yardyman$2d$app$2f$yardyman$2d$app$2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("line", {
@@ -6328,7 +6335,7 @@ const ImageCropModal = ({ src, onCrop, onCancel })=>{
                                 y2: "11"
                             }, void 0, false, {
                                 fileName: "[project]/yardyman-app/yardyman-app/components/auth/ImageCropModal.tsx",
-                                lineNumber: 386,
+                                lineNumber: 393,
                                 columnNumber: 11
                             }, ("TURBOPACK compile-time value", void 0)),
                             /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$yardyman$2d$app$2f$yardyman$2d$app$2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("line", {
@@ -6338,13 +6345,13 @@ const ImageCropModal = ({ src, onCrop, onCancel })=>{
                                 y2: "16.65"
                             }, void 0, false, {
                                 fileName: "[project]/yardyman-app/yardyman-app/components/auth/ImageCropModal.tsx",
-                                lineNumber: 387,
+                                lineNumber: 394,
                                 columnNumber: 11
                             }, ("TURBOPACK compile-time value", void 0))
                         ]
                     }, void 0, true, {
                         fileName: "[project]/yardyman-app/yardyman-app/components/auth/ImageCropModal.tsx",
-                        lineNumber: 384,
+                        lineNumber: 391,
                         columnNumber: 9
                     }, ("TURBOPACK compile-time value", void 0)),
                     /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$yardyman$2d$app$2f$yardyman$2d$app$2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("input", {
@@ -6359,7 +6366,7 @@ const ImageCropModal = ({ src, onCrop, onCancel })=>{
                         }
                     }, void 0, false, {
                         fileName: "[project]/yardyman-app/yardyman-app/components/auth/ImageCropModal.tsx",
-                        lineNumber: 390,
+                        lineNumber: 397,
                         columnNumber: 9
                     }, ("TURBOPACK compile-time value", void 0)),
                     /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$yardyman$2d$app$2f$yardyman$2d$app$2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("svg", {
@@ -6367,7 +6374,7 @@ const ImageCropModal = ({ src, onCrop, onCancel })=>{
                         height: 20,
                         viewBox: "0 0 24 24",
                         fill: "none",
-                        stroke: "rgba(255,255,255,0.45)",
+                        stroke: "rgba(255,255,255,0.85)",
                         strokeWidth: "2",
                         strokeLinecap: "round",
                         children: [
@@ -6377,7 +6384,7 @@ const ImageCropModal = ({ src, onCrop, onCancel })=>{
                                 r: "8"
                             }, void 0, false, {
                                 fileName: "[project]/yardyman-app/yardyman-app/components/auth/ImageCropModal.tsx",
-                                lineNumber: 404,
+                                lineNumber: 411,
                                 columnNumber: 11
                             }, ("TURBOPACK compile-time value", void 0)),
                             /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$yardyman$2d$app$2f$yardyman$2d$app$2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("line", {
@@ -6387,7 +6394,7 @@ const ImageCropModal = ({ src, onCrop, onCancel })=>{
                                 y2: "14"
                             }, void 0, false, {
                                 fileName: "[project]/yardyman-app/yardyman-app/components/auth/ImageCropModal.tsx",
-                                lineNumber: 405,
+                                lineNumber: 412,
                                 columnNumber: 11
                             }, ("TURBOPACK compile-time value", void 0)),
                             /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$yardyman$2d$app$2f$yardyman$2d$app$2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("line", {
@@ -6397,7 +6404,7 @@ const ImageCropModal = ({ src, onCrop, onCancel })=>{
                                 y2: "11"
                             }, void 0, false, {
                                 fileName: "[project]/yardyman-app/yardyman-app/components/auth/ImageCropModal.tsx",
-                                lineNumber: 406,
+                                lineNumber: 413,
                                 columnNumber: 11
                             }, ("TURBOPACK compile-time value", void 0)),
                             /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$yardyman$2d$app$2f$yardyman$2d$app$2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("line", {
@@ -6407,32 +6414,34 @@ const ImageCropModal = ({ src, onCrop, onCancel })=>{
                                 y2: "16.65"
                             }, void 0, false, {
                                 fileName: "[project]/yardyman-app/yardyman-app/components/auth/ImageCropModal.tsx",
-                                lineNumber: 407,
+                                lineNumber: 414,
                                 columnNumber: 11
                             }, ("TURBOPACK compile-time value", void 0))
                         ]
                     }, void 0, true, {
                         fileName: "[project]/yardyman-app/yardyman-app/components/auth/ImageCropModal.tsx",
-                        lineNumber: 403,
+                        lineNumber: 410,
                         columnNumber: 9
                     }, ("TURBOPACK compile-time value", void 0))
                 ]
             }, void 0, true, {
                 fileName: "[project]/yardyman-app/yardyman-app/components/auth/ImageCropModal.tsx",
-                lineNumber: 376,
+                lineNumber: 381,
                 columnNumber: 7
             }, ("TURBOPACK compile-time value", void 0)),
             /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$yardyman$2d$app$2f$yardyman$2d$app$2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("p", {
                 style: {
-                    color: "rgba(255,255,255,0.3)",
+                    color: "rgba(255,255,255,0.65)",
                     fontSize: 12,
                     margin: "10px 0 0",
-                    letterSpacing: 0.3
+                    letterSpacing: 0.3,
+                    position: "relative",
+                    zIndex: 1
                 },
                 children: "Drag to reposition · Pinch or slide to zoom"
             }, void 0, false, {
                 fileName: "[project]/yardyman-app/yardyman-app/components/auth/ImageCropModal.tsx",
-                lineNumber: 411,
+                lineNumber: 418,
                 columnNumber: 7
             }, ("TURBOPACK compile-time value", void 0))
         ]
