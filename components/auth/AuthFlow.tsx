@@ -95,6 +95,7 @@ const AuthFlow: React.FC<AuthFlowProps> = ({
   isOpen,
   onClose,
   userLocation,
+  onProviderCreated,
   defaultStep = "login",
 }) => {
   const [step, setStep] = useState<Step>("none");
@@ -212,6 +213,7 @@ const AuthFlow: React.FC<AuthFlowProps> = ({
         updatedAt: serverTimestamp(),
       });
 
+      onProviderCreated?.();
       setPreviewImageUrl(photoUrl);
       setStep("map-preview");
     } catch {

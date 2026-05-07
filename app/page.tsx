@@ -777,6 +777,37 @@ export default function Home() {
         userLocation={userLocation}
         defaultStep={authDefaultStep}
         onProviderCreated={async () => {
+          const user = auth.currentUser;
+          if (user && !user.isAnonymous) {
+            const snap = await getDocs(query(collection(db, "providers"), where("uid", "==", user.uid)));
+            if (!snap.empty) {
+              const data = snap.docs[0].data();
+              const subStatus = data.subscriptionStatus ?? "unsubscribed";
+              setCurrentProviderData({
+                uid: user.uid,
+                name: data.providerName ?? "",
+                phone: data.phoneNumber ?? "",
+                email: data.email ?? "",
+                photoUrl: data.imageUrl ?? "",
+                city: data.city ?? "",
+                selectedServices: Array.isArray(data.selectedServices) ? data.selectedServices : [],
+                descriptions: data.description && typeof data.description === "object" ? data.description : {},
+                hasTools: data.hasTools ?? false,
+                paymentMethods: Array.isArray(data.paymentMethods) ? data.paymentMethods : [],
+                isAvailable: data.isAvailable ?? true,
+                profileViews: data.profileViewCount ?? 0,
+                subscriptionStatus: subStatus,
+                rating: data.rating,
+                ratingsCount: data.ratingsCount,
+                latitude: data.latitude,
+                longitude: data.longitude,
+              });
+              if (data.latitude && data.longitude) {
+                setProviderLocation({ lat: data.latitude, lng: data.longitude });
+              }
+              setShowOwnPin(!["active", "trialing"].includes(subStatus));
+            }
+          }
           const querySnapshot = await getDocs(collection(db, "providers"));
           const fetched: any[] = [];
           querySnapshot.forEach((doc) => {
