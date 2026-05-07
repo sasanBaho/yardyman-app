@@ -1,4 +1,5 @@
 import Link from "next/link";
+import type { ReactNode } from "react";
 
 function PageHeader({ title }: { title: string }) {
   return (
@@ -34,11 +35,43 @@ function PageHeader({ title }: { title: string }) {
   );
 }
 
-function Section({ title, body }: { title: string; body: string }) {
+function PolicySection({ title, children, last }: { title: string; children: ReactNode; last?: boolean }) {
   return (
-    <div style={{ marginBottom: 28 }}>
-      <h3 style={{ fontSize: 16, fontWeight: 700, color: "#111827", margin: "0 0 8px" }}>{title}</h3>
-      <p style={{ fontSize: 14, color: "#6b7280", lineHeight: 1.8, margin: 0 }}>{body}</p>
+    <div style={{ marginBottom: last ? 0 : 32, paddingBottom: last ? 0 : 28, borderBottom: last ? "none" : "1px solid #f3f4f6" }}>
+      <h3 style={{ fontSize: 15, fontWeight: 700, color: "#111827", margin: "0 0 12px" }}>{title}</h3>
+      <div style={{ fontSize: 14, color: "#6b7280", lineHeight: 1.85 }}>{children}</div>
+    </div>
+  );
+}
+
+function SubTitle({ children }: { children: ReactNode }) {
+  return <p style={{ margin: "12px 0 4px", fontWeight: 600, color: "#374151", fontSize: 14 }}>{children}</p>;
+}
+
+function Para({ children }: { children: ReactNode }) {
+  return <p style={{ margin: "0 0 8px", fontSize: 14, color: "#6b7280", lineHeight: 1.85 }}>{children}</p>;
+}
+
+function Bullets({ items }: { items: string[] }) {
+  return (
+    <ul style={{ margin: "4px 0 8px", paddingLeft: 20, listStyleType: "disc" }}>
+      {items.map((item, i) => (
+        <li key={i} style={{ marginBottom: 6, fontSize: 14, color: "#6b7280", lineHeight: 1.75 }}>{item}</li>
+      ))}
+    </ul>
+  );
+}
+
+function ContactBox() {
+  return (
+    <div style={{ background: "#f0fdf4", borderRadius: 12, padding: "14px 16px", marginTop: 8 }}>
+      <p style={{ margin: "0 0 5px", fontSize: 14, color: "#374151" }}>
+        <strong>Email:</strong>{" "}
+        <a href="mailto:hi@localibo.com" style={{ color: "#22c55e", textDecoration: "none" }}>hi@localibo.com</a>
+      </p>
+      <p style={{ margin: 0, fontSize: 14, color: "#374151" }}>
+        <strong>Tel:</strong> +1 (438) 994-5322
+      </p>
     </div>
   );
 }
@@ -48,7 +81,7 @@ export default function TermsPage() {
     <div style={{ minHeight: "100dvh", background: "#f9fafb" }}>
       <PageHeader title="Terms of Use" />
 
-      <div style={{ maxWidth: 600, margin: "0 auto", padding: "36px 20px" }}>
+      <div style={{ maxWidth: 600, margin: "0 auto", padding: "36px 20px 60px" }}>
         <div style={{
           width: 56,
           height: 56,
@@ -66,41 +99,105 @@ export default function TermsPage() {
             <line x1="16" y1="17" x2="8" y2="17" />
           </svg>
         </div>
-        <h2 style={{ margin: "0 0 6px", fontSize: 26, fontWeight: 700, color: "#111827" }}>Terms of Use</h2>
-        <p style={{ margin: "0 0 8px", fontSize: 13, color: "#9ca3af" }}>Last updated: [Date]</p>
-        <p style={{ margin: "0 0 32px", fontSize: 15, color: "#6b7280", lineHeight: 1.6 }}>
-          By using Yardyman, you agree to the following terms. Please read them carefully.
+
+        <h2 style={{ margin: "0 0 6px", fontSize: 26, fontWeight: 700, color: "#111827" }}>Terms &amp; Conditions</h2>
+        <p style={{ margin: "0 0 8px", fontSize: 13, color: "#9ca3af" }}>Last updated: Sept 27, 2025</p>
+        <p style={{ margin: "0 0 32px", fontSize: 15, color: "#6b7280", lineHeight: 1.7 }}>
+          These Terms &amp; Conditions govern the use of the Localibo and Yardyman mobile applications. By accessing or using the App, you agree to be bound by these Terms. If you do not agree, do not use the App.
         </p>
 
-        <div style={{ background: "#fff", borderRadius: 16, padding: "24px", boxShadow: "0 1px 4px rgba(0,0,0,0.06)" }}>
-          <Section
-            title="1. Acceptance of Terms"
-            body="By accessing or using the Yardyman platform, you agree to be bound by these Terms of Use. If you do not agree, you may not use our services. [This section will be updated with the full acceptance clause.]"
-          />
-          <Section
-            title="2. Use of the Service"
-            body="Yardyman connects homeowners with local service providers for lawn care and snow removal. You agree to use the platform only for lawful purposes and in a manner that does not infringe the rights of others. [This section will be updated with detailed usage terms.]"
-          />
-          <Section
-            title="3. Account Registration"
-            body="Service providers must create an account with accurate and complete information. You are responsible for maintaining the confidentiality of your account credentials. [This section will be updated with full registration requirements.]"
-          />
-          <Section
-            title="4. Payments & Subscriptions"
-            body="Provider accounts require an active subscription. Subscription fees are billed according to your chosen plan. A 1-month free trial is available for new accounts. [This section will be updated with full payment terms.]"
-          />
-          <Section
-            title="5. Termination"
-            body="We reserve the right to suspend or terminate accounts that violate these terms. You may cancel your subscription at any time through your account settings. [This section will be updated with full termination policy.]"
-          />
-          <Section
-            title="6. Changes to Terms"
-            body="We may update these Terms from time to time. Continued use of the platform after changes are posted constitutes your acceptance of the revised terms. [This section will be updated with the full change notification process.]"
-          />
-          <Section
-            title="7. Contact"
-            body="If you have any questions about these Terms, please contact us at support@yardyman.com."
-          />
+        <div style={{ background: "#fff", borderRadius: 16, padding: "28px 24px", boxShadow: "0 1px 4px rgba(0,0,0,0.06)" }}>
+
+          <PolicySection title="1. Eligibility">
+            <SubTitle>Providers</SubTitle>
+            <Para>
+              To create a provider account, you must register using your phone number. You represent that all information provided is accurate and that you are legally eligible to offer services in your region.
+            </Para>
+            <SubTitle>Clients</SubTitle>
+            <Para>
+              Clients may use the App without creating an account. By using the App, you agree to abide by these Terms.
+            </Para>
+          </PolicySection>
+
+          <PolicySection title="2. Use of the App">
+            <Bullets items={[
+              "The App provides a digital platform that connects clients with local service providers.",
+              "The App does not manage, employ, endorse, or guarantee any provider or service.",
+              "All interactions, communications, and transactions are strictly between clients and providers.",
+            ]} />
+          </PolicySection>
+
+          <PolicySection title="3. Terms for Providers">
+            <SubTitle>Account Responsibility</SubTitle>
+            <Bullets items={[
+              "You are responsible for all activity under your account.",
+              "You must ensure that your service information is accurate, lawful, and not misleading.",
+              "You agree not to post false, fraudulent, or inappropriate content.",
+            ]} />
+            <SubTitle>Service Responsibility</SubTitle>
+            <Bullets items={[
+              "You are solely responsible for the quality, safety, and legality of the services you provide.",
+              "You agree to handle client inquiries and transactions in good faith.",
+              "The App bears no responsibility for disputes, cancellations, or unsatisfactory services.",
+            ]} />
+          </PolicySection>
+
+          <PolicySection title="4. Terms for Clients">
+            <SubTitle>Independent Providers</SubTitle>
+            <Bullets items={[
+              "You understand that providers are independent third parties, not employees or representatives of the App.",
+              "You are responsible for evaluating providers before engaging their services.",
+            ]} />
+            <SubTitle>No Guarantee</SubTitle>
+            <Bullets items={[
+              "The App does not guarantee the reliability, safety, availability, or quality of any services offered by providers.",
+              "All transactions and agreements are strictly between you and the provider.",
+            ]} />
+          </PolicySection>
+
+          <PolicySection title="5. Prohibited Conduct">
+            <Para>You agree not to:</Para>
+            <Bullets items={[
+              "Use the App for unlawful purposes.",
+              "Misrepresent your identity or services.",
+              "Harass, abuse, or defraud other users.",
+              "Attempt to interfere with the security or functionality of the App.",
+            ]} />
+          </PolicySection>
+
+          <PolicySection title="6. Limitation of Liability">
+            <Bullets items={[
+              'The App is provided "as is" without warranties of any kind.',
+              "The App is not responsible for any losses, damages, injuries, or disputes arising from interactions between clients and providers.",
+              "To the fullest extent permitted by law, the App disclaims all liability related to your use of the platform.",
+            ]} />
+          </PolicySection>
+
+          <PolicySection title="7. Termination">
+            <Para>
+              The App reserves the right to suspend or terminate access to any user or provider who violates these Terms or engages in harmful conduct.
+            </Para>
+          </PolicySection>
+
+          <PolicySection title="8. Disclaimer">
+            <Bullets items={[
+              "The App is a neutral platform and does not control or monitor the services of providers.",
+              "The App does not guarantee the accuracy of listings, availability of providers, or outcomes of services.",
+              "Users assume all risks when contacting or engaging with providers through the App.",
+            ]} />
+          </PolicySection>
+
+          <PolicySection title="9. Changes to Terms">
+            <Para>
+              We may update these Terms from time to time. Continued use of the App after changes are posted constitutes acceptance of the revised Terms.
+            </Para>
+          </PolicySection>
+
+          <PolicySection title="10. Contact Us" last>
+            <Para>If you have questions about these Terms, please reach out to us:</Para>
+            <ContactBox />
+          </PolicySection>
+
         </div>
       </div>
     </div>

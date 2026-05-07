@@ -1,4 +1,5 @@
 import Link from "next/link";
+import type { ReactNode } from "react";
 
 function PageHeader({ title }: { title: string }) {
   return (
@@ -34,11 +35,48 @@ function PageHeader({ title }: { title: string }) {
   );
 }
 
-function Section({ title, body }: { title: string; body: string }) {
+function PolicySection({ title, children, last }: { title: string; children: ReactNode; last?: boolean }) {
   return (
-    <div style={{ marginBottom: 28 }}>
-      <h3 style={{ fontSize: 16, fontWeight: 700, color: "#111827", margin: "0 0 8px" }}>{title}</h3>
-      <p style={{ fontSize: 14, color: "#6b7280", lineHeight: 1.8, margin: 0 }}>{body}</p>
+    <div style={{ marginBottom: last ? 0 : 32, paddingBottom: last ? 0 : 28, borderBottom: last ? "none" : "1px solid #f3f4f6" }}>
+      <h3 style={{ fontSize: 15, fontWeight: 700, color: "#111827", margin: "0 0 12px" }}>{title}</h3>
+      <div style={{ fontSize: 14, color: "#6b7280", lineHeight: 1.85 }}>{children}</div>
+    </div>
+  );
+}
+
+function Para({ children }: { children: ReactNode }) {
+  return <p style={{ margin: "0 0 8px", fontSize: 14, color: "#6b7280", lineHeight: 1.85 }}>{children}</p>;
+}
+
+function Bullets({ items }: { items: string[] }) {
+  return (
+    <ul style={{ margin: "4px 0 8px", paddingLeft: 20, listStyleType: "disc" }}>
+      {items.map((item, i) => (
+        <li key={i} style={{ marginBottom: 6, fontSize: 14, color: "#6b7280", lineHeight: 1.75 }}>{item}</li>
+      ))}
+    </ul>
+  );
+}
+
+function InfoBox({ children }: { children: ReactNode }) {
+  return (
+    <div style={{ background: "#fffbeb", border: "1px solid #fde68a", borderRadius: 12, padding: "14px 16px", marginTop: 8 }}>
+      <p style={{ margin: 0, fontSize: 13, color: "#92400e", lineHeight: 1.7 }}>{children}</p>
+    </div>
+  );
+}
+
+function ContactBox() {
+  return (
+    <div style={{ background: "#f0fdf4", borderRadius: 12, padding: "14px 16px", marginTop: 8 }}>
+      <p style={{ margin: "0 0 5px", fontSize: 14, color: "#374151" }}>
+        <strong>Email:</strong>{" "}
+        <a href="mailto:refund@localibo.com" style={{ color: "#22c55e", textDecoration: "none" }}>refund@localibo.com</a>
+      </p>
+      <p style={{ margin: 0, fontSize: 14, color: "#374151" }}>
+        <strong>Website:</strong>{" "}
+        <a href="https://localibo.com" target="_blank" rel="noopener noreferrer" style={{ color: "#22c55e", textDecoration: "none" }}>localibo.com</a>
+      </p>
     </div>
   );
 }
@@ -48,7 +86,7 @@ export default function RefundPage() {
     <div style={{ minHeight: "100dvh", background: "#f9fafb" }}>
       <PageHeader title="Refund Policy" />
 
-      <div style={{ maxWidth: 600, margin: "0 auto", padding: "36px 20px" }}>
+      <div style={{ maxWidth: 600, margin: "0 auto", padding: "36px 20px 60px" }}>
         <div style={{
           width: 56,
           height: 56,
@@ -64,33 +102,89 @@ export default function RefundPage() {
             <path d="M20.49 15a9 9 0 11-2.12-9.36L23 10" />
           </svg>
         </div>
+
         <h2 style={{ margin: "0 0 6px", fontSize: 26, fontWeight: 700, color: "#111827" }}>Refund Policy</h2>
-        <p style={{ margin: "0 0 8px", fontSize: 13, color: "#9ca3af" }}>Last updated: [Date]</p>
-        <p style={{ margin: "0 0 32px", fontSize: 15, color: "#6b7280", lineHeight: 1.6 }}>
-          We want you to be satisfied with your Yardyman subscription. Please review our refund policy below.
+        <p style={{ margin: "0 0 8px", fontSize: 13, color: "#9ca3af" }}>Last updated: June 1, 2025</p>
+        <p style={{ margin: "0 0 32px", fontSize: 15, color: "#6b7280", lineHeight: 1.7 }}>
+          At Localibo, we are committed to provider satisfaction. This Refund Policy outlines the terms under which refunds may be issued. It forms part of our Terms of Use and applies to all providers who have made a purchase through our official channels.
         </p>
 
-        <div style={{ background: "#fff", borderRadius: 16, padding: "24px", boxShadow: "0 1px 4px rgba(0,0,0,0.06)" }}>
-          <Section
-            title="1. Free Trial Period"
-            body="All new provider accounts include a 1-month free trial. No charges are made during the trial period. You may cancel anytime before the trial ends without being charged. [This section will be updated with full trial terms.]"
-          />
-          <Section
-            title="2. Monthly Subscriptions"
-            body="Monthly subscriptions are billed at the start of each billing cycle. If you cancel, you retain access until the end of the current period. Monthly subscription fees are generally non-refundable. [This section will be updated with detailed monthly refund terms.]"
-          />
-          <Section
-            title="3. Quarterly & Yearly Subscriptions"
-            body="Quarterly and yearly plans are billed upfront. If you cancel within [X] days of a renewal charge, you may be eligible for a prorated refund. [This section will be updated with exact refund eligibility criteria.]"
-          />
-          <Section
-            title="4. Exceptional Circumstances"
-            body="Refunds may be granted at our discretion in exceptional circumstances, such as billing errors or technical issues that prevented use of the service. [This section will be updated with full eligibility details.]"
-          />
-          <Section
-            title="5. How to Request a Refund"
-            body="To request a refund, contact our support team at support@yardyman.com with your account details and reason for the request. We aim to respond within 3–5 business days."
-          />
+        <div style={{ background: "#fff", borderRadius: 16, padding: "28px 24px", boxShadow: "0 1px 4px rgba(0,0,0,0.06)" }}>
+
+          <PolicySection title="1. Eligibility for Refund">
+            <Para>
+              We offer a 30-day money-back guarantee from the date of purchase if you did not receive any client through the App. This policy applies regardless of your country of residence, ensuring a fair experience for all providers.
+            </Para>
+            <Para>To be eligible for a refund:</Para>
+            <Bullets items={[
+              "Your request must be received within thirty (30) calendar days of the original purchase date.",
+              "You must submit your request via email to refund@localibo.com.",
+              "Include the email address used during checkout.",
+              "Include a brief explanation of the reason for the refund.",
+              "Optionally include your order ID or the last 4 digits of your payment card for verification.",
+            ]} />
+            <InfoBox>
+              You may request a refund even if the App has already been downloaded, installed, or activated. Detailed justification is not required, though feedback is always welcome.
+            </InfoBox>
+          </PolicySection>
+
+          <PolicySection title="2. Method and Processing of Refunds">
+            <Bullets items={[
+              "Approved refunds will be issued via PayPal.",
+              "Refunds are issued minus 15% of the original payment amount. This deduction reflects the App Store commission fee that is not paid to Localibo and therefore cannot be refunded.",
+              "We do not charge any additional refund handling or processing fees.",
+            ]} />
+          </PolicySection>
+
+          <PolicySection title="3. Cases Where Refunds Are Not Granted">
+            <Para>Refunds may be declined under the following conditions:</Para>
+            <Bullets items={[
+              "Requests made after the 30-day window has elapsed.",
+              "Violation of our Terms of Use, including unlawful, harmful, or abusive use of the App.",
+              "Fraudulent behavior, false identity, or payment disputes.",
+              "Abuse of the refund policy, including repeated refund requests for the same or multiple purchases.",
+              "The account has been suspended or banned due to breach of policy or detected fraud.",
+            ]} />
+            <Para>
+              We reserve the right to deny any refund where we have a good-faith belief that the request is dishonest or abusive.
+            </Para>
+          </PolicySection>
+
+          <PolicySection title="4. Additional Considerations">
+            <Bullets items={[
+              "Eligibility is based on compliance with the 30-day timeframe and adherence to our Terms of Use.",
+              "Refunds are not guaranteed and are issued at our reasonable discretion.",
+              "We reserve the right to interpret, apply, or amend this policy in accordance with applicable law.",
+            ]} />
+          </PolicySection>
+
+          <PolicySection title="5. How to Submit a Refund Request">
+            <Para>
+              Send an email to <strong>refund@localibo.com</strong> with the subject line: <em>Refund Request &ndash; Localibo</em>
+            </Para>
+            <Para>Your email should include:</Para>
+            <Bullets items={[
+              "The email address used during the original purchase.",
+              "Your name (exactly as used in the App) and phone number.",
+              "A short explanation of your reason for requesting a refund.",
+              "Optional: your order number or proof of purchase.",
+            ]} />
+            <Para>
+              We aim to respond to all refund inquiries within 3 business days, though response times may vary based on volume.
+            </Para>
+          </PolicySection>
+
+          <PolicySection title="6. Your Statutory Rights">
+            <Para>
+              This Refund Policy does not limit or exclude any rights you may have under applicable consumer protection laws in your jurisdiction. If you are a resident of a country where specific statutory refund rights apply (e.g., under the EU Consumer Rights Directive), those rights shall be respected in full.
+            </Para>
+          </PolicySection>
+
+          <PolicySection title="7. Contact Information" last>
+            <Para>For all refund inquiries, support requests, or legal concerns, contact us at:</Para>
+            <ContactBox />
+          </PolicySection>
+
         </div>
       </div>
     </div>
