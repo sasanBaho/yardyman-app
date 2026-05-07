@@ -316,9 +316,9 @@ const CreateAccountModal: React.FC<CreateAccountModalProps> = ({
 
         <p style={{ textAlign: "center", color: "#9ca3af", fontSize: 12, marginBottom: 20, lineHeight: 1.6 }}>
           By continuing, you agree to our{" "}
-          <span style={{ textDecoration: "underline", cursor: "pointer", color: "#6b7280" }}>Terms of Use</span>
+          <a href="/terms" target="_blank" rel="noopener noreferrer" style={{ textDecoration: "underline", color: "#6b7280" }}>Terms of Use</a>
           {" "}and{" "}
-          <span style={{ textDecoration: "underline", cursor: "pointer", color: "#6b7280" }}>Privacy Policy</span>
+          <a href="/privacy" target="_blank" rel="noopener noreferrer" style={{ textDecoration: "underline", color: "#6b7280" }}>Privacy Policy</a>
         </p>
 
         <div style={{ textAlign: "center", borderTop: "1px solid #f3f4f6", paddingTop: 16 }}>

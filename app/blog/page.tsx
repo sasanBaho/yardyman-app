@@ -12,6 +12,9 @@ export const metadata: Metadata = {
     "snow removal business tips",
     "how to grow yard care business",
     "yardyman provider guide",
+    "lawn mowing side hustle",
+    "make extra money lawn care",
+    "yardyman vs uber",
   ],
   openGraph: {
     title: "Yardyman Blog — Tips for Lawn Care & Snow Removal Providers",
@@ -22,6 +25,28 @@ export const metadata: Metadata = {
 };
 
 const POSTS = [
+  {
+    slug: "lawn-mowing-side-hustle",
+    category: "Side Hustle & Income",
+    title: "How Lawn Mowing Can Be the Perfect Side Hustle to Make Extra Money",
+    excerpt:
+      "Looking for a side hustle that pays well and fits your schedule? Lawn mowing is one of the most profitable and flexible ways to earn extra income — no degree, no boss, no commission.",
+    readTime: "7 min",
+    date: "May 7, 2025",
+    accent: "#22c55e",
+    iconPath: "M12 2a10 10 0 100 20A10 10 0 0012 2zM12 6v6l4 2",
+  },
+  {
+    slug: "yardyman-vs-uber",
+    category: "Grow Your Business",
+    title: "Working as a Yardyman Provider vs. Driving for Uber: Which Pays More?",
+    excerpt:
+      "Uber takes 25–30% of every ride. Yardyman takes nothing. Here's an honest side-by-side comparison of real earnings, schedule freedom, and long-term income potential.",
+    readTime: "8 min",
+    date: "May 7, 2025",
+    accent: "#6366f1",
+    iconPath: "M5 17H3a2 2 0 01-2-2V5a2 2 0 012-2h11a2 2 0 012 2v3M13 21l4-4m0 0l4-4m-4 4V9a2 2 0 00-2-2H9",
+  },
   {
     slug: "stand-out-profile-tips",
     category: "Provider Tips",

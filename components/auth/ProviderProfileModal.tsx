@@ -24,6 +24,8 @@ export interface ProviderProfile {
   isAvailable: boolean;
   profileViews: number;
   subscriptionStatus?: string;
+  rating?: number;
+  ratingsCount?: number;
 }
 
 interface ProviderProfileModalProps {

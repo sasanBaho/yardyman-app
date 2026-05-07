@@ -322,32 +322,7 @@ const SidebarMenu: React.FC<SidebarMenuProps> = ({
           {/* CONTACT US */}
           <div>
             <SectionTitle label="Contact Us" />
-            <a
-              href="mailto:support@yardyman.com"
-              onClick={onClose}
-              style={{
-                display: "flex",
-                alignItems: "center",
-                gap: 12,
-                padding: "11px 20px",
-                textDecoration: "none",
-              }}
-            >
-              <span style={{
-                width: 34,
-                height: 34,
-                borderRadius: "50%",
-                background: "#f0fdf4",
-                display: "flex",
-                alignItems: "center",
-                justifyContent: "center",
-                flexShrink: 0,
-              }}>
-                <FeedbackIcon />
-              </span>
-              <span style={{ fontSize: 15, color: "#111827", fontWeight: 500, flex: 1 }}>Send Feedback</span>
-              <ChevronIcon />
-            </a>
+            <SidebarLink href="/feedback" icon={<FeedbackIcon />} label="Send Feedback" onClose={onClose} />
           </div>
 
           {/* ACCOUNT (logged-in only) */}

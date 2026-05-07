@@ -2,7 +2,7 @@
 import { useState } from "react";
 import Link from "next/link";
 
-function PageHeader({ title }: { title: string }) {
+function PageHeader() {
   return (
     <header style={{
       position: "sticky",
@@ -31,36 +31,8 @@ function PageHeader({ title }: { title: string }) {
           <polyline points="15 18 9 12 15 6" />
         </svg>
       </Link>
-      <h1 style={{ margin: 0, fontSize: 17, fontWeight: 700, color: "#111827" }}>{title}</h1>
+      <h1 style={{ margin: 0, fontSize: 17, fontWeight: 700, color: "#111827" }}>Send Feedback</h1>
     </header>
-  );
-}
-
-function FaqItem({ question, answer }: { question: string; answer: string }) {
-  return (
-    <div style={{ borderBottom: "1px solid #f3f4f6", paddingBottom: 20, marginBottom: 20 }}>
-      <div style={{ display: "flex", gap: 10, alignItems: "flex-start", marginBottom: 8 }}>
-        <span style={{
-          width: 22,
-          height: 22,
-          borderRadius: "50%",
-          background: "#f0fdf4",
-          display: "flex",
-          alignItems: "center",
-          justifyContent: "center",
-          flexShrink: 0,
-          marginTop: 1,
-        }}>
-          <svg width={12} height={12} viewBox="0 0 24 24" fill="none" stroke="#22c55e" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round">
-            <circle cx="12" cy="12" r="10" />
-            <path d="M9.09 9a3 3 0 015.83 1c0 2-3 3-3 3" />
-            <line x1="12" y1="17" x2="12.01" y2="17" />
-          </svg>
-        </span>
-        <p style={{ margin: 0, fontSize: 15, fontWeight: 700, color: "#111827", lineHeight: 1.4 }}>{question}</p>
-      </div>
-      <p style={{ margin: "0 0 0 32px", fontSize: 14, color: "#6b7280", lineHeight: 1.7 }}>{answer}</p>
-    </div>
   );
 }
 
@@ -86,33 +58,43 @@ const labelStyle: React.CSSProperties = {
 };
 
 const SUBJECTS = [
-  "Subscription Issue",
-  "Profile Problem",
-  "Payment Issue",
-  "Technical Issue",
-  "Account Access",
+  "General Feedback",
+  "App Experience",
+  "Feature Request",
+  "Bug Report",
+  "Homeowner Experience",
+  "Provider Experience",
   "Other",
 ];
 
-export default function ProviderSupportPage() {
-  const [form, setForm] = useState({ name: "", email: "", phone: "", subject: "", description: "" });
+const RATINGS = [
+  { value: 5, label: "Love it" },
+  { value: 4, label: "Pretty good" },
+  { value: 3, label: "It's okay" },
+  { value: 2, label: "Needs work" },
+  { value: 1, label: "Not happy" },
+];
+
+export default function FeedbackPage() {
+  const [form, setForm] = useState({ name: "", email: "", subject: "", message: "", rating: 0 });
   const [status, setStatus] = useState<"idle" | "loading" | "success" | "error">("idle");
   const [focusedField, setFocusedField] = useState<string | null>(null);
+  const [hoveredStar, setHoveredStar] = useState(0);
 
-  const set = (field: string, value: string) => setForm((f) => ({ ...f, [field]: value }));
+  const set = (field: string, value: string | number) => setForm((f) => ({ ...f, [field]: value }));
 
   const handleSubmit = async (e: React.SyntheticEvent<HTMLFormElement>) => {
     e.preventDefault();
     setStatus("loading");
     try {
-      const res = await fetch("/api/contact/support", {
+      const res = await fetch("/api/contact/feedback", {
         method: "POST",
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify(form),
       });
       if (res.ok) {
         setStatus("success");
-        setForm({ name: "", email: "", phone: "", subject: "", description: "" });
+        setForm({ name: "", email: "", subject: "", message: "", rating: 0 });
       } else {
         setStatus("error");
       }
@@ -128,67 +110,62 @@ export default function ProviderSupportPage() {
     transition: "border-color 0.15s, box-shadow 0.15s",
   });
 
+  const activeStar = hoveredStar || form.rating;
+
   return (
     <div style={{ minHeight: "100dvh", background: "#f9fafb" }}>
-      <PageHeader title="Provider Support" />
+      <PageHeader />
 
-      <div style={{ maxWidth: 600, margin: "0 auto", padding: "36px 20px 80px" }}>
+      <div style={{ maxWidth: 560, margin: "0 auto", padding: "36px 20px 80px" }}>
 
         {/* Hero */}
         <div style={{
           width: 56,
           height: 56,
           borderRadius: "50%",
-          background: "#f0fdf4",
+          background: "#fff7ed",
           display: "flex",
           alignItems: "center",
           justifyContent: "center",
           marginBottom: 16,
         }}>
-          <svg width={28} height={28} viewBox="0 0 24 24" fill="none" stroke="#22c55e" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
-            <circle cx="12" cy="12" r="10" />
-            <path d="M9.09 9a3 3 0 015.83 1c0 2-3 3-3 3" />
-            <line x1="12" y1="17" x2="12.01" y2="17" />
+          <svg width={28} height={28} viewBox="0 0 24 24" fill="none" stroke="#f97316" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
+            <path d="M21 15a2 2 0 01-2 2H7l-4 4V5a2 2 0 012-2h14a2 2 0 012 2z" />
           </svg>
         </div>
-        <h2 style={{ margin: "0 0 8px", fontSize: 26, fontWeight: 700, color: "#111827" }}>Provider Support</h2>
+        <h2 style={{ margin: "0 0 8px", fontSize: 26, fontWeight: 700, color: "#111827" }}>Send Feedback</h2>
         <p style={{ margin: "0 0 32px", fontSize: 15, color: "#6b7280", lineHeight: 1.6 }}>
-          Find answers to common questions below, or fill out the form and we'll get back to you as soon as possible.
+          We'd love to hear from you. Your feedback helps us improve Yardyman for everyone.
         </p>
 
-        {/* Contact Form */}
+        {/* Form card */}
         <div style={{
           background: "#fff",
           borderRadius: 16,
           padding: "28px 24px",
           boxShadow: "0 1px 4px rgba(0,0,0,0.06)",
-          marginBottom: 28,
         }}>
-          <h3 style={{ margin: "0 0 20px", fontSize: 17, fontWeight: 700, color: "#111827" }}>Contact Support</h3>
 
           {status === "success" ? (
-            <div style={{
-              textAlign: "center",
-              padding: "32px 16px",
-            }}>
+            <div style={{ textAlign: "center", padding: "32px 16px" }}>
               <div style={{
                 width: 56,
                 height: 56,
                 borderRadius: "50%",
-                background: "#f0fdf4",
+                background: "#fff7ed",
                 display: "flex",
                 alignItems: "center",
                 justifyContent: "center",
                 margin: "0 auto 16px",
               }}>
-                <svg width={26} height={26} viewBox="0 0 24 24" fill="none" stroke="#22c55e" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round">
+                <svg width={26} height={26} viewBox="0 0 24 24" fill="none" stroke="#f97316" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round">
                   <path d="M22 11.08V12a10 10 0 11-5.93-9.14" />
                   <polyline points="22 4 12 14.01 9 11.01" />
                 </svg>
               </div>
-              <p style={{ margin: "0 0 6px", fontWeight: 700, fontSize: 17, color: "#111827" }}>Message sent!</p>
+              <p style={{ margin: "0 0 6px", fontWeight: 700, fontSize: 17, color: "#111827" }}>Thanks for your feedback!</p>
               <p style={{ margin: "0 0 20px", fontSize: 14, color: "#6b7280", lineHeight: 1.6 }}>
-                Our support team will get back to you at <strong>{form.email || "your email"}</strong> within 1–2 business days.
+                We read every message and use it to make Yardyman better. We may follow up at your email if needed.
               </p>
               <button
                 onClick={() => setStatus("idle")}
@@ -203,16 +180,60 @@ export default function ProviderSupportPage() {
                   cursor: "pointer",
                 }}
               >
-                Send another message
+                Send more feedback
               </button>
             </div>
           ) : (
             <form onSubmit={handleSubmit} style={{ display: "flex", flexDirection: "column", gap: 18 }}>
-              {/* Name + Email row */}
+
+              {/* Star rating */}
+              <div>
+                <label style={{ ...labelStyle, marginBottom: 10 }}>
+                  How would you rate your experience? <span style={{ color: "#9ca3af", fontWeight: 400 }}>(optional)</span>
+                </label>
+                <div style={{ display: "flex", alignItems: "center", gap: 6 }}>
+                  {RATINGS.map(({ value, label }) => (
+                    <button
+                      key={value}
+                      type="button"
+                      title={label}
+                      onMouseEnter={() => setHoveredStar(value)}
+                      onMouseLeave={() => setHoveredStar(0)}
+                      onClick={() => set("rating", form.rating === value ? 0 : value)}
+                      style={{
+                        background: "none",
+                        border: "none",
+                        padding: 2,
+                        cursor: "pointer",
+                        lineHeight: 1,
+                      }}
+                    >
+                      <svg
+                        width={30}
+                        height={30}
+                        viewBox="0 0 24 24"
+                        fill={value <= activeStar ? "#f59e0b" : "none"}
+                        stroke={value <= activeStar ? "#f59e0b" : "#d1d5db"}
+                        strokeWidth="1.5"
+                        style={{ transition: "fill 0.1s, stroke 0.1s" }}
+                      >
+                        <polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2" />
+                      </svg>
+                    </button>
+                  ))}
+                  {activeStar > 0 && (
+                    <span style={{ fontSize: 13, color: "#6b7280", marginLeft: 4 }}>
+                      {RATINGS.find((r) => r.value === activeStar)?.label}
+                    </span>
+                  )}
+                </div>
+              </div>
+
+              {/* Name + Email */}
               <div style={{ display: "flex", gap: 14, flexWrap: "wrap" }}>
-                <div style={{ flex: 1, minWidth: 200 }}>
+                <div style={{ flex: 1, minWidth: 180 }}>
                   <label style={labelStyle}>
-                    Full Name <span style={{ color: "#ef4444" }}>*</span>
+                    Your Name <span style={{ color: "#ef4444" }}>*</span>
                   </label>
                   <input
                     type="text"
@@ -225,7 +246,7 @@ export default function ProviderSupportPage() {
                     style={focusStyle("name")}
                   />
                 </div>
-                <div style={{ flex: 1, minWidth: 200 }}>
+                <div style={{ flex: 1, minWidth: 180 }}>
                   <label style={labelStyle}>
                     Email Address <span style={{ color: "#ef4444" }}>*</span>
                   </label>
@@ -240,20 +261,6 @@ export default function ProviderSupportPage() {
                     style={focusStyle("email")}
                   />
                 </div>
-              </div>
-
-              {/* Phone */}
-              <div>
-                <label style={labelStyle}>Phone Number <span style={{ color: "#9ca3af", fontWeight: 400 }}>(optional)</span></label>
-                <input
-                  type="tel"
-                  placeholder="(555) 000-0000"
-                  value={form.phone}
-                  onChange={(e) => set("phone", e.target.value)}
-                  onFocus={() => setFocusedField("phone")}
-                  onBlur={() => setFocusedField(null)}
-                  style={focusStyle("phone")}
-                />
               </div>
 
               {/* Subject */}
@@ -285,21 +292,21 @@ export default function ProviderSupportPage() {
                 </select>
               </div>
 
-              {/* Description */}
+              {/* Message */}
               <div>
                 <label style={labelStyle}>
-                  Describe your issue <span style={{ color: "#ef4444" }}>*</span>
+                  Your Feedback <span style={{ color: "#ef4444" }}>*</span>
                 </label>
                 <textarea
-                  placeholder="Please describe your issue in as much detail as possible — include any error messages, steps to reproduce, or relevant account information."
-                  value={form.description}
+                  placeholder="Share your thoughts, ideas, or anything you'd like us to know. The more detail, the better!"
+                  value={form.message}
                   required
                   rows={5}
-                  onChange={(e) => set("description", e.target.value)}
-                  onFocus={() => setFocusedField("description")}
+                  onChange={(e) => set("message", e.target.value)}
+                  onFocus={() => setFocusedField("message")}
                   onBlur={() => setFocusedField(null)}
                   style={{
-                    ...focusStyle("description"),
+                    ...focusStyle("message"),
                     resize: "vertical",
                     minHeight: 120,
                   }}
@@ -308,8 +315,8 @@ export default function ProviderSupportPage() {
 
               {status === "error" && (
                 <p style={{ margin: 0, fontSize: 13, color: "#dc2626", background: "#fef2f2", border: "1px solid #fecaca", borderRadius: 8, padding: "10px 14px" }}>
-                  Something went wrong. Please try again or email us directly at{" "}
-                  <a href="mailto:support@yardyman.com" style={{ color: "#dc2626", fontWeight: 600 }}>support@yardyman.com</a>.
+                  Something went wrong. Please try again or email us at{" "}
+                  <a href="mailto:hi@yardyman.com" style={{ color: "#dc2626", fontWeight: 600 }}>hi@yardyman.com</a>.
                 </p>
               )}
 
@@ -317,7 +324,7 @@ export default function ProviderSupportPage() {
                 type="submit"
                 disabled={status === "loading"}
                 style={{
-                  background: status === "loading" ? "#86efac" : "#22c55e",
+                  background: status === "loading" ? "#fdba74" : "#f97316",
                   color: "#fff",
                   border: "none",
                   borderRadius: 12,
@@ -329,44 +336,14 @@ export default function ProviderSupportPage() {
                   transition: "background 0.15s",
                 }}
               >
-                {status === "loading" ? "Sending…" : "Send Message"}
+                {status === "loading" ? "Sending…" : "Submit Feedback"}
               </button>
 
               <p style={{ margin: 0, textAlign: "center", fontSize: 12, color: "#9ca3af" }}>
-                We typically respond within 1–2 business days.
+                Your feedback goes directly to the Yardyman team.
               </p>
             </form>
           )}
-        </div>
-
-        {/* FAQ */}
-        <h3 style={{ fontSize: 17, fontWeight: 700, color: "#111827", margin: "0 0 20px" }}>Frequently Asked Questions</h3>
-
-        <div style={{ background: "#fff", borderRadius: 16, padding: "24px", boxShadow: "0 1px 4px rgba(0,0,0,0.06)" }}>
-          <FaqItem
-            question="How do I update my profile information?"
-            answer="Tap your profile photo in the top navigation bar to open your provider profile. From there you can edit your name, photo, services, and payment methods."
-          />
-          <FaqItem
-            question="How do I manage my subscription?"
-            answer="Open your profile from the top navigation bar and scroll to the 'My Subscription' section. You can view your billing dates and cancel or reactivate your subscription from there."
-          />
-          <FaqItem
-            question="How do homeowners find my profile?"
-            answer="Once you create an account and enable availability, your profile appears as a pin on the Yardyman map for homeowners in your area."
-          />
-          <FaqItem
-            question="What happens after my free trial ends?"
-            answer="After your 1-month free trial, your chosen subscription plan will begin billing. You can cancel at any time before the trial ends to avoid charges."
-          />
-          <FaqItem
-            question="How do I toggle my availability?"
-            answer="Open your provider profile and use the availability toggle. When set to unavailable, your pin will be hidden from homeowners on the map."
-          />
-          <FaqItem
-            question="How do I delete my account?"
-            answer="You can delete your account from the sidebar menu (tap the ☰ icon) under Account → Delete My Account. This permanently removes all your data from Yardyman."
-          />
         </div>
       </div>
     </div>

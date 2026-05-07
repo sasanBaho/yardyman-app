@@ -257,6 +257,8 @@ export default function Home() {
             isAvailable: d.isAvailable ?? true,
             profileViews: d.profileViewCount ?? 0,
             subscriptionStatus: d.subscriptionStatus,
+            rating: d.rating,
+            ratingsCount: d.ratingsCount,
           });
           setProviderLocation({ lat: d.latitude ?? 0, lng: d.longitude ?? 0 });
           setProviderStripeSubId(d.stripeSubscriptionId ?? null);
@@ -322,6 +324,8 @@ export default function Home() {
             isAvailable: data.isAvailable ?? true,
             profileViews: data.profileViewCount ?? data.profileViews ?? 0,
             subscriptionStatus: subStatus,
+            rating: data.rating,
+            ratingsCount: data.ratingsCount,
           });
           setProviderStripeSubId(data.stripeSubscriptionId ?? null);
           if (data.latitude && data.longitude) {
@@ -626,7 +630,10 @@ export default function Home() {
           )}
 
           {/* Owner's own greyscale pin — only visible to themselves when unsubscribed and available */}
-          {showOwnPin && providerLocation && currentProviderData && currentProviderData.isAvailable !== false && (
+          {showOwnPin && providerLocation && currentProviderData && currentProviderData.isAvailable !== false &&
+            (activeService === "snow"
+              ? currentProviderData.selectedServices?.includes("service-two")
+              : currentProviderData.selectedServices?.includes("service-one")) && (
             <MapMarker longitude={providerLocation.lng} latitude={providerLocation.lat}>
               <MarkerContent>
                 <div
@@ -641,6 +648,8 @@ export default function Home() {
                     hasTools: currentProviderData.hasTools,
                     paymentMethods: currentProviderData.paymentMethods,
                     subscriptionStatus: currentProviderData.subscriptionStatus,
+                    rating: currentProviderData.rating,
+                    ratingsCount: currentProviderData.ratingsCount,
                   } as any)}
                   style={{ cursor: "pointer" }}
                 >
