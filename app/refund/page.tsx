@@ -106,7 +106,7 @@ export default function RefundPage() {
         <h2 style={{ margin: "0 0 6px", fontSize: 26, fontWeight: 700, color: "#111827" }}>Refund Policy</h2>
         <p style={{ margin: "0 0 8px", fontSize: 13, color: "#9ca3af" }}>Last updated: June 1, 2025</p>
         <p style={{ margin: "0 0 32px", fontSize: 15, color: "#6b7280", lineHeight: 1.7 }}>
-          At Localibo, we are committed to provider satisfaction. This Refund Policy outlines the terms under which refunds may be issued. It forms part of our Terms of Use and applies to all providers who have made a purchase through our official channels.
+          At Yardyman, we are committed to provider satisfaction. This Refund Policy outlines the terms under which refunds may be issued. It forms part of our Terms of Use and applies to all providers who have made a purchase through our official channels.
         </p>
 
         <div style={{ background: "#fff", borderRadius: 16, padding: "28px 24px", boxShadow: "0 1px 4px rgba(0,0,0,0.06)" }}>
@@ -131,7 +131,7 @@ export default function RefundPage() {
           <PolicySection title="2. Method and Processing of Refunds">
             <Bullets items={[
               "Approved refunds will be issued via PayPal.",
-              "Refunds are issued minus 15% of the original payment amount. This deduction reflects the App Store commission fee that is not paid to Localibo and therefore cannot be refunded.",
+              "Refunds are issued minus 15% of the original payment amount. This deduction reflects the App Store commission fee that is not paid to Yardyman and therefore cannot be refunded.",
               "We do not charge any additional refund handling or processing fees.",
             ]} />
           </PolicySection>
@@ -160,7 +160,7 @@ export default function RefundPage() {
 
           <PolicySection title="5. How to Submit a Refund Request">
             <Para>
-              Send an email to <strong>refund@localibo.com</strong> with the subject line: <em>Refund Request &ndash; Localibo</em>
+              Send an email to <strong>refund@localibo.com</strong> with the subject line: <em>Refund Request &ndash; Yardyman</em>
             </Para>
             <Para>Your email should include:</Para>
             <Bullets items={[

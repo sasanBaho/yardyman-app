@@ -101,7 +101,7 @@ export default function PrivacyPage() {
         <h2 style={{ margin: "0 0 6px", fontSize: 26, fontWeight: 700, color: "#111827" }}>Privacy Policy</h2>
         <p style={{ margin: "0 0 8px", fontSize: 13, color: "#9ca3af" }}>Last updated: Nov 4, 2025</p>
         <p style={{ margin: "0 0 32px", fontSize: 15, color: "#6b7280", lineHeight: 1.7 }}>
-          Localibo and Yardyman respect your privacy. This Privacy Policy explains how we collect, use, and protect your information when you use our mobile application.
+          Yardyman respects your privacy. This Privacy Policy explains how we collect, use, and protect your information when you use our mobile application.
         </p>
 
         <div style={{ background: "#fff", borderRadius: 16, padding: "28px 24px", boxShadow: "0 1px 4px rgba(0,0,0,0.06)" }}>

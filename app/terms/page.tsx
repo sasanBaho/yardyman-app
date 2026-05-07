@@ -103,7 +103,7 @@ export default function TermsPage() {
         <h2 style={{ margin: "0 0 6px", fontSize: 26, fontWeight: 700, color: "#111827" }}>Terms &amp; Conditions</h2>
         <p style={{ margin: "0 0 8px", fontSize: 13, color: "#9ca3af" }}>Last updated: Sept 27, 2025</p>
         <p style={{ margin: "0 0 32px", fontSize: 15, color: "#6b7280", lineHeight: 1.7 }}>
-          These Terms &amp; Conditions govern the use of the Localibo and Yardyman mobile applications. By accessing or using the App, you agree to be bound by these Terms. If you do not agree, do not use the App.
+          These Terms &amp; Conditions govern the use of the Yardyman mobile application. By accessing or using the App, you agree to be bound by these Terms. If you do not agree, do not use the App.
         </p>
 
         <div style={{ background: "#fff", borderRadius: 16, padding: "28px 24px", boxShadow: "0 1px 4px rgba(0,0,0,0.06)" }}>
