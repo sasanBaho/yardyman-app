@@ -97,6 +97,7 @@ const SUBJECTS = [
 export default function ProviderSupportPage() {
   const [form, setForm] = useState({ name: "", email: "", phone: "", subject: "", description: "" });
   const [status, setStatus] = useState<"idle" | "loading" | "success" | "error">("idle");
+  const [errorMsg, setErrorMsg] = useState("");
   const [focusedField, setFocusedField] = useState<string | null>(null);
 
   const set = (field: string, value: string) => setForm((f) => ({ ...f, [field]: value }));
@@ -104,6 +105,7 @@ export default function ProviderSupportPage() {
   const handleSubmit = async (e: React.SyntheticEvent<HTMLFormElement>) => {
     e.preventDefault();
     setStatus("loading");
+    setErrorMsg("");
     try {
       const res = await fetch("/api/contact/support", {
         method: "POST",
@@ -114,9 +116,12 @@ export default function ProviderSupportPage() {
         setStatus("success");
         setForm({ name: "", email: "", phone: "", subject: "", description: "" });
       } else {
+        const data = await res.json().catch(() => ({}));
+        setErrorMsg(data.error || "");
         setStatus("error");
       }
-    } catch {
+    } catch (err: any) {
+      setErrorMsg(err?.message || "");
       setStatus("error");
     }
   };
@@ -308,8 +313,9 @@ export default function ProviderSupportPage() {
 
               {status === "error" && (
                 <p style={{ margin: 0, fontSize: 13, color: "#dc2626", background: "#fef2f2", border: "1px solid #fecaca", borderRadius: 8, padding: "10px 14px" }}>
-                  Something went wrong. Please try again or email us directly at{" "}
-                  <a href="mailto:support@yardyman.com" style={{ color: "#dc2626", fontWeight: 600 }}>support@yardyman.com</a>.
+                  {errorMsg || "Something went wrong. Please try again or email us directly at"}{" "}
+                  {!errorMsg && <a href="mailto:support@yardyman.com" style={{ color: "#dc2626", fontWeight: 600 }}>support@yardyman.com</a>}
+                  {!errorMsg && "."}
                 </p>
               )}
 

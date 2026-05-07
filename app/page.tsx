@@ -259,6 +259,8 @@ export default function Home() {
             subscriptionStatus: d.subscriptionStatus,
             rating: d.rating,
             ratingsCount: d.ratingsCount,
+            latitude: d.latitude,
+            longitude: d.longitude,
           });
           setProviderLocation({ lat: d.latitude ?? 0, lng: d.longitude ?? 0 });
           setProviderStripeSubId(d.stripeSubscriptionId ?? null);
@@ -326,6 +328,8 @@ export default function Home() {
             subscriptionStatus: subStatus,
             rating: data.rating,
             ratingsCount: data.ratingsCount,
+            latitude: data.latitude,
+            longitude: data.longitude,
           });
           setProviderStripeSubId(data.stripeSubscriptionId ?? null);
           if (data.latitude && data.longitude) {
@@ -674,6 +678,7 @@ export default function Home() {
               selectedProvider.id === currentProviderData.uid &&
               !["active", "trialing"].includes(currentProviderData.subscriptionStatus ?? ""))
           }
+          isOwnProfile={!!(currentProviderData && selectedProvider.id === currentProviderData.uid)}
           onSubscribe={
             currentProviderData && selectedProvider.id === currentProviderData.uid
               ? () => { setSelectedProvider(null); setShowSubscribeModal(true); }
@@ -695,6 +700,9 @@ export default function Home() {
           }}
           onProfileUpdated={(updated) => {
             setCurrentProviderData(updated);
+            if (updated.latitude && updated.longitude) {
+              setProviderLocation({ lat: updated.latitude, lng: updated.longitude });
+            }
             setProviders((prev) =>
               prev.map((p) =>
                 p.id === updated.uid

@@ -12,6 +12,7 @@ import SubscriptionModal from "./SubscriptionModal";
 import ProviderProfileModal, { ProviderProfile } from "./ProviderProfileModal";
 import MapPreviewStep from "./MapPreviewStep";
 import LocationPermissionModal from "./LocationPermissionModal";
+import SetLocationModal from "./SetLocationModal";
 
 type Step =
   | "none"
@@ -20,6 +21,7 @@ type Step =
   | "verify-create"
   | "verify-login"
   | "select-services"
+  | "set-location"
   | "creating-profile"
   | "map-preview"
   | "subscription"
@@ -106,6 +108,7 @@ const AuthFlow: React.FC<AuthFlowProps> = ({
   const [loginSlideFrom, setLoginSlideFrom] = useState<"right" | "left" | undefined>(undefined);
   const [previewImageUrl, setPreviewImageUrl] = useState("");
   const [locationOverride, setLocationOverride] = useState<[number, number] | null>(null);
+  const [pendingServicesData, setPendingServicesData] = useState<ServicesFormData | null>(null);
 
   const effectiveLocation = locationOverride ?? userLocation;
 
@@ -147,14 +150,22 @@ const AuthFlow: React.FC<AuthFlowProps> = ({
   };
 
   const handleServicesDone = (servicesData: ServicesFormData) => {
-    setStep("creating-profile");
-    createProviderProfile(servicesData);
+    setPendingServicesData(servicesData);
+    setStep("set-location");
   };
 
-  const createProviderProfile = async (servicesData: ServicesFormData) => {
+  const handleLocationConfirmed = (lng: number, lat: number) => {
+    setLocationOverride([lng, lat]);
+    setStep("creating-profile");
+    createProviderProfile(pendingServicesData!, [lng, lat]);
+  };
+
+  const createProviderProfile = async (servicesData: ServicesFormData, locationParam?: [number, number]) => {
     if (!signupData) return;
     const user = auth.currentUser;
     if (!user) return;
+
+    const resolvedLocation = locationParam ?? effectiveLocation;
 
     try {
       let photoUrl = "";
@@ -162,11 +173,11 @@ const AuthFlow: React.FC<AuthFlowProps> = ({
         photoUrl = await uploadPhoto(signupData.photoFile, user.uid);
       }
 
-      const lat = effectiveLocation ? effectiveLocation[1] : 0;
-      const lng = effectiveLocation ? effectiveLocation[0] : 0;
+      const lat = resolvedLocation ? resolvedLocation[1] : 0;
+      const lng = resolvedLocation ? resolvedLocation[0] : 0;
       let city = "Unknown";
       let country = "Unknown";
-      if (effectiveLocation) {
+      if (resolvedLocation) {
         const location = await getCityAndCountry(lat, lng);
         city = location.city;
         country = location.country;
@@ -328,6 +339,16 @@ const AuthFlow: React.FC<AuthFlowProps> = ({
 
       {step === "select-services" && (
         <SelectServicesModal onClose={close} onDone={handleServicesDone} />
+      )}
+
+      {step === "set-location" && (
+        <SetLocationModal
+          initialLng={effectiveLocation?.[0] ?? -79.38}
+          initialLat={effectiveLocation?.[1] ?? 43.65}
+          providerImageUrl={signupData?.photoPreview ?? undefined}
+          onConfirm={handleLocationConfirmed}
+          onBack={() => setStep("select-services")}
+        />
       )}
 
       {step === "creating-profile" && (

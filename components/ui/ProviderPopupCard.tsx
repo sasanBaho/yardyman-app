@@ -9,6 +9,7 @@ export interface ProviderPopupCardProps {
   onClose: () => void;
   activeService?: "snow" | "lawn";
   isOwnerInactive?: boolean;
+  isOwnProfile?: boolean;
   onSubscribe?: () => void;
 }
 
@@ -17,6 +18,7 @@ const ProviderPopupCard: React.FC<ProviderPopupCardProps> = ({
   onClose,
   activeService,
   isOwnerInactive,
+  isOwnProfile,
   onSubscribe,
 }) => {
   const [showReport, setShowReport] = useState(false);
@@ -207,9 +209,9 @@ const ProviderPopupCard: React.FC<ProviderPopupCardProps> = ({
 
               {/* Rating */}
               <div
-                onClick={() => setShowRating(true)}
-                style={{ cursor: "pointer", display: "flex", alignItems: "center", gap: 4 }}
-                title="Tap to rate"
+                onClick={() => { if (!isOwnProfile) setShowRating(true); }}
+                style={{ cursor: isOwnProfile ? "default" : "pointer", display: "flex", alignItems: "center", gap: 4 }}
+                title={isOwnProfile ? undefined : "Tap to rate"}
               >
                 {displayCount > 0 ? (
                   <>
@@ -398,56 +400,58 @@ const ProviderPopupCard: React.FC<ProviderPopupCardProps> = ({
         </div>
 
         {/* ── Footer: rate + report ── */}
-        <div style={{
-          display: "flex",
-          alignItems: "center",
-          justifyContent: "space-between",
-          padding: "10px 20px 18px",
-          borderTop: "1px solid #f3f4f6",
-        }}>
-          <button
-            onClick={() => setShowRating(true)}
-            style={{
-              display: "flex",
-              alignItems: "center",
-              gap: 6,
-              background: "none",
-              border: "none",
-              cursor: "pointer",
-              padding: 0,
-              color: "#f59e0b",
-              fontWeight: 600,
-              fontSize: 13,
-            }}
-          >
-            <svg width={16} height={16} viewBox="0 0 24 24" fill="#f59e0b" stroke="none">
-              <polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2" />
-            </svg>
-            Rate this provider
-          </button>
+        {!isOwnProfile && (
+          <div style={{
+            display: "flex",
+            alignItems: "center",
+            justifyContent: "space-between",
+            padding: "10px 20px 18px",
+            borderTop: "1px solid #f3f4f6",
+          }}>
+            <button
+              onClick={() => setShowRating(true)}
+              style={{
+                display: "flex",
+                alignItems: "center",
+                gap: 6,
+                background: "none",
+                border: "none",
+                cursor: "pointer",
+                padding: 0,
+                color: "#f59e0b",
+                fontWeight: 600,
+                fontSize: 13,
+              }}
+            >
+              <svg width={16} height={16} viewBox="0 0 24 24" fill="#f59e0b" stroke="none">
+                <polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2" />
+              </svg>
+              Rate this provider
+            </button>
 
-          <button
-            onClick={() => setShowReport(true)}
-            style={{
-              display: "flex",
-              alignItems: "center",
-              gap: 5,
-              background: "none",
-              border: "none",
-              cursor: "pointer",
-              padding: 0,
-              color: "#9ca3af",
-              fontSize: 12,
-              fontWeight: 500,
-            }}
-          >
-            <svg width={13} height={13} viewBox="0 0 24 24" fill="none" stroke="#9ca3af" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
-              <path d="M4 15s1-1 4-1 5 2 8 2 4-1 4-1V3s-1 1-4 1-5-2-8-2-4 1-4 1z" />
-              <line x1="4" y1="22" x2="4" y2="15" />
-            </svg>
-            Report
-          </button>
-        </div>
+            <button
+              onClick={() => setShowReport(true)}
+              style={{
+                display: "flex",
+                alignItems: "center",
+                gap: 5,
+                background: "none",
+                border: "none",
+                cursor: "pointer",
+                padding: 0,
+                color: "#9ca3af",
+                fontSize: 12,
+                fontWeight: 500,
+              }}
+            >
+              <svg width={13} height={13} viewBox="0 0 24 24" fill="none" stroke="#9ca3af" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
+                <path d="M4 15s1-1 4-1 5 2 8 2 4-1 4-1V3s-1 1-4 1-5-2-8-2-4 1-4 1z" />
+                <line x1="4" y1="22" x2="4" y2="15" />
+              </svg>
+              Report
+            </button>
+          </div>
+        )}
       </div>
     </>
   );

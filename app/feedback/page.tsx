@@ -78,6 +78,7 @@ const RATINGS = [
 export default function FeedbackPage() {
   const [form, setForm] = useState({ name: "", email: "", subject: "", message: "", rating: 0 });
   const [status, setStatus] = useState<"idle" | "loading" | "success" | "error">("idle");
+  const [errorMsg, setErrorMsg] = useState("");
   const [focusedField, setFocusedField] = useState<string | null>(null);
   const [hoveredStar, setHoveredStar] = useState(0);
 
@@ -86,6 +87,7 @@ export default function FeedbackPage() {
   const handleSubmit = async (e: React.SyntheticEvent<HTMLFormElement>) => {
     e.preventDefault();
     setStatus("loading");
+    setErrorMsg("");
     try {
       const res = await fetch("/api/contact/feedback", {
         method: "POST",
@@ -96,9 +98,12 @@ export default function FeedbackPage() {
         setStatus("success");
         setForm({ name: "", email: "", subject: "", message: "", rating: 0 });
       } else {
+        const data = await res.json().catch(() => ({}));
+        setErrorMsg(data.error || "");
         setStatus("error");
       }
-    } catch {
+    } catch (err: any) {
+      setErrorMsg(err?.message || "");
       setStatus("error");
     }
   };
@@ -315,8 +320,9 @@ export default function FeedbackPage() {
 
               {status === "error" && (
                 <p style={{ margin: 0, fontSize: 13, color: "#dc2626", background: "#fef2f2", border: "1px solid #fecaca", borderRadius: 8, padding: "10px 14px" }}>
-                  Something went wrong. Please try again or email us at{" "}
-                  <a href="mailto:hi@yardyman.com" style={{ color: "#dc2626", fontWeight: 600 }}>hi@yardyman.com</a>.
+                  {errorMsg || "Something went wrong. Please try again or email us at"}{" "}
+                  {!errorMsg && <a href="mailto:hi@yardyman.com" style={{ color: "#dc2626", fontWeight: 600 }}>hi@yardyman.com</a>}
+                  {!errorMsg && "."}
                 </p>
               )}
 

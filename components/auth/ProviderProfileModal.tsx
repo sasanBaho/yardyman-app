@@ -1,14 +1,35 @@
 "use client";
 import React, { useEffect, useRef, useState } from "react";
 import { useBodyScrollLock } from "@/hooks/useBodyScrollLock";
-import { updateDoc, doc, getDoc } from "firebase/firestore";
+import { updateDoc, doc, getDoc, serverTimestamp } from "firebase/firestore";
 import { ref as storageRef, uploadBytes, getDownloadURL } from "firebase/storage";
 import { db, storage, auth } from "@/firebase";
 import { signOut } from "firebase/auth";
 import SelectServicesModal, { ServicesFormData } from "./SelectServicesModal";
+import SetLocationModal from "./SetLocationModal";
 import ImageCropModal from "./ImageCropModal";
 import SubscriptionModal from "./SubscriptionModal";
 import { BsCircleFill } from "react-icons/bs";
+
+function encodeGeohashLocal(lat: number, lng: number, precision = 9): string {
+  const BASE32 = "0123456789bcdefghjkmnpqrstuvwxyz";
+  let hash = "", bits = 0, bitCount = 0, isLng = true;
+  let latMin = -90, latMax = 90, lngMin = -180, lngMax = 180;
+  while (hash.length < precision) {
+    if (isLng) {
+      const mid = (lngMin + lngMax) / 2;
+      bits = (bits << 1) | (lng >= mid ? 1 : 0);
+      if (lng >= mid) lngMin = mid; else lngMax = mid;
+    } else {
+      const mid = (latMin + latMax) / 2;
+      bits = (bits << 1) | (lat >= mid ? 1 : 0);
+      if (lat >= mid) latMin = mid; else latMax = mid;
+    }
+    isLng = !isLng;
+    if (++bitCount === 5) { hash += BASE32[bits]; bits = 0; bitCount = 0; }
+  }
+  return hash;
+}
 
 export interface ProviderProfile {
   uid: string;
@@ -26,6 +47,8 @@ export interface ProviderProfile {
   subscriptionStatus?: string;
   rating?: number;
   ratingsCount?: number;
+  latitude?: number;
+  longitude?: number;
 }
 
 interface ProviderProfileModalProps {
@@ -92,6 +115,7 @@ const ProviderProfileModal: React.FC<ProviderProfileModalProps> = ({
   } | null>(null);
   const [cancellingSubscription, setCancellingSubscription] = useState(false);
   const [reactivatingSubscription, setReactivatingSubscription] = useState(false);
+  const [showLocationEditor, setShowLocationEditor] = useState(false);
   const [showSubscriptionPlanModal, setShowSubscriptionPlanModal] = useState(false);
   const [subscribeModalLoading, setSubscribeModalLoading] = useState(false);
   const fileInputRef = useRef<HTMLInputElement>(null);
@@ -219,6 +243,34 @@ const ProviderProfileModal: React.FC<ProviderProfileModalProps> = ({
       setShowEditServices(false);
     }
   };
+
+  const handleLocationSave = async (lng: number, lat: number, city: string, country: string) => {
+    const geohash = encodeGeohashLocal(lat, lng);
+    await updateDoc(doc(db, "providers", profile.uid), {
+      latitude: lat,
+      longitude: lng,
+      geohash,
+      city,
+      country,
+      updatedAt: serverTimestamp(),
+    });
+    const updated = { ...profileState, city, latitude: lat, longitude: lng };
+    setProfileState(updated);
+    onProfileUpdated?.(updated);
+    setShowLocationEditor(false);
+  };
+
+  if (showLocationEditor) {
+    return (
+      <SetLocationModal
+        initialLng={profileState.longitude ?? -79.38}
+        initialLat={profileState.latitude ?? 43.65}
+        providerImageUrl={profileState.photoUrl}
+        onConfirm={handleLocationSave}
+        onClose={() => setShowLocationEditor(false)}
+      />
+    );
+  }
 
   if (showEditServices) {
     return (
@@ -514,29 +566,20 @@ const ProviderProfileModal: React.FC<ProviderProfileModalProps> = ({
               color: "#555",
             }}
           >
-            <div style={{ display: "flex", alignItems: "center", gap: 4 }}>
-              <svg
-                width={13}
-                height={13}
-                viewBox="0 0 24 24"
-                fill="none"
-                stroke="#555"
-                strokeWidth="2"
-              >
-                <polyline points="23 4 23 10 17 10" />
-                <path d="M20.49 15a9 9 0 11-2.12-9.36L23 10" />
+            <div
+              onClick={() => setShowLocationEditor(true)}
+              style={{ display: "flex", alignItems: "center", gap: 4, cursor: "pointer" }}
+              title="Edit your location"
+            >
+              <svg width={13} height={13} viewBox="0 0 24 24" fill="none" stroke="#555" strokeWidth="2">
+                <path d="M21 10c0 7-9 13-9 13s-9-6-9-13a9 9 0 0118 0z" />
+                <circle cx="12" cy="10" r="3" />
               </svg>
-              <svg
-                width={13}
-                height={13}
-                viewBox="0 0 24 24"
-                fill="none"
-                stroke="#555"
-                strokeWidth="2"
-              >
-                <polygon points="3 11 22 2 13 21 11 13 3 11" />
+              <span style={{ textDecoration: "underline" }}>{profileState.city}</span>
+              <svg width={12} height={12} viewBox="0 0 24 24" fill="none" stroke="#555" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
+                <path d="M11 4H4a2 2 0 00-2 2v14a2 2 0 002 2h14a2 2 0 002-2v-7" />
+                <path d="M18.5 2.5a2.121 2.121 0 013 3L12 15l-4 1 1-4 9.5-9.5z" />
               </svg>
-              <span>{profileState.city}</span>
             </div>
             <div style={{ display: "flex", alignItems: "center", gap: 4 }}>
               <svg
