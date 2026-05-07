@@ -143,9 +143,11 @@ const ProviderProfileModal: React.FC<ProviderProfileModalProps> = ({
   }, []);
 
   const isSubscriptionInactive =
-    profile.subscriptionStatus === "unsubscribed" ||
-    subscriptionInfo?.cancelAtPeriodEnd === true ||
-    (subscriptionInfo !== null && !["active", "trialing"].includes(subscriptionInfo.status));
+    profile.subscriptionStatus !== "trialing" && (
+      profile.subscriptionStatus === "unsubscribed" ||
+      subscriptionInfo?.cancelAtPeriodEnd === true ||
+      (subscriptionInfo !== null && !["active", "trialing"].includes(subscriptionInfo.status))
+    );
 
   const handleToggle = async () => {
     const next = !isAvailable;
