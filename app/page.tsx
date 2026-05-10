@@ -453,8 +453,10 @@ export default function Home() {
       viewSource: "map_annotation",
     });
 
+    const monthKey = new Date().toISOString().slice(0, 7);
     updateDoc(doc(db, "providers", provider.id), {
       profileViewCount: increment(1),
+      [`viewsByMonth.${monthKey}`]: increment(1),
     }).catch(() => {});
 
     setSelectedProvider(provider);

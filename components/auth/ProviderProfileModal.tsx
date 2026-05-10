@@ -9,6 +9,7 @@ import SelectServicesModal, { ServicesFormData } from "./SelectServicesModal";
 import SetLocationModal from "./SetLocationModal";
 import ImageCropModal from "./ImageCropModal";
 import SubscriptionModal from "./SubscriptionModal";
+import ViewsAnalyticsModal from "./ViewsAnalyticsModal";
 import { BsCircleFill } from "react-icons/bs";
 
 function encodeGeohashLocal(lat: number, lng: number, precision = 9): string {
@@ -118,6 +119,8 @@ const ProviderProfileModal: React.FC<ProviderProfileModalProps> = ({
   const [showLocationEditor, setShowLocationEditor] = useState(false);
   const [showSubscriptionPlanModal, setShowSubscriptionPlanModal] = useState(false);
   const [subscribeModalLoading, setSubscribeModalLoading] = useState(false);
+  const [viewsByMonth, setViewsByMonth] = useState<Record<string, number>>({});
+  const [showAnalytics, setShowAnalytics] = useState(false);
   const fileInputRef = useRef<HTMLInputElement>(null);
   const nameInputRef = useRef<HTMLInputElement>(null);
 
@@ -130,6 +133,7 @@ const ProviderProfileModal: React.FC<ProviderProfileModalProps> = ({
           ...prev,
           profileViews: data.profileViewCount ?? prev.profileViews,
         }));
+        setViewsByMonth(data.viewsByMonth ?? {});
         const subId = data.stripeSubscriptionId ?? null;
         setStripeSubscriptionId(subId);
         if (subId) {
@@ -346,6 +350,13 @@ const ProviderProfileModal: React.FC<ProviderProfileModalProps> = ({
         />
       )}
 
+      {showAnalytics && (
+        <ViewsAnalyticsModal
+          viewsByMonth={viewsByMonth}
+          onClose={() => setShowAnalytics(false)}
+        />
+      )}
+
       {/* Hidden file input */}
       <input ref={fileInputRef} type="file" accept="image/*" style={{ display: "none" }}
         onChange={(e) => { if (e.target.files?.[0]) handlePhotoFileSelected(e.target.files[0]); e.target.value = ""; }} />
@@ -364,16 +375,39 @@ const ProviderProfileModal: React.FC<ProviderProfileModalProps> = ({
         {/* Header */}
         <div
           style={{
-            background: "linear-gradient(180deg, #c8c8c8 0%, #e2f0e2 100%)",
+            background: "#f0efef",
             padding: "20px 20px 28px",
             borderRadius: "20px 20px 0 0",
             position: "relative",
             textAlign: "center",
           }}
         >
-          <span style={{ position: "absolute", top: 18, left: 18, fontSize: 13, color: "#555" }}>
-            Profile views: {profileState.profileViews}
-          </span>
+          {(() => {
+            const currentMonthKey = new Date().toISOString().slice(0, 7);
+            const currentMonthLabel = new Date().toLocaleDateString("en-US", { month: "long" });
+            const currentMonthViews = viewsByMonth[currentMonthKey] ?? 0;
+            return (
+              <button
+                onClick={() => setShowAnalytics(true)}
+                style={{
+                  position: "absolute",
+                  top: 14,
+                  left: 14,
+                  borderRadius: 999,
+                  padding: "5px 11px",
+                  display: "flex",
+                  alignItems: "start",
+                  gap: 5,
+                  cursor: "pointer",
+                }}
+              >
+                <img src="/data-analytics.png" alt="views" width={16} height={16} style={{ display: "block", objectFit: "contain" }} />
+                <span style={{ fontSize: 12, fontWeight: 600, color: "#1e1e1e", whiteSpace: "nowrap", textDecoration: "underline" }}>
+                  {currentMonthLabel} Profile views: {currentMonthViews}
+                </span>
+              </button>
+            );
+          })()}
 
           <button
             onClick={onClose}
@@ -539,6 +573,7 @@ const ProviderProfileModal: React.FC<ProviderProfileModalProps> = ({
                     fontWeight: 700,
                     textDecoration: "underline",
                     cursor: "pointer",
+                    color: "#111111",
                   }}
                 >
                   {profileState.name}
@@ -548,7 +583,7 @@ const ProviderProfileModal: React.FC<ProviderProfileModalProps> = ({
                   style={{ background: "none", border: "none", cursor: "pointer", padding: 0 }}
                   aria-label="Edit name"
                 >
-                  <svg width={17} height={17} viewBox="0 0 24 24" fill="none" stroke="#333" strokeWidth="2">
+                  <svg width={17} height={17} viewBox="0 0 24 24" fill="none" stroke="#22c55e" strokeWidth="2">
                     <path d="M11 4H4a2 2 0 00-2 2v14a2 2 0 002 2h14a2 2 0 002-2v-7" />
                     <path d="M18.5 2.5a2.121 2.121 0 013 3L12 15l-4 1 1-4 9.5-9.5z" />
                   </svg>
@@ -578,7 +613,7 @@ const ProviderProfileModal: React.FC<ProviderProfileModalProps> = ({
                 <circle cx="12" cy="10" r="3" />
               </svg>
               <span style={{ textDecoration: "underline" }}>{profileState.city}</span>
-              <svg width={12} height={12} viewBox="0 0 24 24" fill="none" stroke="#555" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
+              <svg width={12} height={12} viewBox="0 0 24 24" fill="none" stroke="#22c55e" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
                 <path d="M11 4H4a2 2 0 00-2 2v14a2 2 0 002 2h14a2 2 0 002-2v-7" />
                 <path d="M18.5 2.5a2.121 2.121 0 013 3L12 15l-4 1 1-4 9.5-9.5z" />
               </svg>
@@ -603,24 +638,26 @@ const ProviderProfileModal: React.FC<ProviderProfileModalProps> = ({
         {isSubscriptionInactive && (
           <div
             style={{
-              background: "#fff7ed",
-              borderLeft: "4px solid #f97316",
+              background: "#ffffff",
+              borderLeft: "4px solid #f59e0b",
               padding: "14px 20px",
               display: "flex",
               alignItems: "flex-start",
               gap: 12,
             }}
           >
-            <svg width={18} height={18} viewBox="0 0 24 24" fill="#f97316" style={{ flexShrink: 0, marginTop: 1 }}>
+            <div style={{ width: 40, height: 40, borderRadius: "50%", background: "#fef3c7", display: "flex", alignItems: "center", justifyContent: "center", flexShrink: 0 }}>
+            <svg width={20} height={20} viewBox="0 0 24 24" fill="#f59e0b">
               <path d="M10.29 3.86L1.82 18a2 2 0 001.71 3h16.94a2 2 0 001.71-3L13.71 3.86a2 2 0 00-3.42 0z" />
               <line x1="12" y1="9" x2="12" y2="13" stroke="#fff" strokeWidth="2" strokeLinecap="round" />
               <line x1="12" y1="17" x2="12.01" y2="17" stroke="#fff" strokeWidth="2" strokeLinecap="round" />
             </svg>
+          </div>
             <div style={{ flex: 1 }}>
-              <p style={{ margin: "0 0 4px", fontWeight: 700, fontSize: 14, color: "#9a3412" }}>
+              <p style={{ margin: "0 0 4px", fontWeight: 700, fontSize: 14, color: "#717171" }}>
                 Your account is not visible to homeowners
               </p>
-              <p style={{ margin: "0 0 10px", fontSize: 13, color: "#c2410c" }}>
+              <p style={{ margin: "0 0 10px", fontSize: 13, color: "#333333" }}>
                 Subscribe to appear on the map and start receiving customer requests.
               </p>
               <button
@@ -640,7 +677,7 @@ const ProviderProfileModal: React.FC<ProviderProfileModalProps> = ({
                 }}
                 disabled={reactivatingSubscription}
                 style={{
-                  background: "#f97316",
+                  background: "#fb9f00",
                   color: "#fff",
                   border: "none",
                   borderRadius: 999,
@@ -674,7 +711,7 @@ const ProviderProfileModal: React.FC<ProviderProfileModalProps> = ({
               marginBottom: 6,
             }}
           >
-            <span style={{ fontWeight: 700, fontSize: 17 }}>I'm available</span>
+            <span style={{ fontWeight: 700, fontSize: 17, color: "#222222" }}>I'm available</span>
             <button
               onClick={handleToggle}
               style={{
@@ -720,7 +757,7 @@ const ProviderProfileModal: React.FC<ProviderProfileModalProps> = ({
               marginBottom: 0,
             }}
           >
-            <span style={{ fontWeight: 700, fontSize: 17 }}>Your Services:</span>
+            <span style={{ fontWeight: 700, fontSize: 17, color: "#222222" }}>Your Services:</span>
             <button
               onClick={() => setShowEditServices(true)}
               style={{
@@ -775,7 +812,7 @@ const ProviderProfileModal: React.FC<ProviderProfileModalProps> = ({
 
           {/* Payment Methods */}
           <div style={{ marginTop: 8 }}>
-            <span style={{ fontWeight: 700, fontSize: 17, display: "block", marginBottom: 12 }}>
+            <span style={{ fontWeight: 700, fontSize: 17, display: "block", marginBottom: 12, color: "#222222" }}>
               Payment Methods:
             </span>
             <div style={{ display: "flex", flexWrap: "wrap", gap: 14 }}>
