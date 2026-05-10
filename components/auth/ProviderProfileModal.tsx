@@ -1,7 +1,7 @@
 "use client";
 import React, { useEffect, useRef, useState } from "react";
 import { useBodyScrollLock } from "@/hooks/useBodyScrollLock";
-import { updateDoc, doc, getDoc, serverTimestamp } from "firebase/firestore";
+import { updateDoc, doc, onSnapshot, serverTimestamp } from "firebase/firestore";
 import { ref as storageRef, uploadBytes, getDownloadURL } from "firebase/storage";
 import { db, storage, auth } from "@/firebase";
 import { signOut } from "firebase/auth";
@@ -125,7 +125,7 @@ const ProviderProfileModal: React.FC<ProviderProfileModalProps> = ({
   const nameInputRef = useRef<HTMLInputElement>(null);
 
   useEffect(() => {
-    getDoc(doc(db, "providers", profile.uid)).then((snap) => {
+    const unsub = onSnapshot(doc(db, "providers", profile.uid), (snap) => {
       if (snap.exists()) {
         const data = snap.data();
         setIsAvailable(data.isAvailable ?? true);
@@ -144,6 +144,7 @@ const ProviderProfileModal: React.FC<ProviderProfileModalProps> = ({
         }
       }
     });
+    return () => unsub();
   }, []);
 
   const isSubscriptionInactive =

@@ -9548,34 +9548,37 @@ const ProviderProfileModal = ({ profile, onClose, onAvailabilityChange, onProfil
     const nameInputRef = (0, __TURBOPACK__imported__module__$5b$project$5d2f$yardyman$2d$app$2f$yardyman$2d$app$2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$index$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["useRef"])(null);
     (0, __TURBOPACK__imported__module__$5b$project$5d2f$yardyman$2d$app$2f$yardyman$2d$app$2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$index$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["useEffect"])({
         "ProviderProfileModal.useEffect": ()=>{
-            (0, __TURBOPACK__imported__module__$5b$project$5d2f$yardyman$2d$app$2f$yardyman$2d$app$2f$node_modules$2f40$firebase$2f$firestore$2f$dist$2f$index$2e$esm$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["getDoc"])((0, __TURBOPACK__imported__module__$5b$project$5d2f$yardyman$2d$app$2f$yardyman$2d$app$2f$node_modules$2f40$firebase$2f$firestore$2f$dist$2f$index$2e$esm$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["doc"])(__TURBOPACK__imported__module__$5b$project$5d2f$yardyman$2d$app$2f$yardyman$2d$app$2f$firebase$2e$ts__$5b$app$2d$client$5d$__$28$ecmascript$29$__$3c$locals$3e$__["db"], "providers", profile.uid)).then({
-                "ProviderProfileModal.useEffect": (snap)=>{
+            const unsub = (0, __TURBOPACK__imported__module__$5b$project$5d2f$yardyman$2d$app$2f$yardyman$2d$app$2f$node_modules$2f40$firebase$2f$firestore$2f$dist$2f$index$2e$esm$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["onSnapshot"])((0, __TURBOPACK__imported__module__$5b$project$5d2f$yardyman$2d$app$2f$yardyman$2d$app$2f$node_modules$2f40$firebase$2f$firestore$2f$dist$2f$index$2e$esm$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["doc"])(__TURBOPACK__imported__module__$5b$project$5d2f$yardyman$2d$app$2f$yardyman$2d$app$2f$firebase$2e$ts__$5b$app$2d$client$5d$__$28$ecmascript$29$__$3c$locals$3e$__["db"], "providers", profile.uid), {
+                "ProviderProfileModal.useEffect.unsub": (snap)=>{
                     if (snap.exists()) {
                         const data = snap.data();
                         setIsAvailable(data.isAvailable ?? true);
                         setProfileState({
-                            "ProviderProfileModal.useEffect": (prev)=>({
+                            "ProviderProfileModal.useEffect.unsub": (prev)=>({
                                     ...prev,
                                     profileViews: data.profileViewCount ?? prev.profileViews
                                 })
-                        }["ProviderProfileModal.useEffect"]);
+                        }["ProviderProfileModal.useEffect.unsub"]);
                         setViewsByMonth(data.viewsByMonth ?? {});
                         const subId = data.stripeSubscriptionId ?? null;
                         setStripeSubscriptionId(subId);
                         if (subId) {
                             fetch(`/api/stripe/subscription?subscriptionId=${subId}`).then({
-                                "ProviderProfileModal.useEffect": (r)=>r.json()
-                            }["ProviderProfileModal.useEffect"]).then({
-                                "ProviderProfileModal.useEffect": (info)=>{
+                                "ProviderProfileModal.useEffect.unsub": (r)=>r.json()
+                            }["ProviderProfileModal.useEffect.unsub"]).then({
+                                "ProviderProfileModal.useEffect.unsub": (info)=>{
                                     if (!info.error) setSubscriptionInfo(info);
                                 }
-                            }["ProviderProfileModal.useEffect"]).catch({
-                                "ProviderProfileModal.useEffect": ()=>{}
-                            }["ProviderProfileModal.useEffect"]);
+                            }["ProviderProfileModal.useEffect.unsub"]).catch({
+                                "ProviderProfileModal.useEffect.unsub": ()=>{}
+                            }["ProviderProfileModal.useEffect.unsub"]);
                         }
                     }
                 }
-            }["ProviderProfileModal.useEffect"]);
+            }["ProviderProfileModal.useEffect.unsub"]);
+            return ({
+                "ProviderProfileModal.useEffect": ()=>unsub()
+            })["ProviderProfileModal.useEffect"];
         }
     }["ProviderProfileModal.useEffect"], []);
     const isSubscriptionInactive = profile.subscriptionStatus !== "trialing" && (profile.subscriptionStatus === "unsubscribed" || subscriptionInfo?.cancelAtPeriodEnd === true || subscriptionInfo !== null && ![
@@ -9729,7 +9732,7 @@ const ProviderProfileModal = ({ profile, onClose, onAvailabilityChange, onProfil
             onClose: ()=>setShowLocationEditor(false)
         }, void 0, false, {
             fileName: "[project]/yardyman-app/yardyman-app/components/auth/ProviderProfileModal.tsx",
-            lineNumber: 271,
+            lineNumber: 272,
             columnNumber: 7
         }, ("TURBOPACK compile-time value", void 0));
     }
@@ -9745,7 +9748,7 @@ const ProviderProfileModal = ({ profile, onClose, onAvailabilityChange, onProfil
             }
         }, void 0, false, {
             fileName: "[project]/yardyman-app/yardyman-app/components/auth/ProviderProfileModal.tsx",
-            lineNumber: 283,
+            lineNumber: 284,
             columnNumber: 7
         }, ("TURBOPACK compile-time value", void 0));
     }
@@ -9780,14 +9783,14 @@ const ProviderProfileModal = ({ profile, onClose, onAvailabilityChange, onProfil
                         }
                     }, void 0, false, {
                         fileName: "[project]/yardyman-app/yardyman-app/components/auth/ProviderProfileModal.tsx",
-                        lineNumber: 300,
+                        lineNumber: 301,
                         columnNumber: 11
                     }, ("TURBOPACK compile-time value", void 0)),
                     /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$yardyman$2d$app$2f$yardyman$2d$app$2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("style", {
                         children: `@keyframes spin { to { transform: rotate(360deg); } }`
                     }, void 0, false, {
                         fileName: "[project]/yardyman-app/yardyman-app/components/auth/ProviderProfileModal.tsx",
-                        lineNumber: 301,
+                        lineNumber: 302,
                         columnNumber: 11
                     }, ("TURBOPACK compile-time value", void 0)),
                     /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$yardyman$2d$app$2f$yardyman$2d$app$2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("p", {
@@ -9799,18 +9802,18 @@ const ProviderProfileModal = ({ profile, onClose, onAvailabilityChange, onProfil
                         children: "Saving changes…"
                     }, void 0, false, {
                         fileName: "[project]/yardyman-app/yardyman-app/components/auth/ProviderProfileModal.tsx",
-                        lineNumber: 302,
+                        lineNumber: 303,
                         columnNumber: 11
                     }, ("TURBOPACK compile-time value", void 0))
                 ]
             }, void 0, true, {
                 fileName: "[project]/yardyman-app/yardyman-app/components/auth/ProviderProfileModal.tsx",
-                lineNumber: 299,
+                lineNumber: 300,
                 columnNumber: 9
             }, ("TURBOPACK compile-time value", void 0))
         }, void 0, false, {
             fileName: "[project]/yardyman-app/yardyman-app/components/auth/ProviderProfileModal.tsx",
-            lineNumber: 298,
+            lineNumber: 299,
             columnNumber: 7
         }, ("TURBOPACK compile-time value", void 0));
     }
@@ -9821,7 +9824,7 @@ const ProviderProfileModal = ({ profile, onClose, onAvailabilityChange, onProfil
             onCancel: ()=>setCropSrc(null)
         }, void 0, false, {
             fileName: "[project]/yardyman-app/yardyman-app/components/auth/ProviderProfileModal.tsx",
-            lineNumber: 310,
+            lineNumber: 311,
             columnNumber: 7
         }, ("TURBOPACK compile-time value", void 0));
     }
@@ -9856,14 +9859,14 @@ const ProviderProfileModal = ({ profile, onClose, onAvailabilityChange, onProfil
                         }
                     }, void 0, false, {
                         fileName: "[project]/yardyman-app/yardyman-app/components/auth/ProviderProfileModal.tsx",
-                        lineNumber: 322,
+                        lineNumber: 323,
                         columnNumber: 11
                     }, ("TURBOPACK compile-time value", void 0)),
                     /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$yardyman$2d$app$2f$yardyman$2d$app$2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("style", {
                         children: `@keyframes spin { to { transform: rotate(360deg); } }`
                     }, void 0, false, {
                         fileName: "[project]/yardyman-app/yardyman-app/components/auth/ProviderProfileModal.tsx",
-                        lineNumber: 323,
+                        lineNumber: 324,
                         columnNumber: 11
                     }, ("TURBOPACK compile-time value", void 0)),
                     /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$yardyman$2d$app$2f$yardyman$2d$app$2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("p", {
@@ -9875,18 +9878,18 @@ const ProviderProfileModal = ({ profile, onClose, onAvailabilityChange, onProfil
                         children: "Uploading photo…"
                     }, void 0, false, {
                         fileName: "[project]/yardyman-app/yardyman-app/components/auth/ProviderProfileModal.tsx",
-                        lineNumber: 324,
+                        lineNumber: 325,
                         columnNumber: 11
                     }, ("TURBOPACK compile-time value", void 0))
                 ]
             }, void 0, true, {
                 fileName: "[project]/yardyman-app/yardyman-app/components/auth/ProviderProfileModal.tsx",
-                lineNumber: 321,
+                lineNumber: 322,
                 columnNumber: 9
             }, ("TURBOPACK compile-time value", void 0))
         }, void 0, false, {
             fileName: "[project]/yardyman-app/yardyman-app/components/auth/ProviderProfileModal.tsx",
-            lineNumber: 320,
+            lineNumber: 321,
             columnNumber: 7
         }, ("TURBOPACK compile-time value", void 0));
     }
@@ -9910,7 +9913,7 @@ const ProviderProfileModal = ({ profile, onClose, onAvailabilityChange, onProfil
                 loading: subscribeModalLoading
             }, void 0, false, {
                 fileName: "[project]/yardyman-app/yardyman-app/components/auth/ProviderProfileModal.tsx",
-                lineNumber: 346,
+                lineNumber: 347,
                 columnNumber: 9
             }, ("TURBOPACK compile-time value", void 0)),
             showAnalytics && /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$yardyman$2d$app$2f$yardyman$2d$app$2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])(__TURBOPACK__imported__module__$5b$project$5d2f$yardyman$2d$app$2f$yardyman$2d$app$2f$components$2f$auth$2f$ViewsAnalyticsModal$2e$tsx__$5b$app$2d$client$5d$__$28$ecmascript$29$__["default"], {
@@ -9918,7 +9921,7 @@ const ProviderProfileModal = ({ profile, onClose, onAvailabilityChange, onProfil
                 onClose: ()=>setShowAnalytics(false)
             }, void 0, false, {
                 fileName: "[project]/yardyman-app/yardyman-app/components/auth/ProviderProfileModal.tsx",
-                lineNumber: 354,
+                lineNumber: 355,
                 columnNumber: 9
             }, ("TURBOPACK compile-time value", void 0)),
             /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$yardyman$2d$app$2f$yardyman$2d$app$2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("input", {
@@ -9934,7 +9937,7 @@ const ProviderProfileModal = ({ profile, onClose, onAvailabilityChange, onProfil
                 }
             }, void 0, false, {
                 fileName: "[project]/yardyman-app/yardyman-app/components/auth/ProviderProfileModal.tsx",
-                lineNumber: 361,
+                lineNumber: 362,
                 columnNumber: 7
             }, ("TURBOPACK compile-time value", void 0)),
             /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$yardyman$2d$app$2f$yardyman$2d$app$2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("div", {
@@ -9988,7 +9991,7 @@ const ProviderProfileModal = ({ profile, onClose, onAvailabilityChange, onProfil
                                             }
                                         }, void 0, false, {
                                             fileName: "[project]/yardyman-app/yardyman-app/components/auth/ProviderProfileModal.tsx",
-                                            lineNumber: 404,
+                                            lineNumber: 405,
                                             columnNumber: 17
                                         }, ("TURBOPACK compile-time value", void 0)),
                                         /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$yardyman$2d$app$2f$yardyman$2d$app$2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("span", {
@@ -10006,13 +10009,13 @@ const ProviderProfileModal = ({ profile, onClose, onAvailabilityChange, onProfil
                                             ]
                                         }, void 0, true, {
                                             fileName: "[project]/yardyman-app/yardyman-app/components/auth/ProviderProfileModal.tsx",
-                                            lineNumber: 405,
+                                            lineNumber: 406,
                                             columnNumber: 17
                                         }, ("TURBOPACK compile-time value", void 0))
                                     ]
                                 }, void 0, true, {
                                     fileName: "[project]/yardyman-app/yardyman-app/components/auth/ProviderProfileModal.tsx",
-                                    lineNumber: 390,
+                                    lineNumber: 391,
                                     columnNumber: 15
                                 }, ("TURBOPACK compile-time value", void 0));
                             })(),
@@ -10039,7 +10042,7 @@ const ProviderProfileModal = ({ profile, onClose, onAvailabilityChange, onProfil
                                 children: "×"
                             }, void 0, false, {
                                 fileName: "[project]/yardyman-app/yardyman-app/components/auth/ProviderProfileModal.tsx",
-                                lineNumber: 412,
+                                lineNumber: 413,
                                 columnNumber: 11
                             }, ("TURBOPACK compile-time value", void 0)),
                             /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$yardyman$2d$app$2f$yardyman$2d$app$2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("div", {
@@ -10074,12 +10077,12 @@ const ProviderProfileModal = ({ profile, onClose, onAvailabilityChange, onProfil
                                             }
                                         }, void 0, false, {
                                             fileName: "[project]/yardyman-app/yardyman-app/components/auth/ProviderProfileModal.tsx",
-                                            lineNumber: 459,
+                                            lineNumber: 460,
                                             columnNumber: 15
                                         }, ("TURBOPACK compile-time value", void 0))
                                     }, void 0, false, {
                                         fileName: "[project]/yardyman-app/yardyman-app/components/auth/ProviderProfileModal.tsx",
-                                        lineNumber: 448,
+                                        lineNumber: 449,
                                         columnNumber: 15
                                     }, ("TURBOPACK compile-time value", void 0)) : /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$yardyman$2d$app$2f$yardyman$2d$app$2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("div", {
                                         style: {
@@ -10098,7 +10101,7 @@ const ProviderProfileModal = ({ profile, onClose, onAvailabilityChange, onProfil
                                         children: profileState.name.charAt(0).toUpperCase()
                                     }, void 0, false, {
                                         fileName: "[project]/yardyman-app/yardyman-app/components/auth/ProviderProfileModal.tsx",
-                                        lineNumber: 472,
+                                        lineNumber: 473,
                                         columnNumber: 15
                                     }, ("TURBOPACK compile-time value", void 0)),
                                     /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$yardyman$2d$app$2f$yardyman$2d$app$2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("button", {
@@ -10134,7 +10137,7 @@ const ProviderProfileModal = ({ profile, onClose, onAvailabilityChange, onProfil
                                                     strokeWidth: "2"
                                                 }, void 0, false, {
                                                     fileName: "[project]/yardyman-app/yardyman-app/components/auth/ProviderProfileModal.tsx",
-                                                    lineNumber: 510,
+                                                    lineNumber: 511,
                                                     columnNumber: 17
                                                 }, ("TURBOPACK compile-time value", void 0)),
                                                 /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$yardyman$2d$app$2f$yardyman$2d$app$2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("circle", {
@@ -10145,24 +10148,24 @@ const ProviderProfileModal = ({ profile, onClose, onAvailabilityChange, onProfil
                                                     strokeWidth: "2"
                                                 }, void 0, false, {
                                                     fileName: "[project]/yardyman-app/yardyman-app/components/auth/ProviderProfileModal.tsx",
-                                                    lineNumber: 515,
+                                                    lineNumber: 516,
                                                     columnNumber: 17
                                                 }, ("TURBOPACK compile-time value", void 0))
                                             ]
                                         }, void 0, true, {
                                             fileName: "[project]/yardyman-app/yardyman-app/components/auth/ProviderProfileModal.tsx",
-                                            lineNumber: 509,
+                                            lineNumber: 510,
                                             columnNumber: 15
                                         }, ("TURBOPACK compile-time value", void 0))
                                     }, void 0, false, {
                                         fileName: "[project]/yardyman-app/yardyman-app/components/auth/ProviderProfileModal.tsx",
-                                        lineNumber: 490,
+                                        lineNumber: 491,
                                         columnNumber: 13
                                     }, ("TURBOPACK compile-time value", void 0))
                                 ]
                             }, void 0, true, {
                                 fileName: "[project]/yardyman-app/yardyman-app/components/auth/ProviderProfileModal.tsx",
-                                lineNumber: 437,
+                                lineNumber: 438,
                                 columnNumber: 11
                             }, ("TURBOPACK compile-time value", void 0)),
                             /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$yardyman$2d$app$2f$yardyman$2d$app$2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("div", {
@@ -10194,7 +10197,7 @@ const ProviderProfileModal = ({ profile, onClose, onAvailabilityChange, onProfil
                                             }
                                         }, void 0, false, {
                                             fileName: "[project]/yardyman-app/yardyman-app/components/auth/ProviderProfileModal.tsx",
-                                            lineNumber: 532,
+                                            lineNumber: 533,
                                             columnNumber: 17
                                         }, ("TURBOPACK compile-time value", void 0)),
                                         /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$yardyman$2d$app$2f$yardyman$2d$app$2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("button", {
@@ -10213,7 +10216,7 @@ const ProviderProfileModal = ({ profile, onClose, onAvailabilityChange, onProfil
                                             children: savingName ? "…" : "Done"
                                         }, void 0, false, {
                                             fileName: "[project]/yardyman-app/yardyman-app/components/auth/ProviderProfileModal.tsx",
-                                            lineNumber: 550,
+                                            lineNumber: 551,
                                             columnNumber: 17
                                         }, ("TURBOPACK compile-time value", void 0))
                                     ]
@@ -10234,7 +10237,7 @@ const ProviderProfileModal = ({ profile, onClose, onAvailabilityChange, onProfil
                                             children: profileState.name
                                         }, void 0, false, {
                                             fileName: "[project]/yardyman-app/yardyman-app/components/auth/ProviderProfileModal.tsx",
-                                            lineNumber: 569,
+                                            lineNumber: 570,
                                             columnNumber: 17
                                         }, ("TURBOPACK compile-time value", void 0)),
                                         /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$yardyman$2d$app$2f$yardyman$2d$app$2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("button", {
@@ -10261,32 +10264,32 @@ const ProviderProfileModal = ({ profile, onClose, onAvailabilityChange, onProfil
                                                         d: "M11 4H4a2 2 0 00-2 2v14a2 2 0 002 2h14a2 2 0 002-2v-7"
                                                     }, void 0, false, {
                                                         fileName: "[project]/yardyman-app/yardyman-app/components/auth/ProviderProfileModal.tsx",
-                                                        lineNumber: 587,
+                                                        lineNumber: 588,
                                                         columnNumber: 21
                                                     }, ("TURBOPACK compile-time value", void 0)),
                                                     /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$yardyman$2d$app$2f$yardyman$2d$app$2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("path", {
                                                         d: "M18.5 2.5a2.121 2.121 0 013 3L12 15l-4 1 1-4 9.5-9.5z"
                                                     }, void 0, false, {
                                                         fileName: "[project]/yardyman-app/yardyman-app/components/auth/ProviderProfileModal.tsx",
-                                                        lineNumber: 588,
+                                                        lineNumber: 589,
                                                         columnNumber: 21
                                                     }, ("TURBOPACK compile-time value", void 0))
                                                 ]
                                             }, void 0, true, {
                                                 fileName: "[project]/yardyman-app/yardyman-app/components/auth/ProviderProfileModal.tsx",
-                                                lineNumber: 586,
+                                                lineNumber: 587,
                                                 columnNumber: 19
                                             }, ("TURBOPACK compile-time value", void 0))
                                         }, void 0, false, {
                                             fileName: "[project]/yardyman-app/yardyman-app/components/auth/ProviderProfileModal.tsx",
-                                            lineNumber: 581,
+                                            lineNumber: 582,
                                             columnNumber: 17
                                         }, ("TURBOPACK compile-time value", void 0))
                                     ]
                                 }, void 0, true)
                             }, void 0, false, {
                                 fileName: "[project]/yardyman-app/yardyman-app/components/auth/ProviderProfileModal.tsx",
-                                lineNumber: 521,
+                                lineNumber: 522,
                                 columnNumber: 11
                             }, ("TURBOPACK compile-time value", void 0)),
                             /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$yardyman$2d$app$2f$yardyman$2d$app$2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("div", {
@@ -10321,7 +10324,7 @@ const ProviderProfileModal = ({ profile, onClose, onAvailabilityChange, onProfil
                                                         d: "M21 10c0 7-9 13-9 13s-9-6-9-13a9 9 0 0118 0z"
                                                     }, void 0, false, {
                                                         fileName: "[project]/yardyman-app/yardyman-app/components/auth/ProviderProfileModal.tsx",
-                                                        lineNumber: 612,
+                                                        lineNumber: 613,
                                                         columnNumber: 17
                                                     }, ("TURBOPACK compile-time value", void 0)),
                                                     /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$yardyman$2d$app$2f$yardyman$2d$app$2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("circle", {
@@ -10330,13 +10333,13 @@ const ProviderProfileModal = ({ profile, onClose, onAvailabilityChange, onProfil
                                                         r: "3"
                                                     }, void 0, false, {
                                                         fileName: "[project]/yardyman-app/yardyman-app/components/auth/ProviderProfileModal.tsx",
-                                                        lineNumber: 613,
+                                                        lineNumber: 614,
                                                         columnNumber: 17
                                                     }, ("TURBOPACK compile-time value", void 0))
                                                 ]
                                             }, void 0, true, {
                                                 fileName: "[project]/yardyman-app/yardyman-app/components/auth/ProviderProfileModal.tsx",
-                                                lineNumber: 611,
+                                                lineNumber: 612,
                                                 columnNumber: 15
                                             }, ("TURBOPACK compile-time value", void 0)),
                                             /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$yardyman$2d$app$2f$yardyman$2d$app$2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("span", {
@@ -10346,7 +10349,7 @@ const ProviderProfileModal = ({ profile, onClose, onAvailabilityChange, onProfil
                                                 children: profileState.city
                                             }, void 0, false, {
                                                 fileName: "[project]/yardyman-app/yardyman-app/components/auth/ProviderProfileModal.tsx",
-                                                lineNumber: 615,
+                                                lineNumber: 616,
                                                 columnNumber: 15
                                             }, ("TURBOPACK compile-time value", void 0)),
                                             /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$yardyman$2d$app$2f$yardyman$2d$app$2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("svg", {
@@ -10363,26 +10366,26 @@ const ProviderProfileModal = ({ profile, onClose, onAvailabilityChange, onProfil
                                                         d: "M11 4H4a2 2 0 00-2 2v14a2 2 0 002 2h14a2 2 0 002-2v-7"
                                                     }, void 0, false, {
                                                         fileName: "[project]/yardyman-app/yardyman-app/components/auth/ProviderProfileModal.tsx",
-                                                        lineNumber: 617,
+                                                        lineNumber: 618,
                                                         columnNumber: 17
                                                     }, ("TURBOPACK compile-time value", void 0)),
                                                     /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$yardyman$2d$app$2f$yardyman$2d$app$2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("path", {
                                                         d: "M18.5 2.5a2.121 2.121 0 013 3L12 15l-4 1 1-4 9.5-9.5z"
                                                     }, void 0, false, {
                                                         fileName: "[project]/yardyman-app/yardyman-app/components/auth/ProviderProfileModal.tsx",
-                                                        lineNumber: 618,
+                                                        lineNumber: 619,
                                                         columnNumber: 17
                                                     }, ("TURBOPACK compile-time value", void 0))
                                                 ]
                                             }, void 0, true, {
                                                 fileName: "[project]/yardyman-app/yardyman-app/components/auth/ProviderProfileModal.tsx",
-                                                lineNumber: 616,
+                                                lineNumber: 617,
                                                 columnNumber: 15
                                             }, ("TURBOPACK compile-time value", void 0))
                                         ]
                                     }, void 0, true, {
                                         fileName: "[project]/yardyman-app/yardyman-app/components/auth/ProviderProfileModal.tsx",
-                                        lineNumber: 606,
+                                        lineNumber: 607,
                                         columnNumber: 13
                                     }, ("TURBOPACK compile-time value", void 0)),
                                     /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$yardyman$2d$app$2f$yardyman$2d$app$2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("div", {
@@ -10403,37 +10406,37 @@ const ProviderProfileModal = ({ profile, onClose, onAvailabilityChange, onProfil
                                                     d: "M22 16.92v3a2 2 0 01-2.18 2 19.79 19.79 0 01-8.63-3.07A19.5 19.5 0 013.07 12a19.79 19.79 0 01-3.07-8.67A2 2 0 012 1.13h3a2 2 0 012 1.72 12.84 12.84 0 00.7 2.81 2 2 0 01-.45 2.11L6.09 8.92a16 16 0 006 6l1.27-1.27a2 2 0 012.11-.45 12.84 12.84 0 002.81.7A2 2 0 0122 16.92z"
                                                 }, void 0, false, {
                                                     fileName: "[project]/yardyman-app/yardyman-app/components/auth/ProviderProfileModal.tsx",
-                                                    lineNumber: 630,
+                                                    lineNumber: 631,
                                                     columnNumber: 17
                                                 }, ("TURBOPACK compile-time value", void 0))
                                             }, void 0, false, {
                                                 fileName: "[project]/yardyman-app/yardyman-app/components/auth/ProviderProfileModal.tsx",
-                                                lineNumber: 622,
+                                                lineNumber: 623,
                                                 columnNumber: 15
                                             }, ("TURBOPACK compile-time value", void 0)),
                                             /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$yardyman$2d$app$2f$yardyman$2d$app$2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("span", {
                                                 children: profileState.phone
                                             }, void 0, false, {
                                                 fileName: "[project]/yardyman-app/yardyman-app/components/auth/ProviderProfileModal.tsx",
-                                                lineNumber: 632,
+                                                lineNumber: 633,
                                                 columnNumber: 15
                                             }, ("TURBOPACK compile-time value", void 0))
                                         ]
                                     }, void 0, true, {
                                         fileName: "[project]/yardyman-app/yardyman-app/components/auth/ProviderProfileModal.tsx",
-                                        lineNumber: 621,
+                                        lineNumber: 622,
                                         columnNumber: 13
                                     }, ("TURBOPACK compile-time value", void 0))
                                 ]
                             }, void 0, true, {
                                 fileName: "[project]/yardyman-app/yardyman-app/components/auth/ProviderProfileModal.tsx",
-                                lineNumber: 596,
+                                lineNumber: 597,
                                 columnNumber: 11
                             }, ("TURBOPACK compile-time value", void 0))
                         ]
                     }, void 0, true, {
                         fileName: "[project]/yardyman-app/yardyman-app/components/auth/ProviderProfileModal.tsx",
-                        lineNumber: 376,
+                        lineNumber: 377,
                         columnNumber: 9
                     }, ("TURBOPACK compile-time value", void 0)),
                     isSubscriptionInactive && /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$yardyman$2d$app$2f$yardyman$2d$app$2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("div", {
@@ -10467,7 +10470,7 @@ const ProviderProfileModal = ({ profile, onClose, onAvailabilityChange, onProfil
                                             d: "M10.29 3.86L1.82 18a2 2 0 001.71 3h16.94a2 2 0 001.71-3L13.71 3.86a2 2 0 00-3.42 0z"
                                         }, void 0, false, {
                                             fileName: "[project]/yardyman-app/yardyman-app/components/auth/ProviderProfileModal.tsx",
-                                            lineNumber: 651,
+                                            lineNumber: 652,
                                             columnNumber: 15
                                         }, ("TURBOPACK compile-time value", void 0)),
                                         /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$yardyman$2d$app$2f$yardyman$2d$app$2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("line", {
@@ -10480,7 +10483,7 @@ const ProviderProfileModal = ({ profile, onClose, onAvailabilityChange, onProfil
                                             strokeLinecap: "round"
                                         }, void 0, false, {
                                             fileName: "[project]/yardyman-app/yardyman-app/components/auth/ProviderProfileModal.tsx",
-                                            lineNumber: 652,
+                                            lineNumber: 653,
                                             columnNumber: 15
                                         }, ("TURBOPACK compile-time value", void 0)),
                                         /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$yardyman$2d$app$2f$yardyman$2d$app$2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("line", {
@@ -10493,18 +10496,18 @@ const ProviderProfileModal = ({ profile, onClose, onAvailabilityChange, onProfil
                                             strokeLinecap: "round"
                                         }, void 0, false, {
                                             fileName: "[project]/yardyman-app/yardyman-app/components/auth/ProviderProfileModal.tsx",
-                                            lineNumber: 653,
+                                            lineNumber: 654,
                                             columnNumber: 15
                                         }, ("TURBOPACK compile-time value", void 0))
                                     ]
                                 }, void 0, true, {
                                     fileName: "[project]/yardyman-app/yardyman-app/components/auth/ProviderProfileModal.tsx",
-                                    lineNumber: 650,
+                                    lineNumber: 651,
                                     columnNumber: 13
                                 }, ("TURBOPACK compile-time value", void 0))
                             }, void 0, false, {
                                 fileName: "[project]/yardyman-app/yardyman-app/components/auth/ProviderProfileModal.tsx",
-                                lineNumber: 649,
+                                lineNumber: 650,
                                 columnNumber: 13
                             }, ("TURBOPACK compile-time value", void 0)),
                             /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$yardyman$2d$app$2f$yardyman$2d$app$2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("div", {
@@ -10522,7 +10525,7 @@ const ProviderProfileModal = ({ profile, onClose, onAvailabilityChange, onProfil
                                         children: "Your account is not visible to homeowners"
                                     }, void 0, false, {
                                         fileName: "[project]/yardyman-app/yardyman-app/components/auth/ProviderProfileModal.tsx",
-                                        lineNumber: 657,
+                                        lineNumber: 658,
                                         columnNumber: 15
                                     }, ("TURBOPACK compile-time value", void 0)),
                                     /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$yardyman$2d$app$2f$yardyman$2d$app$2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("p", {
@@ -10534,7 +10537,7 @@ const ProviderProfileModal = ({ profile, onClose, onAvailabilityChange, onProfil
                                         children: "Subscribe to appear on the map and start receiving customer requests."
                                     }, void 0, false, {
                                         fileName: "[project]/yardyman-app/yardyman-app/components/auth/ProviderProfileModal.tsx",
-                                        lineNumber: 660,
+                                        lineNumber: 661,
                                         columnNumber: 15
                                     }, ("TURBOPACK compile-time value", void 0)),
                                     /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$yardyman$2d$app$2f$yardyman$2d$app$2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("button", {
@@ -10572,19 +10575,19 @@ const ProviderProfileModal = ({ profile, onClose, onAvailabilityChange, onProfil
                                         children: reactivatingSubscription ? "Activating…" : stripeSubscriptionId ? "Reactivate Subscription" : "Subscribe Now"
                                     }, void 0, false, {
                                         fileName: "[project]/yardyman-app/yardyman-app/components/auth/ProviderProfileModal.tsx",
-                                        lineNumber: 663,
+                                        lineNumber: 664,
                                         columnNumber: 15
                                     }, ("TURBOPACK compile-time value", void 0))
                                 ]
                             }, void 0, true, {
                                 fileName: "[project]/yardyman-app/yardyman-app/components/auth/ProviderProfileModal.tsx",
-                                lineNumber: 656,
+                                lineNumber: 657,
                                 columnNumber: 13
                             }, ("TURBOPACK compile-time value", void 0))
                         ]
                     }, void 0, true, {
                         fileName: "[project]/yardyman-app/yardyman-app/components/auth/ProviderProfileModal.tsx",
-                        lineNumber: 639,
+                        lineNumber: 640,
                         columnNumber: 11
                     }, ("TURBOPACK compile-time value", void 0)),
                     /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$yardyman$2d$app$2f$yardyman$2d$app$2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("div", {
@@ -10612,7 +10615,7 @@ const ProviderProfileModal = ({ profile, onClose, onAvailabilityChange, onProfil
                                         children: "I'm available"
                                     }, void 0, false, {
                                         fileName: "[project]/yardyman-app/yardyman-app/components/auth/ProviderProfileModal.tsx",
-                                        lineNumber: 714,
+                                        lineNumber: 715,
                                         columnNumber: 13
                                     }, ("TURBOPACK compile-time value", void 0)),
                                     /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$yardyman$2d$app$2f$yardyman$2d$app$2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("button", {
@@ -10643,18 +10646,18 @@ const ProviderProfileModal = ({ profile, onClose, onAvailabilityChange, onProfil
                                             }
                                         }, void 0, false, {
                                             fileName: "[project]/yardyman-app/yardyman-app/components/auth/ProviderProfileModal.tsx",
-                                            lineNumber: 729,
+                                            lineNumber: 730,
                                             columnNumber: 15
                                         }, ("TURBOPACK compile-time value", void 0))
                                     }, void 0, false, {
                                         fileName: "[project]/yardyman-app/yardyman-app/components/auth/ProviderProfileModal.tsx",
-                                        lineNumber: 715,
+                                        lineNumber: 716,
                                         columnNumber: 13
                                     }, ("TURBOPACK compile-time value", void 0))
                                 ]
                             }, void 0, true, {
                                 fileName: "[project]/yardyman-app/yardyman-app/components/auth/ProviderProfileModal.tsx",
-                                lineNumber: 705,
+                                lineNumber: 706,
                                 columnNumber: 11
                             }, ("TURBOPACK compile-time value", void 0)),
                             /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$yardyman$2d$app$2f$yardyman$2d$app$2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("p", {
@@ -10667,13 +10670,13 @@ const ProviderProfileModal = ({ profile, onClose, onAvailabilityChange, onProfil
                                 children: "We will NOT show you on the map if you are not available"
                             }, void 0, false, {
                                 fileName: "[project]/yardyman-app/yardyman-app/components/auth/ProviderProfileModal.tsx",
-                                lineNumber: 745,
+                                lineNumber: 746,
                                 columnNumber: 11
                             }, ("TURBOPACK compile-time value", void 0))
                         ]
                     }, void 0, true, {
                         fileName: "[project]/yardyman-app/yardyman-app/components/auth/ProviderProfileModal.tsx",
-                        lineNumber: 698,
+                        lineNumber: 699,
                         columnNumber: 9
                     }, ("TURBOPACK compile-time value", void 0)),
                     /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$yardyman$2d$app$2f$yardyman$2d$app$2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("div", {
@@ -10698,7 +10701,7 @@ const ProviderProfileModal = ({ profile, onClose, onAvailabilityChange, onProfil
                                         children: "Your Services:"
                                     }, void 0, false, {
                                         fileName: "[project]/yardyman-app/yardyman-app/components/auth/ProviderProfileModal.tsx",
-                                        lineNumber: 760,
+                                        lineNumber: 761,
                                         columnNumber: 13
                                     }, ("TURBOPACK compile-time value", void 0)),
                                     /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$yardyman$2d$app$2f$yardyman$2d$app$2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("button", {
@@ -10729,33 +10732,33 @@ const ProviderProfileModal = ({ profile, onClose, onAvailabilityChange, onProfil
                                                         d: "M11 4H4a2 2 0 00-2 2v14a2 2 0 002 2h14a2 2 0 002-2v-7"
                                                     }, void 0, false, {
                                                         fileName: "[project]/yardyman-app/yardyman-app/components/auth/ProviderProfileModal.tsx",
-                                                        lineNumber: 776,
+                                                        lineNumber: 777,
                                                         columnNumber: 17
                                                     }, ("TURBOPACK compile-time value", void 0)),
                                                     /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$yardyman$2d$app$2f$yardyman$2d$app$2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("path", {
                                                         d: "M18.5 2.5a2.121 2.121 0 013 3L12 15l-4 1 1-4 9.5-9.5z"
                                                     }, void 0, false, {
                                                         fileName: "[project]/yardyman-app/yardyman-app/components/auth/ProviderProfileModal.tsx",
-                                                        lineNumber: 777,
+                                                        lineNumber: 778,
                                                         columnNumber: 17
                                                     }, ("TURBOPACK compile-time value", void 0))
                                                 ]
                                             }, void 0, true, {
                                                 fileName: "[project]/yardyman-app/yardyman-app/components/auth/ProviderProfileModal.tsx",
-                                                lineNumber: 775,
+                                                lineNumber: 776,
                                                 columnNumber: 15
                                             }, ("TURBOPACK compile-time value", void 0)),
                                             "Edit"
                                         ]
                                     }, void 0, true, {
                                         fileName: "[project]/yardyman-app/yardyman-app/components/auth/ProviderProfileModal.tsx",
-                                        lineNumber: 761,
+                                        lineNumber: 762,
                                         columnNumber: 13
                                     }, ("TURBOPACK compile-time value", void 0))
                                 ]
                             }, void 0, true, {
                                 fileName: "[project]/yardyman-app/yardyman-app/components/auth/ProviderProfileModal.tsx",
-                                lineNumber: 752,
+                                lineNumber: 753,
                                 columnNumber: 11
                             }, ("TURBOPACK compile-time value", void 0)),
                             profileState.selectedServices.map((id)=>{
@@ -10784,7 +10787,7 @@ const ProviderProfileModal = ({ profile, onClose, onAvailabilityChange, onProfil
                                                     }
                                                 }, void 0, false, {
                                                     fileName: "[project]/yardyman-app/yardyman-app/components/auth/ProviderProfileModal.tsx",
-                                                    lineNumber: 789,
+                                                    lineNumber: 790,
                                                     columnNumber: 19
                                                 }, ("TURBOPACK compile-time value", void 0)),
                                                 /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$yardyman$2d$app$2f$yardyman$2d$app$2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("span", {
@@ -10796,13 +10799,13 @@ const ProviderProfileModal = ({ profile, onClose, onAvailabilityChange, onProfil
                                                     children: meta.shortName
                                                 }, void 0, false, {
                                                     fileName: "[project]/yardyman-app/yardyman-app/components/auth/ProviderProfileModal.tsx",
-                                                    lineNumber: 794,
+                                                    lineNumber: 795,
                                                     columnNumber: 19
                                                 }, ("TURBOPACK compile-time value", void 0))
                                             ]
                                         }, void 0, true, {
                                             fileName: "[project]/yardyman-app/yardyman-app/components/auth/ProviderProfileModal.tsx",
-                                            lineNumber: 788,
+                                            lineNumber: 789,
                                             columnNumber: 17
                                         }, ("TURBOPACK compile-time value", void 0)),
                                         /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$yardyman$2d$app$2f$yardyman$2d$app$2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("p", {
@@ -10814,13 +10817,13 @@ const ProviderProfileModal = ({ profile, onClose, onAvailabilityChange, onProfil
                                             children: profileState.descriptions[id]
                                         }, void 0, false, {
                                             fileName: "[project]/yardyman-app/yardyman-app/components/auth/ProviderProfileModal.tsx",
-                                            lineNumber: 798,
+                                            lineNumber: 799,
                                             columnNumber: 17
                                         }, ("TURBOPACK compile-time value", void 0))
                                     ]
                                 }, id, true, {
                                     fileName: "[project]/yardyman-app/yardyman-app/components/auth/ProviderProfileModal.tsx",
-                                    lineNumber: 787,
+                                    lineNumber: 788,
                                     columnNumber: 15
                                 }, ("TURBOPACK compile-time value", void 0));
                             }),
@@ -10838,7 +10841,7 @@ const ProviderProfileModal = ({ profile, onClose, onAvailabilityChange, onProfil
                                         size: 10
                                     }, void 0, false, {
                                         fileName: "[project]/yardyman-app/yardyman-app/components/auth/ProviderProfileModal.tsx",
-                                        lineNumber: 807,
+                                        lineNumber: 808,
                                         columnNumber: 15
                                     }, ("TURBOPACK compile-time value", void 0)),
                                     /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$yardyman$2d$app$2f$yardyman$2d$app$2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("span", {
@@ -10850,13 +10853,13 @@ const ProviderProfileModal = ({ profile, onClose, onAvailabilityChange, onProfil
                                         children: profileState.hasTools ? "I have tools" : "I will use home-owner's tools"
                                     }, void 0, false, {
                                         fileName: "[project]/yardyman-app/yardyman-app/components/auth/ProviderProfileModal.tsx",
-                                        lineNumber: 808,
+                                        lineNumber: 809,
                                         columnNumber: 13
                                     }, ("TURBOPACK compile-time value", void 0))
                                 ]
                             }, void 0, true, {
                                 fileName: "[project]/yardyman-app/yardyman-app/components/auth/ProviderProfileModal.tsx",
-                                lineNumber: 806,
+                                lineNumber: 807,
                                 columnNumber: 11
                             }, ("TURBOPACK compile-time value", void 0)),
                             /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$yardyman$2d$app$2f$yardyman$2d$app$2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("div", {
@@ -10875,7 +10878,7 @@ const ProviderProfileModal = ({ profile, onClose, onAvailabilityChange, onProfil
                                         children: "Payment Methods:"
                                     }, void 0, false, {
                                         fileName: "[project]/yardyman-app/yardyman-app/components/auth/ProviderProfileModal.tsx",
-                                        lineNumber: 815,
+                                        lineNumber: 816,
                                         columnNumber: 13
                                     }, ("TURBOPACK compile-time value", void 0)),
                                     /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$yardyman$2d$app$2f$yardyman$2d$app$2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("div", {
@@ -10894,25 +10897,25 @@ const ProviderProfileModal = ({ profile, onClose, onAvailabilityChange, onProfil
                                                 children: [
                                                     /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$yardyman$2d$app$2f$yardyman$2d$app$2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])(GreenCheck, {}, void 0, false, {
                                                         fileName: "[project]/yardyman-app/yardyman-app/components/auth/ProviderProfileModal.tsx",
-                                                        lineNumber: 824,
+                                                        lineNumber: 825,
                                                         columnNumber: 19
                                                     }, ("TURBOPACK compile-time value", void 0)),
                                                     method
                                                 ]
                                             }, method, true, {
                                                 fileName: "[project]/yardyman-app/yardyman-app/components/auth/ProviderProfileModal.tsx",
-                                                lineNumber: 820,
+                                                lineNumber: 821,
                                                 columnNumber: 17
                                             }, ("TURBOPACK compile-time value", void 0)))
                                     }, void 0, false, {
                                         fileName: "[project]/yardyman-app/yardyman-app/components/auth/ProviderProfileModal.tsx",
-                                        lineNumber: 818,
+                                        lineNumber: 819,
                                         columnNumber: 13
                                     }, ("TURBOPACK compile-time value", void 0))
                                 ]
                             }, void 0, true, {
                                 fileName: "[project]/yardyman-app/yardyman-app/components/auth/ProviderProfileModal.tsx",
-                                lineNumber: 814,
+                                lineNumber: 815,
                                 columnNumber: 11
                             }, ("TURBOPACK compile-time value", void 0)),
                             stripeSubscriptionId && /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$yardyman$2d$app$2f$yardyman$2d$app$2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("div", {
@@ -10930,7 +10933,7 @@ const ProviderProfileModal = ({ profile, onClose, onAvailabilityChange, onProfil
                                         children: "My Subscription:"
                                     }, void 0, false, {
                                         fileName: "[project]/yardyman-app/yardyman-app/components/auth/ProviderProfileModal.tsx",
-                                        lineNumber: 834,
+                                        lineNumber: 835,
                                         columnNumber: 15
                                     }, ("TURBOPACK compile-time value", void 0)),
                                     subscriptionInfo ? /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$yardyman$2d$app$2f$yardyman$2d$app$2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("div", {
@@ -10959,13 +10962,13 @@ const ProviderProfileModal = ({ profile, onClose, onAvailabilityChange, onProfil
                                                         })
                                                     }, void 0, false, {
                                                         fileName: "[project]/yardyman-app/yardyman-app/components/auth/ProviderProfileModal.tsx",
-                                                        lineNumber: 841,
+                                                        lineNumber: 842,
                                                         columnNumber: 21
                                                     }, ("TURBOPACK compile-time value", void 0))
                                                 ]
                                             }, void 0, true, {
                                                 fileName: "[project]/yardyman-app/yardyman-app/components/auth/ProviderProfileModal.tsx",
-                                                lineNumber: 839,
+                                                lineNumber: 840,
                                                 columnNumber: 19
                                             }, ("TURBOPACK compile-time value", void 0)),
                                             !subscriptionInfo.cancelAtPeriodEnd ? /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$yardyman$2d$app$2f$yardyman$2d$app$2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])(__TURBOPACK__imported__module__$5b$project$5d2f$yardyman$2d$app$2f$yardyman$2d$app$2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["Fragment"], {
@@ -10989,13 +10992,13 @@ const ProviderProfileModal = ({ profile, onClose, onAvailabilityChange, onProfil
                                                                 })
                                                             }, void 0, false, {
                                                                 fileName: "[project]/yardyman-app/yardyman-app/components/auth/ProviderProfileModal.tsx",
-                                                                lineNumber: 849,
+                                                                lineNumber: 850,
                                                                 columnNumber: 25
                                                             }, ("TURBOPACK compile-time value", void 0))
                                                         ]
                                                     }, void 0, true, {
                                                         fileName: "[project]/yardyman-app/yardyman-app/components/auth/ProviderProfileModal.tsx",
-                                                        lineNumber: 847,
+                                                        lineNumber: 848,
                                                         columnNumber: 23
                                                     }, ("TURBOPACK compile-time value", void 0)),
                                                     /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$yardyman$2d$app$2f$yardyman$2d$app$2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("button", {
@@ -11035,7 +11038,7 @@ const ProviderProfileModal = ({ profile, onClose, onAvailabilityChange, onProfil
                                                         children: cancellingSubscription ? "Cancelling…" : "Cancel my subscription"
                                                     }, void 0, false, {
                                                         fileName: "[project]/yardyman-app/yardyman-app/components/auth/ProviderProfileModal.tsx",
-                                                        lineNumber: 855,
+                                                        lineNumber: 856,
                                                         columnNumber: 23
                                                     }, ("TURBOPACK compile-time value", void 0))
                                                 ]
@@ -11061,13 +11064,13 @@ const ProviderProfileModal = ({ profile, onClose, onAvailabilityChange, onProfil
                                                                 })
                                                             }, void 0, false, {
                                                                 fileName: "[project]/yardyman-app/yardyman-app/components/auth/ProviderProfileModal.tsx",
-                                                                lineNumber: 890,
+                                                                lineNumber: 891,
                                                                 columnNumber: 25
                                                             }, ("TURBOPACK compile-time value", void 0))
                                                         ]
                                                     }, void 0, true, {
                                                         fileName: "[project]/yardyman-app/yardyman-app/components/auth/ProviderProfileModal.tsx",
-                                                        lineNumber: 888,
+                                                        lineNumber: 889,
                                                         columnNumber: 23
                                                     }, ("TURBOPACK compile-time value", void 0)),
                                                     /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$yardyman$2d$app$2f$yardyman$2d$app$2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("button", {
@@ -11107,7 +11110,7 @@ const ProviderProfileModal = ({ profile, onClose, onAvailabilityChange, onProfil
                                                         children: reactivatingSubscription ? "Subscribing…" : "Subscribe"
                                                     }, void 0, false, {
                                                         fileName: "[project]/yardyman-app/yardyman-app/components/auth/ProviderProfileModal.tsx",
-                                                        lineNumber: 894,
+                                                        lineNumber: 895,
                                                         columnNumber: 23
                                                     }, ("TURBOPACK compile-time value", void 0))
                                                 ]
@@ -11115,7 +11118,7 @@ const ProviderProfileModal = ({ profile, onClose, onAvailabilityChange, onProfil
                                         ]
                                     }, void 0, true, {
                                         fileName: "[project]/yardyman-app/yardyman-app/components/auth/ProviderProfileModal.tsx",
-                                        lineNumber: 838,
+                                        lineNumber: 839,
                                         columnNumber: 17
                                     }, ("TURBOPACK compile-time value", void 0)) : /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$yardyman$2d$app$2f$yardyman$2d$app$2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("span", {
                                         style: {
@@ -11125,13 +11128,13 @@ const ProviderProfileModal = ({ profile, onClose, onAvailabilityChange, onProfil
                                         children: "Loading…"
                                     }, void 0, false, {
                                         fileName: "[project]/yardyman-app/yardyman-app/components/auth/ProviderProfileModal.tsx",
-                                        lineNumber: 928,
+                                        lineNumber: 929,
                                         columnNumber: 17
                                     }, ("TURBOPACK compile-time value", void 0))
                                 ]
                             }, void 0, true, {
                                 fileName: "[project]/yardyman-app/yardyman-app/components/auth/ProviderProfileModal.tsx",
-                                lineNumber: 833,
+                                lineNumber: 834,
                                 columnNumber: 13
                             }, ("TURBOPACK compile-time value", void 0)),
                             /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$yardyman$2d$app$2f$yardyman$2d$app$2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("div", {
@@ -11156,30 +11159,30 @@ const ProviderProfileModal = ({ profile, onClose, onAvailabilityChange, onProfil
                                     children: "Sign out"
                                 }, void 0, false, {
                                     fileName: "[project]/yardyman-app/yardyman-app/components/auth/ProviderProfileModal.tsx",
-                                    lineNumber: 935,
+                                    lineNumber: 936,
                                     columnNumber: 13
                                 }, ("TURBOPACK compile-time value", void 0))
                             }, void 0, false, {
                                 fileName: "[project]/yardyman-app/yardyman-app/components/auth/ProviderProfileModal.tsx",
-                                lineNumber: 934,
+                                lineNumber: 935,
                                 columnNumber: 11
                             }, ("TURBOPACK compile-time value", void 0))
                         ]
                     }, void 0, true, {
                         fileName: "[project]/yardyman-app/yardyman-app/components/auth/ProviderProfileModal.tsx",
-                        lineNumber: 751,
+                        lineNumber: 752,
                         columnNumber: 9
                     }, ("TURBOPACK compile-time value", void 0))
                 ]
             }, void 0, true, {
                 fileName: "[project]/yardyman-app/yardyman-app/components/auth/ProviderProfileModal.tsx",
-                lineNumber: 364,
+                lineNumber: 365,
                 columnNumber: 7
             }, ("TURBOPACK compile-time value", void 0))
         ]
     }, void 0, true, {
         fileName: "[project]/yardyman-app/yardyman-app/components/auth/ProviderProfileModal.tsx",
-        lineNumber: 331,
+        lineNumber: 332,
         columnNumber: 5
     }, ("TURBOPACK compile-time value", void 0));
 };
