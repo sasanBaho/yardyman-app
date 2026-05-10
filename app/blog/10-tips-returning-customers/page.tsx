@@ -10,7 +10,7 @@ import {
 } from "@/components/blog/BlogPostLayout";
 
 export const metadata: Metadata = {
-  title: "10 Proven Tips to Turn First-Time Clients Into Loyal, Returning Customers | Yardyman Blog",
+  title: "10 Proven Tips to Turn First-Time Clients Into Happy, Returning Customers | Yardyman Blog",
   description:
     "Want clients who book you again and again? From business cards to follow-up messages, these 10 practical tips will help Yardyman providers build lasting relationships and grow a steady income with repeat business.",
   keywords: [
@@ -23,7 +23,7 @@ export const metadata: Metadata = {
     "professional yard work tips",
   ],
   openGraph: {
-    title: "10 Proven Tips to Turn First-Time Clients Into Loyal, Returning Customers",
+    title: "10 Proven Tips to Turn First-Time Clients Into Happy, Returning Customers",
     description:
       "Repeat customers are the backbone of a successful provider business. Here are 10 actionable tips to keep homeowners coming back to you — season after season.",
     type: "article",
@@ -34,7 +34,7 @@ export const metadata: Metadata = {
 export default function Post3() {
   return (
     <BlogPostLayout
-      title="10 Proven Tips to Turn First-Time Clients Into Loyal, Returning Customers"
+      title="10 Proven Tips to Turn First-Time Clients Into Happy, Returning Customers"
       category="Grow Your Business"
       publishDate="May 6, 2025"
       readTime="8 min"
@@ -46,7 +46,18 @@ export default function Post3() {
         The providers who earn the most on Yardyman aren't necessarily the ones who hustle for new clients every week. They're the ones who treat every job as an opportunity to earn a loyal customer for life. Here are 10 tips that will help you do exactly that.
       </P>
 
-      <ImagePlaceholder label="Photo placeholder — upload an image of a provider with a satisfied homeowner here" />
+      <img
+        src="/happy-customer.png"
+        alt="happy men shaking hands with lawn care provider after a job well done"
+        style={{
+          width: "100%",
+          aspectRatio: "16/9",
+          objectFit: "cover",
+          borderRadius: 14,
+          margin: "28px 0",
+          display: "block",
+        }}
+      />
 
       <H2>The 10 Tips</H2>
 

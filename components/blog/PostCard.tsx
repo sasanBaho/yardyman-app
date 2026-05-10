@@ -11,6 +11,7 @@ interface PostCardProps {
   date: string;
   accent: string;
   iconPath: string;
+  image?: string;
 }
 
 const PostCard: React.FC<PostCardProps> = ({
@@ -22,6 +23,7 @@ const PostCard: React.FC<PostCardProps> = ({
   date,
   accent,
   iconPath,
+  image,
 }) => {
   const [hovered, setHovered] = useState(false);
 
@@ -39,31 +41,53 @@ const PostCard: React.FC<PostCardProps> = ({
           transform: hovered ? "translateY(-2px)" : "translateY(0)",
           transition: "box-shadow 0.15s, transform 0.15s",
           cursor: "pointer",
+          display: "flex",
+          flexDirection: "row",
+          alignItems: "stretch",
         }}
       >
-        {/* Color accent strip */}
-        <div style={{ height: 4, background: accent }} />
+        {/* Image / icon thumbnail — LEFT */}
+        <div style={{
+          width: 110,
+          flexShrink: 0,
+          position: "relative",
+          overflow: "hidden",
+          background: `${accent}12`,
+        }}>
+          {image ? (
+            <img
+              src={image}
+              alt={title}
+              style={{
+                width: "100%",
+                height: "100%",
+                objectFit: "cover",
+                display: "block",
+                transition: "transform 0.2s",
+                transform: hovered ? "scale(1.04)" : "scale(1)",
+              }}
+            />
+          ) : (
+            <div style={{
+              width: "100%",
+              height: "100%",
+              display: "flex",
+              alignItems: "center",
+              justifyContent: "center",
+            }}>
+              <svg width={36} height={36} viewBox="0 0 24 24" fill="none" stroke={accent} strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round" style={{ opacity: 0.5 }}>
+                <path d={iconPath} />
+              </svg>
+            </div>
+          )}
+        </div>
 
-        <div style={{ padding: "20px 22px 22px", display: "flex", gap: 18, alignItems: "flex-start" }}>
-          {/* Icon */}
-          <div style={{
-            width: 46,
-            height: 46,
-            borderRadius: 12,
-            background: `${accent}18`,
-            display: "flex",
-            alignItems: "center",
-            justifyContent: "center",
-            flexShrink: 0,
-            marginTop: 2,
-          }}>
-            <svg width={20} height={20} viewBox="0 0 24 24" fill="none" stroke={accent} strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
-              <path d={iconPath} />
-            </svg>
-          </div>
+        {/* Text side — RIGHT */}
+        <div style={{ flex: 1, minWidth: 0, display: "flex", flexDirection: "column" }}>
+          {/* Color accent strip */}
+          <div style={{ height: 4, background: accent, flexShrink: 0 }} />
 
-          {/* Text */}
-          <div style={{ flex: 1, minWidth: 0 }}>
+          <div style={{ padding: "16px 18px 18px", flex: 1, display: "flex", flexDirection: "column" }}>
             {/* Category + meta */}
             <div style={{ display: "flex", alignItems: "center", gap: 8, marginBottom: 8, flexWrap: "wrap" }}>
               <span style={{
@@ -83,12 +107,12 @@ const PostCard: React.FC<PostCardProps> = ({
             </div>
 
             {/* Title */}
-            <h3 style={{ margin: "0 0 8px", fontSize: 16, fontWeight: 700, color: "#111827", lineHeight: 1.4 }}>
+            <h3 style={{ margin: "0 0 8px", fontSize: 15, fontWeight: 700, color: "#111827", lineHeight: 1.4 }}>
               {title}
             </h3>
 
             {/* Excerpt */}
-            <p style={{ margin: "0 0 12px", fontSize: 14, color: "#6b7280", lineHeight: 1.6 }}>
+            <p style={{ margin: "0 0 12px", fontSize: 13, color: "#6b7280", lineHeight: 1.6, flex: 1 }}>
               {excerpt}
             </p>
 

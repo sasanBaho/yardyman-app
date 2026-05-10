@@ -53,7 +53,18 @@ export default function LawnMowingSideHustle() {
         Here's a full breakdown of how lawn mowing works as a side hustle — what you can realistically earn, how to get started, and why it beats most other options out there.
       </P>
 
-      <ImagePlaceholder label="Photo placeholder — upload an image of someone mowing a lawn in a suburban neighborhood" />
+      <img
+        src="/gardener-with-weedwacker-cutting-grass-garden.jpg"
+        alt="gardener with weedwacker and trimmer cutting grass garden"
+        style={{
+          width: "100%",
+          aspectRatio: "16/9",
+          objectFit: "cover",
+          borderRadius: 14,
+          margin: "28px 0",
+          display: "block",
+        }}
+      />
 
       <H2>Why Lawn Mowing Is One of the Best Side Hustles Right Now</H2>
       <P>

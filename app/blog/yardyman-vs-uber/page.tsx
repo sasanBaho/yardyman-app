@@ -50,7 +50,18 @@ export default function YardymanVsUber() {
         Working as a Yardyman lawn care provider is a different model entirely — and for most people who try both, it wins on almost every dimension that matters: earnings per hour, freedom, client relationships, and long-term growth. Here's an honest, side-by-side look at both options.
       </P>
 
-      <ImagePlaceholder label="Photo placeholder — upload a split image of a lawn care provider vs. a rideshare driver" />
+      <img
+        src="/UBER-vs-lawnMowing-02.png"
+        alt="Lawn care provider vs. rideshare driver comparison"
+        style={{
+          width: "100%",
+          aspectRatio: "16/9",
+          objectFit: "cover",
+          borderRadius: 14,
+          margin: "28px 0",
+          display: "block",
+        }}
+      />
 
       <H2>The Commission Problem: What Uber Takes From You</H2>
       <P>
@@ -96,7 +107,18 @@ export default function YardymanVsUber() {
         The difference is stark. A Yardyman provider working a shorter shift brings home more than double — sometimes triple — what a rideshare driver earns in a longer one. And the Yardyman provider isn't putting hundreds of kilometers on their car to do it.
       </P>
 
-      <ImagePlaceholder label="Photo placeholder — upload an image of a provider collecting payment after completing a lawn job" />
+        <img
+        src="/uber-vs-lawn-mowing-03.jpeg"
+        alt="Lawn care provider vs. rideshare driver comparison"
+        style={{
+          width: "100%",
+          aspectRatio: "16/9",
+          objectFit: "cover",
+          borderRadius: 14,
+          margin: "28px 0",
+          display: "block",
+        }}
+      />
 
       <Divider />
 

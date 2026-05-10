@@ -522,6 +522,13 @@ export default function Home() {
           : providers.filter((provider) => provider.selectedServices?.includes("service-one")).length,
     });
 
+    if (selectedProvider) {
+      const serviceKey = service === "snow" ? "service-two" : "service-one";
+      if (!selectedProvider.selectedServices?.includes(serviceKey)) {
+        setSelectedProvider(null);
+      }
+    }
+
     setActiveService(service);
   }
 
@@ -654,6 +661,7 @@ export default function Home() {
                     subscriptionStatus: currentProviderData.subscriptionStatus,
                     rating: currentProviderData.rating,
                     ratingsCount: currentProviderData.ratingsCount,
+                    description: currentProviderData.descriptions,
                   } as any)}
                   style={{ cursor: "pointer" }}
                 >
@@ -827,6 +835,7 @@ export default function Home() {
               hasTools: data.hasTools || false,
               paymentMethods: Array.isArray(data.paymentMethods) ? data.paymentMethods : [],
               isAvailable: data.isAvailable ?? true,
+              subscriptionStatus: data.subscriptionStatus ?? "unsubscribed",
             });
           });
           setProviders(fetched);

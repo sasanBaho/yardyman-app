@@ -35,6 +35,7 @@ const POSTS = [
     date: "May 7, 2025",
     accent: "#22c55e",
     iconPath: "M12 2a10 10 0 100 20A10 10 0 0012 2zM12 6v6l4 2",
+    image: "/lawn-mowing.png",
   },
   {
     slug: "yardyman-vs-uber",
@@ -46,6 +47,7 @@ const POSTS = [
     date: "May 7, 2025",
     accent: "#6366f1",
     iconPath: "M5 17H3a2 2 0 01-2-2V5a2 2 0 012-2h11a2 2 0 012 2v3M13 21l4-4m0 0l4-4m-4 4V9a2 2 0 00-2-2H9",
+    image: "/UBER-vs-lawnMowing.png",
   },
   {
     slug: "stand-out-profile-tips",
@@ -57,6 +59,7 @@ const POSTS = [
     date: "May 6, 2025",
     accent: "#22c55e",
     iconPath: "M20 21v-2a4 4 0 00-4-4H8a4 4 0 00-4 4v2M12 11a4 4 0 100-8 4 4 0 000 8z",
+    image: "/handsome-man-making-ok-sign-small.jpeg",
   },
   {
     slug: "safe-job-practices",
@@ -68,17 +71,19 @@ const POSTS = [
     date: "May 6, 2025",
     accent: "#3b82f6",
     iconPath: "M22 16.92v3a2 2 0 01-2.18 2 19.79 19.79 0 01-8.63-3.07A19.5 19.5 0 013.07 12a19.79 19.79 0 01-3.07-8.67A2 2 0 012 1.13h3a2 2 0 012 1.72c.127.96.361 1.903.7 2.81a2 2 0 01-.45 2.11L6.09 8.92a16 16 0 006 6l1.27-1.27a2 2 0 012.11-.45c.907.339 1.85.573 2.81.7A2 2 0 0122 16.92z",
+    image: "/safety-first-text-post-it.jpg",
   },
   {
     slug: "10-tips-returning-customers",
     category: "Grow Your Business",
-    title: "10 Proven Tips to Turn First-Time Clients Into Loyal, Returning Customers",
+    title: "10 Proven Tips to Turn First-Time Clients Into Happy, Returning Customers",
     excerpt:
       "Repeat customers are the backbone of a steady income. From business cards to follow-up messages, these 10 tips will help you build relationships that last for years.",
     readTime: "8 min",
     date: "May 6, 2025",
     accent: "#f97316",
     iconPath: "M17 21v-2a4 4 0 00-4-4H5a4 4 0 00-4 4v2M23 21v-2a4 4 0 00-3-3.87M16 3.13a4 4 0 010 7.75",
+    image: "/returning-customers.png",
   },
 ];
 
