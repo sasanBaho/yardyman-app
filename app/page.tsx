@@ -27,7 +27,7 @@ import { MapControls } from "@/components/map/components/MapControls";
 import { MapMarker, MarkerContent } from "@/components/map/components/MapMarker";
 import { trackEvent, trackPageView } from "@/lib/analytics";
 import { db, collection, getDocs, auth, query, where, doc, serverTimestamp } from "../firebase";
-import { updateDoc, increment, getDoc } from "firebase/firestore";
+import { updateDoc, getDoc } from "firebase/firestore";
 import { onAuthStateChanged, signInAnonymously, signOut } from "firebase/auth";
 import AuthFlow from "@/components/auth/AuthFlow";
 import ProviderProfileModal, { ProviderProfile } from "@/components/auth/ProviderProfileModal";
@@ -453,10 +453,10 @@ export default function Home() {
       viewSource: "map_annotation",
     });
 
-    const monthKey = new Date().toISOString().slice(0, 7);
-    updateDoc(doc(db, "providers", provider.id), {
-      profileViewCount: increment(1),
-      [`viewsByMonth.${monthKey}`]: increment(1),
+    fetch("/api/providers/record-view", {
+      method: "POST",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify({ providerId: provider.id }),
     }).catch(() => {});
 
     setSelectedProvider(provider);
