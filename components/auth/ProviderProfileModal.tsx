@@ -4,7 +4,7 @@ import { useBodyScrollLock } from "@/hooks/useBodyScrollLock";
 import { updateDoc, doc, onSnapshot, serverTimestamp } from "firebase/firestore";
 import { ref as storageRef, uploadBytes, getDownloadURL } from "firebase/storage";
 import { db, storage, auth } from "@/firebase";
-import { signOut } from "firebase/auth";
+import { signOut, getIdToken } from "firebase/auth";
 import SelectServicesModal, { ServicesFormData } from "./SelectServicesModal";
 import SetLocationModal from "./SetLocationModal";
 import ImageCropModal from "./ImageCropModal";
@@ -127,6 +127,11 @@ const ProviderProfileModal: React.FC<ProviderProfileModalProps> = ({
   const fileInputRef = useRef<HTMLInputElement>(null);
   const nameInputRef = useRef<HTMLInputElement>(null);
 
+  const getAuthHeaders = async (): Promise<Record<string, string>> => {
+    const token = auth.currentUser ? await getIdToken(auth.currentUser) : null;
+    return token ? { Authorization: `Bearer ${token}` } : {};
+  };
+
   useEffect(() => {
     const unsub = onSnapshot(doc(db, "providers", profile.uid), (snap) => {
       if (snap.exists()) {
@@ -140,10 +145,14 @@ const ProviderProfileModal: React.FC<ProviderProfileModalProps> = ({
         const subId = data.stripeSubscriptionId ?? null;
         setStripeSubscriptionId(subId);
         if (subId) {
-          fetch(`/api/stripe/subscription?subscriptionId=${subId}`)
-            .then((r) => r.json())
-            .then((info) => { if (!info.error) setSubscriptionInfo(info); })
-            .catch(() => {});
+          getIdToken(auth.currentUser!).then((token) => {
+            fetch(`/api/stripe/subscription?subscriptionId=${subId}`, {
+              headers: { Authorization: `Bearer ${token}` },
+            })
+              .then((r) => r.json())
+              .then((info) => { if (!info.error) setSubscriptionInfo(info); })
+              .catch(() => {});
+          }).catch(() => {});
         }
       }
     });
@@ -747,12 +756,13 @@ const ProviderProfileModal: React.FC<ProviderProfileModalProps> = ({
                 Subscribe to appear on the map and start receiving customer requests.
               </p>
               <button
-                onClick={() => {
+                onClick={async () => {
                   if (stripeSubscriptionId) {
                     setReactivatingSubscription(true);
+                    const authHeaders = await getAuthHeaders();
                     fetch("/api/stripe/reactivate-subscription", {
                       method: "POST",
-                      headers: { "Content-Type": "application/json" },
+                      headers: { "Content-Type": "application/json", ...authHeaders },
                       body: JSON.stringify({ subscriptionId: stripeSubscriptionId }),
                     })
                       .then(() => setSubscriptionInfo((prev) => prev ? { ...prev, cancelAtPeriodEnd: false } : prev))
@@ -943,9 +953,10 @@ const ProviderProfileModal: React.FC<ProviderProfileModalProps> = ({
                           if (!stripeSubscriptionId) return;
                           setCancellingSubscription(true);
                           try {
+                            const authHeaders = await getAuthHeaders();
                             await fetch("/api/stripe/cancel-subscription", {
                               method: "POST",
-                              headers: { "Content-Type": "application/json" },
+                              headers: { "Content-Type": "application/json", ...authHeaders },
                               body: JSON.stringify({ subscriptionId: stripeSubscriptionId }),
                             });
                             setSubscriptionInfo((prev) => prev ? { ...prev, cancelAtPeriodEnd: true } : prev);
@@ -982,9 +993,10 @@ const ProviderProfileModal: React.FC<ProviderProfileModalProps> = ({
                           if (!stripeSubscriptionId) return;
                           setReactivatingSubscription(true);
                           try {
+                            const authHeaders = await getAuthHeaders();
                             await fetch("/api/stripe/reactivate-subscription", {
                               method: "POST",
-                              headers: { "Content-Type": "application/json" },
+                              headers: { "Content-Type": "application/json", ...authHeaders },
                               body: JSON.stringify({ subscriptionId: stripeSubscriptionId }),
                             });
                             setSubscriptionInfo((prev) => prev ? { ...prev, cancelAtPeriodEnd: false } : prev);

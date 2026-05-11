@@ -1,11 +1,32 @@
 import { NextRequest, NextResponse } from "next/server";
 import { Resend } from "resend";
+import { checkRateLimit, getClientIp, rateLimitResponse } from "@/lib/rateLimit";
+import { isValidEmail, isValidString, sanitizeString } from "@/lib/validate";
 
 export async function POST(req: NextRequest) {
-  const { name, email, phone, subject, description } = await req.json();
+  // Rate limit: 5 requests per IP per hour
+  const ip = getClientIp(req);
+  if (!checkRateLimit(`support:${ip}`, 5, 60 * 60 * 1000)) {
+    return rateLimitResponse();
+  }
 
-  if (!name || !email || !subject || !description) {
-    return NextResponse.json({ error: "Missing required fields" }, { status: 400 });
+  const body = await req.json();
+  const { name, email, phone, subject, description } = body;
+
+  if (!isValidString(name, 100)) {
+    return NextResponse.json({ error: "Invalid name" }, { status: 400 });
+  }
+  if (!isValidEmail(email)) {
+    return NextResponse.json({ error: "Invalid email address" }, { status: 400 });
+  }
+  if (!isValidString(subject, 200)) {
+    return NextResponse.json({ error: "Invalid subject" }, { status: 400 });
+  }
+  if (!isValidString(description, 5000)) {
+    return NextResponse.json({ error: "Invalid description" }, { status: 400 });
+  }
+  if (phone !== undefined && phone !== null && phone !== "" && !isValidString(phone, 20)) {
+    return NextResponse.json({ error: "Invalid phone" }, { status: 400 });
   }
 
   const apiKey = process.env.RESEND_API_KEY;
@@ -17,13 +38,13 @@ export async function POST(req: NextRequest) {
   const resend = new Resend(apiKey);
 
   const lines = [
-    `Name: ${name}`,
+    `Name: ${sanitizeString(name, 100)}`,
     `Email: ${email}`,
-    phone ? `Phone: ${phone}` : null,
-    `Subject: ${subject}`,
+    phone ? `Phone: ${sanitizeString(phone, 20)}` : null,
+    `Subject: ${sanitizeString(subject, 200)}`,
     ``,
     `Message:`,
-    description,
+    sanitizeString(description, 5000),
   ].filter(Boolean).join("\n");
 
   try {
@@ -31,18 +52,18 @@ export async function POST(req: NextRequest) {
       from: "Yardyman Support <noreply@yardyman.com>",
       to: "support@yardyman.com",
       replyTo: email,
-      subject: `[Provider Support] ${subject}`,
+      subject: `[Provider Support] ${sanitizeString(subject, 100)}`,
       text: lines,
     });
 
     if (error) {
       console.error("[support] Resend error:", error);
-      return NextResponse.json({ error: error.message }, { status: 500 });
+      return NextResponse.json({ error: "Failed to send" }, { status: 500 });
     }
 
     return NextResponse.json({ ok: true });
   } catch (err: any) {
-    console.error("[support] Unexpected error:", err);
-    return NextResponse.json({ error: err?.message ?? "Failed to send" }, { status: 500 });
+    console.error("[support] Unexpected error:", err?.message);
+    return NextResponse.json({ error: "Failed to send" }, { status: 500 });
   }
 }
