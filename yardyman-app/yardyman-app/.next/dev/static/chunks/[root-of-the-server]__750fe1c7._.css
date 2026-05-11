@@ -1255,6 +1255,10 @@
   }
 }
 
+.maplibregl-ctrl-attrib.maplibregl-compact-show {
+  visibility: hidden !important;
+}
+
 @property --tw-translate-x {
   syntax: "*";
   inherits: false;
