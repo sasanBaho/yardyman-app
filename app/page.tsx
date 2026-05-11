@@ -188,7 +188,7 @@ export default function Home() {
   });
   const [userLocation, setUserLocation] = useState<[number, number] | null>(null);
   const [activeService, setActiveService] = useState<"snow" | "lawn">("lawn");
-  const [isSmallScreen, setIsSmallScreen] = useState(false);
+  const [isSmallScreen, setIsSmallScreen] = useState(true);
   const [showAuth, setShowAuth] = useState(false);
   const [authDefaultStep, setAuthDefaultStep] = useState<"login" | "create">("login");
   const [currentProviderData, setCurrentProviderData] = useState<ProviderProfile | null>(null);
@@ -551,49 +551,51 @@ export default function Home() {
         <button
           onClick={() => handleServiceChange("snow")}
           style={{
-            border: "none",
-            background: "none",
-            fontWeight: 600,
+            border: activeService === "snow" ? "1px solid #0369a1" : "1px solid #e2e8f0",
+            background: activeService === "snow" ? "#e0f2fe" : "#f8fafc",
+            fontWeight: 700,
             fontSize: 15,
-            color: activeService === "snow" ? "#09f" : "#555",
+            color: activeService === "snow" ? "#0369a1" : "#64748b",
             cursor: "pointer",
             display: "flex",
             alignItems: "center",
             gap: 6,
-            padding: "6px 8px",
+            padding: isSmallScreen ? "7px 10px" : "7px 16px",
             borderRadius: 9999,
+            transition: "all 0.15s ease",
           }}
         >
           <img
-            src={activeService === "snow" ? "/shovel-blue.png" : "/shovel-black.png"}
+            src={activeService === "snow" ? "/shovel-darkblue.png" : "/shovel-gray.png"}
             alt="Shovel icon"
-            style={{ width: 30, height: 30 }}
+            style={{ width: 28, height: 28 }}
           />
-          {!isSmallScreen && <span>Snow removals</span>}
+          {!isSmallScreen && <span>Snow Removal</span>}
         </button>
 
         <button
           onClick={() => handleServiceChange("lawn")}
           style={{
-            border: "none",
-            background: "none",
-            fontWeight: 600,
+            border: activeService === "lawn" ? "1px solid #15803d" : "1px solid #e2e8f0",
+            background: activeService === "lawn" ? "#dcfce7" : "#f8fafc",
+            fontWeight: 700,
             fontSize: 15,
-            color: activeService === "lawn" ? "rgb(69, 197, 69)" : "#555",
+            color: activeService === "lawn" ? "#15803d" : "#64748b",
             cursor: "pointer",
             display: "flex",
             alignItems: "center",
             gap: 6,
-            padding: "6px 8px",
+            padding: isSmallScreen ? "7px 10px" : "7px 16px",
             borderRadius: 9999,
+            transition: "all 0.15s ease",
           }}
         >
           <img
-            src={activeService === "lawn" ? "/lawn-mower-green.png" : "/lawn-mower-black.png"}
+            src={activeService === "lawn" ? "/lawn-mower-darkgreen.png" : "/lawn-mower-gray.png"}
             alt="Lawn mower icon"
-            style={{ width: 34, height: 34 }}
+            style={{ width: 30, height: 30 }}
           />
-          {!isSmallScreen && <span>Lawn care</span>}
+          {!isSmallScreen && <span>Lawn Care</span>}
         </button>
       </Navbar>
       {/* Map Section */}

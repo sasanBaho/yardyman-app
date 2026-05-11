@@ -25,15 +25,16 @@ const Navbar: React.FC<NavbarProps> = ({
   onCancelSubscription,
   canCancelSubscription,
 }) => {
-  const [isMobile, setIsMobile] = useState(false);
+  const [isWide, setIsWide] = useState(false);
   const [dropdownOpen, setDropdownOpen] = useState(false);
   const [menuOpen, setMenuOpen] = useState(false);
   const dropdownRef = useRef<HTMLDivElement>(null);
 
   useEffect(() => {
-    if (typeof window !== "undefined") {
-      setIsMobile(/Mobi|Android|iPhone|iPad|iPod|Opera Mini|IEMobile/i.test(window.navigator.userAgent));
-    }
+    const check = () => setIsWide(window.innerWidth >= 640);
+    check();
+    window.addEventListener("resize", check);
+    return () => window.removeEventListener("resize", check);
   }, []);
 
   useEffect(() => {
@@ -49,71 +50,93 @@ const Navbar: React.FC<NavbarProps> = ({
 
   return (
     <>
-      <div style={{
-        position: "fixed",
-        top: 0,
-        left: 0,
-        width: "100vw",
-        zIndex: 200,
-        display: "flex",
-        alignItems: "center",
-        gap: 12,
-        background: "#fff",
-        borderRadius: 0,
-        boxShadow: "0 2px 12px rgba(0,0,0,0.08)",
-        padding: "8px 16px",
-        paddingTop: "max(8px, env(safe-area-inset-top, 8px))",
-        transform: "translateZ(0)",
-        WebkitTransform: "translateZ(0)",
-      }}>
-        <Link href="/" style={{ display: 'flex', alignItems: 'center', marginRight: 4 }}>
-          <img src="/yardyman-logo.png" alt="Yardyman Logo" style={{ width: 36, height: 36, objectFit: 'contain', marginRight: 8, borderRadius: 4 }} />
+      <div
+        style={{
+          position: "fixed",
+          top: 0,
+          left: 0,
+          width: "100vw",
+          zIndex: 200,
+          display: "flex",
+          alignItems: "center",
+          gap: isWide ? 12 : 8,
+          background: "#fff",
+          boxShadow: "0 2px 12px rgba(0,0,0,0.08)",
+          paddingTop: "max(8px, env(safe-area-inset-top, 8px))",
+          paddingBottom: isWide ? "8px" : "6px",
+          paddingLeft: isWide ? "20px" : "12px",
+          paddingRight: isWide ? "20px" : "12px",
+          transform: "translateZ(0)",
+          WebkitTransform: "translateZ(0)",
+        }}
+      >
+        {/* Logo */}
+        <Link href="/" style={{ display: "flex", alignItems: "center", flexShrink: 0, marginRight: isWide ? 4 : 2 }}>
+          <img
+            src="/yardyman-logo.png"
+            alt="Yardyman Logo"
+            style={{ width: isWide ? 36 : 32, height: isWide ? 36 : 32, objectFit: "contain", borderRadius: 4 }}
+          />
         </Link>
+
+        {/* Hamburger */}
         <button
           onClick={() => setMenuOpen(true)}
-          style={{ background: 'none', border: 'none', padding: 0, marginRight: 4, cursor: 'pointer', display: 'flex', alignItems: 'center' }}
+          style={{ background: "none", border: "none", padding: isWide ? 4 : 2, cursor: "pointer", display: "flex", alignItems: "center", flexShrink: 0 }}
           aria-label="Open menu"
         >
-          <FiMenu size={28} />
+          <FiMenu size={isWide ? 26 : 24} />
         </button>
 
+        {/* Account */}
         {currentUser ? (
           <button
             onClick={onEditAccount}
             aria-label="My profile"
-            style={{ background: "none", border: "none", padding: 0, cursor: "pointer", display: "flex", alignItems: "center" }}
+            style={{ background: "none", border: "none", padding: 0, cursor: "pointer", display: "flex", alignItems: "center", flexShrink: 0 }}
           >
             <img
               src={currentUser.photoUrl}
               alt={currentUser.name}
-              style={{ width: 30, height: 30, borderRadius: "50%", objectFit: "cover", border: "1px solid #3eab40" }}
+              style={{
+                width: isWide ? 32 : 28,
+                height: isWide ? 32 : 28,
+                borderRadius: "50%",
+                objectFit: "cover",
+                border: "1.5px solid #3eab40",
+              }}
             />
           </button>
         ) : (
           (onCreateAccount || onSignIn) && (
-            <div ref={dropdownRef} style={{ position: "relative" }}>
+            <div ref={dropdownRef} style={{ position: "relative", flexShrink: 0 }}>
               <button
                 onClick={() => setDropdownOpen((o) => !o)}
                 aria-label="Account"
-                style={{ background: 'none', border: 'none', padding: 0, cursor: 'pointer', display: 'flex', alignItems: 'center' }}
+                style={{ background: "none", border: "none", padding: 0, cursor: "pointer", display: "flex", alignItems: "center" }}
               >
-                <img src="/user-account.png" alt="Account" style={{ width: 30, height: 30, objectFit: "contain" }} />
+                <img
+                  src="/user-account.png"
+                  alt="Account"
+                  style={{ width: isWide ? 30 : 26, height: isWide ? 30 : 26, objectFit: "contain" }}
+                />
               </button>
 
               {dropdownOpen && (
-                <div style={{
-                  position: "absolute",
-                  top: "calc(100% + 10px)",
-                  left: 0,
-                  background: "#fff",
-                  borderRadius: 16,
-                  boxShadow: "0 8px 32px rgba(0,0,0,0.14)",
-                  minWidth: 210,
-                  overflow: "hidden",
-                  zIndex: 300,
-                  border: "1px solid #f0f0f0",
-                }}>
-                  {/* Join as Provider */}
+                <div
+                  style={{
+                    position: "absolute",
+                    top: "calc(100% + 10px)",
+                    left: 0,
+                    background: "#fff",
+                    borderRadius: 16,
+                    boxShadow: "0 8px 32px rgba(0,0,0,0.14)",
+                    minWidth: 210,
+                    overflow: "hidden",
+                    zIndex: 300,
+                    border: "1px solid #f0f0f0",
+                  }}
+                >
                   <button
                     onClick={() => { setDropdownOpen(false); onCreateAccount?.(); }}
                     style={{
@@ -130,14 +153,8 @@ const Navbar: React.FC<NavbarProps> = ({
                     }}
                   >
                     <span style={{
-                      width: 36,
-                      height: 36,
-                      borderRadius: "50%",
-                      background: "#f0fdf4",
-                      display: "flex",
-                      alignItems: "center",
-                      justifyContent: "center",
-                      flexShrink: 0,
+                      width: 36, height: 36, borderRadius: "50%", background: "#f0fdf4",
+                      display: "flex", alignItems: "center", justifyContent: "center", flexShrink: 0,
                     }}>
                       <svg width={18} height={18} viewBox="0 0 24 24" fill="none" stroke="#22c55e" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
                         <path d="M16 21v-2a4 4 0 00-4-4H6a4 4 0 00-4 4v2" />
@@ -152,7 +169,6 @@ const Navbar: React.FC<NavbarProps> = ({
                     </div>
                   </button>
 
-                  {/* Sign In */}
                   <button
                     onClick={() => { setDropdownOpen(false); onSignIn?.(); }}
                     style={{
@@ -168,14 +184,8 @@ const Navbar: React.FC<NavbarProps> = ({
                     }}
                   >
                     <span style={{
-                      width: 36,
-                      height: 36,
-                      borderRadius: "50%",
-                      background: "#f5f5f5",
-                      display: "flex",
-                      alignItems: "center",
-                      justifyContent: "center",
-                      flexShrink: 0,
+                      width: 36, height: 36, borderRadius: "50%", background: "#f5f5f5",
+                      display: "flex", alignItems: "center", justifyContent: "center", flexShrink: 0,
                     }}>
                       <svg width={18} height={18} viewBox="0 0 24 24" fill="none" stroke="#444" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
                         <path d="M15 3h4a2 2 0 012 2v14a2 2 0 01-2 2h-4" />
@@ -194,7 +204,8 @@ const Navbar: React.FC<NavbarProps> = ({
           )
         )}
 
-        <div style={{ marginLeft: "auto", display: "flex", alignItems: "center", gap: isMobile ? 8 : 10 }}>
+        {/* Service buttons (children) */}
+        <div style={{ marginLeft: "auto", display: "flex", alignItems: "center", gap: isWide ? 10 : 6 }}>
           {children}
         </div>
       </div>

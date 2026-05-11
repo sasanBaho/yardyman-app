@@ -3468,15 +3468,20 @@ var _s = __turbopack_context__.k.signature();
 ;
 const Navbar = ({ children, onCreateAccount, onSignIn, currentUser, onEditAccount, onSignOut, onCancelSubscription, canCancelSubscription })=>{
     _s();
-    const [isMobile, setIsMobile] = (0, __TURBOPACK__imported__module__$5b$project$5d2f$yardyman$2d$app$2f$yardyman$2d$app$2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$index$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["useState"])(false);
+    const [isWide, setIsWide] = (0, __TURBOPACK__imported__module__$5b$project$5d2f$yardyman$2d$app$2f$yardyman$2d$app$2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$index$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["useState"])(false);
     const [dropdownOpen, setDropdownOpen] = (0, __TURBOPACK__imported__module__$5b$project$5d2f$yardyman$2d$app$2f$yardyman$2d$app$2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$index$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["useState"])(false);
     const [menuOpen, setMenuOpen] = (0, __TURBOPACK__imported__module__$5b$project$5d2f$yardyman$2d$app$2f$yardyman$2d$app$2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$index$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["useState"])(false);
     const dropdownRef = (0, __TURBOPACK__imported__module__$5b$project$5d2f$yardyman$2d$app$2f$yardyman$2d$app$2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$index$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["useRef"])(null);
     (0, __TURBOPACK__imported__module__$5b$project$5d2f$yardyman$2d$app$2f$yardyman$2d$app$2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$index$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["useEffect"])({
         "Navbar.useEffect": ()=>{
-            if ("TURBOPACK compile-time truthy", 1) {
-                setIsMobile(/Mobi|Android|iPhone|iPad|iPod|Opera Mini|IEMobile/i.test(window.navigator.userAgent));
-            }
+            const check = {
+                "Navbar.useEffect.check": ()=>setIsWide(window.innerWidth >= 640)
+            }["Navbar.useEffect.check"];
+            check();
+            window.addEventListener("resize", check);
+            return ({
+                "Navbar.useEffect": ()=>window.removeEventListener("resize", check)
+            })["Navbar.useEffect"];
         }
     }["Navbar.useEffect"], []);
     (0, __TURBOPACK__imported__module__$5b$project$5d2f$yardyman$2d$app$2f$yardyman$2d$app$2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$index$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["useEffect"])({
@@ -3508,12 +3513,13 @@ const Navbar = ({ children, onCreateAccount, onSignIn, currentUser, onEditAccoun
                     zIndex: 200,
                     display: "flex",
                     alignItems: "center",
-                    gap: 12,
+                    gap: isWide ? 12 : 8,
                     background: "#fff",
-                    borderRadius: 0,
                     boxShadow: "0 2px 12px rgba(0,0,0,0.08)",
-                    padding: "8px 16px",
                     paddingTop: "max(8px, env(safe-area-inset-top, 8px))",
+                    paddingBottom: isWide ? "8px" : "6px",
+                    paddingLeft: isWide ? "20px" : "12px",
+                    paddingRight: isWide ? "20px" : "12px",
                     transform: "translateZ(0)",
                     WebkitTransform: "translateZ(0)"
                 },
@@ -3521,52 +3527,52 @@ const Navbar = ({ children, onCreateAccount, onSignIn, currentUser, onEditAccoun
                     /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$yardyman$2d$app$2f$yardyman$2d$app$2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])(__TURBOPACK__imported__module__$5b$project$5d2f$yardyman$2d$app$2f$yardyman$2d$app$2f$node_modules$2f$next$2f$dist$2f$client$2f$app$2d$dir$2f$link$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["default"], {
                         href: "/",
                         style: {
-                            display: 'flex',
-                            alignItems: 'center',
-                            marginRight: 4
+                            display: "flex",
+                            alignItems: "center",
+                            flexShrink: 0,
+                            marginRight: isWide ? 4 : 2
                         },
                         children: /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$yardyman$2d$app$2f$yardyman$2d$app$2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("img", {
                             src: "/yardyman-logo.png",
                             alt: "Yardyman Logo",
                             style: {
-                                width: 36,
-                                height: 36,
-                                objectFit: 'contain',
-                                marginRight: 8,
+                                width: isWide ? 36 : 32,
+                                height: isWide ? 36 : 32,
+                                objectFit: "contain",
                                 borderRadius: 4
                             }
                         }, void 0, false, {
                             fileName: "[project]/yardyman-app/yardyman-app/components/ui/Navbar.tsx",
-                            lineNumber: 70,
+                            lineNumber: 75,
                             columnNumber: 11
                         }, ("TURBOPACK compile-time value", void 0))
                     }, void 0, false, {
                         fileName: "[project]/yardyman-app/yardyman-app/components/ui/Navbar.tsx",
-                        lineNumber: 69,
+                        lineNumber: 74,
                         columnNumber: 9
                     }, ("TURBOPACK compile-time value", void 0)),
                     /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$yardyman$2d$app$2f$yardyman$2d$app$2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("button", {
                         onClick: ()=>setMenuOpen(true),
                         style: {
-                            background: 'none',
-                            border: 'none',
-                            padding: 0,
-                            marginRight: 4,
-                            cursor: 'pointer',
-                            display: 'flex',
-                            alignItems: 'center'
+                            background: "none",
+                            border: "none",
+                            padding: isWide ? 4 : 2,
+                            cursor: "pointer",
+                            display: "flex",
+                            alignItems: "center",
+                            flexShrink: 0
                         },
                         "aria-label": "Open menu",
                         children: /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$yardyman$2d$app$2f$yardyman$2d$app$2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])(__TURBOPACK__imported__module__$5b$project$5d2f$yardyman$2d$app$2f$yardyman$2d$app$2f$node_modules$2f$react$2d$icons$2f$fi$2f$index$2e$mjs__$5b$app$2d$client$5d$__$28$ecmascript$29$__["FiMenu"], {
-                            size: 28
+                            size: isWide ? 26 : 24
                         }, void 0, false, {
                             fileName: "[project]/yardyman-app/yardyman-app/components/ui/Navbar.tsx",
-                            lineNumber: 77,
+                            lineNumber: 88,
                             columnNumber: 11
                         }, ("TURBOPACK compile-time value", void 0))
                     }, void 0, false, {
                         fileName: "[project]/yardyman-app/yardyman-app/components/ui/Navbar.tsx",
-                        lineNumber: 72,
+                        lineNumber: 83,
                         columnNumber: 9
                     }, ("TURBOPACK compile-time value", void 0)),
                     currentUser ? /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$yardyman$2d$app$2f$yardyman$2d$app$2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("button", {
@@ -3578,60 +3584,62 @@ const Navbar = ({ children, onCreateAccount, onSignIn, currentUser, onEditAccoun
                             padding: 0,
                             cursor: "pointer",
                             display: "flex",
-                            alignItems: "center"
+                            alignItems: "center",
+                            flexShrink: 0
                         },
                         children: /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$yardyman$2d$app$2f$yardyman$2d$app$2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("img", {
                             src: currentUser.photoUrl,
                             alt: currentUser.name,
                             style: {
-                                width: 30,
-                                height: 30,
+                                width: isWide ? 32 : 28,
+                                height: isWide ? 32 : 28,
                                 borderRadius: "50%",
                                 objectFit: "cover",
-                                border: "1px solid #3eab40"
+                                border: "1.5px solid #3eab40"
                             }
                         }, void 0, false, {
                             fileName: "[project]/yardyman-app/yardyman-app/components/ui/Navbar.tsx",
-                            lineNumber: 86,
+                            lineNumber: 98,
                             columnNumber: 13
                         }, ("TURBOPACK compile-time value", void 0))
                     }, void 0, false, {
                         fileName: "[project]/yardyman-app/yardyman-app/components/ui/Navbar.tsx",
-                        lineNumber: 81,
+                        lineNumber: 93,
                         columnNumber: 11
                     }, ("TURBOPACK compile-time value", void 0)) : (onCreateAccount || onSignIn) && /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$yardyman$2d$app$2f$yardyman$2d$app$2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("div", {
                         ref: dropdownRef,
                         style: {
-                            position: "relative"
+                            position: "relative",
+                            flexShrink: 0
                         },
                         children: [
                             /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$yardyman$2d$app$2f$yardyman$2d$app$2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("button", {
                                 onClick: ()=>setDropdownOpen((o)=>!o),
                                 "aria-label": "Account",
                                 style: {
-                                    background: 'none',
-                                    border: 'none',
+                                    background: "none",
+                                    border: "none",
                                     padding: 0,
-                                    cursor: 'pointer',
-                                    display: 'flex',
-                                    alignItems: 'center'
+                                    cursor: "pointer",
+                                    display: "flex",
+                                    alignItems: "center"
                                 },
                                 children: /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$yardyman$2d$app$2f$yardyman$2d$app$2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("img", {
                                     src: "/user-account.png",
                                     alt: "Account",
                                     style: {
-                                        width: 30,
-                                        height: 30,
+                                        width: isWide ? 30 : 26,
+                                        height: isWide ? 30 : 26,
                                         objectFit: "contain"
                                     }
                                 }, void 0, false, {
                                     fileName: "[project]/yardyman-app/yardyman-app/components/ui/Navbar.tsx",
-                                    lineNumber: 100,
+                                    lineNumber: 118,
                                     columnNumber: 17
                                 }, ("TURBOPACK compile-time value", void 0))
                             }, void 0, false, {
                                 fileName: "[project]/yardyman-app/yardyman-app/components/ui/Navbar.tsx",
-                                lineNumber: 95,
+                                lineNumber: 113,
                                 columnNumber: 15
                             }, ("TURBOPACK compile-time value", void 0)),
                             dropdownOpen && /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$yardyman$2d$app$2f$yardyman$2d$app$2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("div", {
@@ -3691,7 +3699,7 @@ const Navbar = ({ children, onCreateAccount, onSignIn, currentUser, onEditAccoun
                                                             d: "M16 21v-2a4 4 0 00-4-4H6a4 4 0 00-4 4v2"
                                                         }, void 0, false, {
                                                             fileName: "[project]/yardyman-app/yardyman-app/components/ui/Navbar.tsx",
-                                                            lineNumber: 143,
+                                                            lineNumber: 160,
                                                             columnNumber: 25
                                                         }, ("TURBOPACK compile-time value", void 0)),
                                                         /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$yardyman$2d$app$2f$yardyman$2d$app$2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("circle", {
@@ -3700,7 +3708,7 @@ const Navbar = ({ children, onCreateAccount, onSignIn, currentUser, onEditAccoun
                                                             r: "4"
                                                         }, void 0, false, {
                                                             fileName: "[project]/yardyman-app/yardyman-app/components/ui/Navbar.tsx",
-                                                            lineNumber: 144,
+                                                            lineNumber: 161,
                                                             columnNumber: 25
                                                         }, ("TURBOPACK compile-time value", void 0)),
                                                         /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$yardyman$2d$app$2f$yardyman$2d$app$2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("line", {
@@ -3710,7 +3718,7 @@ const Navbar = ({ children, onCreateAccount, onSignIn, currentUser, onEditAccoun
                                                             y2: "14"
                                                         }, void 0, false, {
                                                             fileName: "[project]/yardyman-app/yardyman-app/components/ui/Navbar.tsx",
-                                                            lineNumber: 145,
+                                                            lineNumber: 162,
                                                             columnNumber: 25
                                                         }, ("TURBOPACK compile-time value", void 0)),
                                                         /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$yardyman$2d$app$2f$yardyman$2d$app$2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("line", {
@@ -3720,18 +3728,18 @@ const Navbar = ({ children, onCreateAccount, onSignIn, currentUser, onEditAccoun
                                                             y2: "11"
                                                         }, void 0, false, {
                                                             fileName: "[project]/yardyman-app/yardyman-app/components/ui/Navbar.tsx",
-                                                            lineNumber: 146,
+                                                            lineNumber: 163,
                                                             columnNumber: 25
                                                         }, ("TURBOPACK compile-time value", void 0))
                                                     ]
                                                 }, void 0, true, {
                                                     fileName: "[project]/yardyman-app/yardyman-app/components/ui/Navbar.tsx",
-                                                    lineNumber: 142,
+                                                    lineNumber: 159,
                                                     columnNumber: 23
                                                 }, ("TURBOPACK compile-time value", void 0))
                                             }, void 0, false, {
                                                 fileName: "[project]/yardyman-app/yardyman-app/components/ui/Navbar.tsx",
-                                                lineNumber: 132,
+                                                lineNumber: 155,
                                                 columnNumber: 21
                                             }, ("TURBOPACK compile-time value", void 0)),
                                             /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$yardyman$2d$app$2f$yardyman$2d$app$2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("div", {
@@ -3746,7 +3754,7 @@ const Navbar = ({ children, onCreateAccount, onSignIn, currentUser, onEditAccoun
                                                         children: "Join as Provider"
                                                     }, void 0, false, {
                                                         fileName: "[project]/yardyman-app/yardyman-app/components/ui/Navbar.tsx",
-                                                        lineNumber: 150,
+                                                        lineNumber: 167,
                                                         columnNumber: 23
                                                     }, ("TURBOPACK compile-time value", void 0)),
                                                     /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$yardyman$2d$app$2f$yardyman$2d$app$2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("div", {
@@ -3758,19 +3766,19 @@ const Navbar = ({ children, onCreateAccount, onSignIn, currentUser, onEditAccoun
                                                         children: "Create a new account"
                                                     }, void 0, false, {
                                                         fileName: "[project]/yardyman-app/yardyman-app/components/ui/Navbar.tsx",
-                                                        lineNumber: 151,
+                                                        lineNumber: 168,
                                                         columnNumber: 23
                                                     }, ("TURBOPACK compile-time value", void 0))
                                                 ]
                                             }, void 0, true, {
                                                 fileName: "[project]/yardyman-app/yardyman-app/components/ui/Navbar.tsx",
-                                                lineNumber: 149,
+                                                lineNumber: 166,
                                                 columnNumber: 21
                                             }, ("TURBOPACK compile-time value", void 0))
                                         ]
                                     }, void 0, true, {
                                         fileName: "[project]/yardyman-app/yardyman-app/components/ui/Navbar.tsx",
-                                        lineNumber: 117,
+                                        lineNumber: 140,
                                         columnNumber: 19
                                     }, ("TURBOPACK compile-time value", void 0)),
                                     /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$yardyman$2d$app$2f$yardyman$2d$app$2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("button", {
@@ -3815,14 +3823,14 @@ const Navbar = ({ children, onCreateAccount, onSignIn, currentUser, onEditAccoun
                                                             d: "M15 3h4a2 2 0 012 2v14a2 2 0 01-2 2h-4"
                                                         }, void 0, false, {
                                                             fileName: "[project]/yardyman-app/yardyman-app/components/ui/Navbar.tsx",
-                                                            lineNumber: 181,
+                                                            lineNumber: 191,
                                                             columnNumber: 25
                                                         }, ("TURBOPACK compile-time value", void 0)),
                                                         /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$yardyman$2d$app$2f$yardyman$2d$app$2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("polyline", {
                                                             points: "10 17 15 12 10 7"
                                                         }, void 0, false, {
                                                             fileName: "[project]/yardyman-app/yardyman-app/components/ui/Navbar.tsx",
-                                                            lineNumber: 182,
+                                                            lineNumber: 192,
                                                             columnNumber: 25
                                                         }, ("TURBOPACK compile-time value", void 0)),
                                                         /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$yardyman$2d$app$2f$yardyman$2d$app$2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("line", {
@@ -3832,18 +3840,18 @@ const Navbar = ({ children, onCreateAccount, onSignIn, currentUser, onEditAccoun
                                                             y2: "12"
                                                         }, void 0, false, {
                                                             fileName: "[project]/yardyman-app/yardyman-app/components/ui/Navbar.tsx",
-                                                            lineNumber: 183,
+                                                            lineNumber: 193,
                                                             columnNumber: 25
                                                         }, ("TURBOPACK compile-time value", void 0))
                                                     ]
                                                 }, void 0, true, {
                                                     fileName: "[project]/yardyman-app/yardyman-app/components/ui/Navbar.tsx",
-                                                    lineNumber: 180,
+                                                    lineNumber: 190,
                                                     columnNumber: 23
                                                 }, ("TURBOPACK compile-time value", void 0))
                                             }, void 0, false, {
                                                 fileName: "[project]/yardyman-app/yardyman-app/components/ui/Navbar.tsx",
-                                                lineNumber: 170,
+                                                lineNumber: 186,
                                                 columnNumber: 21
                                             }, ("TURBOPACK compile-time value", void 0)),
                                             /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$yardyman$2d$app$2f$yardyman$2d$app$2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("div", {
@@ -3858,7 +3866,7 @@ const Navbar = ({ children, onCreateAccount, onSignIn, currentUser, onEditAccoun
                                                         children: "Sign In"
                                                     }, void 0, false, {
                                                         fileName: "[project]/yardyman-app/yardyman-app/components/ui/Navbar.tsx",
-                                                        lineNumber: 187,
+                                                        lineNumber: 197,
                                                         columnNumber: 23
                                                     }, ("TURBOPACK compile-time value", void 0)),
                                                     /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$yardyman$2d$app$2f$yardyman$2d$app$2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("div", {
@@ -3870,31 +3878,31 @@ const Navbar = ({ children, onCreateAccount, onSignIn, currentUser, onEditAccoun
                                                         children: "Access your account"
                                                     }, void 0, false, {
                                                         fileName: "[project]/yardyman-app/yardyman-app/components/ui/Navbar.tsx",
-                                                        lineNumber: 188,
+                                                        lineNumber: 198,
                                                         columnNumber: 23
                                                     }, ("TURBOPACK compile-time value", void 0))
                                                 ]
                                             }, void 0, true, {
                                                 fileName: "[project]/yardyman-app/yardyman-app/components/ui/Navbar.tsx",
-                                                lineNumber: 186,
+                                                lineNumber: 196,
                                                 columnNumber: 21
                                             }, ("TURBOPACK compile-time value", void 0))
                                         ]
                                     }, void 0, true, {
                                         fileName: "[project]/yardyman-app/yardyman-app/components/ui/Navbar.tsx",
-                                        lineNumber: 156,
+                                        lineNumber: 172,
                                         columnNumber: 19
                                     }, ("TURBOPACK compile-time value", void 0))
                                 ]
                             }, void 0, true, {
                                 fileName: "[project]/yardyman-app/yardyman-app/components/ui/Navbar.tsx",
-                                lineNumber: 104,
+                                lineNumber: 126,
                                 columnNumber: 17
                             }, ("TURBOPACK compile-time value", void 0))
                         ]
                     }, void 0, true, {
                         fileName: "[project]/yardyman-app/yardyman-app/components/ui/Navbar.tsx",
-                        lineNumber: 94,
+                        lineNumber: 112,
                         columnNumber: 13
                     }, ("TURBOPACK compile-time value", void 0)),
                     /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$yardyman$2d$app$2f$yardyman$2d$app$2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("div", {
@@ -3902,18 +3910,18 @@ const Navbar = ({ children, onCreateAccount, onSignIn, currentUser, onEditAccoun
                             marginLeft: "auto",
                             display: "flex",
                             alignItems: "center",
-                            gap: isMobile ? 8 : 10
+                            gap: isWide ? 10 : 6
                         },
                         children: children
                     }, void 0, false, {
                         fileName: "[project]/yardyman-app/yardyman-app/components/ui/Navbar.tsx",
-                        lineNumber: 197,
+                        lineNumber: 208,
                         columnNumber: 9
                     }, ("TURBOPACK compile-time value", void 0))
                 ]
             }, void 0, true, {
                 fileName: "[project]/yardyman-app/yardyman-app/components/ui/Navbar.tsx",
-                lineNumber: 52,
+                lineNumber: 53,
                 columnNumber: 7
             }, ("TURBOPACK compile-time value", void 0)),
             /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$yardyman$2d$app$2f$yardyman$2d$app$2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])(__TURBOPACK__imported__module__$5b$project$5d2f$yardyman$2d$app$2f$yardyman$2d$app$2f$components$2f$ui$2f$SidebarMenu$2e$tsx__$5b$app$2d$client$5d$__$28$ecmascript$29$__["default"], {
@@ -3925,13 +3933,13 @@ const Navbar = ({ children, onCreateAccount, onSignIn, currentUser, onEditAccoun
                 canCancelSubscription: canCancelSubscription
             }, void 0, false, {
                 fileName: "[project]/yardyman-app/yardyman-app/components/ui/Navbar.tsx",
-                lineNumber: 202,
+                lineNumber: 213,
                 columnNumber: 7
             }, ("TURBOPACK compile-time value", void 0))
         ]
     }, void 0, true);
 };
-_s(Navbar, "Jq2evfYInI6r/ScvpFhBSdsGzCU=");
+_s(Navbar, "tGz1uqrvNk6YZkmXnk7jipI5X2A=");
 _c = Navbar;
 const __TURBOPACK__default__export__ = Navbar;
 var _c;
@@ -13038,7 +13046,7 @@ function Home() {
     });
     const [userLocation, setUserLocation] = (0, __TURBOPACK__imported__module__$5b$project$5d2f$yardyman$2d$app$2f$yardyman$2d$app$2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$index$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["useState"])(null);
     const [activeService, setActiveService] = (0, __TURBOPACK__imported__module__$5b$project$5d2f$yardyman$2d$app$2f$yardyman$2d$app$2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$index$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["useState"])("lawn");
-    const [isSmallScreen, setIsSmallScreen] = (0, __TURBOPACK__imported__module__$5b$project$5d2f$yardyman$2d$app$2f$yardyman$2d$app$2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$index$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["useState"])(false);
+    const [isSmallScreen, setIsSmallScreen] = (0, __TURBOPACK__imported__module__$5b$project$5d2f$yardyman$2d$app$2f$yardyman$2d$app$2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$index$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["useState"])(true);
     const [showAuth, setShowAuth] = (0, __TURBOPACK__imported__module__$5b$project$5d2f$yardyman$2d$app$2f$yardyman$2d$app$2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$index$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["useState"])(false);
     const [authDefaultStep, setAuthDefaultStep] = (0, __TURBOPACK__imported__module__$5b$project$5d2f$yardyman$2d$app$2f$yardyman$2d$app$2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$index$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["useState"])("login");
     const [currentProviderData, setCurrentProviderData] = (0, __TURBOPACK__imported__module__$5b$project$5d2f$yardyman$2d$app$2f$yardyman$2d$app$2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$index$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["useState"])(null);
@@ -13453,36 +13461,37 @@ function Home() {
                     /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$yardyman$2d$app$2f$yardyman$2d$app$2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("button", {
                         onClick: ()=>handleServiceChange("snow"),
                         style: {
-                            border: "none",
-                            background: "none",
-                            fontWeight: 600,
+                            border: activeService === "snow" ? "1px solid #0369a1" : "1px solid #e2e8f0",
+                            background: activeService === "snow" ? "#e0f2fe" : "#f8fafc",
+                            fontWeight: 700,
                             fontSize: 15,
-                            color: activeService === "snow" ? "#09f" : "#555",
+                            color: activeService === "snow" ? "#0369a1" : "#64748b",
                             cursor: "pointer",
                             display: "flex",
                             alignItems: "center",
                             gap: 6,
-                            padding: "6px 8px",
-                            borderRadius: 9999
+                            padding: isSmallScreen ? "7px 10px" : "7px 16px",
+                            borderRadius: 9999,
+                            transition: "all 0.15s ease"
                         },
                         children: [
                             /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$yardyman$2d$app$2f$yardyman$2d$app$2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("img", {
-                                src: activeService === "snow" ? "/shovel-blue.png" : "/shovel-black.png",
+                                src: activeService === "snow" ? "/shovel-darkblue.png" : "/shovel-gray.png",
                                 alt: "Shovel icon",
                                 style: {
-                                    width: 30,
-                                    height: 30
+                                    width: 28,
+                                    height: 28
                                 }
                             }, void 0, false, {
                                 fileName: "[project]/yardyman-app/yardyman-app/app/page.tsx",
-                                lineNumber: 567,
+                                lineNumber: 568,
                                 columnNumber: 11
                             }, this),
                             !isSmallScreen && /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$yardyman$2d$app$2f$yardyman$2d$app$2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("span", {
-                                children: "Snow removals"
+                                children: "Snow Removal"
                             }, void 0, false, {
                                 fileName: "[project]/yardyman-app/yardyman-app/app/page.tsx",
-                                lineNumber: 572,
+                                lineNumber: 573,
                                 columnNumber: 30
                             }, this)
                         ]
@@ -13494,42 +13503,43 @@ function Home() {
                     /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$yardyman$2d$app$2f$yardyman$2d$app$2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("button", {
                         onClick: ()=>handleServiceChange("lawn"),
                         style: {
-                            border: "none",
-                            background: "none",
-                            fontWeight: 600,
+                            border: activeService === "lawn" ? "1px solid #15803d" : "1px solid #e2e8f0",
+                            background: activeService === "lawn" ? "#dcfce7" : "#f8fafc",
+                            fontWeight: 700,
                             fontSize: 15,
-                            color: activeService === "lawn" ? "rgb(69, 197, 69)" : "#555",
+                            color: activeService === "lawn" ? "#15803d" : "#64748b",
                             cursor: "pointer",
                             display: "flex",
                             alignItems: "center",
                             gap: 6,
-                            padding: "6px 8px",
-                            borderRadius: 9999
+                            padding: isSmallScreen ? "7px 10px" : "7px 16px",
+                            borderRadius: 9999,
+                            transition: "all 0.15s ease"
                         },
                         children: [
                             /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$yardyman$2d$app$2f$yardyman$2d$app$2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("img", {
-                                src: activeService === "lawn" ? "/lawn-mower-green.png" : "/lawn-mower-black.png",
+                                src: activeService === "lawn" ? "/lawn-mower-darkgreen.png" : "/lawn-mower-gray.png",
                                 alt: "Lawn mower icon",
                                 style: {
-                                    width: 34,
-                                    height: 34
+                                    width: 30,
+                                    height: 30
                                 }
                             }, void 0, false, {
                                 fileName: "[project]/yardyman-app/yardyman-app/app/page.tsx",
-                                lineNumber: 591,
+                                lineNumber: 593,
                                 columnNumber: 11
                             }, this),
                             !isSmallScreen && /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$yardyman$2d$app$2f$yardyman$2d$app$2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("span", {
-                                children: "Lawn care"
+                                children: "Lawn Care"
                             }, void 0, false, {
                                 fileName: "[project]/yardyman-app/yardyman-app/app/page.tsx",
-                                lineNumber: 596,
+                                lineNumber: 598,
                                 columnNumber: 30
                             }, this)
                         ]
                     }, void 0, true, {
                         fileName: "[project]/yardyman-app/yardyman-app/app/page.tsx",
-                        lineNumber: 575,
+                        lineNumber: 576,
                         columnNumber: 9
                     }, this)
                 ]
@@ -13573,7 +13583,7 @@ function Home() {
                             }
                         }, void 0, false, {
                             fileName: "[project]/yardyman-app/yardyman-app/app/page.tsx",
-                            lineNumber: 615,
+                            lineNumber: 617,
                             columnNumber: 11
                         }, this),
                         userLocation && /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$yardyman$2d$app$2f$yardyman$2d$app$2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])(__TURBOPACK__imported__module__$5b$project$5d2f$yardyman$2d$app$2f$yardyman$2d$app$2f$components$2f$map$2f$components$2f$MapMarker$2e$tsx__$5b$app$2d$client$5d$__$28$ecmascript$29$__["MapMarker"], {
@@ -13582,17 +13592,17 @@ function Home() {
                             children: /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$yardyman$2d$app$2f$yardyman$2d$app$2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])(__TURBOPACK__imported__module__$5b$project$5d2f$yardyman$2d$app$2f$yardyman$2d$app$2f$components$2f$map$2f$components$2f$MapMarker$2e$tsx__$5b$app$2d$client$5d$__$28$ecmascript$29$__["MarkerContent"], {
                                 children: /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$yardyman$2d$app$2f$yardyman$2d$app$2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])(UserLocationIndicator, {}, void 0, false, {
                                     fileName: "[project]/yardyman-app/yardyman-app/app/page.tsx",
-                                    lineNumber: 622,
+                                    lineNumber: 624,
                                     columnNumber: 17
                                 }, this)
                             }, void 0, false, {
                                 fileName: "[project]/yardyman-app/yardyman-app/app/page.tsx",
-                                lineNumber: 621,
+                                lineNumber: 623,
                                 columnNumber: 15
                             }, this)
                         }, void 0, false, {
                             fileName: "[project]/yardyman-app/yardyman-app/app/page.tsx",
-                            lineNumber: 620,
+                            lineNumber: 622,
                             columnNumber: 13
                         }, this),
                         filteredProviders.map((provider, idx)=>provider.latitude && provider.longitude && provider.imageUrl && /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$yardyman$2d$app$2f$yardyman$2d$app$2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])(__TURBOPACK__imported__module__$5b$project$5d2f$yardyman$2d$app$2f$yardyman$2d$app$2f$components$2f$map$2f$components$2f$MapMarker$2e$tsx__$5b$app$2d$client$5d$__$28$ecmascript$29$__["MapMarker"], {
@@ -13611,22 +13621,22 @@ function Home() {
                                             ratingsCount: provider.ratingsCount
                                         }, void 0, false, {
                                             fileName: "[project]/yardyman-app/yardyman-app/app/page.tsx",
-                                            lineNumber: 636,
+                                            lineNumber: 638,
                                             columnNumber: 23
                                         }, this)
                                     }, void 0, false, {
                                         fileName: "[project]/yardyman-app/yardyman-app/app/page.tsx",
-                                        lineNumber: 635,
+                                        lineNumber: 637,
                                         columnNumber: 21
                                     }, this)
                                 }, void 0, false, {
                                     fileName: "[project]/yardyman-app/yardyman-app/app/page.tsx",
-                                    lineNumber: 634,
+                                    lineNumber: 636,
                                     columnNumber: 19
                                 }, this)
                             }, idx, false, {
                                 fileName: "[project]/yardyman-app/yardyman-app/app/page.tsx",
-                                lineNumber: 629,
+                                lineNumber: 631,
                                 columnNumber: 17
                             }, this)),
                         showOwnPin && providerLocation && currentProviderData && currentProviderData.isAvailable !== false && (activeService === "snow" ? currentProviderData.selectedServices?.includes("service-two") : currentProviderData.selectedServices?.includes("service-one")) && /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$yardyman$2d$app$2f$yardyman$2d$app$2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])(__TURBOPACK__imported__module__$5b$project$5d2f$yardyman$2d$app$2f$yardyman$2d$app$2f$components$2f$map$2f$components$2f$MapMarker$2e$tsx__$5b$app$2d$client$5d$__$28$ecmascript$29$__["MapMarker"], {
@@ -13658,33 +13668,33 @@ function Home() {
                                         showLock: true
                                     }, void 0, false, {
                                         fileName: "[project]/yardyman-app/yardyman-app/app/page.tsx",
-                                        lineNumber: 673,
+                                        lineNumber: 675,
                                         columnNumber: 19
                                     }, this)
                                 }, void 0, false, {
                                     fileName: "[project]/yardyman-app/yardyman-app/app/page.tsx",
-                                    lineNumber: 655,
+                                    lineNumber: 657,
                                     columnNumber: 17
                                 }, this)
                             }, void 0, false, {
                                 fileName: "[project]/yardyman-app/yardyman-app/app/page.tsx",
-                                lineNumber: 654,
+                                lineNumber: 656,
                                 columnNumber: 15
                             }, this)
                         }, void 0, false, {
                             fileName: "[project]/yardyman-app/yardyman-app/app/page.tsx",
-                            lineNumber: 653,
+                            lineNumber: 655,
                             columnNumber: 13
                         }, this)
                     ]
                 }, void 0, true, {
                     fileName: "[project]/yardyman-app/yardyman-app/app/page.tsx",
-                    lineNumber: 609,
+                    lineNumber: 611,
                     columnNumber: 9
                 }, this)
             }, void 0, false, {
                 fileName: "[project]/yardyman-app/yardyman-app/app/page.tsx",
-                lineNumber: 600,
+                lineNumber: 602,
                 columnNumber: 7
             }, this),
             selectedProvider && /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$yardyman$2d$app$2f$yardyman$2d$app$2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])(__TURBOPACK__imported__module__$5b$project$5d2f$yardyman$2d$app$2f$yardyman$2d$app$2f$components$2f$ui$2f$ProviderPopupCard$2e$tsx__$5b$app$2d$client$5d$__$28$ecmascript$29$__["default"], {
@@ -13705,7 +13715,7 @@ function Home() {
                 } : undefined
             }, void 0, false, {
                 fileName: "[project]/yardyman-app/yardyman-app/app/page.tsx",
-                lineNumber: 685,
+                lineNumber: 687,
                 columnNumber: 9
             }, this),
             showProfile && currentProviderData && /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$yardyman$2d$app$2f$yardyman$2d$app$2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])(__TURBOPACK__imported__module__$5b$project$5d2f$yardyman$2d$app$2f$yardyman$2d$app$2f$components$2f$auth$2f$ProviderProfileModal$2e$tsx__$5b$app$2d$client$5d$__$28$ecmascript$29$__["default"], {
@@ -13740,7 +13750,7 @@ function Home() {
                 }
             }, void 0, false, {
                 fileName: "[project]/yardyman-app/yardyman-app/app/page.tsx",
-                lineNumber: 703,
+                lineNumber: 705,
                 columnNumber: 9
             }, this),
             completingStripeRegistration && /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$yardyman$2d$app$2f$yardyman$2d$app$2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("div", {
@@ -13773,14 +13783,14 @@ function Home() {
                             }
                         }, void 0, false, {
                             fileName: "[project]/yardyman-app/yardyman-app/app/page.tsx",
-                            lineNumber: 752,
+                            lineNumber: 754,
                             columnNumber: 13
                         }, this),
                         /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$yardyman$2d$app$2f$yardyman$2d$app$2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("style", {
                             children: `@keyframes spin { to { transform: rotate(360deg); } }`
                         }, void 0, false, {
                             fileName: "[project]/yardyman-app/yardyman-app/app/page.tsx",
-                            lineNumber: 761,
+                            lineNumber: 763,
                             columnNumber: 13
                         }, this),
                         /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$yardyman$2d$app$2f$yardyman$2d$app$2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("p", {
@@ -13792,18 +13802,18 @@ function Home() {
                             children: "Setting up your profile…"
                         }, void 0, false, {
                             fileName: "[project]/yardyman-app/yardyman-app/app/page.tsx",
-                            lineNumber: 762,
+                            lineNumber: 764,
                             columnNumber: 13
                         }, this)
                     ]
                 }, void 0, true, {
                     fileName: "[project]/yardyman-app/yardyman-app/app/page.tsx",
-                    lineNumber: 746,
+                    lineNumber: 748,
                     columnNumber: 11
                 }, this)
             }, void 0, false, {
                 fileName: "[project]/yardyman-app/yardyman-app/app/page.tsx",
-                lineNumber: 737,
+                lineNumber: 739,
                 columnNumber: 9
             }, this),
             showUnsubscribedPopup && currentProviderData && /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$yardyman$2d$app$2f$yardyman$2d$app$2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])(__TURBOPACK__imported__module__$5b$project$5d2f$yardyman$2d$app$2f$yardyman$2d$app$2f$components$2f$auth$2f$UnsubscribedPopup$2e$tsx__$5b$app$2d$client$5d$__$28$ecmascript$29$__["default"], {
@@ -13816,7 +13826,7 @@ function Home() {
                 }
             }, void 0, false, {
                 fileName: "[project]/yardyman-app/yardyman-app/app/page.tsx",
-                lineNumber: 768,
+                lineNumber: 770,
                 columnNumber: 9
             }, this),
             showSubscribeModal && /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$yardyman$2d$app$2f$yardyman$2d$app$2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])(__TURBOPACK__imported__module__$5b$project$5d2f$yardyman$2d$app$2f$yardyman$2d$app$2f$components$2f$auth$2f$SubscriptionModal$2e$tsx__$5b$app$2d$client$5d$__$28$ecmascript$29$__["default"], {
@@ -13825,7 +13835,7 @@ function Home() {
                 loading: subscribeModalLoading
             }, void 0, false, {
                 fileName: "[project]/yardyman-app/yardyman-app/app/page.tsx",
-                lineNumber: 780,
+                lineNumber: 782,
                 columnNumber: 9
             }, this),
             /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$yardyman$2d$app$2f$yardyman$2d$app$2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])(__TURBOPACK__imported__module__$5b$project$5d2f$yardyman$2d$app$2f$yardyman$2d$app$2f$components$2f$auth$2f$AuthFlow$2e$tsx__$5b$app$2d$client$5d$__$28$ecmascript$29$__["default"], {
@@ -13897,13 +13907,13 @@ function Home() {
                 }
             }, void 0, false, {
                 fileName: "[project]/yardyman-app/yardyman-app/app/page.tsx",
-                lineNumber: 787,
+                lineNumber: 789,
                 columnNumber: 7
             }, this)
         ]
     }, void 0, true);
 }
-_s(Home, "voi6XYiAZ2iRzG5yWhAxCllBWPg=");
+_s(Home, "t5recbB8mwh2HJKciZfhLAKOfNE=");
 _c2 = Home;
 var _c, _c1, _c2;
 __turbopack_context__.k.register(_c, "ProviderAvatar");
