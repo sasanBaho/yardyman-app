@@ -106,6 +106,9 @@ const ProviderProfileModal: React.FC<ProviderProfileModalProps> = ({
   const [editingName, setEditingName] = useState(false);
   const [nameInput, setNameInput] = useState(profile.name);
   const [savingName, setSavingName] = useState(false);
+  const [editingEmail, setEditingEmail] = useState(false);
+  const [emailInput, setEmailInput] = useState(profile.email ?? "");
+  const [savingEmail, setSavingEmail] = useState(false);
   const [stripeSubscriptionId, setStripeSubscriptionId] = useState<string | null>(null);
   const [subscriptionInfo, setSubscriptionInfo] = useState<{
     status: string;
@@ -206,6 +209,24 @@ const ProviderProfileModal: React.FC<ProviderProfileModalProps> = ({
       onProfileUpdated?.(updated);
     } finally {
       setUploadingPhoto(false);
+    }
+  };
+
+  const handleEmailSave = async () => {
+    const trimmed = emailInput.trim();
+    if (!trimmed || trimmed === profileState.email) {
+      setEditingEmail(false);
+      return;
+    }
+    setSavingEmail(true);
+    try {
+      await updateDoc(doc(db, "providers", profile.uid), { email: trimmed });
+      const updated = { ...profileState, email: trimmed };
+      setProfileState(updated);
+      onProfileUpdated?.(updated);
+    } finally {
+      setSavingEmail(false);
+      setEditingEmail(false);
     }
   };
 
@@ -633,6 +654,70 @@ const ProviderProfileModal: React.FC<ProviderProfileModalProps> = ({
               <span>{profileState.phone}</span>
             </div>
           </div>
+
+          {/* Email */}
+          <div style={{ display: "flex", alignItems: "center", justifyContent: "center", gap: 6, marginTop: 8, fontSize: 14, color: "#555" }}>
+            <svg width={13} height={13} viewBox="0 0 24 24" fill="none" stroke="#555" strokeWidth="2">
+              <path d="M4 4h16c1.1 0 2 .9 2 2v12c0 1.1-.9 2-2 2H4c-1.1 0-2-.9-2-2V6c0-1.1.9-2 2-2z" />
+              <polyline points="22,6 12,13 2,6" />
+            </svg>
+            {editingEmail ? (
+              <div style={{ display: "flex", flexDirection: "column", alignItems: "center", gap: 4 }}>
+                <div style={{ display: "flex", alignItems: "center", gap: 6 }}>
+                  <input
+                    value={emailInput}
+                    onChange={(e) => setEmailInput(e.target.value)}
+                    onKeyDown={(e) => e.key === "Enter" && handleEmailSave()}
+                    autoFocus
+                    type="email"
+                    style={{
+                      fontSize: 14,
+                      border: "none",
+                      borderBottom: "2px solid #22c55e",
+                      outline: "none",
+                      background: "transparent",
+                      textAlign: "center",
+                      width: 190,
+                      padding: "2px 4px",
+                    }}
+                  />
+                  <button
+                    onClick={handleEmailSave}
+                    disabled={savingEmail}
+                    style={{
+                      background: "#22c55e",
+                      border: "none",
+                      borderRadius: 999,
+                      color: "#fff",
+                      fontSize: 12,
+                      fontWeight: 700,
+                      padding: "3px 10px",
+                      cursor: savingEmail ? "not-allowed" : "pointer",
+                    }}
+                  >
+                    {savingEmail ? "…" : "Done"}
+                  </button>
+                </div>
+                <p style={{ margin: 0, fontSize: 11, color: "#323232", textAlign: "center", maxWidth: 260 }}>
+                  Subscription updates and support emails will be sent to this address.
+                </p>
+              </div>
+            ) : (
+              <>
+                <span>{profileState.email || "Add email"}</span>
+                <button
+                  onClick={() => { setEmailInput(profileState.email ?? ""); setEditingEmail(true); }}
+                  style={{ background: "none", border: "none", cursor: "pointer", padding: 0 }}
+                  aria-label="Edit email"
+                >
+                  <svg width={12} height={12} viewBox="0 0 24 24" fill="none" stroke="#22c55e" strokeWidth="2">
+                    <path d="M11 4H4a2 2 0 00-2 2v14a2 2 0 002 2h14a2 2 0 002-2v-7" />
+                    <path d="M18.5 2.5a2.121 2.121 0 013 3L12 15l-4 1 1-4 9.5-9.5z" />
+                  </svg>
+                </button>
+              </>
+            )}
+          </div>
         </div>
 
         {/* Inactive subscription alert */}
@@ -932,17 +1017,18 @@ const ProviderProfileModal: React.FC<ProviderProfileModalProps> = ({
           )}
 
           {/* Sign out */}
-          <div style={{ paddingTop: 28, paddingBottom: 40 }}>
+          <div style={{ borderTop: "1px solid #b2b2b2", marginTop: 24, paddingTop: 24, paddingBottom: 40 }}>
             <button
               onClick={async () => { await signOut(auth); onClose(); }}
               style={{
-                background: "none",
+                background: "#22c55e",
                 border: "none",
-                color: "#22c55e",
+                borderRadius: 999,
+                color: "#ffffff",
                 fontSize: 14,
-                textDecoration: "underline",
+                fontWeight: 600,
                 cursor: "pointer",
-                padding: 0,
+                padding: "10px 24px",
               }}
             >
               Sign out
