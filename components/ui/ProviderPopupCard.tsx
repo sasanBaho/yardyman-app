@@ -278,45 +278,49 @@ const ProviderPopupCard: React.FC<ProviderPopupCardProps> = ({
         </div>
 
         {/* ── Details chips ── */}
-        <div style={{ padding: "12px 20px", display: "flex", flexWrap: "wrap", gap: 8 }}>
+        <div style={{ padding: "12px 20px 0", display: "flex", flexDirection: "column", gap: 8 }}>
           {/* Tools chip */}
-          <span style={{
-            display: "inline-flex",
-            alignItems: "center",
-            gap: 5,
-            background: "#f3f4f6",
-            borderRadius: 999,
-            padding: "5px 11px",
-            fontSize: 12,
-            fontWeight: 600,
-            color: "#374151",
-          }}>
-            <svg width={13} height={13} viewBox="0 0 24 24" fill="none" stroke="#6b7280" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
-              <path d="M14.7 6.3a1 1 0 000 1.4l1.6 1.6a1 1 0 001.4 0l3.77-3.77a6 6 0 01-7.94 7.94l-6.91 6.91a2.12 2.12 0 01-3-3l6.91-6.91a6 6 0 017.94-7.94l-3.76 3.76z" />
-            </svg>
-            {provider.hasTools ? "Has own tools" : "Uses owner's tools"}
-          </span>
-
-          {/* Payment chips */}
-          {(provider.paymentMethods ?? []).map((method: string) => (
-            <span key={method} style={{
+          <div>
+            <span style={{
               display: "inline-flex",
               alignItems: "center",
               gap: 5,
-              background: "#f0fdf4",
-              border: `1px solid #bbf7d0`,
+              background: "#f3f4f6",
               borderRadius: 999,
               padding: "5px 11px",
               fontSize: 12,
               fontWeight: 600,
-              color: "#166534",
+              color: "#0369A1",
             }}>
-              <svg width={12} height={12} viewBox="0 0 20 20" fill="none">
-                <path d="M5 10.5L9 14.5L15 7.5" stroke="#22c55e" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round" />
+              <svg width={13} height={13} viewBox="0 0 24 24" fill="none" stroke="#0369A1" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
+                <path d="M14.7 6.3a1 1 0 000 1.4l1.6 1.6a1 1 0 001.4 0l3.77-3.77a6 6 0 01-7.94 7.94l-6.91 6.91a2.12 2.12 0 01-3-3l6.91-6.91a6 6 0 017.94-7.94l-3.76 3.76z" />
               </svg>
-              {method}
+              {provider.hasTools ? "Has own tools" : "Uses owner's tools"}
             </span>
-          ))}
+          </div>
+
+          {/* Payment chips */}
+          <div style={{padding: "0 0 12px 0", display: "flex", flexWrap: "wrap", gap: 8 }}>
+            {(provider.paymentMethods ?? []).map((method: string) => (
+              <span key={method} style={{
+                display: "inline-flex",
+                alignItems: "center",
+                gap: 5,
+                background: "#f0fdf4",
+                border: `1px solid #bbf7d0`,
+                borderRadius: 999,
+                padding: "5px 11px",
+                fontSize: 12,
+                fontWeight: 600,
+                color: "#166534",
+              }}>
+                <svg width={12} height={12} viewBox="0 0 20 20" fill="none">
+                  <path d="M5 10.5L9 14.5L15 7.5" stroke="#22c55e" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round" />
+                </svg>
+                {method}
+              </span>
+            ))}
+          </div>
         </div>
 
         {/* ── CTA Buttons ── */}
