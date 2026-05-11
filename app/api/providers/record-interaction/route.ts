@@ -25,19 +25,20 @@ export async function POST(req: NextRequest) {
     if (!isValidFirestoreId(providerId)) {
       return NextResponse.json({ error: "Invalid providerId" }, { status: 400 });
     }
-    if (!VALID_TYPES.includes(type)) {
+    if (!VALID_TYPES.includes(type as InteractionType)) {
       return NextResponse.json({ error: "Invalid type" }, { status: 400 });
     }
+    const interactionType = type as InteractionType;
 
     // Per-provider dedup: same IP can only count once per provider per type per hour
-    if (!checkRateLimit(`record-interaction:${ip}:${providerId}:${type}`, 1, 60 * 60 * 1000)) {
+    if (!checkRateLimit(`record-interaction:${ip}:${providerId}:${interactionType}`, 1, 60 * 60 * 1000)) {
       return NextResponse.json({ ok: true });
     }
 
     await getAdminDb()
       .collection("providers")
       .doc(providerId)
-      .update({ [FIELD_MAP[type]]: FieldValue.increment(1) });
+      .update({ [FIELD_MAP[interactionType]]: FieldValue.increment(1) });
 
     return NextResponse.json({ ok: true });
   } catch (err: any) {
