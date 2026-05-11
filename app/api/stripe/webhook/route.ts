@@ -62,7 +62,12 @@ async function sendReceiptEmail(email: string, invoice: Stripe.Invoice) {
 }
 
 async function sendCancellationEmail(email: string, subscription: Stripe.Subscription) {
-  const endDate = new Date((subscription.current_period_end ?? Date.now() / 1000) * 1000).toLocaleDateString("en-US", {
+  const sub = subscription as any;
+  const periodEnd: number =
+    sub.current_period_end ??
+    sub.items?.data?.[0]?.current_period_end ??
+    Date.now() / 1000;
+  const endDate = new Date(periodEnd * 1000).toLocaleDateString("en-US", {
     year: "numeric", month: "long", day: "numeric",
   });
 
@@ -101,7 +106,12 @@ async function sendCancellationEmail(email: string, subscription: Stripe.Subscri
 }
 
 async function sendTrialEndingEmail(email: string, subscription: Stripe.Subscription) {
-  const trialEnd = new Date((subscription.trial_end ?? Date.now() / 1000) * 1000).toLocaleDateString("en-US", {
+  const sub = subscription as any;
+  const trialEndTs: number =
+    sub.trial_end ??
+    sub.items?.data?.[0]?.trial_end ??
+    Date.now() / 1000;
+  const trialEnd = new Date(trialEndTs * 1000).toLocaleDateString("en-US", {
     year: "numeric", month: "long", day: "numeric",
   });
 
