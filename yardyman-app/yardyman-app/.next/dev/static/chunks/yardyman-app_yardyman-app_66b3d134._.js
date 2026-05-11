@@ -1523,6 +1523,19 @@ const ProviderPopupCard = ({ provider, onClose, activeService, isOwnerInactive, 
     const accentLight = isSnow ? "#e0f2fe" : "#f0fdf4";
     const serviceLabel = isSnow ? "Snow Removal" : "Lawn Care";
     const serviceIcon = isSnow ? "/shovel-blue.png" : "/lawn-mower-green.png";
+    function recordInteraction(type) {
+        if (!provider.id) return;
+        fetch("/api/providers/record-interaction", {
+            method: "POST",
+            headers: {
+                "Content-Type": "application/json"
+            },
+            body: JSON.stringify({
+                providerId: provider.id,
+                type
+            })
+        }).catch(()=>{});
+    }
     function getAnalyticsPayload() {
         return {
             providerId: provider.id || "unknown",
@@ -1547,7 +1560,7 @@ const ProviderPopupCard = ({ provider, onClose, activeService, isOwnerInactive, 
       `
             }, void 0, false, {
                 fileName: "[project]/yardyman-app/yardyman-app/components/ui/ProviderPopupCard.tsx",
-                lineNumber: 72,
+                lineNumber: 81,
                 columnNumber: 7
             }, ("TURBOPACK compile-time value", void 0)),
             showReport && /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$yardyman$2d$app$2f$yardyman$2d$app$2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])(__TURBOPACK__imported__module__$5b$project$5d2f$yardyman$2d$app$2f$yardyman$2d$app$2f$components$2f$ui$2f$ReportModal$2e$tsx__$5b$app$2d$client$5d$__$28$ecmascript$29$__["default"], {
@@ -1556,7 +1569,7 @@ const ProviderPopupCard = ({ provider, onClose, activeService, isOwnerInactive, 
                 onClose: ()=>setShowReport(false)
             }, void 0, false, {
                 fileName: "[project]/yardyman-app/yardyman-app/components/ui/ProviderPopupCard.tsx",
-                lineNumber: 80,
+                lineNumber: 89,
                 columnNumber: 9
             }, ("TURBOPACK compile-time value", void 0)),
             showRating && /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$yardyman$2d$app$2f$yardyman$2d$app$2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])(__TURBOPACK__imported__module__$5b$project$5d2f$yardyman$2d$app$2f$yardyman$2d$app$2f$components$2f$ui$2f$RatingModal$2e$tsx__$5b$app$2d$client$5d$__$28$ecmascript$29$__["default"], {
@@ -1569,7 +1582,7 @@ const ProviderPopupCard = ({ provider, onClose, activeService, isOwnerInactive, 
                 }
             }, void 0, false, {
                 fileName: "[project]/yardyman-app/yardyman-app/components/ui/ProviderPopupCard.tsx",
-                lineNumber: 87,
+                lineNumber: 96,
                 columnNumber: 9
             }, ("TURBOPACK compile-time value", void 0)),
             /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$yardyman$2d$app$2f$yardyman$2d$app$2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("div", {
@@ -1611,7 +1624,7 @@ const ProviderPopupCard = ({ provider, onClose, activeService, isOwnerInactive, 
                                         d: "M10.29 3.86L1.82 18a2 2 0 001.71 3h16.94a2 2 0 001.71-3L13.71 3.86a2 2 0 00-3.42 0z"
                                     }, void 0, false, {
                                         fileName: "[project]/yardyman-app/yardyman-app/components/ui/ProviderPopupCard.tsx",
-                                        lineNumber: 125,
+                                        lineNumber: 134,
                                         columnNumber: 15
                                     }, ("TURBOPACK compile-time value", void 0)),
                                     /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$yardyman$2d$app$2f$yardyman$2d$app$2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("line", {
@@ -1624,7 +1637,7 @@ const ProviderPopupCard = ({ provider, onClose, activeService, isOwnerInactive, 
                                         strokeLinecap: "round"
                                     }, void 0, false, {
                                         fileName: "[project]/yardyman-app/yardyman-app/components/ui/ProviderPopupCard.tsx",
-                                        lineNumber: 126,
+                                        lineNumber: 135,
                                         columnNumber: 15
                                     }, ("TURBOPACK compile-time value", void 0)),
                                     /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$yardyman$2d$app$2f$yardyman$2d$app$2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("line", {
@@ -1637,13 +1650,13 @@ const ProviderPopupCard = ({ provider, onClose, activeService, isOwnerInactive, 
                                         strokeLinecap: "round"
                                     }, void 0, false, {
                                         fileName: "[project]/yardyman-app/yardyman-app/components/ui/ProviderPopupCard.tsx",
-                                        lineNumber: 127,
+                                        lineNumber: 136,
                                         columnNumber: 15
                                     }, ("TURBOPACK compile-time value", void 0))
                                 ]
                             }, void 0, true, {
                                 fileName: "[project]/yardyman-app/yardyman-app/components/ui/ProviderPopupCard.tsx",
-                                lineNumber: 124,
+                                lineNumber: 133,
                                 columnNumber: 13
                             }, ("TURBOPACK compile-time value", void 0)),
                             /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$yardyman$2d$app$2f$yardyman$2d$app$2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("p", {
@@ -1657,7 +1670,7 @@ const ProviderPopupCard = ({ provider, onClose, activeService, isOwnerInactive, 
                                 children: "Your profile is hidden from homeowners"
                             }, void 0, false, {
                                 fileName: "[project]/yardyman-app/yardyman-app/components/ui/ProviderPopupCard.tsx",
-                                lineNumber: 129,
+                                lineNumber: 138,
                                 columnNumber: 13
                             }, ("TURBOPACK compile-time value", void 0)),
                             onSubscribe && /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$yardyman$2d$app$2f$yardyman$2d$app$2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("button", {
@@ -1677,13 +1690,13 @@ const ProviderPopupCard = ({ provider, onClose, activeService, isOwnerInactive, 
                                 children: "Subscribe"
                             }, void 0, false, {
                                 fileName: "[project]/yardyman-app/yardyman-app/components/ui/ProviderPopupCard.tsx",
-                                lineNumber: 133,
+                                lineNumber: 142,
                                 columnNumber: 15
                             }, ("TURBOPACK compile-time value", void 0))
                         ]
                     }, void 0, true, {
                         fileName: "[project]/yardyman-app/yardyman-app/components/ui/ProviderPopupCard.tsx",
-                        lineNumber: 116,
+                        lineNumber: 125,
                         columnNumber: 11
                     }, ("TURBOPACK compile-time value", void 0)),
                     /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$yardyman$2d$app$2f$yardyman$2d$app$2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("div", {
@@ -1720,12 +1733,12 @@ const ProviderPopupCard = ({ provider, onClose, activeService, isOwnerInactive, 
                                             }
                                         }, void 0, false, {
                                             fileName: "[project]/yardyman-app/yardyman-app/components/ui/ProviderPopupCard.tsx",
-                                            lineNumber: 167,
+                                            lineNumber: 176,
                                             columnNumber: 15
                                         }, ("TURBOPACK compile-time value", void 0))
                                     }, void 0, false, {
                                         fileName: "[project]/yardyman-app/yardyman-app/components/ui/ProviderPopupCard.tsx",
-                                        lineNumber: 159,
+                                        lineNumber: 168,
                                         columnNumber: 13
                                     }, ("TURBOPACK compile-time value", void 0)),
                                     /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$yardyman$2d$app$2f$yardyman$2d$app$2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("div", {
@@ -1754,12 +1767,12 @@ const ProviderPopupCard = ({ provider, onClose, activeService, isOwnerInactive, 
                                                     children: provider.providerName
                                                 }, void 0, false, {
                                                     fileName: "[project]/yardyman-app/yardyman-app/components/ui/ProviderPopupCard.tsx",
-                                                    lineNumber: 184,
+                                                    lineNumber: 193,
                                                     columnNumber: 17
                                                 }, ("TURBOPACK compile-time value", void 0))
                                             }, void 0, false, {
                                                 fileName: "[project]/yardyman-app/yardyman-app/components/ui/ProviderPopupCard.tsx",
-                                                lineNumber: 183,
+                                                lineNumber: 192,
                                                 columnNumber: 15
                                             }, ("TURBOPACK compile-time value", void 0)),
                                             /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$yardyman$2d$app$2f$yardyman$2d$app$2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("div", {
@@ -1783,7 +1796,7 @@ const ProviderPopupCard = ({ provider, onClose, activeService, isOwnerInactive, 
                                                         }
                                                     }, void 0, false, {
                                                         fileName: "[project]/yardyman-app/yardyman-app/components/ui/ProviderPopupCard.tsx",
-                                                        lineNumber: 206,
+                                                        lineNumber: 215,
                                                         columnNumber: 17
                                                     }, ("TURBOPACK compile-time value", void 0)),
                                                     /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$yardyman$2d$app$2f$yardyman$2d$app$2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("span", {
@@ -1795,13 +1808,13 @@ const ProviderPopupCard = ({ provider, onClose, activeService, isOwnerInactive, 
                                                         children: serviceLabel
                                                     }, void 0, false, {
                                                         fileName: "[project]/yardyman-app/yardyman-app/components/ui/ProviderPopupCard.tsx",
-                                                        lineNumber: 207,
+                                                        lineNumber: 216,
                                                         columnNumber: 17
                                                     }, ("TURBOPACK compile-time value", void 0))
                                                 ]
                                             }, void 0, true, {
                                                 fileName: "[project]/yardyman-app/yardyman-app/components/ui/ProviderPopupCard.tsx",
-                                                lineNumber: 197,
+                                                lineNumber: 206,
                                                 columnNumber: 15
                                             }, ("TURBOPACK compile-time value", void 0)),
                                             /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$yardyman$2d$app$2f$yardyman$2d$app$2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("div", {
@@ -1830,12 +1843,12 @@ const ProviderPopupCard = ({ provider, onClose, activeService, isOwnerInactive, 
                                                                     points: "12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2"
                                                                 }, void 0, false, {
                                                                     fileName: "[project]/yardyman-app/yardyman-app/components/ui/ProviderPopupCard.tsx",
-                                                                    lineNumber: 223,
+                                                                    lineNumber: 232,
                                                                     columnNumber: 25
                                                                 }, ("TURBOPACK compile-time value", void 0))
                                                             }, i, false, {
                                                                 fileName: "[project]/yardyman-app/yardyman-app/components/ui/ProviderPopupCard.tsx",
-                                                                lineNumber: 219,
+                                                                lineNumber: 228,
                                                                 columnNumber: 23
                                                             }, ("TURBOPACK compile-time value", void 0))),
                                                         /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$yardyman$2d$app$2f$yardyman$2d$app$2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("span", {
@@ -1848,7 +1861,7 @@ const ProviderPopupCard = ({ provider, onClose, activeService, isOwnerInactive, 
                                                             children: displayRating.toFixed(1)
                                                         }, void 0, false, {
                                                             fileName: "[project]/yardyman-app/yardyman-app/components/ui/ProviderPopupCard.tsx",
-                                                            lineNumber: 226,
+                                                            lineNumber: 235,
                                                             columnNumber: 21
                                                         }, ("TURBOPACK compile-time value", void 0)),
                                                         /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$yardyman$2d$app$2f$yardyman$2d$app$2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("span", {
@@ -1863,7 +1876,7 @@ const ProviderPopupCard = ({ provider, onClose, activeService, isOwnerInactive, 
                                                             ]
                                                         }, void 0, true, {
                                                             fileName: "[project]/yardyman-app/yardyman-app/components/ui/ProviderPopupCard.tsx",
-                                                            lineNumber: 229,
+                                                            lineNumber: 238,
                                                             columnNumber: 21
                                                         }, ("TURBOPACK compile-time value", void 0))
                                                     ]
@@ -1876,18 +1889,18 @@ const ProviderPopupCard = ({ provider, onClose, activeService, isOwnerInactive, 
                                                     children: "No ratings yet — tap to rate"
                                                 }, void 0, false, {
                                                     fileName: "[project]/yardyman-app/yardyman-app/components/ui/ProviderPopupCard.tsx",
-                                                    lineNumber: 232,
+                                                    lineNumber: 241,
                                                     columnNumber: 19
                                                 }, ("TURBOPACK compile-time value", void 0))
                                             }, void 0, false, {
                                                 fileName: "[project]/yardyman-app/yardyman-app/components/ui/ProviderPopupCard.tsx",
-                                                lineNumber: 211,
+                                                lineNumber: 220,
                                                 columnNumber: 15
                                             }, ("TURBOPACK compile-time value", void 0))
                                         ]
                                     }, void 0, true, {
                                         fileName: "[project]/yardyman-app/yardyman-app/components/ui/ProviderPopupCard.tsx",
-                                        lineNumber: 182,
+                                        lineNumber: 191,
                                         columnNumber: 13
                                     }, ("TURBOPACK compile-time value", void 0)),
                                     /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$yardyman$2d$app$2f$yardyman$2d$app$2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("button", {
@@ -1923,7 +1936,7 @@ const ProviderPopupCard = ({ provider, onClose, activeService, isOwnerInactive, 
                                                     y2: "19"
                                                 }, void 0, false, {
                                                     fileName: "[project]/yardyman-app/yardyman-app/components/ui/ProviderPopupCard.tsx",
-                                                    lineNumber: 257,
+                                                    lineNumber: 266,
                                                     columnNumber: 17
                                                 }, ("TURBOPACK compile-time value", void 0)),
                                                 /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$yardyman$2d$app$2f$yardyman$2d$app$2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("line", {
@@ -1933,24 +1946,24 @@ const ProviderPopupCard = ({ provider, onClose, activeService, isOwnerInactive, 
                                                     y2: "19"
                                                 }, void 0, false, {
                                                     fileName: "[project]/yardyman-app/yardyman-app/components/ui/ProviderPopupCard.tsx",
-                                                    lineNumber: 258,
+                                                    lineNumber: 267,
                                                     columnNumber: 17
                                                 }, ("TURBOPACK compile-time value", void 0))
                                             ]
                                         }, void 0, true, {
                                             fileName: "[project]/yardyman-app/yardyman-app/components/ui/ProviderPopupCard.tsx",
-                                            lineNumber: 256,
+                                            lineNumber: 265,
                                             columnNumber: 15
                                         }, ("TURBOPACK compile-time value", void 0))
                                     }, void 0, false, {
                                         fileName: "[project]/yardyman-app/yardyman-app/components/ui/ProviderPopupCard.tsx",
-                                        lineNumber: 240,
+                                        lineNumber: 249,
                                         columnNumber: 13
                                     }, ("TURBOPACK compile-time value", void 0))
                                 ]
                             }, void 0, true, {
                                 fileName: "[project]/yardyman-app/yardyman-app/components/ui/ProviderPopupCard.tsx",
-                                lineNumber: 156,
+                                lineNumber: 165,
                                 columnNumber: 11
                             }, ("TURBOPACK compile-time value", void 0)),
                             provider.description ? /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$yardyman$2d$app$2f$yardyman$2d$app$2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("p", {
@@ -1967,13 +1980,13 @@ const ProviderPopupCard = ({ provider, onClose, activeService, isOwnerInactive, 
                                 children: provider.description
                             }, void 0, false, {
                                 fileName: "[project]/yardyman-app/yardyman-app/components/ui/ProviderPopupCard.tsx",
-                                lineNumber: 265,
+                                lineNumber: 274,
                                 columnNumber: 13
                             }, ("TURBOPACK compile-time value", void 0)) : null
                         ]
                     }, void 0, true, {
                         fileName: "[project]/yardyman-app/yardyman-app/components/ui/ProviderPopupCard.tsx",
-                        lineNumber: 155,
+                        lineNumber: 164,
                         columnNumber: 9
                     }, ("TURBOPACK compile-time value", void 0)),
                     /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$yardyman$2d$app$2f$yardyman$2d$app$2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("div", {
@@ -2011,24 +2024,24 @@ const ProviderPopupCard = ({ provider, onClose, activeService, isOwnerInactive, 
                                                 d: "M14.7 6.3a1 1 0 000 1.4l1.6 1.6a1 1 0 001.4 0l3.77-3.77a6 6 0 01-7.94 7.94l-6.91 6.91a2.12 2.12 0 01-3-3l6.91-6.91a6 6 0 017.94-7.94l-3.76 3.76z"
                                             }, void 0, false, {
                                                 fileName: "[project]/yardyman-app/yardyman-app/components/ui/ProviderPopupCard.tsx",
-                                                lineNumber: 296,
+                                                lineNumber: 305,
                                                 columnNumber: 17
                                             }, ("TURBOPACK compile-time value", void 0))
                                         }, void 0, false, {
                                             fileName: "[project]/yardyman-app/yardyman-app/components/ui/ProviderPopupCard.tsx",
-                                            lineNumber: 295,
+                                            lineNumber: 304,
                                             columnNumber: 15
                                         }, ("TURBOPACK compile-time value", void 0)),
                                         provider.hasTools ? "Has own tools" : "Uses owner's tools"
                                     ]
                                 }, void 0, true, {
                                     fileName: "[project]/yardyman-app/yardyman-app/components/ui/ProviderPopupCard.tsx",
-                                    lineNumber: 284,
+                                    lineNumber: 293,
                                     columnNumber: 13
                                 }, ("TURBOPACK compile-time value", void 0))
                             }, void 0, false, {
                                 fileName: "[project]/yardyman-app/yardyman-app/components/ui/ProviderPopupCard.tsx",
-                                lineNumber: 283,
+                                lineNumber: 292,
                                 columnNumber: 11
                             }, ("TURBOPACK compile-time value", void 0)),
                             /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$yardyman$2d$app$2f$yardyman$2d$app$2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("div", {
@@ -2065,30 +2078,30 @@ const ProviderPopupCard = ({ provider, onClose, activeService, isOwnerInactive, 
                                                     strokeLinejoin: "round"
                                                 }, void 0, false, {
                                                     fileName: "[project]/yardyman-app/yardyman-app/components/ui/ProviderPopupCard.tsx",
-                                                    lineNumber: 318,
+                                                    lineNumber: 327,
                                                     columnNumber: 19
                                                 }, ("TURBOPACK compile-time value", void 0))
                                             }, void 0, false, {
                                                 fileName: "[project]/yardyman-app/yardyman-app/components/ui/ProviderPopupCard.tsx",
-                                                lineNumber: 317,
+                                                lineNumber: 326,
                                                 columnNumber: 17
                                             }, ("TURBOPACK compile-time value", void 0)),
                                             method
                                         ]
                                     }, method, true, {
                                         fileName: "[project]/yardyman-app/yardyman-app/components/ui/ProviderPopupCard.tsx",
-                                        lineNumber: 305,
+                                        lineNumber: 314,
                                         columnNumber: 15
                                     }, ("TURBOPACK compile-time value", void 0)))
                             }, void 0, false, {
                                 fileName: "[project]/yardyman-app/yardyman-app/components/ui/ProviderPopupCard.tsx",
-                                lineNumber: 303,
+                                lineNumber: 312,
                                 columnNumber: 11
                             }, ("TURBOPACK compile-time value", void 0))
                         ]
                     }, void 0, true, {
                         fileName: "[project]/yardyman-app/yardyman-app/components/ui/ProviderPopupCard.tsx",
-                        lineNumber: 281,
+                        lineNumber: 290,
                         columnNumber: 9
                     }, ("TURBOPACK compile-time value", void 0)),
                     /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$yardyman$2d$app$2f$yardyman$2d$app$2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("div", {
@@ -2099,7 +2112,10 @@ const ProviderPopupCard = ({ provider, onClose, activeService, isOwnerInactive, 
                         },
                         children: isLargeScreen ? /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$yardyman$2d$app$2f$yardyman$2d$app$2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("a", {
                             href: `tel:${phone}`,
-                            onClick: ()=>(0, __TURBOPACK__imported__module__$5b$project$5d2f$yardyman$2d$app$2f$yardyman$2d$app$2f$lib$2f$analytics$2e$ts__$5b$app$2d$client$5d$__$28$ecmascript$29$__["trackEvent"])("Provider_Call_Tapped", getAnalyticsPayload()),
+                            onClick: ()=>{
+                                (0, __TURBOPACK__imported__module__$5b$project$5d2f$yardyman$2d$app$2f$yardyman$2d$app$2f$lib$2f$analytics$2e$ts__$5b$app$2d$client$5d$__$28$ecmascript$29$__["trackEvent"])("Provider_Call_Tapped", getAnalyticsPayload());
+                                recordInteraction("call");
+                            },
                             style: {
                                 flex: 1,
                                 display: "flex",
@@ -2128,25 +2144,28 @@ const ProviderPopupCard = ({ provider, onClose, activeService, isOwnerInactive, 
                                         d: "M22 16.92v3a2 2 0 01-2.18 2 19.79 19.79 0 01-8.63-3.07A19.5 19.5 0 013.07 12a19.79 19.79 0 01-3.07-8.67A2 2 0 012 1.13h3a2 2 0 012 1.72 12.84 12.84 0 00.7 2.81 2 2 0 01-.45 2.11L6.09 8.92a16 16 0 006 6l1.27-1.27a2 2 0 012.11-.45 12.84 12.84 0 002.81.7A2 2 0 0122 16.92z"
                                     }, void 0, false, {
                                         fileName: "[project]/yardyman-app/yardyman-app/components/ui/ProviderPopupCard.tsx",
-                                        lineNumber: 348,
+                                        lineNumber: 357,
                                         columnNumber: 17
                                     }, ("TURBOPACK compile-time value", void 0))
                                 }, void 0, false, {
                                     fileName: "[project]/yardyman-app/yardyman-app/components/ui/ProviderPopupCard.tsx",
-                                    lineNumber: 347,
+                                    lineNumber: 356,
                                     columnNumber: 15
                                 }, ("TURBOPACK compile-time value", void 0)),
                                 formattedPhone
                             ]
                         }, void 0, true, {
                             fileName: "[project]/yardyman-app/yardyman-app/components/ui/ProviderPopupCard.tsx",
-                            lineNumber: 329,
+                            lineNumber: 338,
                             columnNumber: 13
                         }, ("TURBOPACK compile-time value", void 0)) : /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$yardyman$2d$app$2f$yardyman$2d$app$2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])(__TURBOPACK__imported__module__$5b$project$5d2f$yardyman$2d$app$2f$yardyman$2d$app$2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["Fragment"], {
                             children: [
                                 /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$yardyman$2d$app$2f$yardyman$2d$app$2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("a", {
                                     href: `tel:${phone}`,
-                                    onClick: ()=>(0, __TURBOPACK__imported__module__$5b$project$5d2f$yardyman$2d$app$2f$yardyman$2d$app$2f$lib$2f$analytics$2e$ts__$5b$app$2d$client$5d$__$28$ecmascript$29$__["trackEvent"])("Provider_Call_Tapped", getAnalyticsPayload()),
+                                    onClick: ()=>{
+                                        (0, __TURBOPACK__imported__module__$5b$project$5d2f$yardyman$2d$app$2f$yardyman$2d$app$2f$lib$2f$analytics$2e$ts__$5b$app$2d$client$5d$__$28$ecmascript$29$__["trackEvent"])("Provider_Call_Tapped", getAnalyticsPayload());
+                                        recordInteraction("call");
+                                    },
                                     style: {
                                         flex: 1,
                                         display: "flex",
@@ -2176,24 +2195,27 @@ const ProviderPopupCard = ({ provider, onClose, activeService, isOwnerInactive, 
                                                 d: "M22 16.92v3a2 2 0 01-2.18 2 19.79 19.79 0 01-8.63-3.07A19.5 19.5 0 013.07 12a19.79 19.79 0 01-3.07-8.67A2 2 0 012 1.13h3a2 2 0 012 1.72 12.84 12.84 0 00.7 2.81 2 2 0 01-.45 2.11L6.09 8.92a16 16 0 006 6l1.27-1.27a2 2 0 012.11-.45 12.84 12.84 0 002.81.7A2 2 0 0122 16.92z"
                                             }, void 0, false, {
                                                 fileName: "[project]/yardyman-app/yardyman-app/components/ui/ProviderPopupCard.tsx",
-                                                lineNumber: 374,
+                                                lineNumber: 383,
                                                 columnNumber: 19
                                             }, ("TURBOPACK compile-time value", void 0))
                                         }, void 0, false, {
                                             fileName: "[project]/yardyman-app/yardyman-app/components/ui/ProviderPopupCard.tsx",
-                                            lineNumber: 373,
+                                            lineNumber: 382,
                                             columnNumber: 17
                                         }, ("TURBOPACK compile-time value", void 0)),
                                         "Call"
                                     ]
                                 }, void 0, true, {
                                     fileName: "[project]/yardyman-app/yardyman-app/components/ui/ProviderPopupCard.tsx",
-                                    lineNumber: 354,
+                                    lineNumber: 363,
                                     columnNumber: 15
                                 }, ("TURBOPACK compile-time value", void 0)),
                                 /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$yardyman$2d$app$2f$yardyman$2d$app$2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("a", {
                                     href: `sms:${phone}?body=${encodeURIComponent(`Hi, I found your profile on Yardyman and I'd like to get a quote for your ${serviceLabel.toLowerCase()} service. Are you available?`)}`,
-                                    onClick: ()=>(0, __TURBOPACK__imported__module__$5b$project$5d2f$yardyman$2d$app$2f$yardyman$2d$app$2f$lib$2f$analytics$2e$ts__$5b$app$2d$client$5d$__$28$ecmascript$29$__["trackEvent"])("Provider_Message_Tapped", getAnalyticsPayload()),
+                                    onClick: ()=>{
+                                        (0, __TURBOPACK__imported__module__$5b$project$5d2f$yardyman$2d$app$2f$yardyman$2d$app$2f$lib$2f$analytics$2e$ts__$5b$app$2d$client$5d$__$28$ecmascript$29$__["trackEvent"])("Provider_Message_Tapped", getAnalyticsPayload());
+                                        recordInteraction("message");
+                                    },
                                     style: {
                                         flex: 1,
                                         display: "flex",
@@ -2223,26 +2245,26 @@ const ProviderPopupCard = ({ provider, onClose, activeService, isOwnerInactive, 
                                                 d: "M21 15a2 2 0 01-2 2H7l-4 4V5a2 2 0 012-2h14a2 2 0 012 2z"
                                             }, void 0, false, {
                                                 fileName: "[project]/yardyman-app/yardyman-app/components/ui/ProviderPopupCard.tsx",
-                                                lineNumber: 398,
+                                                lineNumber: 407,
                                                 columnNumber: 19
                                             }, ("TURBOPACK compile-time value", void 0))
                                         }, void 0, false, {
                                             fileName: "[project]/yardyman-app/yardyman-app/components/ui/ProviderPopupCard.tsx",
-                                            lineNumber: 397,
+                                            lineNumber: 406,
                                             columnNumber: 17
                                         }, ("TURBOPACK compile-time value", void 0)),
                                         "Message"
                                     ]
                                 }, void 0, true, {
                                     fileName: "[project]/yardyman-app/yardyman-app/components/ui/ProviderPopupCard.tsx",
-                                    lineNumber: 378,
+                                    lineNumber: 387,
                                     columnNumber: 15
                                 }, ("TURBOPACK compile-time value", void 0))
                             ]
                         }, void 0, true)
                     }, void 0, false, {
                         fileName: "[project]/yardyman-app/yardyman-app/components/ui/ProviderPopupCard.tsx",
-                        lineNumber: 327,
+                        lineNumber: 336,
                         columnNumber: 9
                     }, ("TURBOPACK compile-time value", void 0)),
                     !isOwnProfile && /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$yardyman$2d$app$2f$yardyman$2d$app$2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("div", {
@@ -2279,19 +2301,19 @@ const ProviderPopupCard = ({ provider, onClose, activeService, isOwnerInactive, 
                                             points: "12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2"
                                         }, void 0, false, {
                                             fileName: "[project]/yardyman-app/yardyman-app/components/ui/ProviderPopupCard.tsx",
-                                            lineNumber: 431,
+                                            lineNumber: 440,
                                             columnNumber: 17
                                         }, ("TURBOPACK compile-time value", void 0))
                                     }, void 0, false, {
                                         fileName: "[project]/yardyman-app/yardyman-app/components/ui/ProviderPopupCard.tsx",
-                                        lineNumber: 430,
+                                        lineNumber: 439,
                                         columnNumber: 15
                                     }, ("TURBOPACK compile-time value", void 0)),
                                     "Rate this provider"
                                 ]
                             }, void 0, true, {
                                 fileName: "[project]/yardyman-app/yardyman-app/components/ui/ProviderPopupCard.tsx",
-                                lineNumber: 415,
+                                lineNumber: 424,
                                 columnNumber: 13
                             }, ("TURBOPACK compile-time value", void 0)),
                             /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$yardyman$2d$app$2f$yardyman$2d$app$2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("button", {
@@ -2323,7 +2345,7 @@ const ProviderPopupCard = ({ provider, onClose, activeService, isOwnerInactive, 
                                                 d: "M4 15s1-1 4-1 5 2 8 2 4-1 4-1V3s-1 1-4 1-5-2-8-2-4 1-4 1z"
                                             }, void 0, false, {
                                                 fileName: "[project]/yardyman-app/yardyman-app/components/ui/ProviderPopupCard.tsx",
-                                                lineNumber: 452,
+                                                lineNumber: 461,
                                                 columnNumber: 17
                                             }, ("TURBOPACK compile-time value", void 0)),
                                             /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$yardyman$2d$app$2f$yardyman$2d$app$2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("line", {
@@ -2333,32 +2355,32 @@ const ProviderPopupCard = ({ provider, onClose, activeService, isOwnerInactive, 
                                                 y2: "15"
                                             }, void 0, false, {
                                                 fileName: "[project]/yardyman-app/yardyman-app/components/ui/ProviderPopupCard.tsx",
-                                                lineNumber: 453,
+                                                lineNumber: 462,
                                                 columnNumber: 17
                                             }, ("TURBOPACK compile-time value", void 0))
                                         ]
                                     }, void 0, true, {
                                         fileName: "[project]/yardyman-app/yardyman-app/components/ui/ProviderPopupCard.tsx",
-                                        lineNumber: 451,
+                                        lineNumber: 460,
                                         columnNumber: 15
                                     }, ("TURBOPACK compile-time value", void 0)),
                                     "Report"
                                 ]
                             }, void 0, true, {
                                 fileName: "[project]/yardyman-app/yardyman-app/components/ui/ProviderPopupCard.tsx",
-                                lineNumber: 436,
+                                lineNumber: 445,
                                 columnNumber: 13
                             }, ("TURBOPACK compile-time value", void 0))
                         ]
                     }, void 0, true, {
                         fileName: "[project]/yardyman-app/yardyman-app/components/ui/ProviderPopupCard.tsx",
-                        lineNumber: 408,
+                        lineNumber: 417,
                         columnNumber: 11
                     }, ("TURBOPACK compile-time value", void 0))
                 ]
             }, void 0, true, {
                 fileName: "[project]/yardyman-app/yardyman-app/components/ui/ProviderPopupCard.tsx",
-                lineNumber: 98,
+                lineNumber: 107,
                 columnNumber: 7
             }, ("TURBOPACK compile-time value", void 0))
         ]

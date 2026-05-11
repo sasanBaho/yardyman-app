@@ -52,6 +52,15 @@ const ProviderPopupCard: React.FC<ProviderPopupCardProps> = ({
   const serviceLabel = isSnow ? "Snow Removal" : "Lawn Care";
   const serviceIcon = isSnow ? "/shovel-blue.png" : "/lawn-mower-green.png";
 
+  function recordInteraction(type: "call" | "message") {
+    if (!provider.id) return;
+    fetch("/api/providers/record-interaction", {
+      method: "POST",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify({ providerId: provider.id, type }),
+    }).catch(() => {});
+  }
+
   function getAnalyticsPayload() {
     return {
       providerId: provider.id || "unknown",
@@ -328,7 +337,7 @@ const ProviderPopupCard: React.FC<ProviderPopupCardProps> = ({
           {isLargeScreen ? (
             <a
               href={`tel:${phone}`}
-              onClick={() => trackEvent("Provider_Call_Tapped", getAnalyticsPayload())}
+              onClick={() => { trackEvent("Provider_Call_Tapped", getAnalyticsPayload()); recordInteraction("call"); }}
               style={{
                 flex: 1,
                 display: "flex",
@@ -353,7 +362,7 @@ const ProviderPopupCard: React.FC<ProviderPopupCardProps> = ({
             <>
               <a
                 href={`tel:${phone}`}
-                onClick={() => trackEvent("Provider_Call_Tapped", getAnalyticsPayload())}
+                onClick={() => { trackEvent("Provider_Call_Tapped", getAnalyticsPayload()); recordInteraction("call"); }}
                 style={{
                   flex: 1,
                   display: "flex",
@@ -377,7 +386,7 @@ const ProviderPopupCard: React.FC<ProviderPopupCardProps> = ({
               </a>
               <a
                 href={`sms:${phone}?body=${encodeURIComponent(`Hi, I found your profile on Yardyman and I'd like to get a quote for your ${serviceLabel.toLowerCase()} service. Are you available?`)}`}
-                onClick={() => trackEvent("Provider_Message_Tapped", getAnalyticsPayload())}
+                onClick={() => { trackEvent("Provider_Message_Tapped", getAnalyticsPayload()); recordInteraction("message"); }}
                 style={{
                   flex: 1,
                   display: "flex",
