@@ -178,6 +178,20 @@ export async function POST(req: NextRequest) {
         break;
       }
 
+      case "customer.subscription.updated": {
+        const subscription = event.data.object as Stripe.Subscription;
+        const previousAttributes = event.data.previous_attributes as any;
+        const justScheduledCancel =
+          (subscription as any).cancel_at_period_end === true &&
+          previousAttributes?.cancel_at_period_end === false;
+        if (!justScheduledCancel) break;
+        const customerId = typeof subscription.customer === "string" ? subscription.customer : subscription.customer?.id;
+        if (!customerId) break;
+        const email = await getCustomerEmail(customerId);
+        if (email) await sendCancellationEmail(email, subscription);
+        break;
+      }
+
       case "customer.subscription.deleted": {
         const subscription = event.data.object as Stripe.Subscription;
         const customerId = typeof subscription.customer === "string" ? subscription.customer : subscription.customer?.id;
