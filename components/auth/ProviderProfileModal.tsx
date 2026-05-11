@@ -4,7 +4,7 @@ import { useBodyScrollLock } from "@/hooks/useBodyScrollLock";
 import { updateDoc, doc, onSnapshot, serverTimestamp } from "firebase/firestore";
 import { ref as storageRef, uploadBytes, getDownloadURL } from "firebase/storage";
 import { db, storage, auth } from "@/firebase";
-import { signOut, getIdToken } from "firebase/auth";
+import { signOut, getIdToken, RecaptchaVerifier, PhoneAuthProvider, updatePhoneNumber } from "firebase/auth";
 import SelectServicesModal, { ServicesFormData } from "./SelectServicesModal";
 import SetLocationModal from "./SetLocationModal";
 import ImageCropModal from "./ImageCropModal";
@@ -109,6 +109,15 @@ const ProviderProfileModal: React.FC<ProviderProfileModalProps> = ({
   const [editingEmail, setEditingEmail] = useState(false);
   const [emailInput, setEmailInput] = useState(profile.email ?? "");
   const [savingEmail, setSavingEmail] = useState(false);
+  const [editingPhone, setEditingPhone] = useState(false);
+  const [phoneStep, setPhoneStep] = useState<"number" | "code">("number");
+  const [newPhoneInput, setNewPhoneInput] = useState("");
+  const [phoneCode, setPhoneCode] = useState("");
+  const [verificationId, setVerificationId] = useState<string | null>(null);
+  const [sendingCode, setSendingCode] = useState(false);
+  const [verifyingPhone, setVerifyingPhone] = useState(false);
+  const [phoneError, setPhoneError] = useState<string | null>(null);
+  const recaptchaVerifierRef = useRef<RecaptchaVerifier | null>(null);
   const [stripeSubscriptionId, setStripeSubscriptionId] = useState<string | null>(null);
   const [subscriptionInfo, setSubscriptionInfo] = useState<{
     status: string;
@@ -218,6 +227,51 @@ const ProviderProfileModal: React.FC<ProviderProfileModalProps> = ({
       onProfileUpdated?.(updated);
     } finally {
       setUploadingPhoto(false);
+    }
+  };
+
+  const handleSendPhoneCode = async () => {
+    const phone = newPhoneInput.trim();
+    if (!phone) return;
+    setSendingCode(true);
+    setPhoneError(null);
+    try {
+      recaptchaVerifierRef.current?.clear();
+      recaptchaVerifierRef.current = new RecaptchaVerifier(auth, "phone-recaptcha-container", { size: "invisible" });
+      const provider = new PhoneAuthProvider(auth);
+      const vid = await provider.verifyPhoneNumber(phone, recaptchaVerifierRef.current);
+      setVerificationId(vid);
+      setPhoneStep("code");
+    } catch (err: any) {
+      setPhoneError(err?.message ?? "Failed to send code. Use international format (+1...)");
+      recaptchaVerifierRef.current?.clear();
+      recaptchaVerifierRef.current = null;
+    } finally {
+      setSendingCode(false);
+    }
+  };
+
+  const handleVerifyPhoneCode = async () => {
+    if (!verificationId || !phoneCode.trim()) return;
+    setVerifyingPhone(true);
+    setPhoneError(null);
+    try {
+      const credential = PhoneAuthProvider.credential(verificationId, phoneCode.trim());
+      await updatePhoneNumber(auth.currentUser!, credential);
+      await updateDoc(doc(db, "providers", profile.uid), { phoneNumber: newPhoneInput.trim() });
+      const updated = { ...profileState, phone: newPhoneInput.trim() };
+      setProfileState(updated);
+      onProfileUpdated?.(updated);
+      setEditingPhone(false);
+      setPhoneStep("number");
+      setNewPhoneInput("");
+      setPhoneCode("");
+      setVerificationId(null);
+      setPhoneError(null);
+    } catch (err: any) {
+      setPhoneError(err?.message ?? "Invalid code. Please try again.");
+    } finally {
+      setVerifyingPhone(false);
     }
   };
 
@@ -650,19 +704,98 @@ const ProviderProfileModal: React.FC<ProviderProfileModalProps> = ({
               </svg>
             </div>
             <div style={{ display: "flex", alignItems: "center", gap: 4 }}>
-              <svg
-                width={13}
-                height={13}
-                viewBox="0 0 24 24"
-                fill="none"
-                stroke="#555"
-                strokeWidth="2"
-              >
+              <svg width={13} height={13} viewBox="0 0 24 24" fill="none" stroke="#555" strokeWidth="2">
                 <path d="M22 16.92v3a2 2 0 01-2.18 2 19.79 19.79 0 01-8.63-3.07A19.5 19.5 0 013.07 12a19.79 19.79 0 01-3.07-8.67A2 2 0 012 1.13h3a2 2 0 012 1.72 12.84 12.84 0 00.7 2.81 2 2 0 01-.45 2.11L6.09 8.92a16 16 0 006 6l1.27-1.27a2 2 0 012.11-.45 12.84 12.84 0 002.81.7A2 2 0 0122 16.92z" />
               </svg>
               <span>{profileState.phone}</span>
+              <button
+                onClick={() => { setEditingPhone(true); setPhoneStep("number"); setNewPhoneInput(""); setPhoneCode(""); setPhoneError(null); }}
+                style={{ background: "none", border: "none", cursor: "pointer", padding: 0, marginLeft: 2 }}
+                aria-label="Edit phone"
+              >
+                <svg width={12} height={12} viewBox="0 0 24 24" fill="none" stroke="#22c55e" strokeWidth="2">
+                  <path d="M11 4H4a2 2 0 00-2 2v14a2 2 0 002 2h14a2 2 0 002-2v-7" />
+                  <path d="M18.5 2.5a2.121 2.121 0 013 3L12 15l-4 1 1-4 9.5-9.5z" />
+                </svg>
+              </button>
             </div>
           </div>
+
+          {/* Phone edit flow */}
+          {editingPhone && (
+            <div style={{ margin: "12px 16px 0", background: "#f9fafb", border: "1px solid #e5e7eb", borderRadius: 14, padding: "16px" }}>
+              <div style={{ display: "flex", justifyContent: "space-between", alignItems: "center", marginBottom: 12 }}>
+                <span style={{ fontSize: 13, fontWeight: 700, color: "#111" }}>
+                  {phoneStep === "number" ? "Enter new phone number" : "Enter verification code"}
+                </span>
+                <button
+                  onClick={() => { setEditingPhone(false); setPhoneStep("number"); setPhoneError(null); recaptchaVerifierRef.current?.clear(); recaptchaVerifierRef.current = null; }}
+                  style={{ background: "none", border: "none", cursor: "pointer", fontSize: 18, color: "#999", lineHeight: 1 }}
+                >×</button>
+              </div>
+
+              {phoneStep === "number" ? (
+                <>
+                  <input
+                    value={newPhoneInput}
+                    onChange={(e) => setNewPhoneInput(e.target.value)}
+                    onKeyDown={(e) => e.key === "Enter" && handleSendPhoneCode()}
+                    placeholder="+1 (555) 000-0000"
+                    type="tel"
+                    autoFocus
+                    style={{ width: "100%", fontSize: 15, border: "none", borderBottom: "2px solid #22c55e", outline: "none", background: "transparent", padding: "4px 2px", marginBottom: 8, boxSizing: "border-box" }}
+                  />
+                  <p style={{ margin: "0 0 12px", fontSize: 11, color: "#888" }}>
+                    Use international format, e.g. +1 416 555 0100
+                  </p>
+                  <button
+                    onClick={handleSendPhoneCode}
+                    disabled={sendingCode || !newPhoneInput.trim()}
+                    style={{ width: "100%", background: sendingCode || !newPhoneInput.trim() ? "#d1fae5" : "#22c55e", color: "#fff", border: "none", borderRadius: 999, padding: "10px", fontWeight: 700, fontSize: 14, cursor: sendingCode || !newPhoneInput.trim() ? "not-allowed" : "pointer" }}
+                  >
+                    {sendingCode ? "Sending…" : "Send Verification Code"}
+                  </button>
+                </>
+              ) : (
+                <>
+                  <p style={{ margin: "0 0 8px", fontSize: 12, color: "#555" }}>
+                    Code sent to <strong>{newPhoneInput}</strong>
+                  </p>
+                  <input
+                    value={phoneCode}
+                    onChange={(e) => setPhoneCode(e.target.value.replace(/\D/g, "").slice(0, 6))}
+                    onKeyDown={(e) => e.key === "Enter" && handleVerifyPhoneCode()}
+                    placeholder="6-digit code"
+                    type="text"
+                    inputMode="numeric"
+                    maxLength={6}
+                    autoFocus
+                    style={{ width: "100%", fontSize: 22, fontWeight: 700, letterSpacing: 8, textAlign: "center", border: "none", borderBottom: "2px solid #22c55e", outline: "none", background: "transparent", padding: "4px 2px", marginBottom: 12, boxSizing: "border-box" }}
+                  />
+                  <button
+                    onClick={handleVerifyPhoneCode}
+                    disabled={verifyingPhone || phoneCode.length < 6}
+                    style={{ width: "100%", background: verifyingPhone || phoneCode.length < 6 ? "#d1fae5" : "#22c55e", color: "#fff", border: "none", borderRadius: 999, padding: "10px", fontWeight: 700, fontSize: 14, cursor: verifyingPhone || phoneCode.length < 6 ? "not-allowed" : "pointer" }}
+                  >
+                    {verifyingPhone ? "Verifying…" : "Verify & Update Phone"}
+                  </button>
+                  <button
+                    onClick={() => { setPhoneStep("number"); setPhoneCode(""); setPhoneError(null); }}
+                    style={{ width: "100%", background: "none", border: "none", color: "#888", fontSize: 12, marginTop: 8, cursor: "pointer", textDecoration: "underline" }}
+                  >
+                    Use a different number
+                  </button>
+                </>
+              )}
+
+              {phoneError && (
+                <p style={{ margin: "10px 0 0", fontSize: 12, color: "#ef4444", textAlign: "center" }}>{phoneError}</p>
+              )}
+
+              {/* Invisible reCAPTCHA mount point */}
+              <div id="phone-recaptcha-container" />
+            </div>
+          )}
 
           {/* Email */}
           <div style={{ display: "flex", alignItems: "center", justifyContent: "center", gap: 6, marginTop: 8, fontSize: 14, color: "#555" }}>
