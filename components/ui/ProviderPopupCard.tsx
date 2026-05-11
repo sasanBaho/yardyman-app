@@ -196,14 +196,14 @@ const ProviderPopupCard: React.FC<ProviderPopupCardProps> = ({
               {/* Service badge */}
               <div style={{
                 display: "inline-flex",
-                alignItems: "center",
+                alignItems: "end",
                 gap: 5,
                 background: accentLight,
                 borderRadius: 999,
                 padding: "4px 10px 4px 6px",
                 marginBottom: 8,
               }}>
-                <img src={serviceIcon} alt={serviceLabel} style={{ width: 18, height: 18, objectFit: "contain" }} />
+                <img src={serviceIcon} alt={serviceLabel} style={{ width: 22, height: 22, objectFit: "contain" }} />
                 <span style={{ fontSize: 12, fontWeight: 700, color: accentColor }}>{serviceLabel}</span>
               </div>
 
