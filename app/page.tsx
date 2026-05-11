@@ -457,7 +457,10 @@ export default function Home() {
       method: "POST",
       headers: { "Content-Type": "application/json" },
       body: JSON.stringify({ providerId: provider.id }),
-    }).catch(() => {});
+    })
+      .then((r) => r.json())
+      .then((d) => { if (!d.ok) console.error("[record-view]", d.error); })
+      .catch((e) => console.error("[record-view] fetch failed", e));
 
     setSelectedProvider(provider);
   }

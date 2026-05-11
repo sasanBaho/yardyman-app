@@ -70,14 +70,14 @@ const GreenCheck: React.FC = () => (
       display: "inline-flex",
       alignItems: "center",
       justifyContent: "center",
-      width: 22,
-      height: 22,
+      width: 14,
+      height: 14,
       borderRadius: "50%",
       background: "#22c55e",
       flexShrink: 0,
     }}
   >
-    <svg width={11} height={11} viewBox="0 0 20 20" fill="none">
+    <svg width={14} height={14} viewBox="0 0 20 20" fill="none">
       <path
         d="M5 10.5L9 14.5L15 7.5"
         stroke="white"
