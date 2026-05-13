@@ -22,6 +22,12 @@ function formatInterval(interval: string, intervalCount: number): string {
   return `/ ${intervalCount} ${interval}s`;
 }
 
+function getDiscountLabel(interval: string, intervalCount: number): string | null {
+  if (interval === "year") return "75% off";
+  if (interval === "month" && intervalCount === 3) return "50% off";
+  return null;
+}
+
 function formatPrice(amount: number, currency: string): string {
   return new Intl.NumberFormat("en-CA", {
     style: "currency",
@@ -71,9 +77,25 @@ const SubscriptionModal: React.FC<SubscriptionModalProps> = ({ onClose, onPlanSe
         <h2 style={{ margin: "0 0 4px", fontSize: 22, fontWeight: 800, color: "#111" }}>
           Choose a Plan
         </h2>
-        <p style={{ margin: "0 0 20px", fontSize: 14, color: "#666" }}>
+        <p style={{ margin: "0 0 12px", fontSize: 14, color: "#666" }}>
           Start with a free 1-month trial. Cancel anytime.
         </p>
+
+        <div style={{
+          marginBottom: 16,
+          padding: "10px 14px",
+          background: "#fff7ed",
+          border: "1.5px solid #fed7aa",
+          borderRadius: 12,
+          display: "flex",
+          alignItems: "center",
+          gap: 8,
+        }}>
+          <span style={{ fontSize: 15 }}>🎉</span>
+          <p style={{ margin: 0, fontSize: 13, color: "#9a3412", lineHeight: 1.4, fontWeight: 600 }}>
+            Limited offer ends July 1st — save 50% on 3 months &amp; 75% on yearly
+          </p>
+        </div>
 
         <div style={{ display: "flex", flexDirection: "column", gap: 12 }}>
           {fetching ? (
@@ -90,6 +112,7 @@ const SubscriptionModal: React.FC<SubscriptionModalProps> = ({ onClose, onPlanSe
             plans.map((plan, index) => {
               const isSelected = selectedPriceId === plan.priceId;
               const isBestValue = index === plans.length - 1 && plans.length > 1;
+              const discountLabel = getDiscountLabel(plan.interval, plan.intervalCount);
               return (
                 <button
                   key={plan.priceId}
@@ -108,7 +131,22 @@ const SubscriptionModal: React.FC<SubscriptionModalProps> = ({ onClose, onPlanSe
                     position: "relative",
                   }}
                 >
-                  {isBestValue && (
+                  {discountLabel ? (
+                    <span style={{
+                      position: "absolute",
+                      top: -11,
+                      right: 14,
+                      background: "#f97316",
+                      color: "#fff",
+                      fontSize: 11,
+                      fontWeight: 700,
+                      borderRadius: 999,
+                      padding: "2px 10px",
+                      letterSpacing: 0.3,
+                    }}>
+                      {discountLabel}
+                    </span>
+                  ) : isBestValue && (
                     <span style={{
                       position: "absolute",
                       top: -11,
