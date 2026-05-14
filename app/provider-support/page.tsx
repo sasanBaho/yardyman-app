@@ -369,10 +369,6 @@ export default function ProviderSupportPage() {
             question="How do I toggle my availability?"
             answer="Open your provider profile and use the availability toggle. When set to unavailable, your pin will be hidden from homeowners on the map."
           />
-          <FaqItem
-            question="How do I delete my account?"
-            answer="You can delete your account from the sidebar menu (tap the ☰ icon) under Account → Delete My Account. This permanently removes all your data from Yardyman."
-          />
         </div>
       </div>
     </div>

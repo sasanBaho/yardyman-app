@@ -2,10 +2,11 @@
 import Link from "next/link";
 import { useState } from "react";
 
-const FAQS = [
+const FAQS: { q: string; a: string; link?: { href: string; label: string } }[] = [
   {
     q: "Do I need to pay to join?",
-    a: "Yardyman is completely free for service providers to join and use until January 2026. After that, a small monthly subscription fee starting at just $4.99 will apply to continue enjoying full access to the platform and all its features.",
+    a: "Every provider starts with a free 1-month trial. After your trial, choose the plan that works best for you. We're currently offering a limited-time discount: 50% off the 3-month plan ($18.99) and 75% off the yearly plan ($72), valid until July 1st. If you don't receive any job leads during your paid plan period, we'll refund you — no questions asked.",
+    link: { href: "/refund", label: "Learn more about our refund policy" },
   },
   {
     q: "Can I use my own tools and ingredients?",
@@ -29,19 +30,19 @@ const FAQS = [
   },
   {
     q: "How do clients contact me?",
-    a: "Clients can reach you directly through the App by calling or sending a text message to the phone number you registered with. Your contact information is visible to clients so they can get in touch without any delays.",
+    a: "Clients can reach you directly through Yardyman by calling or sending a text message to the phone number you registered with. Your contact information is visible to clients so they can get in touch without any delays.",
   },
   {
     q: "Is my personal information safe?",
-    a: "We take data security seriously and implement reasonable safeguards to protect your information. Note that your phone number and approximate location are visible to clients within the App so they can contact you. Please review our Privacy Policy for full details on how we handle your data.",
+    a: "We take data security seriously and implement reasonable safeguards to protect your information. Note that your phone number and approximate location are visible to clients on the platform so they can contact you. Please review our Privacy Policy for full details on how we handle your data.",
   },
   {
     q: "What happens if a client has a complaint?",
-    a: "Clients can report a provider directly through the App. We review all reports carefully and may take action, including suspending or permanently blocking an account, if a violation is confirmed. As a provider, you can also report client misconduct by submitting a Provider Support Form from the App settings.",
+    a: "Clients can report a provider directly on the platform. We review all reports carefully and may take action, including suspending or permanently blocking an account, if a violation is confirmed. As a provider, you can also report client misconduct by submitting a Provider Support Form from the platform settings.",
   },
   {
     q: "Can I cancel my subscription?",
-    a: "Yes, you can cancel your subscription at any time from within the App. After cancellation, you will retain access to your account until the end of your current billing period. If you are not satisfied, you may also be eligible for a refund under our 30-day money-back guarantee — see our Refund Policy for details.",
+    a: "Yes, you can cancel your subscription at any time from your account settings. After cancellation, you will retain access to your account until the end of your current billing period. If you are not satisfied, you may also be eligible for a refund under our 30-day money-back guarantee — see our Refund Policy for details.",
   },
 ];
 
@@ -63,7 +64,7 @@ function ChevronDown({ open }: { open: boolean }) {
   );
 }
 
-function FaqItem({ question, answer }: { question: string; answer: string }) {
+function FaqItem({ question, answer, link }: { question: string; answer: string; link?: { href: string; label: string } }) {
   const [open, setOpen] = useState(false);
   return (
     <div style={{
@@ -94,6 +95,14 @@ function FaqItem({ question, answer }: { question: string; answer: string }) {
       {open && (
         <div style={{ padding: "0 24px 18px" }}>
           <p style={{ margin: 0, fontSize: 14, color: "#6b7280", lineHeight: 1.85 }}>{answer}</p>
+          {link && (
+            <Link
+              href={link.href}
+              style={{ display: "inline-block", marginTop: 8, fontSize: 13, color: "#22c55e", fontWeight: 600, textDecoration: "none" }}
+            >
+              {link.label} →
+            </Link>
+          )}
         </div>
       )}
     </div>
@@ -163,7 +172,7 @@ export default function FaqPage() {
         {/* FAQ accordion card */}
         <div style={{ background: "#fff", borderRadius: 16, boxShadow: "0 1px 4px rgba(0,0,0,0.06)", overflow: "hidden" }}>
           {FAQS.map((faq, i) => (
-            <FaqItem key={i} question={faq.q} answer={faq.a} />
+            <FaqItem key={i} question={faq.q} answer={faq.a} link={faq.link} />
           ))}
         </div>
 

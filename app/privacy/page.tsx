@@ -69,9 +69,7 @@ function ContactBox() {
         <strong>Email:</strong>{" "}
         <a href="mailto:hi@yardyman.com" style={{ color: "#22c55e", textDecoration: "none" }}>hi@yardyman.com</a>
       </p>
-      <p style={{ margin: 0, fontSize: 14, color: "#374151" }}>
-        <strong>Phone:</strong> +1 (438) 994-5322
-      </p>
+
     </div>
   );
 }
@@ -101,7 +99,7 @@ export default function PrivacyPage() {
         <h2 style={{ margin: "0 0 6px", fontSize: 26, fontWeight: 700, color: "#111827" }}>Privacy Policy</h2>
         <p style={{ margin: "0 0 8px", fontSize: 13, color: "#9ca3af" }}>Last updated: Nov 4, 2025</p>
         <p style={{ margin: "0 0 32px", fontSize: 15, color: "#6b7280", lineHeight: 1.7 }}>
-          Yardyman respects your privacy. This Privacy Policy explains how we collect, use, and protect your information when you use our mobile application.
+          Yardyman respects your privacy. This Privacy Policy explains how we collect, use, and protect your information when you use our web application.
         </p>
 
         <div style={{ background: "#fff", borderRadius: 16, padding: "28px 24px", boxShadow: "0 1px 4px rgba(0,0,0,0.06)" }}>
@@ -114,7 +112,7 @@ export default function PrivacyPage() {
             ]} />
             <SubTitle>From Clients</SubTitle>
             <Para>
-              No sign-up is required. We may collect device and usage information (e.g., app activity) to improve the service.
+              No sign-up is required. We may collect device and usage information (e.g., platform activity) to improve the service.
             </Para>
             <SubTitle>Location Data</SubTitle>
             <Para>
@@ -128,7 +126,7 @@ export default function PrivacyPage() {
               "Enable providers to create and manage accounts.",
               "Display provider profiles and locations to clients.",
               "Allow clients to contact providers via call or message.",
-              "Improve, maintain, and secure the App.",
+              "Improve, maintain, and secure the platform.",
               "Comply with legal obligations.",
             ]} />
           </PolicySection>
@@ -136,9 +134,9 @@ export default function PrivacyPage() {
           <PolicySection title="3. Sharing of Information">
             <Bullets items={[
               "We do not sell or rent your personal information.",
-              "We may share information with service providers that help operate the App (e.g., hosting, messaging, analytics).",
+              "We may share information with service providers that help operate the platform (e.g., hosting, messaging, analytics).",
               "We may share information with authorities if required by law or to protect rights, safety, or security.",
-              "Information shared by providers (such as phone number or service description) may be visible to clients within the App.",
+              "Information shared by providers (such as phone number or service description) may be visible to clients on the platform.",
             ]} />
           </PolicySection>
 
@@ -158,43 +156,43 @@ export default function PrivacyPage() {
 
           <PolicySection title="6. Your Choices">
             <Bullets items={[
-              "Providers: You may update your account information at any time through the App.",
-              "Clients: You may manage location permissions in your device settings.",
-              "All users: You may uninstall the App to stop further data collection.",
+              "Providers: You may update your account information at any time through the platform.",
+              "Clients: You may manage location permissions in your browser settings.",
+              "All users: You may clear your browser data or stop using the platform to limit further data collection.",
             ]} />
           </PolicySection>
 
           <PolicySection title="7. Children's Privacy">
             <Para>
-              The App is not intended for children under 18. We do not knowingly collect personal information from minors. If you believe a minor has provided us information, please contact us and we will remove it promptly.
+              Yardyman is not intended for children under 18. We do not knowingly collect personal information from minors. If you believe a minor has provided us information, please contact us and we will remove it promptly.
             </Para>
           </PolicySection>
 
           <PolicySection title="8. Liability Disclaimer">
             <SubTitle>For Providers</SubTitle>
             <Bullets items={[
-              "Your phone number and location are publicly visible within the App so that clients can contact you directly.",
+              "Your phone number and location are publicly visible on the platform so that clients can contact you directly.",
               "Clients may call or text you using this information. We are not responsible or liable for any misuse of your contact information by other users.",
               "You are solely responsible for interactions, communications, and services provided to clients.",
             ]} />
             <SubTitle>For Providers and Clients</SubTitle>
             <Bullets items={[
-              "We are not liable for any loss, damage, theft, injury, or misconduct that may occur during or after a service engagement arranged through the App.",
+              "We are not liable for any loss, damage, theft, injury, or misconduct that may occur during or after a service engagement arranged through Yardyman.",
               "If a client fails to pay or if a provider causes damage, these matters are strictly between the involved parties.",
-              "The App functions solely as a connection platform and does not mediate payments or guarantee outcomes.",
+              "Yardyman functions solely as a connection platform and does not mediate payments or guarantee outcomes.",
             ]} />
           </PolicySection>
 
           <PolicySection title="9. Reporting and Account Actions">
             <Bullets items={[
-              "Clients can report a provider directly through the App. Upon review, we may suspend or permanently block a provider account if violations are confirmed.",
-              "Providers can submit a Provider Support Form available in the App settings to report client misconduct. We may block client accounts after review.",
+              "Clients can report a provider directly on the platform. Upon review, we may suspend or permanently block a provider account if violations are confirmed.",
+              "Providers can submit a Provider Support Form available in the platform settings to report client misconduct. We may block client accounts after review.",
             ]} />
           </PolicySection>
 
           <PolicySection title="10. Changes to This Privacy Policy">
             <Para>
-              We may update this Privacy Policy from time to time. Changes will be effective once posted in the App. Your continued use of the App after any changes constitutes your acceptance of the updated policy.
+              We may update this Privacy Policy from time to time. Changes will be effective once posted on the platform. Your continued use of Yardyman after any changes constitutes your acceptance of the updated policy.
             </Para>
           </PolicySection>
 

@@ -113,25 +113,23 @@ export default function RefundPage() {
 
           <PolicySection title="1. Eligibility for Refund">
             <Para>
-              We offer a 30-day money-back guarantee from the date of purchase if you did not receive any client through the App. This policy applies regardless of your country of residence, ensuring a fair experience for all providers.
+              We offer a 30-day money-back guarantee from the date of purchase if you did not receive any client through Yardyman. This policy applies regardless of your country of residence, ensuring a fair experience for all providers.
             </Para>
             <Para>To be eligible for a refund:</Para>
             <Bullets items={[
               "Your request must be received within thirty (30) calendar days of the original purchase date.",
               "You must submit your request via email to refund@yardyman.com.",
-              "Include the email address used during checkout.",
+              "Include your phone number and the email address used during checkout.",
               "Include a brief explanation of the reason for the refund.",
               "Optionally include your order ID or the last 4 digits of your payment card for verification.",
             ]} />
-            <InfoBox>
-              You may request a refund even if the App has already been downloaded, installed, or activated. Detailed justification is not required, though feedback is always welcome.
-            </InfoBox>
+      
           </PolicySection>
 
           <PolicySection title="2. Method and Processing of Refunds">
             <Bullets items={[
               "Approved refunds will be issued via PayPal.",
-              "Refunds are issued minus 15% of the original payment amount. This deduction reflects the App Store commission fee that is not paid to Yardyman and therefore cannot be refunded.",
+              "Refunds are issued minus 2.5% of the original payment amount. This deduction reflects the Stripe commission fee that is not paid to Yardyman and therefore cannot be refunded.",
               "We do not charge any additional refund handling or processing fees.",
             ]} />
           </PolicySection>
@@ -140,7 +138,7 @@ export default function RefundPage() {
             <Para>Refunds may be declined under the following conditions:</Para>
             <Bullets items={[
               "Requests made after the 30-day window has elapsed.",
-              "Violation of our Terms of Use, including unlawful, harmful, or abusive use of the App.",
+              "Violation of our Terms of Use, including unlawful, harmful, or abusive use of the platform.",
               "Fraudulent behavior, false identity, or payment disputes.",
               "Abuse of the refund policy, including repeated refund requests for the same or multiple purchases.",
               "The account has been suspended or banned due to breach of policy or detected fraud.",
@@ -165,7 +163,7 @@ export default function RefundPage() {
             <Para>Your email should include:</Para>
             <Bullets items={[
               "The email address used during the original purchase.",
-              "Your name (exactly as used in the App) and phone number.",
+              "Your name (exactly as used on Yardyman) and phone number.",
               "A short explanation of your reason for requesting a refund.",
               "Optional: your order number or proof of purchase.",
             ]} />

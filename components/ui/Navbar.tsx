@@ -55,7 +55,7 @@ const Navbar: React.FC<NavbarProps> = ({
           position: "fixed",
           top: 0,
           left: 0,
-          width: "100vw",
+          right: 0,
           zIndex: 200,
           display: "flex",
           alignItems: "center",
@@ -66,8 +66,11 @@ const Navbar: React.FC<NavbarProps> = ({
           paddingBottom: isWide ? "8px" : "6px",
           paddingLeft: isWide ? "20px" : "12px",
           paddingRight: isWide ? "20px" : "12px",
-          transform: "translateZ(0)",
-          WebkitTransform: "translateZ(0)",
+          transform: "translate3d(0,0,0)",
+          WebkitTransform: "translate3d(0,0,0)",
+          backfaceVisibility: "hidden",
+          WebkitBackfaceVisibility: "hidden",
+          willChange: "transform",
         }}
       >
         {/* Logo */}

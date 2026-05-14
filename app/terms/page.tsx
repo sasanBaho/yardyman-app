@@ -69,9 +69,6 @@ function ContactBox() {
         <strong>Email:</strong>{" "}
         <a href="mailto:hi@yardyman.com" style={{ color: "#22c55e", textDecoration: "none" }}>hi@yardyman.com</a>
       </p>
-      <p style={{ margin: 0, fontSize: 14, color: "#374151" }}>
-        <strong>Tel:</strong> +1 (438) 994-5322
-      </p>
     </div>
   );
 }
@@ -103,7 +100,7 @@ export default function TermsPage() {
         <h2 style={{ margin: "0 0 6px", fontSize: 26, fontWeight: 700, color: "#111827" }}>Terms &amp; Conditions</h2>
         <p style={{ margin: "0 0 8px", fontSize: 13, color: "#9ca3af" }}>Last updated: Sept 27, 2025</p>
         <p style={{ margin: "0 0 32px", fontSize: 15, color: "#6b7280", lineHeight: 1.7 }}>
-          These Terms &amp; Conditions govern the use of the Yardyman mobile application. By accessing or using the App, you agree to be bound by these Terms. If you do not agree, do not use the App.
+          These Terms &amp; Conditions govern the use of the Yardyman platform. By accessing or using Yardyman, you agree to be bound by these Terms. If you do not agree, do not use the platform.
         </p>
 
         <div style={{ background: "#fff", borderRadius: 16, padding: "28px 24px", boxShadow: "0 1px 4px rgba(0,0,0,0.06)" }}>
@@ -115,14 +112,14 @@ export default function TermsPage() {
             </Para>
             <SubTitle>Clients</SubTitle>
             <Para>
-              Clients may use the App without creating an account. By using the App, you agree to abide by these Terms.
+              Clients may use Yardyman without creating an account. By using the platform, you agree to abide by these Terms.
             </Para>
           </PolicySection>
 
-          <PolicySection title="2. Use of the App">
+          <PolicySection title="2. Use of the Platform">
             <Bullets items={[
-              "The App provides a digital platform that connects clients with local service providers.",
-              "The App does not manage, employ, endorse, or guarantee any provider or service.",
+              "Yardyman provides a digital platform that connects clients with local service providers.",
+              "Yardyman does not manage, employ, endorse, or guarantee any provider or service.",
               "All interactions, communications, and transactions are strictly between clients and providers.",
             ]} />
           </PolicySection>
@@ -138,19 +135,19 @@ export default function TermsPage() {
             <Bullets items={[
               "You are solely responsible for the quality, safety, and legality of the services you provide.",
               "You agree to handle client inquiries and transactions in good faith.",
-              "The App bears no responsibility for disputes, cancellations, or unsatisfactory services.",
+              "Yardyman bears no responsibility for disputes, cancellations, or unsatisfactory services.",
             ]} />
           </PolicySection>
 
           <PolicySection title="4. Terms for Clients">
             <SubTitle>Independent Providers</SubTitle>
             <Bullets items={[
-              "You understand that providers are independent third parties, not employees or representatives of the App.",
+              "You understand that providers are independent third parties, not employees or representatives of Yardyman.",
               "You are responsible for evaluating providers before engaging their services.",
             ]} />
             <SubTitle>No Guarantee</SubTitle>
             <Bullets items={[
-              "The App does not guarantee the reliability, safety, availability, or quality of any services offered by providers.",
+              "Yardyman does not guarantee the reliability, safety, availability, or quality of any services offered by providers.",
               "All transactions and agreements are strictly between you and the provider.",
             ]} />
           </PolicySection>
@@ -158,38 +155,38 @@ export default function TermsPage() {
           <PolicySection title="5. Prohibited Conduct">
             <Para>You agree not to:</Para>
             <Bullets items={[
-              "Use the App for unlawful purposes.",
+              "Use the platform for unlawful purposes.",
               "Misrepresent your identity or services.",
               "Harass, abuse, or defraud other users.",
-              "Attempt to interfere with the security or functionality of the App.",
+              "Attempt to interfere with the security or functionality of the platform.",
             ]} />
           </PolicySection>
 
           <PolicySection title="6. Limitation of Liability">
             <Bullets items={[
-              'The App is provided "as is" without warranties of any kind.',
-              "The App is not responsible for any losses, damages, injuries, or disputes arising from interactions between clients and providers.",
-              "To the fullest extent permitted by law, the App disclaims all liability related to your use of the platform.",
+              'Yardyman is provided "as is" without warranties of any kind.',
+              "Yardyman is not responsible for any losses, damages, injuries, or disputes arising from interactions between clients and providers.",
+              "To the fullest extent permitted by law, Yardyman disclaims all liability related to your use of the platform.",
             ]} />
           </PolicySection>
 
           <PolicySection title="7. Termination">
             <Para>
-              The App reserves the right to suspend or terminate access to any user or provider who violates these Terms or engages in harmful conduct.
+              Yardyman reserves the right to suspend or terminate access to any user or provider who violates these Terms or engages in harmful conduct.
             </Para>
           </PolicySection>
 
           <PolicySection title="8. Disclaimer">
             <Bullets items={[
-              "The App is a neutral platform and does not control or monitor the services of providers.",
-              "The App does not guarantee the accuracy of listings, availability of providers, or outcomes of services.",
-              "Users assume all risks when contacting or engaging with providers through the App.",
+              "Yardyman is a neutral platform and does not control or monitor the services of providers.",
+              "Yardyman does not guarantee the accuracy of listings, availability of providers, or outcomes of services.",
+              "Users assume all risks when contacting or engaging with providers through Yardyman.",
             ]} />
           </PolicySection>
 
           <PolicySection title="9. Changes to Terms">
             <Para>
-              We may update these Terms from time to time. Continued use of the App after changes are posted constitutes acceptance of the revised Terms.
+              We may update these Terms from time to time. Continued use of Yardyman after changes are posted constitutes acceptance of the revised Terms.
             </Para>
           </PolicySection>
 
