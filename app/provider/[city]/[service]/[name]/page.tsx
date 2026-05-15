@@ -8,6 +8,7 @@ import { slugifyStr } from "@/lib/slugify";
 import ViewTracker from "./ViewTracker";
 
 export const revalidate = 3600;
+export const dynamicParams = true;
 
 const BASE_URL = "https://yardyman.com";
 const ACTIVE_STATUSES = ["active", "trialing"];
