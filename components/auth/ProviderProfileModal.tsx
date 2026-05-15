@@ -1,7 +1,7 @@
 "use client";
 import React, { useEffect, useRef, useState } from "react";
 import { useBodyScrollLock } from "@/hooks/useBodyScrollLock";
-import { updateDoc, doc, onSnapshot, serverTimestamp } from "firebase/firestore";
+import { updateDoc, doc, onSnapshot, serverTimestamp, collection, query, where, getDocs } from "firebase/firestore";
 import { ref as storageRef, uploadBytes, getDownloadURL } from "firebase/storage";
 import { db, storage, auth } from "@/firebase";
 import { signOut, getIdToken, RecaptchaVerifier, PhoneAuthProvider, updatePhoneNumber } from "firebase/auth";
@@ -11,6 +11,7 @@ import ImageCropModal from "./ImageCropModal";
 import SubscriptionModal from "./SubscriptionModal";
 import ViewsAnalyticsModal from "./ViewsAnalyticsModal";
 import { BsCircleFill } from "react-icons/bs";
+import { slugifyStr } from "@/lib/slugify";
 
 function encodeGeohashLocal(lat: number, lng: number, precision = 9): string {
   const BASE32 = "0123456789bcdefghjkmnpqrstuvwxyz";
@@ -50,6 +51,9 @@ export interface ProviderProfile {
   ratingsCount?: number;
   latitude?: number;
   longitude?: number;
+  citySlug?: string;
+  nameSlug?: string;
+  nameSlugBase?: string;
 }
 
 interface ProviderProfileModalProps {
@@ -133,8 +137,50 @@ const ProviderProfileModal: React.FC<ProviderProfileModalProps> = ({
   const [subscribeModalLoading, setSubscribeModalLoading] = useState(false);
   const [viewsByMonth, setViewsByMonth] = useState<Record<string, number>>({});
   const [showAnalytics, setShowAnalytics] = useState(false);
+  const [copied, setCopied] = useState(false);
   const fileInputRef = useRef<HTMLInputElement>(null);
   const nameInputRef = useRef<HTMLInputElement>(null);
+
+  const SERVICE_SLUG: Record<string, string> = {
+    "service-one": "lawn-care",
+    "service-two": "snow-removal",
+  };
+
+  const firstServiceSlug = SERVICE_SLUG[profileState.selectedServices?.[0]] ?? "lawn-care";
+  const profileUrl =
+    profileState.citySlug && profileState.nameSlug
+      ? `https://yardyman.com/provider/${profileState.citySlug}/${firstServiceSlug}/${profileState.nameSlug}`
+      : null;
+
+  async function computeNameSlug(uid: string, name: string, citySlug: string): Promise<{ nameSlug: string; nameSlugBase: string }> {
+    const base = slugifyStr(name);
+    const snap = await getDocs(
+      query(collection(db, "providers"), where("citySlug", "==", citySlug), where("nameSlugBase", "==", base))
+    );
+    const others = snap.docs.filter((d) => d.id !== uid);
+    if (others.length === 0) return { nameSlug: base, nameSlugBase: base };
+    const usedSlugs = new Set(others.map((d) => d.data().nameSlug as string));
+    for (let i = 2; ; i++) {
+      const candidate = `${base}-${i}`;
+      if (!usedSlugs.has(candidate)) return { nameSlug: candidate, nameSlugBase: base };
+    }
+  }
+
+  async function handleCopyLink() {
+    if (!profileUrl) return;
+    await navigator.clipboard.writeText(profileUrl);
+    setCopied(true);
+    setTimeout(() => setCopied(false), 2000);
+  }
+
+  async function handleShare() {
+    if (!profileUrl) return;
+    if (navigator.share) {
+      await navigator.share({ title: `${profile.name} on Yardyman`, url: profileUrl });
+    } else {
+      handleCopyLink();
+    }
+  }
 
   const getAuthHeaders = async (): Promise<Record<string, string>> => {
     const token = auth.currentUser ? await getIdToken(auth.currentUser) : null;
@@ -301,8 +347,14 @@ const ProviderProfileModal: React.FC<ProviderProfileModalProps> = ({
     }
     setSavingName(true);
     try {
-      await updateDoc(doc(db, "providers", profile.uid), { providerName: trimmed });
-      const updated = { ...profileState, name: trimmed };
+      const citySlug = profileState.citySlug ?? slugifyStr(profileState.city ?? "");
+      const { nameSlug, nameSlugBase } = await computeNameSlug(profile.uid, trimmed, citySlug);
+      await updateDoc(doc(db, "providers", profile.uid), {
+        providerName: trimmed,
+        nameSlug,
+        nameSlugBase,
+      });
+      const updated = { ...profileState, name: trimmed, nameSlug, nameSlugBase };
       setProfileState(updated);
       onProfileUpdated?.(updated);
     } finally {
@@ -337,15 +389,24 @@ const ProviderProfileModal: React.FC<ProviderProfileModalProps> = ({
 
   const handleLocationSave = async (lng: number, lat: number, city: string, country: string) => {
     const geohash = encodeGeohashLocal(lat, lng);
+    const citySlug = slugifyStr(city);
+    const { nameSlug, nameSlugBase } = await computeNameSlug(
+      profile.uid,
+      profileState.name ?? "",
+      citySlug
+    );
     await updateDoc(doc(db, "providers", profile.uid), {
       latitude: lat,
       longitude: lng,
       geohash,
       city,
       country,
+      citySlug,
+      nameSlug,
+      nameSlugBase,
       updatedAt: serverTimestamp(),
     });
-    const updated = { ...profileState, city, latitude: lat, longitude: lng };
+    const updated = { ...profileState, city, citySlug, nameSlug, nameSlugBase, latitude: lat, longitude: lng };
     setProfileState(updated);
     onProfileUpdated?.(updated);
     setShowLocationEditor(false);
@@ -1160,6 +1221,54 @@ const ProviderProfileModal: React.FC<ProviderProfileModalProps> = ({
               )}
             </div>
           )}
+
+          {/* Share Profile */}
+          <div style={{ borderTop: "1px solid #e5e7eb", marginTop: 24, padding: "20px 0 4px" }}>
+            <span style={{ fontWeight: 700, fontSize: 15, color: "#111827", display: "block", marginBottom: 12 }}>
+              Share Your Profile
+            </span>
+            {profileUrl ? (
+              <>
+                <div style={{
+                  display: "flex", alignItems: "center",
+                  background: "#f3f4f6", borderRadius: 10, padding: "10px 14px", marginBottom: 12,
+                  overflow: "hidden",
+                }}>
+                  <span style={{ flex: 1, fontSize: 13, color: "#6b7280", overflow: "hidden", textOverflow: "ellipsis", whiteSpace: "nowrap" }}>
+                    {profileUrl}
+                  </span>
+                </div>
+                <div style={{ display: "flex", gap: 10 }}>
+                  <button
+                    onClick={handleCopyLink}
+                    style={{
+                      flex: 1, padding: "11px 0", borderRadius: 10,
+                      border: "1.5px solid #22c55e",
+                      background: copied ? "#22c55e" : "#fff",
+                      color: copied ? "#fff" : "#22c55e",
+                      fontWeight: 700, fontSize: 14, cursor: "pointer", transition: "all 0.2s",
+                    }}
+                  >
+                    {copied ? "Copied!" : "Copy Link"}
+                  </button>
+                  <button
+                    onClick={handleShare}
+                    style={{
+                      flex: 1, padding: "11px 0", borderRadius: 10,
+                      border: "none", background: "#22c55e", color: "#fff",
+                      fontWeight: 700, fontSize: 14, cursor: "pointer",
+                    }}
+                  >
+                    Share
+                  </button>
+                </div>
+              </>
+            ) : (
+              <span style={{ fontSize: 13, color: "#9ca3af" }}>
+                Update your location to enable profile sharing.
+              </span>
+            )}
+          </div>
 
           {/* Sign out */}
           <div style={{ borderTop: "1px solid #b2b2b2", marginTop: 24, paddingTop: 24, paddingBottom: 40 }}>
