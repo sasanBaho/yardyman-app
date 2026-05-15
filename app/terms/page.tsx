@@ -1,5 +1,14 @@
 import Link from "next/link";
+import type { Metadata } from "next";
 import type { ReactNode } from "react";
+
+export const metadata: Metadata = {
+  title: "Terms & Conditions",
+  description:
+    "Read Yardyman's Terms & Conditions governing use of the platform for both service providers and clients. Understand your rights and responsibilities.",
+  robots: { index: true, follow: true },
+  alternates: { canonical: "https://yardyman.com/terms" },
+};
 
 function PageHeader({ title }: { title: string }) {
   return (

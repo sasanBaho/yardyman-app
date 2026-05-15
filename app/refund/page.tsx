@@ -1,5 +1,14 @@
 import Link from "next/link";
+import type { Metadata } from "next";
 import type { ReactNode } from "react";
+
+export const metadata: Metadata = {
+  title: "Refund Policy",
+  description:
+    "Yardyman offers a 30-day money-back guarantee if you don't receive any client leads. Read our full refund policy to understand eligibility and how to request a refund.",
+  robots: { index: true, follow: true },
+  alternates: { canonical: "https://yardyman.com/refund" },
+};
 
 function PageHeader({ title }: { title: string }) {
   return (

@@ -1,5 +1,14 @@
 import Link from "next/link";
+import type { Metadata } from "next";
 import type { ReactNode } from "react";
+
+export const metadata: Metadata = {
+  title: "Privacy Policy",
+  description:
+    "Learn how Yardyman collects, uses, and protects your information. Our Privacy Policy covers data handling for both service providers and clients on the platform.",
+  robots: { index: true, follow: true },
+  alternates: { canonical: "https://yardyman.com/privacy" },
+};
 
 function PageHeader({ title }: { title: string }) {
   return (
