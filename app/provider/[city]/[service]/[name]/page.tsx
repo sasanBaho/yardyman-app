@@ -196,6 +196,10 @@ export default async function ProviderPage({
     };
   }
 
+  const AVATAR_SIZE = 110;
+  const AVATAR_OVERLAP = AVATAR_SIZE / 2;
+  const serviceIcon = svc.key === "service-two" ? "/shovel-blue.png" : "/lawn-mower-green.png";
+
   return (
     <>
       <script
@@ -204,7 +208,7 @@ export default async function ProviderPage({
       />
       <ViewTracker providerId={provider.id} />
 
-      <div style={{ minHeight: "100dvh", background: "#f9fafb" }}>
+      <div style={{ minHeight: "100dvh", background: "#f3f4f6" }}>
         {/* Header */}
         <header style={{
           position: "sticky", top: 0, background: "#fff",
@@ -227,149 +231,191 @@ export default async function ProviderPage({
           </Link>
         </header>
 
-        <div style={{ maxWidth: 600, margin: "0 auto", padding: "28px 20px 60px" }}>
+        <div style={{ maxWidth: 520, margin: "0 auto", padding: `${AVATAR_OVERLAP + 24}px 16px 60px` }}>
           <article>
-            <div style={{
-              background: "#fff", borderRadius: 20,
-              boxShadow: "0 1px 4px rgba(0,0,0,0.06)",
-              overflow: "hidden", marginBottom: 16,
-            }}>
-              {/* Hero */}
-              <div style={{ background: accent, padding: "28px 24px 20px", display: "flex", alignItems: "center", gap: 20 }}>
+            {/* Avatar — floats above the card */}
+            <div style={{ paddingLeft: 20, display: "inline-flex", flexDirection: "column", alignItems: "center" }}>
+              <div style={{
+                width: AVATAR_SIZE, height: AVATAR_SIZE,
+                borderRadius: "50%", padding: 2,
+                background: accent,
+                boxShadow: "0 4px 20px rgba(0,0,0,0.18)",
+              }}>
                 <img
                   src={provider.imageUrl}
                   alt={`${providerName} profile photo`}
-                  style={{ width: 84, height: 84, borderRadius: "50%", objectFit: "cover", border: "3px solid rgba(255,255,255,0.8)", flexShrink: 0 }}
+                  style={{ width: "100%", height: "100%", borderRadius: "50%", objectFit: "cover", border: "3px solid #fff", display: "block" }}
                 />
-                <div>
-                  <h1 style={{ margin: "0 0 6px", fontSize: 22, fontWeight: 800, color: "#fff", lineHeight: 1.2 }}>
-                    {providerName}
-                  </h1>
-                  <span style={{
+              </div>
+              <span style={{ marginTop: 10, fontWeight: 700, fontSize: 16, color: "#111827", textAlign: "center" }}>
+                {providerName}
+              </span>
+            </div>
+
+            {/* Card */}
+            <div style={{
+              background: "#fff",
+              borderRadius: 24,
+              boxShadow: "0 2px 8px rgba(0,0,0,0.06), 0 16px 48px rgba(0,0,0,0.12)",
+              marginTop: -AVATAR_OVERLAP,
+              overflow: "hidden",
+              marginBottom: 20,
+            }}>
+              {/* Header row: service badge + rating */}
+              <div style={{ padding: `${AVATAR_OVERLAP + 12}px 20px 0`, display: "flex", alignItems: "flex-start", gap: 16 }}>
+                <div style={{ flex: 1, minWidth: 0 }}>
+                  {/* Service badge */}
+                  <div style={{
                     display: "inline-flex", alignItems: "center", gap: 5,
-                    background: "rgba(255,255,255,0.2)", borderRadius: 999,
-                    padding: "3px 10px", fontSize: 12, fontWeight: 700, color: "#fff",
+                    background: light, borderRadius: 999,
+                    padding: "4px 12px 4px 8px", marginBottom: 10,
                   }}>
-                    {serviceLabel} · {cityName}
-                  </span>
+                    <img src={serviceIcon} alt={serviceLabel} style={{ width: 22, height: 22, objectFit: "contain" }} />
+                    <span style={{ fontSize: 13, fontWeight: 700, color: accent }}>{serviceLabel}</span>
+                    <span style={{ fontSize: 12, color: accent, opacity: 0.7 }}>· {cityName}</span>
+                  </div>
+
+                  {/* Rating */}
+                  <div style={{ display: "flex", alignItems: "center", gap: 4, minHeight: 24 }}>
+                    {ratingsCount > 0 ? (
+                      <>
+                        {[...Array(5)].map((_, i) => (
+                          <svg key={i} width={17} height={17} viewBox="0 0 24 24"
+                            fill={i < filledStars ? "#f59e0b" : "none"}
+                            stroke={i < filledStars ? "#f59e0b" : "#d1d5db"}
+                            strokeWidth="1.5">
+                            <polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2" />
+                          </svg>
+                        ))}
+                        <span style={{ fontWeight: 700, fontSize: 14, color: "#111827", marginLeft: 2 }}>
+                          {rating.toFixed(1)}
+                        </span>
+                        <span style={{ fontSize: 13, color: "#9ca3af" }}>({ratingsCount})</span>
+                      </>
+                    ) : (
+                      <span style={{
+                        fontSize: 12, fontWeight: 600, color: "#9ca3af",
+                        background: "#f3f4f6", borderRadius: 999, padding: "3px 10px",
+                      }}>
+                        No ratings yet
+                      </span>
+                    )}
+                  </div>
                 </div>
               </div>
 
-              <div style={{ padding: "20px 24px", display: "flex", flexDirection: "column", gap: 20 }}>
-                {/* Rating */}
-                <div style={{ display: "flex", alignItems: "center", gap: 6 }}>
-                  {ratingsCount > 0 ? (
-                    <>
-                      {[...Array(5)].map((_, i) => (
-                        <svg key={i} width={18} height={18} viewBox="0 0 24 24"
-                          fill={i < filledStars ? "#f59e0b" : "none"}
-                          stroke={i < filledStars ? "#f59e0b" : "#d1d5db"}
-                          strokeWidth="1.5">
-                          <polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2" />
-                        </svg>
-                      ))}
-                      <span style={{ fontWeight: 700, fontSize: 14, color: "#111827", marginLeft: 2 }}>
-                        {rating.toFixed(1)}
-                      </span>
-                      <span style={{ fontSize: 13, color: "#9ca3af" }}>({ratingsCount} reviews)</span>
-                    </>
-                  ) : (
-                    <span style={{ fontSize: 13, color: "#9ca3af", fontStyle: "italic" }}>No ratings yet</span>
-                  )}
-                </div>
+              {/* Description */}
+              {description ? (
+                <p style={{
+                  fontSize: 14, color: "#4b5563", lineHeight: 1.7,
+                  margin: "14px 0 0", padding: "14px 20px",
+                  background: "#ecedef85",
+                  fontStyle: "italic",
+                }}>
+                  {description}
+                </p>
+              ) : null}
 
-                {/* Description */}
-                {description ? (
-                  <p style={{
-                    margin: 0, fontSize: 14, color: "#4b5563", lineHeight: 1.7,
-                    padding: "12px 14px", background: "#f9fafb", borderRadius: 12,
-                    borderLeft: `4px solid ${accent}`,
-                  }}>
-                    {description}
-                  </p>
-                ) : null}
-
-                {/* Details */}
-                <div style={{ display: "flex", flexDirection: "column", gap: 10 }}>
+              {/* Details */}
+              <div style={{ padding: "14px 20px 0", display: "flex", flexDirection: "column", gap: 10 }}>
+                <div>
                   <span style={{
                     display: "inline-flex", alignItems: "center", gap: 5,
                     background: "#f3f4f6", borderRadius: 999, padding: "5px 12px",
-                    fontSize: 13, fontWeight: 600, color: "#0369a1", alignSelf: "flex-start",
+                    fontSize: 13, fontWeight: 600, color: "#0369a1",
                   }}>
                     <svg width={13} height={13} viewBox="0 0 24 24" fill="none" stroke="#0369a1" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
                       <path d="M14.7 6.3a1 1 0 000 1.4l1.6 1.6a1 1 0 001.4 0l3.77-3.77a6 6 0 01-7.94 7.94l-6.91 6.91a2.12 2.12 0 01-3-3l6.91-6.91a6 6 0 017.94-7.94l-3.76 3.76z" />
                     </svg>
                     {provider.hasTools ? "Has own tools" : "Uses owner's tools"}
                   </span>
-
-                  {paymentMethods.length > 0 && (
-                    <div style={{ display: "flex", flexWrap: "wrap", gap: 8 }}>
-                      {paymentMethods.map((method: string) => (
-                        <span key={method} style={{
-                          display: "inline-flex", alignItems: "center", gap: 5,
-                          background: light, border: `1px solid ${accent}44`,
-                          borderRadius: 999, padding: "5px 12px",
-                          fontSize: 13, fontWeight: 600, color: accent,
-                        }}>
-                          <svg width={12} height={12} viewBox="0 0 20 20" fill="none">
-                            <path d="M5 10.5L9 14.5L15 7.5" stroke={accent} strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round" />
-                          </svg>
-                          {method}
-                        </span>
-                      ))}
-                    </div>
-                  )}
                 </div>
 
-                {/* Other service links */}
-                {otherServices.length > 0 && (
-                  <div style={{ display: "flex", flexDirection: "column", gap: 6 }}>
-                    <span style={{ fontSize: 13, color: "#6b7280", fontWeight: 600 }}>Also offers:</span>
-                    <div style={{ display: "flex", flexWrap: "wrap", gap: 8 }}>
-                      {otherServices.map((s) => {
-                        const otherSvc = Object.entries(SERVICE_MAP).find(([, v]) => v.key === s);
-                        if (!otherSvc) return null;
-                        const [otherSlug, { label }] = otherSvc;
-                        return (
-                          <Link key={s} href={`/provider/${city}/${otherSlug}/${name}`} style={{
-                            display: "inline-flex", alignItems: "center", gap: 5,
-                            background: "#f3f4f6", borderRadius: 999, padding: "5px 14px",
-                            fontSize: 13, fontWeight: 600, color: "#374151", textDecoration: "none",
-                          }}>
-                            {label} →
-                          </Link>
-                        );
-                      })}
-                    </div>
+                {paymentMethods.length > 0 && (
+                  <div style={{ display: "flex", flexWrap: "wrap", gap: 8, paddingBottom: 4 }}>
+                    {paymentMethods.map((method: string) => (
+                      <span key={method} style={{
+                        display: "inline-flex", alignItems: "center", gap: 5,
+                        background: "#f0fdf4", border: "1px solid #bbf7d0",
+                        borderRadius: 999, padding: "5px 12px",
+                        fontSize: 13, fontWeight: 600, color: "#166534",
+                      }}>
+                        <svg width={12} height={12} viewBox="0 0 20 20" fill="none">
+                          <path d="M5 10.5L9 14.5L15 7.5" stroke="#22c55e" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round" />
+                        </svg>
+                        {method}
+                      </span>
+                    ))}
                   </div>
                 )}
+              </div>
 
-                {/* CTA */}
-                {phone ? (
-                  <div style={{ display: "flex", gap: 10 }}>
-                    <a href={`tel:${phone}`} style={{
-                      flex: 1, display: "flex", alignItems: "center", justifyContent: "center", gap: 8,
-                      background: accent, color: "#fff", borderRadius: 14, padding: "14px 0",
-                      fontWeight: 700, fontSize: 16, textDecoration: "none",
-                      boxShadow: `0 4px 14px ${accent}44`,
-                    }}>
-                      <svg width={18} height={18} viewBox="0 0 24 24" fill="none" stroke="#fff" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
-                        <path d="M22 16.92v3a2 2 0 01-2.18 2 19.79 19.79 0 01-8.63-3.07A19.5 19.5 0 013.07 12a19.79 19.79 0 01-3.07-8.67A2 2 0 012 1.13h3a2 2 0 012 1.72 12.84 12.84 0 00.7 2.81 2 2 0 01-.45 2.11L6.09 8.92a16 16 0 006 6l1.27-1.27a2 2 0 012.11-.45 12.84 12.84 0 002.81.7A2 2 0 0122 16.92z" />
-                      </svg>
-                      Call {formatPhone(phone)}
-                    </a>
-                    <a href={`sms:${phone}?body=${smsBody}`} style={{
-                      flex: 1, display: "flex", alignItems: "center", justifyContent: "center", gap: 8,
-                      background: "#f9fafb", color: "#374151", border: "1.5px solid #e5e7eb",
-                      borderRadius: 14, padding: "14px 0", fontWeight: 700, fontSize: 16, textDecoration: "none",
-                    }}>
-                      <svg width={18} height={18} viewBox="0 0 24 24" fill="none" stroke="#374151" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
-                        <path d="M21 15a2 2 0 01-2 2H7l-4 4V5a2 2 0 012-2h14a2 2 0 012 2z" />
-                      </svg>
-                      Message
-                    </a>
+              {/* Other service links */}
+              {otherServices.length > 0 && (
+                <div style={{ padding: "10px 20px 0", display: "flex", flexDirection: "column", gap: 6 }}>
+                  <span style={{ fontSize: 13, color: "#6b7280", fontWeight: 600 }}>Also offers:</span>
+                  <div style={{ display: "flex", flexWrap: "wrap", gap: 8 }}>
+                    {otherServices.map((s) => {
+                      const otherSvc = Object.entries(SERVICE_MAP).find(([, v]) => v.key === s);
+                      if (!otherSvc) return null;
+                      const [otherSlug, { label }] = otherSvc;
+                      return (
+                        <Link key={s} href={`/provider/${city}/${otherSlug}/${name}`} style={{
+                          display: "inline-flex", alignItems: "center", gap: 5,
+                          background: "#f3f4f6", borderRadius: 999, padding: "5px 14px",
+                          fontSize: 13, fontWeight: 600, color: "#374151", textDecoration: "none",
+                        }}>
+                          {label} →
+                        </Link>
+                      );
+                    })}
                   </div>
-                ) : null}
+                </div>
+              )}
+
+              {/* CTA Buttons */}
+              {phone ? (
+                <div style={{ padding: "16px 16px 16px", display: "flex", gap: 10 }}>
+                  <a href={`tel:${phone}`} style={{
+                    flex: 1, display: "flex", alignItems: "center", justifyContent: "center", gap: 8,
+                    background: accent, color: "#fff", borderRadius: 14, padding: "14px 0",
+                    fontWeight: 700, fontSize: 16, textDecoration: "none",
+                    boxShadow: `0 4px 14px ${accent}44`,
+                  }}>
+                    <svg width={18} height={18} viewBox="0 0 24 24" fill="none" stroke="#fff" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
+                      <path d="M22 16.92v3a2 2 0 01-2.18 2 19.79 19.79 0 01-8.63-3.07A19.5 19.5 0 013.07 12a19.79 19.79 0 01-3.07-8.67A2 2 0 012 1.13h3a2 2 0 012 1.72 12.84 12.84 0 00.7 2.81 2 2 0 01-.45 2.11L6.09 8.92a16 16 0 006 6l1.27-1.27a2 2 0 012.11-.45 12.84 12.84 0 002.81.7A2 2 0 0122 16.92z" />
+                    </svg>
+                    Call
+                  </a>
+                  <a href={`sms:${phone}?body=${smsBody}`} style={{
+                    flex: 1, display: "flex", alignItems: "center", justifyContent: "center", gap: 8,
+                    background: "#f9fafb", color: "#374151", border: "1.5px solid #e5e7eb",
+                    borderRadius: 14, padding: "14px 0", fontWeight: 700, fontSize: 16, textDecoration: "none",
+                  }}>
+                    <svg width={18} height={18} viewBox="0 0 24 24" fill="none" stroke="#374151" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
+                      <path d="M21 15a2 2 0 01-2 2H7l-4 4V5a2 2 0 012-2h14a2 2 0 012 2z" />
+                    </svg>
+                    Message
+                  </a>
+                </div>
+              ) : null}
+
+              {/* Footer */}
+              <div style={{
+                display: "flex", alignItems: "center", justifyContent: "flex-end",
+                padding: "10px 20px 18px", borderTop: "1px solid #f3f4f6",
+              }}>
+                <span style={{
+                  fontSize: 12, fontWeight: 500, color: "#9ca3af",
+                  border: "1.5px solid #e5e7eb", borderRadius: 999,
+                  padding: "5px 12px", display: "inline-flex", alignItems: "center", gap: 5,
+                }}>
+                  <svg width={13} height={13} viewBox="0 0 24 24" fill="none" stroke="#9ca3af" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
+                    <path d="M4 15s1-1 4-1 5 2 8 2 4-1 4-1V3s-1 1-4 1-5-2-8-2-4 1-4 1z" />
+                    <line x1="4" y1="22" x2="4" y2="15" />
+                  </svg>
+                  Report
+                </span>
               </div>
             </div>
 
