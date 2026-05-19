@@ -147,9 +147,11 @@ const ProviderProfileModal: React.FC<ProviderProfileModalProps> = ({
   };
 
   const firstServiceSlug = SERVICE_SLUG[profileState.selectedServices?.[0]] ?? "lawn-care";
+  const _citySlug = profileState.citySlug ?? slugifyStr(profileState.city ?? "");
+  const _nameSlug = profileState.nameSlug ?? slugifyStr(profileState.name ?? "");
   const profileUrl =
-    profileState.citySlug && profileState.nameSlug
-      ? `https://yardyman.com/provider/${profileState.citySlug}/${firstServiceSlug}/${profileState.nameSlug}`
+    _citySlug && _nameSlug
+      ? `https://yardyman.com/provider/${_citySlug}/${firstServiceSlug}/${_nameSlug}`
       : null;
 
   async function computeNameSlug(uid: string, name: string, citySlug: string): Promise<{ nameSlug: string; nameSlugBase: string }> {
