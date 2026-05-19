@@ -192,6 +192,16 @@ const SubscriptionModal: React.FC<SubscriptionModalProps> = ({ onClose, onPlanSe
                     <span style={{ fontSize: 13, color: "#888", marginLeft: 2 }}>
                       {formatInterval(plan.interval, plan.intervalCount)}
                     </span>
+                    {plan.interval === "year" && (
+                      <div style={{ fontSize: 12, color: "#6b7280", marginTop: 2 }}>
+                        {formatPrice(plan.amount / 12, plan.currency)} per month
+                      </div>
+                    )}
+                    {plan.interval === "month" && plan.intervalCount === 3 && (
+                      <div style={{ fontSize: 12, color: "#6b7280", marginTop: 2 }}>
+                        {formatPrice(plan.amount / 3, plan.currency)} per month
+                      </div>
+                    )}
                   </div>
                 </button>
               );

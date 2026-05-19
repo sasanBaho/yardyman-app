@@ -7977,13 +7977,13 @@ const SelectServicesModal = ({ onClose, onDone, initialData })=>{
                                             children: "*"
                                         }, void 0, false, {
                                             fileName: "[project]/yardyman-app/yardyman-app/components/auth/SelectServicesModal.tsx",
-                                            lineNumber: 222,
+                                            lineNumber: 223,
                                             columnNumber: 32
                                         }, ("TURBOPACK compile-time value", void 0))
                                     ]
                                 }, void 0, true, {
                                     fileName: "[project]/yardyman-app/yardyman-app/components/auth/SelectServicesModal.tsx",
-                                    lineNumber: 221,
+                                    lineNumber: 222,
                                     columnNumber: 17
                                 }, ("TURBOPACK compile-time value", void 0)),
                                 /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$yardyman$2d$app$2f$yardyman$2d$app$2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("textarea", {
@@ -8007,7 +8007,25 @@ const SelectServicesModal = ({ onClose, onDone, initialData })=>{
                                     }
                                 }, void 0, false, {
                                     fileName: "[project]/yardyman-app/yardyman-app/components/auth/SelectServicesModal.tsx",
-                                    lineNumber: 224,
+                                    lineNumber: 225,
+                                    columnNumber: 17
+                                }, ("TURBOPACK compile-time value", void 0)),
+                                /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$yardyman$2d$app$2f$yardyman$2d$app$2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("a", {
+                                    href: "/blog/lawn-care-services",
+                                    target: "_blank",
+                                    rel: "noopener noreferrer",
+                                    style: {
+                                        display: "inline-block",
+                                        fontSize: 12,
+                                        color: "#22c55e",
+                                        fontWeight: 600,
+                                        textDecoration: "none",
+                                        marginBottom: 10
+                                    },
+                                    children: "Service suggestions you can add to your description →"
+                                }, void 0, false, {
+                                    fileName: "[project]/yardyman-app/yardyman-app/components/auth/SelectServicesModal.tsx",
+                                    lineNumber: 243,
                                     columnNumber: 17
                                 }, ("TURBOPACK compile-time value", void 0))
                             ]
@@ -8038,20 +8056,20 @@ const SelectServicesModal = ({ onClose, onDone, initialData })=>{
                                                 })
                                         }, void 0, false, {
                                             fileName: "[project]/yardyman-app/yardyman-app/components/auth/SelectServicesModal.tsx",
-                                            lineNumber: 263,
+                                            lineNumber: 272,
                                             columnNumber: 25
                                         }, ("TURBOPACK compile-time value", void 0)),
                                         label
                                     ]
                                 }, label, true, {
                                     fileName: "[project]/yardyman-app/yardyman-app/components/auth/SelectServicesModal.tsx",
-                                    lineNumber: 252,
+                                    lineNumber: 261,
                                     columnNumber: 23
                                 }, ("TURBOPACK compile-time value", void 0));
                             })
                         }, void 0, false, {
                             fileName: "[project]/yardyman-app/yardyman-app/components/auth/SelectServicesModal.tsx",
-                            lineNumber: 247,
+                            lineNumber: 256,
                             columnNumber: 15
                         }, ("TURBOPACK compile-time value", void 0))
                     ]
@@ -8076,7 +8094,7 @@ const SelectServicesModal = ({ onClose, onDone, initialData })=>{
                         children: "Payment methods:"
                     }, void 0, false, {
                         fileName: "[project]/yardyman-app/yardyman-app/components/auth/SelectServicesModal.tsx",
-                        lineNumber: 280,
+                        lineNumber: 289,
                         columnNumber: 9
                     }, ("TURBOPACK compile-time value", void 0)),
                     /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$yardyman$2d$app$2f$yardyman$2d$app$2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("div", {
@@ -8102,25 +8120,25 @@ const SelectServicesModal = ({ onClose, onDone, initialData })=>{
                                                 }))
                                     }, void 0, false, {
                                         fileName: "[project]/yardyman-app/yardyman-app/components/auth/SelectServicesModal.tsx",
-                                        lineNumber: 295,
+                                        lineNumber: 304,
                                         columnNumber: 15
                                     }, ("TURBOPACK compile-time value", void 0)),
                                     method
                                 ]
                             }, method, true, {
                                 fileName: "[project]/yardyman-app/yardyman-app/components/auth/SelectServicesModal.tsx",
-                                lineNumber: 285,
+                                lineNumber: 294,
                                 columnNumber: 13
                             }, ("TURBOPACK compile-time value", void 0)))
                     }, void 0, false, {
                         fileName: "[project]/yardyman-app/yardyman-app/components/auth/SelectServicesModal.tsx",
-                        lineNumber: 283,
+                        lineNumber: 292,
                         columnNumber: 9
                     }, ("TURBOPACK compile-time value", void 0))
                 ]
             }, void 0, true, {
                 fileName: "[project]/yardyman-app/yardyman-app/components/auth/SelectServicesModal.tsx",
-                lineNumber: 279,
+                lineNumber: 288,
                 columnNumber: 7
             }, ("TURBOPACK compile-time value", void 0)),
             /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$yardyman$2d$app$2f$yardyman$2d$app$2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("button", {
@@ -8140,7 +8158,7 @@ const SelectServicesModal = ({ onClose, onDone, initialData })=>{
                 children: "Done"
             }, void 0, false, {
                 fileName: "[project]/yardyman-app/yardyman-app/components/auth/SelectServicesModal.tsx",
-                lineNumber: 307,
+                lineNumber: 316,
                 columnNumber: 7
             }, ("TURBOPACK compile-time value", void 0))
         ]
@@ -8505,6 +8523,36 @@ const SubscriptionModal = ({ onClose, onPlanSelected, loading })=>{
                                             fileName: "[project]/yardyman-app/yardyman-app/components/auth/SubscriptionModal.tsx",
                                             lineNumber: 192,
                                             columnNumber: 21
+                                        }, ("TURBOPACK compile-time value", void 0)),
+                                        plan.interval === "year" && /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$yardyman$2d$app$2f$yardyman$2d$app$2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("div", {
+                                            style: {
+                                                fontSize: 12,
+                                                color: "#6b7280",
+                                                marginTop: 2
+                                            },
+                                            children: [
+                                                formatPrice(plan.amount / 12, plan.currency),
+                                                " per month"
+                                            ]
+                                        }, void 0, true, {
+                                            fileName: "[project]/yardyman-app/yardyman-app/components/auth/SubscriptionModal.tsx",
+                                            lineNumber: 196,
+                                            columnNumber: 23
+                                        }, ("TURBOPACK compile-time value", void 0)),
+                                        plan.interval === "month" && plan.intervalCount === 3 && /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$yardyman$2d$app$2f$yardyman$2d$app$2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("div", {
+                                            style: {
+                                                fontSize: 12,
+                                                color: "#6b7280",
+                                                marginTop: 2
+                                            },
+                                            children: [
+                                                formatPrice(plan.amount / 3, plan.currency),
+                                                " per month"
+                                            ]
+                                        }, void 0, true, {
+                                            fileName: "[project]/yardyman-app/yardyman-app/components/auth/SubscriptionModal.tsx",
+                                            lineNumber: 201,
+                                            columnNumber: 23
                                         }, ("TURBOPACK compile-time value", void 0))
                                     ]
                                 }, void 0, true, {
@@ -8553,7 +8601,7 @@ const SubscriptionModal = ({ onClose, onPlanSelected, loading })=>{
                                     strokeWidth: "2"
                                 }, void 0, false, {
                                     fileName: "[project]/yardyman-app/yardyman-app/components/auth/SubscriptionModal.tsx",
-                                    lineNumber: 212,
+                                    lineNumber: 222,
                                     columnNumber: 13
                                 }, ("TURBOPACK compile-time value", void 0)),
                                 /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$yardyman$2d$app$2f$yardyman$2d$app$2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("path", {
@@ -8563,13 +8611,13 @@ const SubscriptionModal = ({ onClose, onPlanSelected, loading })=>{
                                     strokeLinecap: "round"
                                 }, void 0, false, {
                                     fileName: "[project]/yardyman-app/yardyman-app/components/auth/SubscriptionModal.tsx",
-                                    lineNumber: 213,
+                                    lineNumber: 223,
                                     columnNumber: 13
                                 }, ("TURBOPACK compile-time value", void 0))
                             ]
                         }, void 0, true, {
                             fileName: "[project]/yardyman-app/yardyman-app/components/auth/SubscriptionModal.tsx",
-                            lineNumber: 211,
+                            lineNumber: 221,
                             columnNumber: 11
                         }, ("TURBOPACK compile-time value", void 0)),
                         /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$yardyman$2d$app$2f$yardyman$2d$app$2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("p", {
@@ -8582,13 +8630,13 @@ const SubscriptionModal = ({ onClose, onPlanSelected, loading })=>{
                             children: "Your first month is completely free. Your card won't be charged until after the trial ends."
                         }, void 0, false, {
                             fileName: "[project]/yardyman-app/yardyman-app/components/auth/SubscriptionModal.tsx",
-                            lineNumber: 215,
+                            lineNumber: 225,
                             columnNumber: 11
                         }, ("TURBOPACK compile-time value", void 0))
                     ]
                 }, void 0, true, {
                     fileName: "[project]/yardyman-app/yardyman-app/components/auth/SubscriptionModal.tsx",
-                    lineNumber: 202,
+                    lineNumber: 212,
                     columnNumber: 9
                 }, ("TURBOPACK compile-time value", void 0)),
                 /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$yardyman$2d$app$2f$yardyman$2d$app$2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("button", {
@@ -8625,14 +8673,14 @@ const SubscriptionModal = ({ onClose, onPlanSelected, loading })=>{
                                 }
                             }, void 0, false, {
                                 fileName: "[project]/yardyman-app/yardyman-app/components/auth/SubscriptionModal.tsx",
-                                lineNumber: 243,
+                                lineNumber: 253,
                                 columnNumber: 15
                             }, ("TURBOPACK compile-time value", void 0)),
                             /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$yardyman$2d$app$2f$yardyman$2d$app$2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("style", {
                                 children: `@keyframes spin { to { transform: rotate(360deg); } }`
                             }, void 0, false, {
                                 fileName: "[project]/yardyman-app/yardyman-app/components/auth/SubscriptionModal.tsx",
-                                lineNumber: 252,
+                                lineNumber: 262,
                                 columnNumber: 15
                             }, ("TURBOPACK compile-time value", void 0)),
                             "Preparing checkout…"
@@ -8640,7 +8688,7 @@ const SubscriptionModal = ({ onClose, onPlanSelected, loading })=>{
                     }, void 0, true) : "Start Free Trial"
                 }, void 0, false, {
                     fileName: "[project]/yardyman-app/yardyman-app/components/auth/SubscriptionModal.tsx",
-                    lineNumber: 220,
+                    lineNumber: 230,
                     columnNumber: 9
                 }, ("TURBOPACK compile-time value", void 0)),
                 /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$yardyman$2d$app$2f$yardyman$2d$app$2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("p", {
@@ -8653,7 +8701,7 @@ const SubscriptionModal = ({ onClose, onPlanSelected, loading })=>{
                     children: "By continuing, you agree to our terms. Cancel anytime from your profile."
                 }, void 0, false, {
                     fileName: "[project]/yardyman-app/yardyman-app/components/auth/SubscriptionModal.tsx",
-                    lineNumber: 260,
+                    lineNumber: 270,
                     columnNumber: 9
                 }, ("TURBOPACK compile-time value", void 0))
             ]

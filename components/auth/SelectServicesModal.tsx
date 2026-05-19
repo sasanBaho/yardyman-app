@@ -218,6 +218,7 @@ const SelectServicesModal: React.FC<SelectServicesModalProps> = ({ onClose, onDo
 
             {state.selected && (
               <>
+                
                 <label style={{ fontWeight: 600, fontSize: 15, display: "block", marginBottom: 6 }}>
                   Description: <span style={{ color: "#e53e3e" }}>*</span>
                 </label>
@@ -239,6 +240,14 @@ const SelectServicesModal: React.FC<SelectServicesModalProps> = ({ onClose, onDo
                     marginBottom: svc.hasToolsOption ? 12 : 0,
                   }}
                 />
+                <a
+                  href="/blog/lawn-care-services"
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  style={{ display: "inline-block", fontSize: 12, color: "#22c55e", fontWeight: 600, textDecoration: "none", marginBottom: 10 }}
+                >
+                Service suggestions you can add to your description →
+                </a>
               </>
             )}
 

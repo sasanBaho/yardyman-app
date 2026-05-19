@@ -26,6 +26,18 @@ export const metadata: Metadata = {
 
 const POSTS = [
   {
+    slug: "lawn-care-services",
+    category: "Provider Tips",
+    title: "Lawn Care & Snow Removal Services Near You in Ontario",
+    excerpt:
+      "A complete guide to every lawn care and snow removal service available in your area — bush trimming, lawn mowing, leaf removal, snow removal, gutter cleaning, and more.",
+    readTime: "3 min",
+    date: "May 19, 2025",
+    accent: "#22c55e",
+    iconPath: "M3 9l9-7 9 7v11a2 2 0 01-2 2H5a2 2 0 01-2-2z M9 22V12h6v10",
+    image: "/lawn-mowing.png",
+  },
+  {
     slug: "lawn-mowing-side-hustle",
     category: "Side Hustle & Income",
     title: "How Lawn Mowing Can Be the Perfect Side Hustle to Make Extra Money",
