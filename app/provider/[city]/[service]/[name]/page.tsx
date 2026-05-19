@@ -206,7 +206,7 @@ export default async function ProviderPage({
       />
       <ViewTracker providerId={provider.id} />
 
-      <div style={{ minHeight: "100dvh", background: "#f3f4f6" }}>
+      <div style={{ minHeight: "100dvh", background: "#fff" }}>
         {/* Header */}
         <header style={{
           position: "sticky", top: 0, background: "#fff",
@@ -231,14 +231,7 @@ export default async function ProviderPage({
 
         <div style={{ maxWidth: 520, margin: "0 auto", padding: "24px 16px 60px" }}>
           <article>
-            {/* Card — matches popup card design exactly */}
-            <div style={{
-              background: "#fff",
-              borderRadius: 24,
-              boxShadow: "0 2px 8px rgba(0,0,0,0.06), 0 16px 48px rgba(0,0,0,0.16)",
-              overflow: "hidden",
-              marginBottom: 20,
-            }}>
+            <div style={{ marginBottom: 20 }}>
 
               {/* Profile header: avatar left, name+badge+rating right */}
               <div style={{ padding: "20px 20px 0" }}>
